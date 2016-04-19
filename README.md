@@ -1,12 +1,14 @@
 # Aircraft Trajectories and Noise Visualization
-----
-Bachelor Graduation Project, Delft University of Technology
-Elvan Kula (ekula), E.Kula@student.tudelft.nl
-Hans Schouten (hansschouten), J.Schouten@student.tudelft.nl
+
+Bachelor Graduation Project, Delft University of Technology<br>
+Elvan Kula (ekula), E.Kula@student.tudelft.nl<br>
+Hans Schouten (hansschouten), J.Schouten-1@student.tudelft.nl
+
 ----
 Model-based Prediction and Visualization of Aircraft Noise
+----
 
-Aircraft and airport noise are complex subject matters which have been studied for decades and are still the focus of many research efforts nowadays. Also at the department of Air Transport & Operations at TU Delft’s Faculty of Aerospace Engineering.
+Aircraft and airport noise are complex subject matters which have been studied for decades and are still the focus of many research efforts nowadays. Also at the department of Air Transport & Operations at TU Delftâ€™s Faculty of Aerospace Engineering.
 
 The project team will be assigned to implement a program in C++ for the prediction and visualization of aircraft noise. More specifically, this will involve:
 
@@ -14,6 +16,6 @@ a)	The implementation of a mathematical model for aircraft noise and aircraft tr
 
 b)	The code should be optimized with multi-core processing to achieve real-time performance.
 
-c)	Besides that, a tool should be developed to visualize the noise produced along the simulated trajectory pictured on a real map. This requires an implementation of noise contours, which are ‘noise footprints’ whose shape indicate areas of constant noise. Noise contours are a new subject to our research group and haven’t been implemented before so this will be a challenging and novel topic.
+c)	Besides that, a tool should be developed to visualize the noise produced along the simulated trajectory pictured on a real map. This requires an implementation of noise contours, which are â€˜noise footprintsâ€™ whose shape indicate areas of constant noise. Noise contours are a new subject to our research group and havenâ€™t been implemented before so this will be a challenging and novel topic.
 
 The resulting program will present a creative and efficient way to compute and visualize aircraft noise along simulated and real flight routes.
