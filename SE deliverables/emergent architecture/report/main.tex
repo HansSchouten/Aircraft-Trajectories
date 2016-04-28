@@ -1,0 +1,107 @@
+\documentclass[a4paper,english,fleqn]{exam}
+
+\usepackage{babel} % voor nederlandse afbreekregels e.d.
+\usepackage{hyperref} % voor links, hier niet gebruikt
+\usepackage{graphicx} % voor importeren van figures, hier niet gebruikt
+\usepackage{tabularx} % voor tabellen met controle over kolombreedte, hier niet gebruikt
+\usepackage{booktabs} % voor nettere tabellen dan de standaard
+\usepackage{enumerate} % voor controle over nummering van items
+\usepackage{amssymb,amsmath,amsthm,amsfonts} % van de AMS, voor nettere math
+\usepackage{qtree} % voor het maken van mooie bomen, hier niet gebruikt
+\usepackage{mathabx} %voor het \notdivides commando, niet gebruikt
+\usepackage{adjustbox}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{pifont}
+\usepackage{algorithm} % pseudocode
+\usepackage[noend]{algpseudocode} %pseudocode 
+\usepackage{sectsty}
+
+\renewcommand\thesubsection{\thesection \alph{subsection}}
+\newcommand{\s}{\text{*}}
+
+%\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+\title{Emergent Architecture BEP}
+
+\renewcommand{\baselinestretch}{0.9} 
+
+\sectionfont{\fontsize{11}{15}\selectfont}
+
+\renewcommand{\qedsymbol}{\hfill \emph{QED}}
+
+% document variables:
+\newcommand{\cMysename}{Model-based Optimization and Visualization of Aircraft Noise}
+\newcommand{\doctitle}{Emergent Architecture}
+\newcommand{\deadline}{2 May 2016}
+\newcommand{\examdate}{\deadline}
+\newcommand{\authors}{Elvan Kula \& Hans Schouten}
+% ---
+
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+\newcommand{\itab}[1]{\hspace{0em}\rlap{#1}}
+\newcommand{\tab}[1]{\hspace{.2\textwidth}\rlap{#1}}
+
+% http://tex.stackexchange.com/questions/110328/formatting-a-logical-pd-derivation:
+\newcommand{\fgh}[1]{\fvline%
+  \makebox[0pt][l]{{%
+      \raisebox{-1.4ex}[0pt][0pt]{\rule{#1}{\arrayrulewidth}}}}%
+  \hspace*{\fitchindent}}
+  
+  \lstset{language=Java,
+%alles tussen "//(*" en "*)" wordt als TeX code verIrkt
+	escapeinside={//(*}{*)}} 
+ 
+
+
+\newcommand*\xor{\mathbin{\oplus}}
+% Fill these in:
+
+% if you use algorithms, this is a nice one:
+% http://www.lirmm.fr/~fiorio/AlgorithmSty/
+%\usepackage[algo2e]{algorithm2e}
+
+\makeatletter
+
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% document start
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+
+\vspace*{2cm}
+{\huge \cMysename}
+
+\begin{center}
+    \line(1,0){450}
+\end{center}
+
+{\LARGE \doctitle}
+
+\vspace{1cm}
+
+{\Large \examdate}
+
+\end{center}
+\newpage
+
+\tableofcontents
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% end of front page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{sections/introduction}
+\input{sections/design_goals}
+\input{sections/software_architecture}
+\input{sections/external_technologies}
+
+
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

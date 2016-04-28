@@ -1,0 +1,25 @@
+\section{Design Goals}
+When designing the product we take the following design goals in consideration:
+
+\textbf{Broad usage} \\
+We try to make the program as broad as possible for usage by the ATO research department: the ATO researchers should be able to deploy the system for both simulated and real flight routes and they should be able to deploy the different models (noise model, optimization model, visualization model) of the program separately from each other. For each model the user should also have the option to turn on (or off) particular output, e.g. the user should be able to select particular contours to be show in Google Earth in the visualization component of the program.
+
+
+\textbf{Modular}\\
+Our goal is to split the program into different modules. Each model (noise, optimization and visualization) corresponds to one module. The different modules must be as loosely connected as possible so that for example changes within modules would not affect the graphical user interface (GUI) and vica versa.
+
+
+\textbf{Quality of product}\\
+We aim for the highest quality of the product. To achieve such a high quality we are going to build a good architecture for our program so that the code is easily maintained. We write automatic Unit test cases, so that if we make an enhancement to our program it automatically checks whether we have not broken another part of the code. We aim for a minimum line coverage of 75\%. We will couple the continuous integration server Jenkins to our Version Control System (VCS) in order to make sure that the code on the master branch always compiles and passes all the tests.
+
+\textbf{User friendliness}\\
+Another goal is to create an easy to use interface for the user, which is partly dependent on the overall quality of the program. We think that the modularity helps to guide the user through a work flow that works well for data analysis and visualization.
+
+\textbf{Performance} \\
+The data analysis should be performed within a reasonable period of time with a limit of ten seconds. When the results are calculated, the output should be shown directly on screen to ensure that the users don't experience long loading times. During analysis the program shows the user that it is still responding, but busy with doing a calculation. Also, a form of error management including error prevention and error correction (with error messages) is implemented in all layers of the architecture.
+
+\textbf{Scalability and flexibility}\\
+The program is able to process large sets of data with sizes in the gigabyte range and all models should respond within second(s).
+
+\textbf{Use of Design Patterns} \\
+We implemented our application following the Model-View-Controller (MVC) pattern to separate the backend logic from the frontend that represents the program. This enables us to divide domain objects from the GUI elements to keep the code cleaner and the system more maintainable.
