@@ -2,29 +2,30 @@
 
 \textbf{Model View Controller} 
 
-We decided to implement our project following the Model View Controller (MVC) pattern. The most important advantage of MVC is that it separates logic from the program's views. It's really helpful to use an architecture that utilizes a controller if there is logic required that doesn't necessarily fit into a model. In our case we are using a main controller which connects The advantages below convinced us to use MVC:
+We decided to implement our project following the Model View Presenter (MVP) pattern. 
+
+%The most important advantage of MVC is that it separates logic from the program's views. It's really helpful to use an architecture that utilizes a controller if there is logic required that doesn't necessarily fit into a model. In our case we are using a main controller which connects The advantages below convinced us to use MVC:
 
 
-\begin{itemize}
-\item First of all, MVC makes the code more clean and maintainable. It enables us to keep a good overview of the code.
+%\begin{itemize}
+%\item First of all, MVC makes the code more clean and maintainable. It enables us to keep a good overview of the code.
 
 
-\item Because of the separation of concerns, the model and controller code could be reintegrated in other systems such as a web app, a desk app, a service without much effort.
+%\item Because of the separation of concerns, the model and controller code could be reintegrated in other systems such as a web app, a desk app, a service without much effort.
 
 
-\item MVC enables us as a team to work in parallel. As an individual programmer you would probably have a different approach for the implementation but when working in a team, you will first need to discuss and agree on the structure of the code. With MVC the responsibilities of the developers can be easily divided and assigned.
+%\item MVC enables us as a team to work in parallel. As an individual programmer you would probably have a different approach for the implementation but when working in a team, you will first need to discuss and agree on the structure of the code. With MVC the responsibilities of the developers can be easily divided and assigned.
 
-\end{itemize}
+%\end{itemize}
 
-From a Model View Controller perspective, the files constructing the GUI will correspond to the view. The controller exists of a main method (shell script) which connects and executes the models in a pipelined manner. It takes a trajectory and grid as input and will return the corresponding KML files to visualize the (optimized) trajectory with noise contours in Google Earth. In our case there are three models: noise model, optimization model and visualization model. These models will be connected to the view through the controller. The way we applied MVC in our architecture can be seen in the diagram below.
+%From a Model View Controller perspective, the files constructing the GUI will correspond to the view. The controller exists of a main method (shell script) which connects and executes the models in a pipelined manner. It takes a trajectory and grid as input and will return the corresponding KML files to visualize the (optimized) trajectory with noise contours in Google Earth. In our case there are three models: noise model, optimization model and visualization model. These models will be connected to the view through the controller. The way we applied MVC in our architecture can be seen in the diagram below.
 
 %[TO BE UPDATED]
 
-\underline{Alternatives to MVC}
+%\underline{Alternatives to MVC}
 
-Other architectural patterns that could be used in our situation are for example Presentation-abstraction-control, Model View Presenter, and Model View ViewModel. These patterns are interaction-oriented and similar to MVC.
+%Other architectural patterns that could be used in our situation are for example Presentation-abstraction-control, Model View Presenter, and Model View ViewModel. These patterns are interaction-oriented and similar to MVC.
  
-An important difference with Presentation-abstraction-control (PAC) is the abstraction component. PAC retrieves and processes the data with the Abstraction component and makes a visual presentation of the data (a template actually) with the Presentation component. The Presentation and Abstraction components never speak to each other. This communication and control flow between these components are all handled by the Control component. This is also the reason why the PAC doesn't suit our system. PAC is only useful when you aren't calling your data store directly from your display layer, which is actually what we want to do in our system. The user needs to be able to import specified files in the user interface.
+%An important difference with Presentation-abstraction-control (PAC) is the abstraction component. PAC retrieves and processes the data with the Abstraction component and makes a visual presentation of the data (a template actually) with the Presentation component. The Presentation and Abstraction components never speak to each other. This communication and control flow between these components are all handled by the Control component. This is also the reason why the PAC doesn't suit our system. PAC is only useful when you aren't calling your data store directly from your display layer, which is actually what we want to do in our system. The user needs to be able to import specified files in the user interface.
  
-Model View Presenter (MVP) and Model View ViewModel (MVVM) are derivations of the MVC pattern. In MVP the controller has been replaced by a Presentation component to which all presentation logic is pushed. In MVVM this is pushed to the ViewModel. These components are responsible for exposing methods and handling all UI events by receiving input from users via the View, then process the user's data with the help of Model and passing the results back to the View. Unlike View and Controller, View and Presenter or ViewModel are completely decoupled from each other and their communication is handled through the interface. These patterns have a clean separation of the View and Model and the amount of data is reduced because of a passive View. However, this also means that there is less encapsulation and more work to do as the developer has to do all the data binding himself. We preferred MVC above these patterns because we wanted our View to process the input partially before passing it to the next layer. This is needed to pass on the output from the noise model to the optimization model.
-\\
+%Model View Presenter (MVP) and Model View ViewModel (MVVM) are derivations of the MVC pattern. In MVP the controller has been replaced by a Presentation component to which all presentation logic is pushed. In MVVM this is pushed to the ViewModel. These components are responsible for exposing methods and handling all UI events by receiving input from users via the View, then process the user's data with the help of Model and passing the results back to the View. Unlike View and Controller, View and Presenter or ViewModel are completely decoupled from each other and their communication is handled through the interface. These patterns have a clean separation of the View and Model and the amount of data is reduced because of a passive View. However, this also means that there is less encapsulation and more work to do as the developer has to do all the data binding himself. We preferred MVC above these patterns because we wanted our View to process the input partially before passing it to the next layer. This is needed to pass on the output from the noise model to the optimization model.

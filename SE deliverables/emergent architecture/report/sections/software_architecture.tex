@@ -27,8 +27,13 @@ This subchapter is meant to describe how concurrency issues are solved. Because 
 Here is a diagram of our layered architecture and the connection between the front-end and the back-end: \\
 
 \begin{center}
-\includegraphics[width= 0.75\textwidth]{images/EmergentArchitecture} \\
+\includegraphics[width= 0.65\textwidth]{images/EmergentArchitecture} \\
 \end{center}
 
-As depicted in the diagram above, the models present the subsystems described in the Subsystem Decomposition section of the first chapter. They will exchange their outputs with the main controller which uses the output of one system as input for the next one. The main controller relegates the output of the optimization model as input to the noise model, and the output of the noise model to the visualization model. This way the models are executed in a pipelined manner. But given the right input files, the subsystems can also be run separately from each other and function as standalone applications.
-The diagram also shows the connection between the frond-end and back-end of the system. Each subsystem contains an import component that collaborates with an import controller which controls the view of the noise, optimization and visualization tabs in the GUI. This is where the user specifies which data files he or she wants to import. 
+As depicted in the diagram above, the models present the subsystems described in the Subsystem Decomposition section of the first chapter. They will exchange their outputs with the main presenter which uses the output of one system as input for the next one. The main presenter relegates the output of the the noise model to the visualization model. Based on the actual noise values the visualization model constructs the noise contours. The noise contours will be transformed into KML files and entered into Google Earth for visualization. Changes to the KML files will automatically be transferred to Google Earth by a 'KML load' script, which periodically loads the files into Google Earth.
+
+The noise contours will also be outputted tho the main presenter. The main presenter then hands the noise contours together with the current trajectory to the optimization model. The optimization model updates the trajectory to reduce the produced noise and passes the updated trajectory on to the main controller. Now the workflow of the program can start all over again by the main presenter entering the updated trajectory into the noise model.
+
+Following this method the models are executed in a pipelined manner. But given the right input files, the subsystems can also be run separately from each other and function as standalone applications.
+
+%The diagram also shows the connection between the frond-end and back-end of the system. Each subsystem contains an import component that collaborates with an import controller which controls the view of the noise, optimization and visualization tabs in the GUI. This is where the user specifies which data files he or she wants to import. 
