@@ -1,9 +1,0 @@
-C:\Users\hanss\Desktop\Aircraft-Trajectories\Aircraft Trajectories\Aircraft Trajectories\bin\Debug\Aircraft Trajectories.exe.config
-C:\Users\hanss\Desktop\Aircraft-Trajectories\Aircraft Trajectories\Aircraft Trajectories\bin\Debug\Aircraft Trajectories.exe
-C:\Users\hanss\Desktop\Aircraft-Trajectories\Aircraft Trajectories\Aircraft Trajectories\bin\Debug\Aircraft Trajectories.pdb
-C:\Users\hanss\Desktop\Aircraft-Trajectories\Aircraft Trajectories\Aircraft Trajectories\obj\Debug\Aircraft Trajectories.csprojResolveAssemblyReference.cache
-C:\Users\hanss\Desktop\Aircraft-Trajectories\Aircraft Trajectories\Aircraft Trajectories\obj\Debug\Aircraft_Trajectories.Form1.resources
-C:\Users\hanss\Desktop\Aircraft-Trajectories\Aircraft Trajectories\Aircraft Trajectories\obj\Debug\Aircraft_Trajectories.Properties.Resources.resources
-C:\Users\hanss\Desktop\Aircraft-Trajectories\Aircraft Trajectories\Aircraft Trajectories\obj\Debug\Aircraft Trajectories.csproj.GenerateResource.Cache
-C:\Users\hanss\Desktop\Aircraft-Trajectories\Aircraft Trajectories\Aircraft Trajectories\obj\Debug\Aircraft Trajectories.exe
-C:\Users\hanss\Desktop\Aircraft-Trajectories\Aircraft Trajectories\Aircraft Trajectories\obj\Debug\Aircraft Trajectories.pdb
