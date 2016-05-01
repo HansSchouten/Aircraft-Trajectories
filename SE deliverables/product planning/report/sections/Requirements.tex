@@ -1,6 +1,6 @@
-\section{Product Backlog}
+\section{Product Requirements}
 
-This chapter describes the product backlog of our program. The first paragraph gives the user stories of the features that need to be implemented. The second paragraph focuses on technical issues found in existing products of competitors which will be solved in our product. The third paragraph describes the user stories for the knowledge acquisition. The fourth and last paragraph shows an initial release plan with milestones. 
+This chapter describes the requirements of our program. The first subsection gives the user stories of the features that need to be implemented. The second subsection focuses on technical issues found in existing products of competitors which will be solved in our product. The third subsection describes the user stories for the knowledge acquisition. The last subsection shows an initial release plan with milestones. 
 
 \subsection{User stories of features}
 In this paragraph the user stories of features are sorted by priority using the MoSCoW method:
@@ -10,12 +10,12 @@ These features are must haves since the program would not be functioning and mee
 
 \begin{itemize}
 \item As an ATO researcher, I want to read in an arbitrary data file (.dat extension) or text file indicating the input flight trajectory and grid (based on the RD-coordinate system) that I select from a directory.
+\item As an ATO researcher, I want to export the resulting animation as a KML file so that I can also run the animation later in Google Earth without needing to start all over again. 
 \item As an ATO researcher, I want the sound model to calculate four types of noise levels: A-Weighted Sound Exposure Level (SEL), Effective Perceived Noise Level (EPNL), A-Weighted Maximum Sound Level (LAMAX) and Tone-Corrected Maximum Perceived Noise Level (PNLTM). This should be done conform world standards following the AC Model.
 \item As an ATO researcher, I want to calculate noise contours (contour area) produced along the input trajectory using noise input data based on six possible noise metrics: single event metrics (SEL, LAMAX, EPNL, PNLTM) and cumulative noise metrics (Day-Evening-Night Average Level $L_{DEN}$, Night Average Level $L_{night}$). This should be done automatically after the noise model has finished calculating the noise levels.
 \item As an ATO researcher, I want to export the actual contour data as a text file or .dat file so that I can save the results in a directory. 
 \item As an ATO researcher, I want to optimize the input flight trajectory within the International Standard Atmosphere using a dynamic optimization algorithm based on three models: operational constraints (depending on the used aircraft model), noise model (depending on calculated noise contours) and geographical model. If I select the option to optimize, this calculation should be done automatically by the application after the contouring algorithm has been performed.
 \item As an ATO researcher, I want to visualize the input flight trajectory and the produced noise contours in a real-time 3D animation mapped on Google Earth.
-\item As an ATO researcher, I want to export the resulting animation as a KML file so that I can also run the animation later in Google Earth without needing to start all over again.
 \item As an ATO researcher, I want a modern and easy-to-use interface to select files, select the contour(s) I am interested in, select the output that needs to be produced (optimization and/ or visualization) and select a directory to store the output.
 \end{itemize}
 
@@ -37,7 +37,7 @@ These features are could haves since they are not necessary to the customer and 
 \begin{itemize}
 \item As an ATO researcher, I want to be able to perform adjustments to the input data in case a data element needs to be changed or added. 
 \item As an ATO researcher, I want to have the option to transform the coordinates of my input grid if they are not based on the RD-coordinate system that is required by the noise model.
-\item As an ATO researcher, I want to read in Matlab and Excel input files.
+\item As an ATO researcher, I want to read in Matlab and Excel output files.
 \item As an ATO researcher, I want the GUI to show me (real time) how much progress is made in the analysis of the data so that I can estimate how long I have to wait for the results.
 \item As an ATO researcher, I want to call the program by a name and recognise it by its logo so that I can share it with others.
 \end{itemize}
@@ -46,7 +46,7 @@ These features are could haves since they are not necessary to the customer and 
 These features are won't haves since the customer doesn't actually need these features to be implemented. There probably won't be enough time left for the following features but it could be interesting for a follow-up phase of the project. 
 
 \begin{itemize}
-\item As an ATO researcher, I want a logger to log all the operations I have done in the program so that I can have an overview of the adjustments I made.
+\item As an ATO researcher, I want a logger to log all the operations I have done in the program so that I can have an overview of the input files I entered and visualized. 
 \item As an ATO researcher, I want to add comments to certain parts of the input data such as data elements and data chunks so that I can make memos of my own reflections on the data.
 \end{itemize}
 
@@ -65,16 +65,17 @@ These features are should haves since their improvement would add (new) function
 \item As an ATO researcher, I want the program to be easier to use than the existing NOISHHH tool (noise model) and NoiseLAss program (optimzation model) so that I don't need to spend much time on configurations and learning how to use the program.
 \end{itemize}
 
-\subsection{User stories of know-how acquisition}
-This paragraph describes which documents we need to read in order to build the background knowledge that is required to make a future technical decision or precise scheduling based on the user's needs. 
+%maak nieuwe subsection hiervan in research report
+%\subsection{User stories of know-how acquisition}
+%This paragraph describes which documents we need to read in order to build the background knowledge that is required to make a future technical decision or precise scheduling based on the user's needs. 
 
-We need to read about the following subjects:
-\begin{itemize}
-\item As an ATO researcher, I want the development team to read the technical manual INM 7.0 for the integrated noise model which represents the algorithms and methodology used to compute noise-level and time-based metrics based upon finite flight-segment data. They can also use this noise tool to validate their results in case they decide to improve the noise model for speed-up.
-\item As an ATO researcher, I want the development team to read about the contouring algorithm described in the documentation about the noise assessment tool NoiseLAss. This document explains the general algorithm and the way b-spline interpolation can be used to make contour areas more smooth.
-\item As an ATO researcher, I want the development team to read about the Awakenings algorithm (also described in the NoiseLAss documentation) which provides formulas on the calculation of population annoyance caused by aircraft noise.
-\item As an ATO researcher, I want the development team to read about the existing trajectory optimization tool NOISHH and the dynamic optimization algorithm it uses (described in Joeri Dons' MSc thesis: 'Optimization of Departure and Arrival Routing for Amsterdam Airport Schiphol'). This way they will understand how to optimize trajectories regarding to the produced noise contours. They can also use this optimization tool to validate their results. 
-\end{itemize}
+%We need to read about the following subjects:
+%\begin{itemize}
+%\item As an ATO researcher, I want the development team to read the technical manual INM 7.0 for the integrated noise model which represents the algorithms and methodology used to compute noise-level and time-based metrics based upon finite flight-segment data. They can also use this noise tool to validate their results in case they decide to improve the noise model for speed-up.
+%\item As an ATO researcher, I want the development team to read about the contouring algorithm described in the documentation about the noise assessment tool NoiseLAss. This document explains the general algorithm and the way b-spline interpolation can be used to make contour areas more smooth.
+%\item As an ATO researcher, I want the development team to read about the Awakenings algorithm (also described in the NoiseLAss documentation) which provides formulas on the calculation of population annoyance caused by aircraft noise.
+%\item As an ATO researcher, I want the development team to read about the existing trajectory optimization tool NOISHH and the dynamic optimization algorithm it uses (described in Joeri Dons' MSc thesis: 'Optimization of Departure and Arrival Routing for Amsterdam Airport Schiphol'). This way they will understand how to optimize trajectories regarding to the produced noise contours. They can also use this optimization tool to validate their results. 
+%\end{itemize}
 
 \newpage 
 
