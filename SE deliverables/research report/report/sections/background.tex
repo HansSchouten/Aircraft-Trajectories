@@ -1,0 +1,39 @@
+\section{Background}
+ 
+The functionality addressed by our client requires the implementation of four models: noise model, noise contouring model, trajectory optimization model and the visualization model. For our project, we have investigated the documents with background information on these models that were provided by the client.
+
+In the first section we will further describe the way these models work and the way our product will incorporate them. We also compare the functionality of our product with existing work. The Noise Model and Noise Contouring Model are further detailed in Sections 2.1.1 and 2.1.2 respectively. Then we will describe the original approach to the trajectory optimization and compare this with the new approach suggested by the ATO department in Section 2.1.3. The second Section covers existing software on related work. We will look into software provided by the client and visualization in Google Earth with KML objects.
+
+\subsection{Documentation on Calculation Models}
+
+\subsubsection{Noise Model}
+
+The general algorithm of noise calculation is based on empirically obtained noise-power-distance (NPD) tables. The first step consists of interpolating for the current thrust level and slant range (observer ↔ aircraft) to find the uncorrected noise metric. Since the NPD-tables are created under the assumption that the aircraft flies on an infinitely long segment at a given reference speed a number of corrections need to be applied. For more information on the methodology you are referred to the INM7.0b Technical Manual.
+
+\subsubsection{Noise Contouring Model}
+
+The methodology for calculating the contour areas partly follows the standard closest point search common in contouring algorithms, but differs in the fact that It will avoid incorrectly forming multiple contours when in reality only one single closed contour exists. In the case that contour areas are required the spline representation is used to refine the grid to cells of 125x125 m. After refining the grid, all the switch points in the new grid are located. Switch points are points on the axes of the grid cells in which the noise value changes from a value higher than to a value lower than the requested contour value. After gathering all switch points within the grid, the points need to be ordered to form a continuous string. For this purpose, starting in point $i$, candidate points for $i+1$ are located and evaluated for feasibility. This process is further explained in detail in documentation about the NoiseLAss tool v2.0. 
+
+\subsubsection{Trajectory Optimization for Minimum Noise}
+
+In general, an optimization of the noise impact requires criteria that range from the generic criterion of contour areas to a number of site-specific criteria based on the impact on population or on enforcement points. Enforcement points are locations in the vicinity of the airport at which a maximum value for a specific noise metric is defined. This value is then used for regulatory purposes to control the noise exposure near the airport. 
+
+The optimization algorithm first gathers the noise input on an arbitrary grid with cell size gx and gy, where gx is not necessarily equal to gy, allowing for a grid consisting of non-square cells. The original grid is then used to define a set of b-spline coefficients, which form the basis for a b-spline interpolation of the data. For all site-specific criteria the spline coefficients are directly used to find the noise values in the requested observer or enforcement points by evaluating the b-spline in the required coordinates.
+
+\subsection{Related Work}
+Software tools that implement the four models already exist and are already being used in the aerospace industry and research field. The problem is that these tools lack automation and function as separate executables. Currently there is no program that executes all these models in a pipelined manner. In this section we will only discuss the tools that are currently used by the ATO department since our program will incorporate algorithms equal or similar to the ones used in these tools.
+
+\subsubsection{INMTM v3.0} The Noise Model is implemented in this noise calculation tool created by respectively the TU Delft and the NLR. It implements the FAA’s standard methodology for noise assessments. Since 1978 this has been the standard Integrated Noise Model (INM) in over 65 countries. The tool computes noise levels expressed in six time-based metrics at a user-specified regular grid based upon finite flight-segment data. It requires two user-provided text files: one describing the full trajectory expressed in a number of nodes and one defining a 2-dimensional (no elevation data) or 3-dimensional grid for noise calculation.
+
+The calculations in this tool are conform world standards and are performed below one second. The client was content with this tool and therefore we decided to re-use and (if needed) further improve the tool in our final program. 
+
+\subsubsection{NoiseLAss v2.0} The noise contouring algorithm and optimization model are implemented in this noise level assessment tool. The tool is basically a collection of assessment criteria which can be retrieved according to user specification whilst using a common input and output format. 
+
+The NoiseLAss tool calculates the noise levels in the enforcement points by interpolating the user-supplied noise input data on the specific point. This allows the user to define other points at which the noise level is of interest. 
+
+Additionally, the tool contains a number of dose-response relationships to assess the direct impact on population for six different noise metrics. These relationships can be used to quantify the impact of commercial aviation on near-airport communities for daytime and night operations, e.g. the number of expected awakenings due to a single night-time flyover and due to cumulative noise metrics. 
+
+Although the model is directly compatible with the output files of the INMTM v3 noise calculation tool, it still requires user supplied input files and does not perform real-time. Therefore the client wants us to build the contouring and optimization models from scratch for our program following the algorithms used in this tool.
+
+\subsubsection{Visualization with Google Earth KML Objects}
+KML (Keyhole Markup Language) is a file format used to display geographic data in an Earth browser such as Google Earth. KML uses a tag-based structure with nested elements and attributes and is based on the XML standard. KML also enables the user to store tours and animations in Google Earth. Since KML meets all the requirements of our flight animation and since the ATO department is already familiar with this file format, KML seemed a perfect fit for our project. Next to KML we also considered alternatives like CityGML and Geography Markup Languages. Although these alternatives are fine, KML is better integrated with Google Earth. Therefore we decided to use KML objects with the Google Earth API for visualization in our program. 
