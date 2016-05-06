@@ -1,15 +1,16 @@
-\section{Product Requirements}
+\section{Release Plan}
 
-This chapter describes the requirements of our program. The first subsection gives the user stories of the features that need to be implemented. The second subsection focuses on technical issues found in existing products of competitors which will be solved in our product. The third subsection describes the user stories for the knowledge acquisition. The last subsection shows an initial release plan with milestones. 
+This chapter shows an initial release plan with milestones. For a detailed overview of the user stories describing the features of our program we refer you to section 3c of our research report. 
 
-\subsection{User stories of features}
-In this paragraph the user stories of features are sorted by priority using the MoSCoW method:
+\iffalse
+%\subsection{User stories of features}
+%In this paragraph the user stories of features are sorted by priority using the MoSCoW method:
 
-\textbf{Must have} \\ 
-These features are must haves since the program would not be functioning and meet the (minimal) requirements of the customer without these implemented. 
+%\textbf{Must have} \\ 
+%These features are must haves since the program would not be functioning and meet the (minimal) requirements of the customer without these implemented. 
 
-\begin{itemize}
-\item As an ATO researcher, I want to read in an arbitrary data file (.dat extension) or text file indicating the input flight trajectory and grid (based on the RD-coordinate system) that I select from a directory.
+%\begin{itemize}
+%\item As an ATO researcher, I want to read in an arbitrary data file (.dat extension) or text file indicating the input flight trajectory and grid (based on the RD-coordinate system) that I select from a directory.
 \item As an ATO researcher, I want to export the resulting animation as a KML file so that I can also run the animation later in Google Earth without needing to start all over again. 
 \item As an ATO researcher, I want the sound model to calculate four types of noise levels: A-Weighted Sound Exposure Level (SEL), Effective Perceived Noise Level (EPNL), A-Weighted Maximum Sound Level (LAMAX) and Tone-Corrected Maximum Perceived Noise Level (PNLTM). This should be done conform world standards following the AC Model.
 \item As an ATO researcher, I want to calculate noise contours (contour area) produced along the input trajectory using noise input data based on six possible noise metrics: single event metrics (SEL, LAMAX, EPNL, PNLTM) and cumulative noise metrics (Day-Evening-Night Average Level $L_{DEN}$, Night Average Level $L_{night}$). This should be done automatically after the noise model has finished calculating the noise levels.
@@ -18,8 +19,6 @@ These features are must haves since the program would not be functioning and mee
 \item As an ATO researcher, I want to visualize the input flight trajectory and the produced noise contours in a real-time 3D animation mapped on Google Earth.
 \item As an ATO researcher, I want a modern and easy-to-use interface to select files, select the contour(s) I am interested in, select the output that needs to be produced (optimization and/ or visualization) and select a directory to store the output.
 \end{itemize}
-
-\newpage
 
 \textbf{Should have}
 
@@ -76,8 +75,7 @@ These features are should haves since their improvement would add (new) function
 %\item As an ATO researcher, I want the development team to read about the Awakenings algorithm (also described in the NoiseLAss documentation) which provides formulas on the calculation of population annoyance caused by aircraft noise.
 %\item As an ATO researcher, I want the development team to read about the existing trajectory optimization tool NOISHH and the dynamic optimization algorithm it uses (described in Joeri Dons' MSc thesis: 'Optimization of Departure and Arrival Routing for Amsterdam Airport Schiphol'). This way they will understand how to optimize trajectories regarding to the produced noise contours. They can also use this optimization tool to validate their results. 
 %\end{itemize}
-
-\newpage 
+\fi
 
 \subsection{Initial release plan (milestones, MRFs per release)}
 The milestones are spread across different sprints and described below with the corresponding goals. All the releases are continually tested with system testing throughout the entire project. Please note that a sprint corresponds with one week.
@@ -140,7 +138,7 @@ This release will contain at least the following features:
 This release will contain at least the following features:
 \begin{itemize}
 \item The option to insert a real flight route from FlightRadar24 and visualize this with a 3D animation in Google Earth
-\item Final version of the GUI representing the three models (noise, optimization, visualization) and all possible user operations (added: visualization tab).
+\item Final version of the GUI representing the three models (noise, contouring, optimization) and all possible user operations (added: visualization tab).
 \item A visualization of population annoyance in Google Earth (linked with the animation)
 \end{itemize}
 
@@ -151,3 +149,5 @@ This release will contain at least the following features:
 \item Final product containing at least all must-have and should-have requirements.
 \item Final report about the developed, implemented, and validated software product.
 \end{itemize}
+
+\newpage 

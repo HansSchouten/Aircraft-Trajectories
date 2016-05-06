@@ -1,0 +1,25 @@
+\section{Quality Guarantees}
+In this section we talk about the quality of both the process and the code. In Section 5.1 we talk about the type of documentation we use in the code and why. In Section 5.2 we talk about the way we write and run tests. In Section 5.3 we will discuss the evaluation of the quality of our code, and how we guarantee the quality of our reports and documents.
+
+\subsection{Documentation}
+Two different types of documents will be required for this project, the ﬁrst being documentation of the process, including this document, the second being code documentation. All documents related to the process will be produced in LaTeX, supplemented with BibTeX when references are a part of the report. For these documents the version control system Git will also be used.
+
+For our project, we choose to use the built in documentation tags in Visual Studio and Doxygen for documentation. The reason for using Doxygen is that it is one of the most popular documentation generation tools available for C\# and numerous other programming languages like C and Python and therefore requires a flexible documentation generation tool. We choose either the standard deployed by Visual Studio or Doxygen if there is no standard, to generate documentation for the extensions.
+\subsection{Testing}
+As new functionalities are added to a product, it is always important to verify that existing functionality is not broken during the latest update. To this end a test suite containing both unit tests an integration tests can be a great help. To evaluate our code, we use test-driven development. With test-driven development,
+
+Unit-tests are written before the code that should be tested. This allows us to specify the working of our code through the tests that is initially based on our design choices. These tests often take the form of user stories: ”I am X and if I do Y, then Z will happen”. The use of a test-driven development approach leads to spending less time on debugging code, and to more modular and extensible code in general. Additionally, we want our code to be well-thought-out and ensure that both team members have a large understanding of the code. To this end, the unit-tests for a certain part of the product code are written by a different team member than the actual product code.
+
+Simply writing the tests is of course not suﬃcient for them to be useful, since tests also need to be run to get any data out of it. A continuous integration server with hooks into Git allows you to have the tests run automatically on every push to the server. We will use this hook to run our unit tests using mocks after every push. Jenkins is a commonly used example of such a continuous integration platform and is also the one we will be using for this project. Though we have some experience with CruiseControl as well, Jenkins is more commonly used and provides all the required features. Testing in a live environment will be done at the end of every sprint, outside of the continuous integration tools.
+
+\subsection{Evaluation}
+Because we want to deliver a high-quality product to our customer, we evaluate both our code and documents carefully before delivery. To this end, we use multiple methods.
+
+All documents we deliver are written using an iterative method. This means all sections are both read and edited by the other team member. This method has the following beneﬁts:
+\begin{itemize}
+\item Both team members are aware of document contents.
+
+\item Section contents are reﬁned and reﬂect the accurate opinion of the team.
+\end{itemize}
+
+At the end of the development process, we use benchmarking techniques to evaluate the performance of our software. Because the ATO department is going to use the program for actual flight trajectories, obtaining real-world representative workloads is a non-trivial task. The performance evaluation will consist of running real flight routes as input.

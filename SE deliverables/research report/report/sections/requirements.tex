@@ -1,0 +1,180 @@
+\section{Requirements}
+For the process of requirements gathering we have mainly focused on interviewing our client Dr. Ir. Sander Hartjes, who is also a representative of the ATO department because of his academic function. He is equipped to inform us how the research department applies the mathematical models and what features in our program they would benefit from most. The resulting requirements and the main results of the interviews will be described in this section as follows: we summarize the results of these interviews in Section 3.1 and give a list of the requirements in Section 3.2. 
+
+\subsection{Interviews}
+
+To get a clear view of the customer's needs we interviewed our client Dr. Ir. Sander Hartjes during two extensive meetings of two hours each. Besides this, other meetings were also held with him to discuss and clarify the aerospace engineering part of the project. This was necessary since we did not have any knowledge of the theories of noise contouring and noise minimization before the project. 
+
+Dr. Ir. Sander Hartjes is employed as an Assistant Professor in the field of airline operations at the chair of Air Transport and Operations. His research mainly focuses on optimal aircraft performance regarding the reduction of noise and pollutant emissions. He has already been working at ATO since 2008 and therefore he is equipped to inform us on the way the department is going to use our program and what features the department will benefit from most.
+
+Through our first interview with Sander we learned that the ATO department lacks a visualization tool for its research findings at conferences. The researchers, including Sander, still manually transform Matlab files containing trajectory coordinates into KML files and enter this into Google Earth for visualization. Sander told us that they increasingly need this process to be automated when dealing with large trajectories. This would spare a lot of their time that goes into manually importing flight data from Matlab into KML. Sander also informed us that their preference goes out to visualization in Google Earth since this is commonly used in their research field.
+
+Additionally, the current visualization only consists of a simple animation of an airplane following a particular path in Google Earth. Sander told us that they would like to be able to visualize noise contours in a real-time 3D animation. The ATO researchers create noise contour diagrams with 3D model simulation software such as AutoCAD, but currently there is no way for the department to animate noise contours that are produced along a particular trajectory. Sander let us know that the implementation and visualization of noise contours in Google Earth is a crucial requirement for the program.
+
+During our second interview Sander informed us, after consultation with other researchers of the department, that they would like our program to visualize noise contours not only in relation with produced noise levels but also regarding to iterative optimization of flight trajectories for minimum noise. Therefore, an optimization algorithm needs to be implemented that should not only take the actual measured noise volumes into account but also the area of the noise contours. The trajectories would then be optimized based on the volume and spreading of the noise. Recent studies show that the timing and spreading of noise affect the population annoyance greatly and thus they are potentially important factors in the minimization of noise. This way of minimizing aircraft noise and visualizing noise contours is not only new to the ATO department but also to the research field itself. Noise contours are normally used to regulate sound and not as an indication for the optimization of trajectories.
+
+Finally, when Sander showed us the tools that are currently used by the ATO department to calculate noise values and optimize trajectories, we noticed that these tools also lack automation. At the moment ATO researchers manually transform the output of the noise model in the right data form and then enter it into the optimization model. The research department would benefit greatly by an automated and pipelined execution of these processes in a standalone application. 
+
+\subsection{Requirements}
+Below we present an initial list of formal requirements for the program. Additionally, we provide an extended list of user stories to specify the required behavior of the program in different scenarios.
+
+\begin{itemize}
+\item The program can calculate noise values in real time.
+\item The program can calculate and output the actual noise contours that are produced along a particular trajectory in real time.
+\item The program has the option to optimize a trajectory in an iterated manner to minimize the produced noise over populated areas that are affected. The optimization algorithm should be based on the area of the produced noise contours instead of the actual noise values.
+\item The program can visualize the (optimal) trajectory together with the noise contours in real-time 3D animation mapped on Google Earth.
+\item The program can calculate and visualize the effects of produced noise on population annoyance using the awakenings algorithm.
+\item The program should save the results of the visualization and, if requested, the intermediate calculated values in a particular format and directory specified by the user.
+\item The program should execute all the processes above (corresponding to the computation of noise values, noise contours, noise minimization and the visualization of noise contours) in an automated and pipelined manner.
+\item The program should offer all these tasks in a graphical user interface.
+\end{itemize}
+
+\subsection{User stories and scenarios}
+The main requirements that a user of the system will actually notice are most clearly presented in so-called user stories. These stories describe what the results of an action will be for a certain user. Unfortunately, some of the other requirements or design decisions can not be represented in the same format that easily, since they do not really involve a user in the classic sense of the word. Instead some of the functions that the program should be able to use have been described in scenario format.
+
+The user stories that describe the behavior as presented to the user can be summarized as follows:
+
+\subsubsection{Must have features} 
+These features are must haves since the program would not be functioning and meet the (minimal) requirements of the customer without these implemented. 
+
+\noindent\rule{8cm}{0.4pt} \\
+\begin{itemize}
+\item \textbf{Given} I am an ATO Researcher and I want to specify a grid and trajectory,
+\item \textbf{When} I read in an arbitrary data file (.dat extension) or text file indicating the input flight trajectory and grid (based on the RD-coordinate system),
+\item \textbf{Then} the program should be able to handle this input without any problems.
+\end{itemize}
+\noindent\rule{8cm}{0.4pt}\\
+\begin{itemize}
+\item \textbf{Given} I am an ATO Researcher and I want to save the resulting visualization,
+\item \textbf{When} I click the button to save the 3D animation,
+\item \textbf{Then} the program should save the used data and settings in the specified directory.
+\end{itemize}
+\noindent\rule{8cm}{0.4pt}\\
+\begin{itemize}
+\item \textbf{Given} I am an ATO Researcher and I want to easily access a saved visualization during a conference, 
+\item \textbf{When} I select the file representing the previously stored visualization,
+\item \textbf{Then} the program should automatically start the visualization without requiring any further user interaction.
+\end{itemize}
+\noindent\rule{8cm}{0.4pt} \\
+\begin{itemize}
+\item \textbf{Given} I am an ATO Researcher and I want to calculate noise levels produced along a particular trajectory,
+\item \textbf{When} I click the button to start the noise calculation,
+\item \textbf{Then} the program should calculate and output four types of noise levels; A-Weighted Sound Exposure Level (SEL), Effective Perceived Noise Level (EPNL), A-Weighted Maximum Sound Level (LAMAX) and Tone-Corrected Maximum Perceived Noise Level (PNLTM).
+\end{itemize}
+\noindent\rule{8cm}{0.4pt} \\
+\begin{itemize}
+\item \textbf{Given} I am an ATO Researcher and I want to calculate noise contours produced along a particular trajectory,
+\item \textbf{When} I have selected the decibel value(s) I am interested in and the program has finished calculating the noise levels (former step),
+\item \textbf{Then} the program should automatically start calculating the noise contours along the given trajectory for the decibel values I have selected.
+\end{itemize}
+\noindent\rule{8cm}{0.4pt} \\
+\begin{itemize}
+\item \textbf{Given} I am an ATO Researcher and I want to save the calculated noise contours,
+\item \textbf{When} I click the button to save the noise contour,
+\item \textbf{Then} the program should save the noise contour as a csv file in the specified directory.
+\end{itemize}
+\noindent\rule{8cm}{0.4pt} \\
+\begin{itemize}
+\item \textbf{Given} I am an ATO Researcher and I want to optimize a particular trajectory by minimizing the noise produced by the aircraft,
+\item \textbf{When} I select the option to optimize the trajectory,
+\item \textbf{Then} the program should start and keep updating the trajectory until no optimization is possible.
+\end{itemize}
+\noindent\rule{8cm}{0.4pt} \\
+\begin{itemize}
+\item \textbf{Given} I am an ATO Researcher and I want to visualize a particular trajectory and the produced noise contours,
+\item \textbf{When} I select the option to visualize the trajectory,
+\item \textbf{Then} the program should show a real-time 3D animation mapped on Google Earth in a separate window.\\
+\end{itemize}
+\noindent\rule{8cm}{0.4pt} \\
+
+\subsubsection{Should have features}
+These features are should haves since the basic components of the program would work without these features but it would be better (meet the requirements of the customer better) if these would be implemented. 
+
+\noindent\rule{8cm}{0.4pt}\\
+\begin{itemize}
+\item \textbf{Given} I am an ATO Researcher and I want to easily access a saved visualization during a conference, 
+\item \textbf{When} In windows explorer I double click the file representing the previously stored visualization,
+\item \textbf{Then} Windows should automatically launch our application and start the visualization without requiring any further user interaction.
+\end{itemize}
+\noindent\rule{8cm}{0.4pt}\\
+\begin{itemize}
+\item \textbf{Given} I am an ATO Researcher and I chose the wrong input file,
+\item \textbf{When} I notice my mistake during the program run and I want to disrupt or cancel the current operation,
+\item \textbf{Then} the program should abort the current operation after I clicked the cancel button.
+\end{itemize}
+\noindent\rule{8cm}{0.4pt}\\
+\begin{itemize}
+\item \textbf{Given} I am an ATO Researcher and I want to analyze a real flight route from the FlightRadar24,
+\item \textbf{When} I select to use FlightRadar24 as data source and specify a flight,
+\item \textbf{Then} the program should fetch all data of the selected flight and start the noise calculation and visualization.
+\end{itemize}
+\noindent\rule{8cm}{0.4pt}\\
+
+\subsubsection{Could have features} 
+These features are could haves since they are not necessary to the customer and to the functioning of the program but it would be nice to include them if there is enough time left in our timeframe. 
+
+\noindent\rule{8cm}{0.4pt}\\
+\begin{itemize}
+\item \textbf{Given} I am an ATO Researcher and I want to analyze an active flight from the FlightRadar24,
+\item \textbf{When} I select to use FlightRadar24 as data source and specify a flight,
+\item \textbf{Then} the program should start fetching the data of the selected flight and start the noise calculation and visualization in real time.
+\end{itemize}
+\noindent\rule{8cm}{0.4pt}\\
+\begin{itemize}
+\item \textbf{Given} I am an ATO Researcher and I want to make an adjustment to a particular data element in the input file,
+\item \textbf{When} I import the file and double click a particular data element,
+\item \textbf{Then} the program should enable me to adjust the clicked data element.
+\end{itemize}
+\noindent\rule{8cm}{0.4pt}\\
+\begin{itemize}
+\item \textbf{Given} I am an ATO Researcher and I want to specify a grid and trajectory,
+\item \textbf{When} I read in a Matlab file (.mat extension) indicating the input flight trajectory and grid (based on the RD-coordinate system),
+\item \textbf{Then} the program should be able to handle this input without any problems.
+\end{itemize}
+\noindent\rule{8cm}{0.4pt}\\
+\begin{itemize}
+\item \textbf{Given} I am an ATO Researcher and I want to estimate how long I have to wait for the results of the program, 
+\item \textbf{When} I clicked the button to start the noise calculation,
+\item \textbf{Then} the program should continuously show me the current progress with a progress bar.
+\end{itemize}
+\noindent\rule{8cm}{0.4pt}\\
+\begin{itemize}
+\item \textbf{Given} I am an ATO Researcher and I want to share the program with others,
+\item \textbf{When} I start the program.
+\item \textbf{Then} the program should be recognizable in a blink by showing its name and logo.
+\end{itemize}
+\noindent\rule{8cm}{0.4pt}\\
+
+\subsubsection{Won't have features} 
+These features are won't haves since the customer does not actually need these features to be implemented. There probably won't be enough time left for the following features but it could be interesting for a follow-up phase of the project. 
+
+\noindent\rule{8cm}{0.4pt}\\
+\begin{itemize}
+\item \textbf{Given} I am an ATO Researcher and I want to log all my activities in the program,
+\item \textbf{When} I click the logger button,
+\item \textbf{Then} the program should create a text file with an overview of the input files I entered and visualized during the current program run.
+\end{itemize}
+\noindent\rule{8cm}{0.4pt}\\
+\begin{itemize}
+\item \textbf{Given} I am an ATO Researcher and I want to make a memo of my own reflections on the input or output data,
+\item \textbf{When} I double click a data element in a file,
+\item \textbf{Then} the program should enable me to add a comment to the clicked data element.
+\end{itemize}
+
+\subsubsection{Scenarios}
+Whereas some scenarios will be developed as new features are picked to be implemented, a few scenarios that result in the automated execution of the program are given here:
+
+\noindent\rule{8cm}{0.4pt} \\
+\begin{itemize}
+\item \textbf{Given} an input file indicating the trajectory and grid,
+\item \textbf{When} the user selects to optimize and start the noise calculation,
+\item \textbf{Then} the program should perform all operations including visualization in an automated manner without the user needing to perform any additional actions.\\
+\end{itemize}
+\noindent\rule{8cm}{0.4pt} \\
+\begin{itemize}
+\item \textbf{Given} a particular trajectory and its corresponding noise contours (calculated by the program),
+\item \textbf{When} the user has selected the option to optimize the trajectory,
+\item \textbf{Then} the program should optimize the trajectory based on the area of the noise contours instead of the actual noise values.
+\end{itemize}
+\noindent\rule{8cm}{0.4pt} \\
+
