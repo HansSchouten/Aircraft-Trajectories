@@ -7,6 +7,7 @@ using GEPlugin;
 using MathNet.Numerics.Interpolation;
 using AircraftTrajectories.Models.WGS.Research.Core;
 using System.Drawing;
+using System.Xml;
 
 namespace AircraftTrajectories.Views
 {
@@ -61,6 +62,8 @@ namespace AircraftTrajectories.Views
             longSpline = CubicSpline.InterpolateNatural(tData, longData);
             latSpline = CubicSpline.InterpolateNatural(tData, latData);
             altSpline = CubicSpline.InterpolateNatural(tData, altData);
+
+            createAnimationKML();
         }
 
 
@@ -154,6 +157,132 @@ namespace AircraftTrajectories.Views
             Console.WriteLine(currentStep);
             currentStep = 1;
             tmrAnimationStep.Enabled = !tmrAnimationStep.Enabled;
+        }
+
+        public void createAnimationKML()
+        {
+            XmlWriterSettings xmlWriterSettings = new XmlWriterSettings()
+            {
+                Indent = true,
+                IndentChars = "\t",
+                NewLineOnAttributes = true
+            };
+            XmlWriter kml = XmlWriter.Create(@"C:\Users\Hans Schouten\Desktop\animation.kml", xmlWriterSettings);
+
+            kml.WriteRaw("<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\">");
+
+            kml.WriteStartElement("Document");
+                kml.WriteStartElement("Placemark");
+                    kml.WriteElementString("name","Aircraft Animation");
+                    kml.WriteElementString("visibility", "1");
+                    kml.WriteStartElement("Model");
+                      kml.WriteAttributeString("id","model");
+                        kml.WriteElementString("altitudeMode", "relativeToGround");
+                        kml.WriteStartElement("Location");
+                          kml.WriteAttributeString("id", "model_location");
+                            kml.WriteElementString("latitude", "52.28913044987623");
+                            kml.WriteElementString("longitude", "4.737291638740602");
+                            kml.WriteElementString("altitude", "10.668");
+                        kml.WriteEndElement();
+                        kml.WriteStartElement("Orientation");
+                          kml.WriteAttributeString("id", "model_orientation");
+                            kml.WriteElementString("heading", "57.95");
+                            kml.WriteElementString("tilt", "10.1797");
+                            kml.WriteElementString("roll", "4.0296");
+                        kml.WriteEndElement();
+                        kml.WriteStartElement("Link");
+                            kml.WriteElementString("href", "B733.dae");
+                        kml.WriteEndElement();
+                    kml.WriteEndElement();
+                kml.WriteEndElement();
+
+                kml.WriteRaw("<gx:Tour><gx:Playlist>");
+
+
+                kml.WriteRaw(@"
+<gx:AnimatedUpdate>
+               <gx:duration>0.821510026074543</gx:duration>
+               <Update>
+                  <Change>
+                     <Location targetId='model_location'>
+                        <latitude>52.28882112816898</latitude>
+                        <longitude>4.736491488313217</longitude>
+                        <altitude>22.26130963842451</altitude>
+                     </Location>
+                  </Change>
+               </Update>
+            </gx:AnimatedUpdate>			
+            <gx:AnimatedUpdate>
+               <gx:duration>0.821510026074543</gx:duration>
+               <Update>
+                  <Change>
+                     <Orientation targetId='model_orientation'>
+                        <heading>58.26624356697369</heading>
+                        <tilt>10.18347728868717</tilt>
+                        <roll>3.183238427102504</roll>
+                     </Orientation>
+                  </Change>
+               </Update>
+            </gx:AnimatedUpdate>			
+            <gx:FlyTo>
+               <gx:duration>0.821510026074543</gx:duration>
+               <gx:flyToMode>smooth</gx:flyToMode>
+               <LookAt>
+                  <longitude>4.73988285083995</longitude>
+                  <latitude>52.28967179734476</latitude>
+                  <altitude>122.2613096384245</altitude>
+                  <altitudeMode>absolute</altitudeMode>
+                  <heading>-121.7337564330263</heading>
+                  <tilt>65</tilt>
+               </LookAt>
+            </gx:FlyTo>
+			
+            <gx:AnimatedUpdate>
+               <gx:duration>0.821510026074543</gx:duration>
+               <Update>
+                  <Change>
+                     <Location targetId='model_location'>
+                        <latitude>52.28851180646174</latitude>
+                        <longitude>4.735691337885832</longitude>
+                        <altitude>33.85461927684903</altitude>
+                     </Location>
+                  </Change>
+               </Update>
+            </gx:AnimatedUpdate>			
+            <gx:AnimatedUpdate>
+               <gx:duration>0.821510026074543</gx:duration>
+               <Update>
+                  <Change>
+                     <Orientation targetId='model_orientation'>
+                        <heading>58.58248713394735</heading>
+                        <tilt>10.18724244702327</tilt>
+                        <roll>2.336860771967286</roll>
+                     </Orientation>
+                  </Change>
+               </Update>
+            </gx:AnimatedUpdate>			
+            <gx:FlyTo>
+               <gx:duration>0.821510026074543</gx:duration>
+               <gx:flyToMode>smooth</gx:flyToMode>
+               <LookAt>
+                  <longitude>4.739090271105224</longitude>
+                  <latitude>52.28935100467422</latitude>
+                  <altitude>133.854619276849</altitude>
+                  <altitudeMode>absolute</altitudeMode>
+                  <heading>-121.4175128660527</heading>
+                  <tilt>65</tilt>
+               </LookAt>
+            </gx:FlyTo>
+            ");
+
+
+                kml.WriteRaw("</gx:Playlist></gx:Tour>");
+            kml.WriteEndElement();
+
+            kml.WriteRaw("</kml>");
+            kml.Close();
+
+            this.Close();
         }
 
 
