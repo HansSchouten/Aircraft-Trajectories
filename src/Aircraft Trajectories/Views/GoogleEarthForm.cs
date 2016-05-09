@@ -80,8 +80,8 @@ namespace AircraftTrajectories.Views
         }
 
         public KmlModelCoClass model;
-        public KmlCameraCoClass camera;
-        public KmlOrientationCoClass or;
+        //public KmlCameraCoClass camera;
+        //public KmlOrientationCoClass or;
         public IKmlLineString line3D;
         public IKmlLineString lineGroundTrack;
 
@@ -112,9 +112,7 @@ namespace AircraftTrajectories.Views
             // Model
             var placemark = ge.createPlacemark("");
             placemark.setName("model");
-
             model = ge.createModel("");
-            model.setAltitudeMode(ge.ALTITUDE_RELATIVE_TO_GROUND);
             ge.getFeatures().appendChild(placemark);
 
             var link = ge.createLink("");
@@ -127,47 +125,69 @@ namespace AircraftTrajectories.Views
             loc.setAltitude(10.668);
             model.setLocation(loc);
 
-            or = ge.createOrientation("");
+            var or = ge.createOrientation("");
             or.setTilt(10.11);
             or.setRoll(0);
             or.setHeading(57.95);
             model.setOrientation(or);
 
             // Camera
+            /*
             camera = ge.getView().copyAsCamera(ge.ALTITUDE_RELATIVE_TO_GROUND);
             camera.setLatitude(52.289671797);
             camera.setLongitude(4.7398828508);
             camera.setAltitude(122);
             camera.setHeading(-122);
-            camera.setTilt(80);
+            camera.setTilt(65);
+            */
 
             placemark.setGeometry(model);
-            ge.getView().setAbstractView(camera);
+            //ge.getView().setAbstractView(camera);
+
+            btnAnimate.PerformClick();
         }
 
         public double currentStep;
         double[][] planeData;
 
+        double[][] previousCoordinates;
         private void btnAnimate_Click(object sender, EventArgs e)
         {
             Console.WriteLine("");
             Console.WriteLine(currentStep);
             currentStep = 1;
             tmrAnimationStep.Enabled = !tmrAnimationStep.Enabled;
+
+            previousCoordinates = new double[80][];
+            for (int i = 0; i < previousCoordinates.Length; i++)
+            {
+                previousCoordinates[i] = new double[3];
+                for (int a = 0; a < 3; a++)
+                {
+                    previousCoordinates[i][a] = -1;
+                }
+            }
         }
 
 
         private void tmrAnimationStep_Tick(object sender, EventArgs e)
         {
+            tmrAnimationStep.Enabled = false;
             animationStep();
+            tmrAnimationStep.Interval = 1;
+            if(elapsedMs < 100)
+            {
+                tmrAnimationStep.Interval = (int) (100 - elapsedMs);
+            }
+            tmrAnimationStep.Enabled = true;
         }
 
-        double previousLat = double.NaN;
-        double previousLong = double.NaN;
+        public double previousLat;
+        public double previousLong;
+        double elapsedMs = 0;
         public void animationStep()
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
-
             double interpLong = longSpline.Interpolate(currentStep);
             double interpLat = latSpline.Interpolate(currentStep);
             double interpAlt = altSpline.Interpolate(currentStep);
@@ -178,71 +198,57 @@ namespace AircraftTrajectories.Views
             interpLong = newCoordinates.Y;
 
             double bearing = -1;
-            if (previousLat != double.NaN)
-            {
-                bearing = DegreeBearing(interpLat, interpLong, previousLat, previousLong);
-            }
+            bearing = DegreeBearing(interpLat, interpLong, previousLat, previousLong);
+            //MessageBox.Show("(" + interpLat.ToString() + "," + interpLong.ToString() + ") bearing: " + bearing.ToString());
 
             updateModel(interpLong, interpLat, interpAlt, bearing);
             updateCamera(interpLong, interpLat, interpAlt, bearing);
             //line3D.getCoordinates().pushLatLngAlt(interpLat, interpLong, interpAlt);
 
             // Prepare next iteration
+            currentStep = currentStep + 0.1;
             previousLat = interpLat;
             previousLong = interpLong;
-            currentStep = currentStep + 0.02;
-            //if (currentStep >= planeData.Length) tmrAnimationStep.Enabled = false;
-
+            
             watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
-            //Console.Write(elapsedMs);
+            elapsedMs = watch.ElapsedMilliseconds;
         }
 
         public void updateCamera(double longitude, double latitude, double altitude, double bearing)
         {
-            if (Math.Round(currentStep, 0) % 10 != 0)
-            {
-                return;
-            }
+            double heading = (bearing + 180) % 360;
             /*
-            camera = ge.getView().copyAsCamera(ge.ALTITUDE_RELATIVE_TO_GROUND);
-            camera.setLatitude(latitude);
-            camera.setLongitude(longitude);
-            camera.setAltitude(altitude);
-            ge.getView().setAbstractView(camera);
+            double stepSize = 0.005;
+            double latitudeDisplacementFactor = Math.Sin(bearing * 0.01745329);
+            longitude = longitude - (latitudeDisplacementFactor * stepSize);
+            latitude = latitude - ((1- latitudeDisplacementFactor) * stepSize);
             */
-            var lookat = ge.getView().copyAsLookAt(ge.ALTITUDE_RELATIVE_TO_GROUND);
-            lookat.setLatitude(latitude);
+            var lookat = ge.getView().copyAsLookAt(ge.ALTITUDE_ABSOLUTE);
+            lookat.setHeading(180);
             lookat.setLongitude(longitude);
+            lookat.setLatitude(latitude);
             lookat.setAltitude(altitude);
-            lookat.setRange(300);
+            lookat.setRange(150);
+            lookat.setTilt(65);
             ge.getView().setAbstractView(lookat);
-            if (bearing >= 0)
-            {
-                camera.setHeading((bearing + 180) % 360);
-            }
         }
 
         public void updateModel(double longitude, double latitude, double altitude, double bearing)
         {
             var loc = model.getLocation();
-            loc.setLatLngAlt(latitude, longitude, altitude);
+            model.setAltitudeMode(ge.ALTITUDE_ABSOLUTE);
+            loc.setLongitude(longitude);
+            loc.setLatitude(latitude);
+            loc.setAltitude(altitude);
             model.setLocation(loc);
-            if (Math.Round(currentStep, 0) % 10 == 0)
-            {
-                if (bearing >= 0)
-                {
-                    or.setHeading(bearing);
-                    model.setOrientation(or);
-                }
-            }
-            /*
             if (bearing >= 0)
             {
-                or.setHeading(bearing);
+                var or = ge.createOrientation("");
+                or.setTilt(10.11);
+                or.setRoll(0);
+                or.setHeading(0);
                 model.setOrientation(or);
             }
-            */
         }
 
 

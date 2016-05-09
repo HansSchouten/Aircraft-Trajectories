@@ -79,7 +79,6 @@
             // 
             // tmrAnimationStep
             // 
-            this.tmrAnimationStep.Interval = 1;
             this.tmrAnimationStep.Tick += new System.EventHandler(this.tmrAnimationStep_Tick);
             // 
             // tmrFileCheck
