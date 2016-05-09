@@ -81,11 +81,6 @@
             // 
             this.tmrAnimationStep.Tick += new System.EventHandler(this.tmrAnimationStep_Tick);
             // 
-            // tmrFileCheck
-            // 
-            this.tmrFileCheck.Interval = 50;
-            this.tmrFileCheck.Tick += new System.EventHandler(this.tmrFileCheck_Tick);
-            // 
             // GoogleEarthForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
