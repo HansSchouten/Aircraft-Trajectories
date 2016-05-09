@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Aircraft_Trajectories.Properties {
+namespace AircraftTrajectories.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
