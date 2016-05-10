@@ -8,6 +8,7 @@ using MathNet.Numerics.Interpolation;
 using AircraftTrajectories.Models.WGS.Research.Core;
 using System.Drawing;
 using System.Xml;
+using System.Device.Location;
 
 namespace AircraftTrajectories.Views
 {
@@ -78,31 +79,6 @@ namespace AircraftTrajectories.Views
             latSpline = CubicSpline.InterpolateNatural(tData, latData);
             altSpline = CubicSpline.InterpolateNatural(tData, altData);
 
-            /*
-            var R = 6378.1;
-            var brng = 90 * Math.PI / 180; //Bearing is 90 degrees converted to radians.
-            var d = -1; //Distance in km
-
-            //lat2  52.20444 - the lat result I'm hoping for
-            //lon2  0.36056 - the long result I'm hoping for.
-
-            var lat1 = 52.20472 * Math.PI / 180; //Current lat point converted to radians
-            var lon1 = 0.14056 * Math.PI / 180; //Current long point converted to radians
-
-            var lat2 = Math.Asin(Math.Sin(lat1) * Math.Cos(d / R) +
-                 Math.Cos(lat1) * Math.Sin(d / R) * Math.Cos(brng));
-
-            var lon2 = lon1 + Math.Atan2(Math.Sin(brng) * Math.Sin(d / R) * Math.Cos(lat1),
-                         Math.Cos(d / R) - Math.Sin(lat1) * Math.Sin(lat2));
-
-            lat1 = lat1 / (Math.PI / 180);
-            lon1 = lon1 / (Math.PI / 180);
-            lat2 = lat2 / (Math.PI / 180);
-            lon2 = lon2 / (Math.PI / 180);
-            Console.WriteLine(lat1 + "," + lon1);
-            Console.WriteLine(lat2 + "," + lon2);
-            */
-
             createAnimationKML();
         }
 
@@ -121,6 +97,152 @@ namespace AircraftTrajectories.Views
             MessageBox.Show("Error: " + error, "Plugin Load Error", MessageBoxButtons.OK,
                 MessageBoxIcon.Exclamation);
         }
+        
+        public void createAnimationKML()
+        {
+            // line 6782 (t = 03:03)
+
+            XmlWriterSettings xmlWriterSettings = new XmlWriterSettings()
+            {
+                Indent = true,
+                IndentChars = "\t",
+                NewLineOnAttributes = true
+            };
+            XmlWriter kml = XmlWriter.Create(@"C:\Users\hanss\Desktop\anim.kml", xmlWriterSettings);
+
+            kml.WriteRaw("<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\">");
+
+            kml.WriteStartElement("Document");
+                kml.WriteStartElement("Placemark");
+                    kml.WriteElementString("name","Aircraft Animation");
+                    kml.WriteElementString("visibility", "1");
+                    kml.WriteStartElement("Model");
+                      kml.WriteAttributeString("id","model");
+                        kml.WriteElementString("altitudeMode", "absolute");
+                        kml.WriteStartElement("Location");
+                          kml.WriteAttributeString("id", "model_location");
+                            kml.WriteElementString("latitude", latSpline.Interpolate(0).ToString());
+                            kml.WriteElementString("longitude", longSpline.Interpolate(0).ToString());
+                            kml.WriteElementString("altitude", altSpline.Interpolate(0).ToString());
+                        kml.WriteEndElement();
+                        kml.WriteStartElement("Orientation");
+                          kml.WriteAttributeString("id", "model_orientation");
+                            kml.WriteElementString("heading", getHeading(0,1).ToString());
+                            kml.WriteElementString("tilt", "0.0");
+                            kml.WriteElementString("roll", "0.0");
+                        kml.WriteEndElement();
+                        kml.WriteStartElement("Scale");
+                          kml.WriteAttributeString("id", "model_scale");
+                            kml.WriteElementString("x", "1");
+                            kml.WriteElementString("y", "1");
+                            kml.WriteElementString("z", "1");
+                        kml.WriteEndElement();
+                        kml.WriteStartElement("Link");
+                            kml.WriteElementString("href", "B738.dae");
+                        kml.WriteEndElement();
+                    kml.WriteEndElement();
+                kml.WriteEndElement();
+                
+                kml.WriteRaw("<gx:Tour><name>Flight</name><gx:Playlist>");
+                
+            for (int t = 0; t < totalDuration; t++) {
+                double currentLat = latSpline.Interpolate(t);
+                double currentLong = longSpline.Interpolate(t);
+                double currentAlt = altSpline.Interpolate(t);
+                var heading = getHeading(t, t + 1);
+                var tilt = getTilt(t, t + 1);
+                double bankAngle = 0;
+                if(t > 1) {
+                    bankAngle = getBankAngle(t - 1, t, t + 1);
+                }
+
+                var cameraLat = currentLat;
+                var cameraLong = currentLong;
+                var cameraAlt = currentAlt + 80;
+                var cameraHeading = (heading + 180) % 360;
+
+
+                var R = 6378.1;
+                var brng = cameraHeading * Math.PI / 180;   //Bearing converted to radians.
+                var d = -0.2;                               //Distance in km
+                var lat1 = currentLat * Math.PI / 180;      //Current lat point converted to radians
+                var lon1 = currentLong * Math.PI / 180;     //Current long point converted to radians
+
+                var lat2 = Math.Asin(Math.Sin(lat1) * Math.Cos(d / R) +
+                     Math.Cos(lat1) * Math.Sin(d / R) * Math.Cos(brng));
+                var lon2 = lon1 + Math.Atan2(Math.Sin(brng) * Math.Sin(d / R) * Math.Cos(lat1),
+                             Math.Cos(d / R) - Math.Sin(lat1) * Math.Sin(lat2));
+
+                cameraLat = lat2 / (Math.PI / 180);
+                cameraLong = lon2 / (Math.PI / 180);
+
+                /*
+                var cameraPoint = translateCoordinates(-50, new PointF((float)currentLat, (float)currentLong), heading);
+                cameraLat = cameraPoint.X; // currentLat - 0.001;
+                cameraLong = cameraPoint.Y;  //currentLong - 0.001;
+                */
+
+                kml.WriteRaw(@"			
+            <gx:AnimatedUpdate>
+               <gx:duration>1.0</gx:duration>
+               <Update>
+                  <Change>
+                     <Location targetId='model_location'>
+                        <latitude>" + currentLat + @"</latitude>
+                        <longitude>" + currentLong + @"</longitude>
+                        <altitude>" + currentAlt + @"</altitude>
+                     </Location>
+                  </Change>
+               </Update>
+            </gx:AnimatedUpdate>			
+            <gx:AnimatedUpdate>
+               <gx:duration>1.0</gx:duration>
+               <Update>
+                  <Change>
+                     <Orientation targetId='model_orientation'>
+                        <heading>" + heading + @"</heading>
+                        <tilt>" + tilt + @"</tilt>
+                        <roll>" + bankAngle + @"</roll>
+                     </Orientation>
+                  </Change>
+               </Update>
+            </gx:AnimatedUpdate>
+            <gx:FlyTo>
+               <gx:duration>1.0</gx:duration>
+               <gx:flyToMode>smooth</gx:flyToMode>
+               <LookAt>
+                  <latitude>" + cameraLat + @"</latitude>
+                  <longitude>" + cameraLong + @"</longitude>
+                  <altitude>" + cameraAlt + @"</altitude>
+                  <altitudeMode>absolute</altitudeMode>
+                  <heading>" + cameraHeading + @"</heading>
+                  <tilt>65</tilt>
+               </LookAt>
+            </gx:FlyTo>
+                ");
+            }
+
+                kml.WriteRaw("</gx:Playlist></gx:Tour>");
+            kml.WriteEndElement();
+
+            kml.WriteRaw("</kml>");
+            kml.Close();
+
+            this.Close();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public KmlModelCoClass model;
         public IKmlLineString line3D;
@@ -132,8 +254,6 @@ namespace AircraftTrajectories.Views
             //ge.getLayerRoot().enableLayerById(ge.LAYER_ROADS, 1);
 
             ge.getOptions().setFlyToSpeed(ge.SPEED_TELEPORT);
-            var t = ge.createTour("");
-            
 
             // LineString
             var placemarkLine = ge.createPlacemark("");
@@ -187,9 +307,21 @@ namespace AircraftTrajectories.Views
             btnAnimate.PerformClick();
         }
 
+        private void tmrAnimationStep_Tick(object sender, EventArgs e)
+        {
+            tmrAnimationStep.Enabled = false;
+            animationStep();
+            tmrAnimationStep.Interval = 1;
+            if(elapsedMs < 33)
+            {
+                tmrAnimationStep.Interval = (int) (33 - elapsedMs);
+            }
+            tmrAnimationStep.Enabled = true;
+        }
+        
         public double currentStep;
         double[][] planeData;
-        
+
         private void btnAnimate_Click(object sender, EventArgs e)
         {
             Console.WriteLine("");
@@ -198,153 +330,7 @@ namespace AircraftTrajectories.Views
             tmrAnimationStep.Enabled = !tmrAnimationStep.Enabled;
         }
 
-        
-        public void createAnimationKML()
-        {
-            // line 6782 (t = 03:03)
 
-            XmlWriterSettings xmlWriterSettings = new XmlWriterSettings()
-            {
-                Indent = true,
-                IndentChars = "\t",
-                NewLineOnAttributes = true
-            };
-            XmlWriter kml = XmlWriter.Create(@"C:\Users\hanss\Desktop\anim.kml", xmlWriterSettings);
-
-            kml.WriteRaw("<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\">");
-
-            kml.WriteStartElement("Document");
-                kml.WriteStartElement("Placemark");
-                    kml.WriteElementString("name","Aircraft Animation");
-                    kml.WriteElementString("visibility", "1");
-                    kml.WriteStartElement("Model");
-                      kml.WriteAttributeString("id","model");
-                        kml.WriteElementString("altitudeMode", "relativeToGround");
-                        kml.WriteStartElement("Location");
-                          kml.WriteAttributeString("id", "model_location");
-                            kml.WriteElementString("latitude", latSpline.Interpolate(0).ToString());
-                            kml.WriteElementString("longitude", longSpline.Interpolate(0).ToString());
-                            kml.WriteElementString("altitude", altSpline.Interpolate(0).ToString());
-                        kml.WriteEndElement();
-                        kml.WriteStartElement("Orientation");
-                          kml.WriteAttributeString("id", "model_orientation");
-                            kml.WriteElementString("heading", getHeading(0,1).ToString());
-                            kml.WriteElementString("tilt", "0.0");
-                            kml.WriteElementString("roll", "0.0");
-                        kml.WriteEndElement();
-                        kml.WriteStartElement("Scale");
-                          kml.WriteAttributeString("id", "model_scale");
-                            kml.WriteElementString("x", "1");
-                            kml.WriteElementString("y", "1");
-                            kml.WriteElementString("z", "1");
-                        kml.WriteEndElement();
-                        kml.WriteStartElement("Link");
-                            kml.WriteElementString("href", "B738.dae");
-                        kml.WriteEndElement();
-                    kml.WriteEndElement();
-                kml.WriteEndElement();
-
-                kml.WriteRaw("<gx:Tour><name>Flight</name><gx:Playlist>");
-
-            for (int t = 0; t < totalDuration; t++) {
-                double currentLat = latSpline.Interpolate(t);
-                double currentLong = longSpline.Interpolate(t);
-                double currentAlt = altSpline.Interpolate(t);
-                var heading = getHeading(t,t+1);
-
-                var cameraLat = currentLat;
-                var cameraLong = currentLong;
-                var cameraAlt = currentAlt + 200;
-                var cameraHeading = (heading + 180) % 360;
-
-
-                /*
-                var R = 6378.1;
-                var brng = cameraHeading * Math.PI / 180;  //Bearing converted to radians.
-                var d = -0.1;                     //Distance in km
-                var lat1 = currentLat * Math.PI / 180;    //Current lat point converted to radians
-                var lon1 = currentLong * Math.PI / 180;     //Current long point converted to radians
-
-                var lat2 = Math.Asin(Math.Sin(lat1) * Math.Cos(d / R) +
-                     Math.Cos(lat1) * Math.Sin(d / R) * Math.Cos(brng));
-                var lon2 = lon1 + Math.Atan2(Math.Sin(brng) * Math.Sin(d / R) * Math.Cos(lat1),
-                             Math.Cos(d / R) - Math.Sin(lat1) * Math.Sin(lat2));
-
-                cameraLat = lat2 / (Math.PI / 180);
-                cameraLong = lon2 / (Math.PI / 180);
-                */
-
-                /*
-                double stepSize = 0.001;
-                double deltaLong = Math.Cos((90 - cameraHeading) * 0.01745329) * stepSize;
-                cameraLong = currentLong - deltaLong;
-                cameraLat = currentLat - Math.Sqrt(stepSize * stepSize - deltaLong * deltaLong);
-                */
-
-                kml.WriteRaw(@"			
-            <gx:AnimatedUpdate>
-               <gx:duration>1.0</gx:duration>
-               <Update>
-                  <Change>
-                     <Location targetId='model_location'>
-                        <latitude>" + currentLat + @"</latitude>
-                        <longitude>" + currentLong + @"</longitude>
-                        <altitude>" + currentAlt + @"</altitude>
-                     </Location>
-                  </Change>
-               </Update>
-            </gx:AnimatedUpdate>			
-            <gx:AnimatedUpdate>
-               <gx:duration>1.0</gx:duration>
-               <Update>
-                  <Change>
-                     <Orientation targetId='model_orientation'>
-                        <heading>" + heading + @"</heading>
-                        <tilt>0</tilt>
-                        <roll>0</roll>
-                     </Orientation>
-                  </Change>
-               </Update>
-            </gx:AnimatedUpdate>
-            <gx:FlyTo>
-               <gx:duration>1.0</gx:duration>
-               <gx:flyToMode>smooth</gx:flyToMode>
-               <LookAt>
-                  <latitude>" + cameraLat + @"</latitude>
-                  <longitude>" + cameraLong + @"</longitude>
-                  <altitude>" + cameraAlt + @"</altitude>
-                  <altitudeMode>relativeToGround</altitudeMode>
-                  <heading>" + cameraHeading + @"</heading>
-                  <tilt>0</tilt>
-               </LookAt>
-            </gx:FlyTo>
-                ");
-            }
-
-                kml.WriteRaw("</gx:Playlist></gx:Tour>");
-            kml.WriteEndElement();
-
-            kml.WriteRaw("</kml>");
-            kml.Close();
-
-            this.Close();
-        }
-
-
-        private void tmrAnimationStep_Tick(object sender, EventArgs e)
-        {
-            tmrAnimationStep.Enabled = false;
-            animationStep();
-            tmrAnimationStep.Interval = 1;
-            if(elapsedMs < 100)
-            {
-                tmrAnimationStep.Interval = (int) (100 - elapsedMs);
-            }
-            tmrAnimationStep.Enabled = true;
-        }
-
-        public double previousLat;
-        public double previousLong;
         double elapsedMs = 0;
         public void animationStep()
         {
@@ -352,32 +338,23 @@ namespace AircraftTrajectories.Views
             double interpLong = longSpline.Interpolate(currentStep);
             double interpLat = latSpline.Interpolate(currentStep);
             double interpAlt = altSpline.Interpolate(currentStep);
-
-            RijksdriehoekComponent r = new RijksdriehoekComponent();
-            PointF newCoordinates = r.ConvertToLatLong(interpLong, interpLat);
-            interpLat = newCoordinates.X;
-            interpLong = newCoordinates.Y;
-
-            double bearing = -1;
-            bearing = DegreeBearing(interpLat, interpLong, previousLat, previousLong);
+            
+            var heading = getHeading(currentStep, currentStep + 1);
             //MessageBox.Show("(" + interpLat.ToString() + "," + interpLong.ToString() + ") bearing: " + bearing.ToString());
 
-            updateModel(interpLong, interpLat, interpAlt, bearing);
-            updateCamera(interpLong, interpLat, interpAlt, bearing);
+            updateModel(interpLong, interpLat, interpAlt, heading);
+            updateCamera(interpLong, interpLat, interpAlt, heading);
             //line3D.getCoordinates().pushLatLngAlt(interpLat, interpLong, interpAlt);
 
-            // Prepare next iteration
-            currentStep = currentStep + 0.1;
-            previousLat = interpLat;
-            previousLong = interpLong;
-            
+            currentStep = currentStep + 0.033;
+
             watch.Stop();
             elapsedMs = watch.ElapsedMilliseconds;
         }
 
-        public void updateCamera(double longitude, double latitude, double altitude, double bearing)
+        public void updateCamera(double longitude, double latitude, double altitude, double heading)
         {
-            double heading = (bearing + 180) % 360;
+            heading = (heading + 180) % 360;
             /*
             double stepSize = 0.005;
             double latitudeDisplacementFactor = Math.Sin(bearing * 0.01745329);
@@ -385,16 +362,16 @@ namespace AircraftTrajectories.Views
             latitude = latitude - ((1- latitudeDisplacementFactor) * stepSize);
             */
             var lookat = ge.getView().copyAsLookAt(ge.ALTITUDE_ABSOLUTE);
-            lookat.setHeading(180);
+            lookat.setHeading(heading);
             lookat.setLongitude(longitude);
             lookat.setLatitude(latitude);
-            lookat.setAltitude(altitude);
-            lookat.setRange(150);
-            lookat.setTilt(65);
+            lookat.setAltitude(altitude+200);
+            lookat.setRange(300);
+            lookat.setTilt(0);
             ge.getView().setAbstractView(lookat);
         }
 
-        public void updateModel(double longitude, double latitude, double altitude, double bearing)
+        public void updateModel(double longitude, double latitude, double altitude, double heading)
         {
             var loc = model.getLocation();
             model.setAltitudeMode(ge.ALTITUDE_ABSOLUTE);
@@ -402,24 +379,63 @@ namespace AircraftTrajectories.Views
             loc.setLatitude(latitude);
             loc.setAltitude(altitude);
             model.setLocation(loc);
-            if (bearing >= 0)
+            if (heading >= 0)
             {
                 var or = ge.createOrientation("");
-                or.setTilt(10.11);
-                or.setRoll(0);
-                or.setHeading(0);
+                //or.setTilt(0);
+                //or.setRoll(0);
+                or.setHeading(heading);
                 model.setOrientation(or);
             }
         }
 
 
+        /*
+        public PointF translateCoordinates(double distance, PointF origpoint, double heading) {
+            distance = -0.003;
+            double distanceNorth = Math.Cos(heading * Math.PI / 180) * distance;
+            double distanceEast = Math.Sin(heading * Math.PI / 180) * distance;
 
+            double newLat = origpoint.X - distanceNorth;
+            double newLon = origpoint.Y - distanceEast;
 
+            return new PointF((float)newLat, (float)newLon);
+        }
+        */
 
+        double getBankAngle(double t1, double t2, double t3)
+        {
+            //http://www.regentsprep.org/regents/math/geometry/gcg6/RCir.htm
+
+            double lat1 = latSpline.Interpolate(t1);
+            double long1 = longSpline.Interpolate(t1);
+            double lat2 = latSpline.Interpolate(t2);
+            double long2 = longSpline.Interpolate(t2);
+            double lat3 = latSpline.Interpolate(t3);
+            double long3 = longSpline.Interpolate(t3);
+
+            double m_r = (long2 - long1) / (lat2 - lat1);
+            double m_t = (long3 - long2) / (lat3 - lat2);
+            double x_c = (m_r*m_t*(long3 - long1) + m_r*(lat2 + lat3) - m_t*(lat1  + lat2)) / (2*(m_r - m_t));
+            double y_c = -(1 / m_r) * (x_c - ((lat1 + lat2) / 2)) + ((long1  + long2)/2);
+
+            GeoCoordinate c1 = new GeoCoordinate(lat1, long1);
+            GeoCoordinate centroid = new GeoCoordinate(x_c, y_c);
+            double radius = c1.GetDistanceTo(centroid);
+
+            double TAS = (200 * 0.514);
+            double g = 9.81;
+            return Math.Atan(((TAS * TAS) / radius) / g) * (180/Math.PI);
+        }
 
         double getHeading(double t1, double t2)
         {
             return (DegreeBearing(latSpline.Interpolate(t1), longSpline.Interpolate(t1), latSpline.Interpolate(t2), longSpline.Interpolate(t2)) + 180) % 360;
+        }
+
+        double getTilt(double t1, double t2)
+        {
+            return Math.Atan((altSpline.Interpolate(t2) - altSpline.Interpolate(t1)) / 103) * (180 / Math.PI);
         }
 
         static double DegreeBearing(double lat1, double lon1, double lat2, double lon2)

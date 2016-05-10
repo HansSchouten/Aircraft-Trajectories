@@ -79,6 +79,7 @@
             // 
             // tmrAnimationStep
             // 
+            this.tmrAnimationStep.Interval = 33;
             this.tmrAnimationStep.Tick += new System.EventHandler(this.tmrAnimationStep_Tick);
             // 
             // GoogleEarthForm
