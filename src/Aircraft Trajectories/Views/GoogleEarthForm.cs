@@ -9,6 +9,7 @@ using AircraftTrajectories.Models.WGS.Research.Core;
 using System.Drawing;
 using System.Xml;
 using System.Device.Location;
+using System.Diagnostics;
 
 namespace AircraftTrajectories.Views
 {
@@ -79,9 +80,34 @@ namespace AircraftTrajectories.Views
             latSpline = CubicSpline.InterpolateNatural(tData, latData);
             altSpline = CubicSpline.InterpolateNatural(tData, altData);
 
-            createAnimationKML();
+            //createAnimationKML();
+            LaunchCommandLineApp();
+            this.Close();
         }
 
+        static void LaunchCommandLineApp()
+        {
+            // Use ProcessStartInfo class
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.CreateNoWindow = false;
+            startInfo.UseShellExecute = false;
+            startInfo.WorkingDirectory = Application.StartupPath;
+            startInfo.FileName = "INMTM_v3.exe";
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            startInfo.Arguments = "track_A380.dat grid2D.dat";
+
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+                // Start the process with the info we specified.
+                // Call WaitForExit and then the using statement will close.
+                using (Process exeProcess = Process.Start(startInfo))
+                {
+                    exeProcess.WaitForExit();
+                }
+
+            watch.Stop();
+            double elapsedMs = watch.ElapsedMilliseconds;
+            MessageBox.Show(elapsedMs.ToString());
+        }
 
 
         // called from initCallback in JavaScript
@@ -145,82 +171,75 @@ namespace AircraftTrajectories.Views
                 
                 kml.WriteRaw("<gx:Tour><name>Flight</name><gx:Playlist>");
                 
-            for (int t = 0; t < totalDuration; t++) {
-                double currentLat = latSpline.Interpolate(t);
-                double currentLong = longSpline.Interpolate(t);
-                double currentAlt = altSpline.Interpolate(t);
-                var heading = getHeading(t, t + 1);
-                var tilt = getTilt(t, t + 1);
-                double bankAngle = 0;
-                if(t > 1) {
-                    bankAngle = getBankAngle(t - 1, t, t + 1);
+                for (int t = 0; t < totalDuration; t++) {
+                    double currentLat = latSpline.Interpolate(t);
+                    double currentLong = longSpline.Interpolate(t);
+                    double currentAlt = altSpline.Interpolate(t);
+                    var heading = getHeading(t, t + 1);
+                    var tilt = getTilt(t, t + 1);
+                    double bankAngle = 0;
+                    if(t > 1) {
+                        bankAngle = getBankAngle(t - 1, t, t + 1);
+                    }
+
+                    var cameraLat = currentLat;
+                    var cameraLong = currentLong;
+                    var cameraAlt = currentAlt + 80;
+                    var cameraHeading = (heading + 180) % 360;
+                
+                    var R = 6378.1;
+                    var brng = cameraHeading * Math.PI / 180;   //Bearing converted to radians.
+                    var d = -0.2;                               //Distance in km
+                    var lat1 = currentLat * Math.PI / 180;      //Current lat point converted to radians
+                    var lon1 = currentLong * Math.PI / 180;     //Current long point converted to radians
+
+                    var lat2 = Math.Asin(Math.Sin(lat1) * Math.Cos(d / R) +
+                         Math.Cos(lat1) * Math.Sin(d / R) * Math.Cos(brng));
+                    var lon2 = lon1 + Math.Atan2(Math.Sin(brng) * Math.Sin(d / R) * Math.Cos(lat1),
+                                 Math.Cos(d / R) - Math.Sin(lat1) * Math.Sin(lat2));
+
+                    cameraLat = lat2 / (Math.PI / 180);
+                    cameraLong = lon2 / (Math.PI / 180);
+
+                    kml.WriteRaw(@"			
+                <gx:AnimatedUpdate>
+                   <gx:duration>1.0</gx:duration>
+                   <Update>
+                      <Change>
+                         <Location targetId='model_location'>
+                            <latitude>" + currentLat + @"</latitude>
+                            <longitude>" + currentLong + @"</longitude>
+                            <altitude>" + currentAlt + @"</altitude>
+                         </Location>
+                      </Change>
+                   </Update>
+                </gx:AnimatedUpdate>			
+                <gx:AnimatedUpdate>
+                   <gx:duration>1.0</gx:duration>
+                   <Update>
+                      <Change>
+                         <Orientation targetId='model_orientation'>
+                            <heading>" + heading + @"</heading>
+                            <tilt>" + tilt + @"</tilt>
+                            <roll>" + bankAngle + @"</roll>
+                         </Orientation>
+                      </Change>
+                   </Update>
+                </gx:AnimatedUpdate>
+                <gx:FlyTo>
+                   <gx:duration>1.0</gx:duration>
+                   <gx:flyToMode>smooth</gx:flyToMode>
+                   <LookAt>
+                      <latitude>" + cameraLat + @"</latitude>
+                      <longitude>" + cameraLong + @"</longitude>
+                      <altitude>" + cameraAlt + @"</altitude>
+                      <altitudeMode>absolute</altitudeMode>
+                      <heading>" + cameraHeading + @"</heading>
+                      <tilt>65</tilt>
+                   </LookAt>
+                </gx:FlyTo>
+                    ");
                 }
-
-                var cameraLat = currentLat;
-                var cameraLong = currentLong;
-                var cameraAlt = currentAlt + 80;
-                var cameraHeading = (heading + 180) % 360;
-
-
-                var R = 6378.1;
-                var brng = cameraHeading * Math.PI / 180;   //Bearing converted to radians.
-                var d = -0.2;                               //Distance in km
-                var lat1 = currentLat * Math.PI / 180;      //Current lat point converted to radians
-                var lon1 = currentLong * Math.PI / 180;     //Current long point converted to radians
-
-                var lat2 = Math.Asin(Math.Sin(lat1) * Math.Cos(d / R) +
-                     Math.Cos(lat1) * Math.Sin(d / R) * Math.Cos(brng));
-                var lon2 = lon1 + Math.Atan2(Math.Sin(brng) * Math.Sin(d / R) * Math.Cos(lat1),
-                             Math.Cos(d / R) - Math.Sin(lat1) * Math.Sin(lat2));
-
-                cameraLat = lat2 / (Math.PI / 180);
-                cameraLong = lon2 / (Math.PI / 180);
-
-                /*
-                var cameraPoint = translateCoordinates(-50, new PointF((float)currentLat, (float)currentLong), heading);
-                cameraLat = cameraPoint.X; // currentLat - 0.001;
-                cameraLong = cameraPoint.Y;  //currentLong - 0.001;
-                */
-
-                kml.WriteRaw(@"			
-            <gx:AnimatedUpdate>
-               <gx:duration>1.0</gx:duration>
-               <Update>
-                  <Change>
-                     <Location targetId='model_location'>
-                        <latitude>" + currentLat + @"</latitude>
-                        <longitude>" + currentLong + @"</longitude>
-                        <altitude>" + currentAlt + @"</altitude>
-                     </Location>
-                  </Change>
-               </Update>
-            </gx:AnimatedUpdate>			
-            <gx:AnimatedUpdate>
-               <gx:duration>1.0</gx:duration>
-               <Update>
-                  <Change>
-                     <Orientation targetId='model_orientation'>
-                        <heading>" + heading + @"</heading>
-                        <tilt>" + tilt + @"</tilt>
-                        <roll>" + bankAngle + @"</roll>
-                     </Orientation>
-                  </Change>
-               </Update>
-            </gx:AnimatedUpdate>
-            <gx:FlyTo>
-               <gx:duration>1.0</gx:duration>
-               <gx:flyToMode>smooth</gx:flyToMode>
-               <LookAt>
-                  <latitude>" + cameraLat + @"</latitude>
-                  <longitude>" + cameraLong + @"</longitude>
-                  <altitude>" + cameraAlt + @"</altitude>
-                  <altitudeMode>absolute</altitudeMode>
-                  <heading>" + cameraHeading + @"</heading>
-                  <tilt>65</tilt>
-               </LookAt>
-            </gx:FlyTo>
-                ");
-            }
 
                 kml.WriteRaw("</gx:Playlist></gx:Tour>");
             kml.WriteEndElement();
@@ -231,6 +250,50 @@ namespace AircraftTrajectories.Views
             this.Close();
         }
 
+        double getBankAngle(double t1, double t2, double t3)
+        {
+            //http://www.regentsprep.org/regents/math/geometry/gcg6/RCir.htm
+
+            double lat1 = latSpline.Interpolate(t1);
+            double long1 = longSpline.Interpolate(t1);
+            double lat2 = latSpline.Interpolate(t2);
+            double long2 = longSpline.Interpolate(t2);
+            double lat3 = latSpline.Interpolate(t3);
+            double long3 = longSpline.Interpolate(t3);
+
+            double m_r = (long2 - long1) / (lat2 - lat1);
+            double m_t = (long3 - long2) / (lat3 - lat2);
+            double x_c = (m_r * m_t * (long3 - long1) + m_r * (lat2 + lat3) - m_t * (lat1 + lat2)) / (2 * (m_r - m_t));
+            double y_c = -(1 / m_r) * (x_c - ((lat1 + lat2) / 2)) + ((long1 + long2) / 2);
+
+            GeoCoordinate c1 = new GeoCoordinate(lat1, long1);
+            GeoCoordinate centroid = new GeoCoordinate(x_c, y_c);
+            double radius = c1.GetDistanceTo(centroid);
+
+            double TAS = (200 * 0.514);
+            double g = 9.81;
+            return Math.Atan(((TAS * TAS) / radius) / g) * (180 / Math.PI);
+        }
+
+        double getHeading(double t1, double t2)
+        {
+            return (DegreeBearing(latSpline.Interpolate(t1), longSpline.Interpolate(t1), latSpline.Interpolate(t2), longSpline.Interpolate(t2)) + 180) % 360;
+        }
+
+        double getTilt(double t1, double t2)
+        {
+            return Math.Atan((altSpline.Interpolate(t2) - altSpline.Interpolate(t1)) / 103) * (180 / Math.PI);
+        }
+
+        static double DegreeBearing(double lat1, double lon1, double lat2, double lon2)
+        {
+            var dLon = (lon2 - lon1) * (Math.PI / 180);
+            var dPhi = Math.Log(
+                Math.Tan((lat2 * (Math.PI / 180)) / 2 + Math.PI / 4) / Math.Tan((lat1 * (Math.PI / 180)) / 2 + Math.PI / 4));
+            if (Math.Abs(dLon) > Math.PI)
+                dLon = dLon > 0 ? -(2 * Math.PI - dLon) : (2 * Math.PI + dLon);
+            return ((Math.Atan2(dLon, dPhi) * 180 / Math.PI) + 360) % 360;
+        }
 
 
 
@@ -307,8 +370,7 @@ namespace AircraftTrajectories.Views
             btnAnimate.PerformClick();
         }
 
-        private void tmrAnimationStep_Tick(object sender, EventArgs e)
-        {
+        private void tmrAnimationStep_Tick(object sender, EventArgs e) {
             tmrAnimationStep.Enabled = false;
             animationStep();
             tmrAnimationStep.Interval = 1;
@@ -322,14 +384,12 @@ namespace AircraftTrajectories.Views
         public double currentStep;
         double[][] planeData;
 
-        private void btnAnimate_Click(object sender, EventArgs e)
-        {
+        private void btnAnimate_Click(object sender, EventArgs e) {
             Console.WriteLine("");
             Console.WriteLine(currentStep);
             currentStep = 1;
             tmrAnimationStep.Enabled = !tmrAnimationStep.Enabled;
         }
-
 
         double elapsedMs = 0;
         public void animationStep()
@@ -390,77 +450,5 @@ namespace AircraftTrajectories.Views
         }
 
 
-        /*
-        public PointF translateCoordinates(double distance, PointF origpoint, double heading) {
-            distance = -0.003;
-            double distanceNorth = Math.Cos(heading * Math.PI / 180) * distance;
-            double distanceEast = Math.Sin(heading * Math.PI / 180) * distance;
-
-            double newLat = origpoint.X - distanceNorth;
-            double newLon = origpoint.Y - distanceEast;
-
-            return new PointF((float)newLat, (float)newLon);
-        }
-        */
-
-        double getBankAngle(double t1, double t2, double t3)
-        {
-            //http://www.regentsprep.org/regents/math/geometry/gcg6/RCir.htm
-
-            double lat1 = latSpline.Interpolate(t1);
-            double long1 = longSpline.Interpolate(t1);
-            double lat2 = latSpline.Interpolate(t2);
-            double long2 = longSpline.Interpolate(t2);
-            double lat3 = latSpline.Interpolate(t3);
-            double long3 = longSpline.Interpolate(t3);
-
-            double m_r = (long2 - long1) / (lat2 - lat1);
-            double m_t = (long3 - long2) / (lat3 - lat2);
-            double x_c = (m_r*m_t*(long3 - long1) + m_r*(lat2 + lat3) - m_t*(lat1  + lat2)) / (2*(m_r - m_t));
-            double y_c = -(1 / m_r) * (x_c - ((lat1 + lat2) / 2)) + ((long1  + long2)/2);
-
-            GeoCoordinate c1 = new GeoCoordinate(lat1, long1);
-            GeoCoordinate centroid = new GeoCoordinate(x_c, y_c);
-            double radius = c1.GetDistanceTo(centroid);
-
-            double TAS = (200 * 0.514);
-            double g = 9.81;
-            return Math.Atan(((TAS * TAS) / radius) / g) * (180/Math.PI);
-        }
-
-        double getHeading(double t1, double t2)
-        {
-            return (DegreeBearing(latSpline.Interpolate(t1), longSpline.Interpolate(t1), latSpline.Interpolate(t2), longSpline.Interpolate(t2)) + 180) % 360;
-        }
-
-        double getTilt(double t1, double t2)
-        {
-            return Math.Atan((altSpline.Interpolate(t2) - altSpline.Interpolate(t1)) / 103) * (180 / Math.PI);
-        }
-
-        static double DegreeBearing(double lat1, double lon1, double lat2, double lon2)
-        {
-            var dLon = ToRad(lon2 - lon1);
-            var dPhi = Math.Log(
-                Math.Tan(ToRad(lat2) / 2 + Math.PI / 4) / Math.Tan(ToRad(lat1) / 2 + Math.PI / 4));
-            if (Math.Abs(dLon) > Math.PI)
-                dLon = dLon > 0 ? -(2 * Math.PI - dLon) : (2 * Math.PI + dLon);
-            return ToBearing(Math.Atan2(dLon, dPhi));
-        }
-
-        public static double ToRad(double degrees)
-        {
-            return degrees * (Math.PI / 180);
-        }
-
-        public static double ToDegrees(double radians)
-        {
-            return radians * 180 / Math.PI;
-        }
-
-        public static double ToBearing(double radians)
-        {
-            return (ToDegrees(radians) + 360) % 360;
-        }
     }
 }
