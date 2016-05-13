@@ -72,7 +72,7 @@ namespace AircraftTrajectories.Views
                 double deltaY = yMetric - yMetricPrevious;
                 double deltaZ = zMetric - zMetricPrevious;
                 double distance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
-                double duration = distance / (200*0.514);
+                double duration = distance / (200 * 0.514);
 
                 //latLong = r.ConvertToLatLong(planeData[t][0] * feetToMeters, planeData[t][1] * feetToMeters);
                 xData[t] = planeData[t][0] * feetToMeters;
@@ -141,13 +141,13 @@ namespace AircraftTrajectories.Views
                      .ToArray()
                 )
                 .ToArray();
-            
+
             // Store noise levels in a 2D grid
-            double[][] noiseDataGrid = {};
+            double[][] noiseDataGrid = { };
             double currentX = noiseData[0][0];
             List<double> column = new List<double>();
             int columnIndex = 0;
-            for (int i = 0; i < noiseData.Length-1; i++) {
+            for (int i = 0; i < noiseData.Length - 1; i++) {
                 // Check whether we encountered a new column
                 if (currentX != noiseData[i][0]) {
                     // Check whether this was the first column
@@ -167,7 +167,8 @@ namespace AircraftTrajectories.Views
                 column.Add(noiseData[i][4]);
             }
             noiseDataGrid[columnIndex] = column.ToArray();
-            
+
+            /*
             // Write 2D grid to a csv file
             using (StreamWriter outfile = new StreamWriter(@"C:\Users\hanss\Desktop\Aircraft-Trajectories\src\Aircraft Trajectories\bin\Debug\test.csv"))
             {
@@ -181,6 +182,7 @@ namespace AircraftTrajectories.Views
                     outfile.WriteLine(content);
                 }
             }
+            */
 
             // Calculate noise contours
             IEnumerable<ContourPoint>[][] hgrid, vgrid;
@@ -205,6 +207,33 @@ namespace AircraftTrajectories.Views
         {
             MessageBox.Show("Error: " + error, "Plugin Load Error", MessageBoxButtons.OK,
                 MessageBoxIcon.Exclamation);
+        }
+
+        public Color[] interpolateColors(Color lowerBound, Color upperBound, int numberOfIntervals)
+        {
+            Color[] colorPalette = new Color[numberOfIntervals];
+
+            int interval_A = (upperBound.A - lowerBound.A) / numberOfIntervals;
+            int interval_R = (upperBound.R - lowerBound.R) / numberOfIntervals;
+            int interval_G = (upperBound.G - lowerBound.G) / numberOfIntervals;
+            int interval_B = (upperBound.B - lowerBound.B) / numberOfIntervals;
+
+            int current_A = lowerBound.A;
+            int current_R = lowerBound.R;
+            int current_G = lowerBound.G;
+            int current_B = lowerBound.B;
+            
+            for (var i = 0; i < numberOfIntervals; i++)
+            {
+                colorPalette[i] = Color.FromArgb(current_A, current_R, current_G, current_B);
+
+                current_A += interval_A;
+                current_R += interval_R;
+                current_G += interval_G;
+                current_B += interval_B;
+            }
+
+            return colorPalette;
         }
 
         public void createAnimationKML()
@@ -254,106 +283,70 @@ namespace AircraftTrajectories.Views
                     kml.WriteEndElement();
                 kml.WriteEndElement();
 
-            kml.WriteRaw(@"
-                <Style id='contour_style1'>
-                  <LineStyle>
-                    <color>FF78B43C</color>
-                    <width>1</width>
-                  </LineStyle>
-                  <PolyStyle>
-                    <color>7F78D23C</color>
-                    <fill>1</fill>
-                    <outline>1</outline>
-                  </PolyStyle>
-                </Style>
-                <Style id='contour_style2'>
-                  <LineStyle>
-                    <color>FF1478F0</color>
-                    <width>1</width>
-                  </LineStyle>
-                  <PolyStyle>
-                    <color>7F14B4FF</color>
-                    <fill>1</fill>
-                    <outline>1</outline>
-                  </PolyStyle>
-                </Style>
-                <Style id='contour_style3'>
-                  <LineStyle>
-                    <color>FF1400BE</color>
-                    <width>1</width>
-                  </LineStyle>
-                  <PolyStyle>
-                    <color>7F143CFF</color>
-                    <fill>1</fill>
-                    <outline>1</outline>
-                  </PolyStyle>
-                </Style>
-                <Style id='plotair_style'>
+            
+            int numberOfContours = 20;
+            Color c1 = Color.FromArgb(0, 100, 237, 75);
+            Color c2 = Color.FromArgb(150, 20, 53, 255);
+            Color[] colors = interpolateColors(c1, c2, numberOfContours);
+            for(int i = 1; i <= numberOfContours; i++)
+            {
+                var c = colors[i-1];
+                kml.WriteRaw(@"
+                <Style id='contour_style" + i + @"'>
                   <LineStyle>
                     <width>0</width>
                   </LineStyle>
                   <PolyStyle>
-                    <color>80F0B414</color>
+                    <color>" + string.Format("{0:X2}{1:X2}{2:X2}{3:X2}", c.A, c.R, c.G, c.B) + @"</color>
+                  </PolyStyle>
+                </Style>
+                <Placemark id='contour_placemark" + i + @"'>
+                  <name>Contour " + i + @"</name>
+                  <styleUrl>#contour_style" + i + @"</styleUrl>
+                  <Polygon>
+                    <tessellate>1</tessellate>
+                    <outerBoundaryIs>
+                      <LinearRing id='contour" + i + @"'>
+                        <coordinates></coordinates>
+                      </LinearRing>
+                    </outerBoundaryIs>
+                  </Polygon>
+                </Placemark>
+
+                ");
+            }
+
+            kml.WriteRaw(@"
+                <Style id='plotair_style'>
+                  <LineStyle>
+                    <color>60F0B414</color>
+                    <width>0</width>
+                  </LineStyle>
+                  <PolyStyle>
+                    <color>60F0B414</color>
+                    <colorMode>normal</colorMode>
                     <fill>1</fill>
                   </PolyStyle>
                 </Style>
-
-                <Placemark id='contour_placemark1'>
-                  <name>Contour</name>
-                  <styleUrl>#contour_style1</styleUrl>
-                  <Polygon>
-                    <tessellate>1</tessellate>
-                    <outerBoundaryIs>
-                      <LinearRing id='contour1'>
-                        <coordinates></coordinates>
-                      </LinearRing>
-                    </outerBoundaryIs>
-                  </Polygon>
-                </Placemark>
-                <Placemark id='contour_placemark2'>
-                  <name>Contour</name>
-                  <styleUrl>#contour_style2</styleUrl>
-                  <Polygon>
-                    <tessellate>1</tessellate>
-                    <outerBoundaryIs>
-                      <LinearRing id='contour2'>
-                        <coordinates></coordinates>
-                      </LinearRing>
-                    </outerBoundaryIs>
-                  </Polygon>
-                </Placemark>
-                <Placemark id='contour_placemark3'>
-                  <name>Contour</name>
-                  <styleUrl>#contour_style3</styleUrl>
-                  <Polygon>
-                    <tessellate>1</tessellate>
-                    <outerBoundaryIs>
-                      <LinearRing id='contour3'>
-                        <coordinates></coordinates>
-                      </LinearRing>
-                    </outerBoundaryIs>
-                  </Polygon>
-                </Placemark>
-                <Placemark id='contour_plotair'>
-                  <name>Plotair</name>
-                  <styleUrl>#plotair_style</styleUrl>
-                  <Polygon>
-                    <altitudeMode>absolute</altitudeMode>
-                    <tessellate>1</tessellate>
-                    <outerBoundaryIs>
-                      <LinearRing id='plotair'>
-                        <coordinates></coordinates>
-                      </LinearRing>
-                    </outerBoundaryIs>
-                  </Polygon>
+                <Placemark id='plotair_placemark'>
+                    <name>Plotair</name>
+                    <styleUrl>#plotair_style</styleUrl>
+                    <LineString id='plotair'>
+                        <extrude>1</extrude>
+                        <tesselate>1</tesselate>
+                        <altitudeMode>absolute</altitudeMode>
+                        <coordinates>
+                        </coordinates>
+                    </LineString>
                 </Placemark>
                     ");
 
             kml.WriteRaw("<gx:Tour><name>Flight</name><gx:Playlist>");
 
-            MessageBox.Show(totalDuration.ToString());
-            string plotAirGroundCoordinates = "";
-            string plotAirAirCoordinates = "";
+            //MessageBox.Show(totalDuration.ToString());
+            Console.WriteLine(totalDuration);
+            string plotAirCoordinates = "";
+            string plotGroundCoordinates = "";
             for (int t = 0; t < totalDuration; t++) {
                     Console.WriteLine(t);
                     PointF latLong = RDConverter.ConvertToLatLong(xSpline.Interpolate(t), ySpline.Interpolate(t));
@@ -369,13 +362,13 @@ namespace AircraftTrajectories.Views
 
                     var cameraLat = currentLat;
                     var cameraLong = currentLong;
-                    var cameraAlt = currentAlt + 300;
-                    var cameraHeading = (heading + 180) % 360;
-                    var cameraTilt = 73;
+                    var cameraAlt = currentAlt + 350;
+                    var cameraHeading = (heading - 40) % 360;
+                    var cameraTilt = 75;
 
                     var R = 6378.1;
                     var brng = cameraHeading * Math.PI / 180;   //Bearing converted to radians.
-                    var d = -1.3;                               //Distance in km
+                    var d = -1.6;                               //Distance in km
                     var lat1 = currentLat * Math.PI / 180;      //Current lat point converted to radians
                     var lon1 = currentLong * Math.PI / 180;     //Current long point converted to radians
 
@@ -425,29 +418,28 @@ namespace AircraftTrajectories.Views
                    </LookAt>
                 </gx:FlyTo>
                     ");
-                /*
-                plotAirGroundCoordinates += currentLong + "," + currentLat + ",0\n";
-                plotAirAirCoordinates = currentLong + "," + currentLat + "," + currentAlt + "\n"+ plotAirAirCoordinates;
-                plotUpdate(kml, plotAirGroundCoordinates+plotAirAirCoordinates, "plotair");
-                */
+                
+                plotAirCoordinates += currentLong + "," + currentLat + "," + currentAlt + "\n";
+                plotUpdate(kml, "LineString", plotAirCoordinates, "plotair");
+
+                plotGroundCoordinates += currentLong + "," + currentLat + "," + 0 + "\n";
+                //plotUpdate(kml, "LineString", plotGroundCoordinates, "plotground");
+
                 var contours = CalculateNoiseContours(t, t+0.01);
                 RijksdriehoekComponent converter = new RijksdriehoekComponent();
                 List<int> visibleContours = new List<int>();
+                var startDBValue = 55;
+                var stepDBValue = 1;
                 foreach (Contour contour in contours) {
                     if (!contour.IsClosed) { continue; }
-                    
+
                     int contourId = -1;
-                    if (contour.Value == 65) {
-                        contourId = 1;
+                    for (int i = 0; i < numberOfContours; i++) {
+                        if(contour.Value == startDBValue + i*stepDBValue) {
+                            contourId = i+1;                            
+                        }
                     }
-                    else if (contour.Value == 70) {
-                        contourId = 2;
-                    }
-                    else if (contour.Value == 80) {
-                        contourId = 3;
-                    } else {
-                        continue;
-                    }
+                    if(contourId == -1) { continue; }
                     visibleContours.Add(contourId);
                     
                     var coordinateString = "";
@@ -457,16 +449,41 @@ namespace AircraftTrajectories.Views
                         PointF contourlatLong = converter.ConvertToLatLong(x, y);
                         coordinateString += contourlatLong.X + ","+ contourlatLong.Y + ",0\n";
                     }
-                    plotUpdate(kml, coordinateString, "contour" + contourId);
+                    plotUpdate(kml, "LinearRing", coordinateString, "contour" + contourId);
                 }
-                for(int i=1; i<=3; i++) {
+                for(int i=1; i<=numberOfContours; i++) {
                     if(!visibleContours.Contains(i)) {
-                        plotUpdate(kml, currentLong + "," + currentLat + ",0", "contour" + i);
+                        plotUpdate(kml, "LinearRing", currentLong + "," + currentLat + ",0", "contour" + i);
                     }
                 }
             }
 
                 kml.WriteRaw("</gx:Playlist></gx:Tour>");
+
+
+            kml.WriteRaw(@"
+                <Style id='plotground_style'>
+			        <LineStyle>
+				        <color>30F0BE14</color>
+				        <gx:physicalWidth>300</gx:physicalWidth>
+				        <gx:outerColor>25FFFFFF</gx:outerColor>
+				        <gx:outerWidth>0.95</gx:outerWidth>
+			        </LineStyle>
+                </Style> 
+                <Placemark id='plotground_placemark'>
+                    <name>Plotground</name>
+                    <styleUrl>#plotground_style</styleUrl>
+                    <LineString id='plotground'>
+                        <extrude>0</extrude>
+                        <tesselate>0</tesselate>
+                        <altitudeMode>absolute</altitudeMode>
+                        <coordinates>
+                        " + plotGroundCoordinates + @"
+                        </coordinates>
+                    </LineString>
+                </Placemark>
+                ");
+
             kml.WriteEndElement();
 
             kml.WriteRaw("</kml>");
@@ -475,18 +492,18 @@ namespace AircraftTrajectories.Views
             this.Close();
         }
 
-        void plotUpdate(XmlWriter kml, String coordinateString, string targetId)
+        void plotUpdate(XmlWriter kml, String type, String coordinateString, string targetId)
         {
             kml.WriteRaw(@"
                 <gx:AnimatedUpdate>
                    <gx:duration>1.0</gx:duration>
                    <Update>
                       <Change>
-                         <LinearRing targetId='" + targetId + @"'>
+                         <" + type + @" targetId='" + targetId + @"'>
                             <coordinates>
                             " + coordinateString + @"
                             </coordinates>
-                         </LinearRing>
+                         </" + type + @">
                       </Change>
                    </Update>
                 </gx:AnimatedUpdate>
