@@ -32,6 +32,9 @@ namespace AircraftTrajectories.Views
             InitializeComponent();
         }
 
+        double[][] noiseDataGridLAMax = { };
+        double[][] noiseDataGridSEL = { };
+
         public CubicSpline ySpline;
         public CubicSpline xSpline;
         public CubicSpline zSpline;
@@ -89,6 +92,15 @@ namespace AircraftTrajectories.Views
             xSpline = CubicSpline.InterpolateNatural(tData, xData);
             ySpline = CubicSpline.InterpolateNatural(tData, yData);
             zSpline = CubicSpline.InterpolateNatural(tData, zData);
+
+            noiseDataGridLAMax = new double[69][];
+            for (int c=0; c<69; c++) {
+                noiseDataGridLAMax[c] = new double[81];
+            }
+            noiseDataGridSEL = new double[69][];
+            for (int c = 0; c < 69; c++) {
+                noiseDataGridSEL[c] = new double[81];
+            }
 
             createAnimationKML();
             //CalculateNoiseContours();
@@ -163,30 +175,55 @@ namespace AircraftTrajectories.Views
                     currentX = noiseData[i][0];
                     columnIndex++;
                 }
-
+                
                 column.Add(noiseData[i][4]);
             }
             noiseDataGrid[columnIndex] = column.ToArray();
 
+
+            // Calculate LAmax values
+            for (int c = 0; c < noiseDataGridLAMax.Length - 1; c++)
+            {
+                for (int r = 0; r < noiseDataGridLAMax[0].Length - 1; r++)
+                {
+                    noiseDataGridLAMax[c][r] = Math.Max(noiseDataGridLAMax[c][r], noiseDataGrid[c][r]);
+                }
+            }
+
+            // Calculate SEL values
+            var noiseDataGridSELcurrent = new double[69][];
+            for (int c = 0; c < 69; c++) {
+                noiseDataGridSELcurrent[c] = new double[81];
+            }
+
+            for (int c = 0; c < noiseDataGridSEL.Length - 1; c++)
+            {
+                for (int r = 0; r < noiseDataGridSEL[0].Length - 1; r++)
+                {
+                    noiseDataGridSEL[c][r] += Math.Pow(10, noiseDataGrid[c][r]/10);
+                    noiseDataGridSELcurrent[c][r] = 10 * Math.Log10(noiseDataGridSEL[c][r]);
+                }
+            }
             /*
             // Write 2D grid to a csv file
-            using (StreamWriter outfile = new StreamWriter(@"C:\Users\hanss\Desktop\Aircraft-Trajectories\src\Aircraft Trajectories\bin\Debug\test.csv"))
+            using (StreamWriter outfile = new StreamWriter(@"C:\Users\hanss\Desktop\Aircraft-Trajectories\src\Aircraft Trajectories\bin\Debug\noise.csv"))
             {
-                for (int x = 0; x < noiseDataGrid.Length-1; x++)
+                for (int x = 0; x < noiseDataGridLAMax.Length-1; x++)
                 {
                     string content = "";
-                    for (int y = 0; y < noiseDataGrid[0].Length-1; y++)
+                    for (int y = 0; y < noiseDataGridLAMax[0].Length-1; y++)
                     {
-                        content += noiseDataGrid[x][y].ToString("0.00") + ",";
+                        content += noiseDataGridLAMax[x][y].ToString("0.00") + ",";
                     }
                     outfile.WriteLine(content);
                 }
             }
             */
-
             // Calculate noise contours
             IEnumerable<ContourPoint>[][] hgrid, vgrid;
-            var contours = Contour.CreateContours(noiseDataGrid, out hgrid, out vgrid).ToArray();
+            //var contours = Contour.CreateContours(noiseDataGrid, out hgrid, out vgrid).ToArray();
+            var contours = Contour.CreateContours(noiseDataGridLAMax, out hgrid, out vgrid).ToArray();
+            //var contours = Contour.CreateContours(noiseDataGridSELcurrent, out hgrid, out vgrid).ToArray();
 
             watch.Stop();
             double elapsedMs = watch.ElapsedMilliseconds;
@@ -236,6 +273,8 @@ namespace AircraftTrajectories.Views
             return colorPalette;
         }
 
+        public int startDBValue = 55;
+        public int stepDBValue = 1;
         public void createAnimationKML()
         {
             // line 6782 (t = 03:03)
@@ -284,25 +323,40 @@ namespace AircraftTrajectories.Views
                 kml.WriteEndElement();
 
             
-            int numberOfContours = 20;
+            int numberOfContours = 30;
             Color c1 = Color.FromArgb(0, 100, 237, 75);
             Color c2 = Color.FromArgb(150, 20, 53, 255);
             Color[] colors = interpolateColors(c1, c2, numberOfContours);
+            int[] contoursOfInterest = { 65, 70, 75};
             for(int i = 1; i <= numberOfContours; i++)
             {
                 var c = colors[i-1];
+                var color = "00000000";
+                if(contoursOfInterest.Contains(startDBValue+(i*stepDBValue)))
+                {
+                    color = string.Format("{0:X2}{1:X2}{2:X2}{3:X2}", Math.Min(255,c.A+150), c.R, c.G, c.B);
+                }
                 kml.WriteRaw(@"
                 <Style id='contour_style" + i + @"'>
                   <LineStyle>
-                    <width>0</width>
+                    <color>" + color + @"</color>
+                    <width>2</width>
                   </LineStyle>
                   <PolyStyle>
                     <color>" + string.Format("{0:X2}{1:X2}{2:X2}{3:X2}", c.A, c.R, c.G, c.B) + @"</color>
                   </PolyStyle>
+                   <IconStyle>
+                    <scale>0</scale>
+                  </IconStyle>
+                   <LabelStyle>
+                    <color>FFFFFFFF</color>
+                    <scale>0.35</scale>
+                  </LabelStyle>
                 </Style>
                 <Placemark id='contour_placemark" + i + @"'>
-                  <name>Contour " + i + @"</name>
+                  <name>" + (startDBValue + (i*stepDBValue)) + @"dB</name>
                   <styleUrl>#contour_style" + i + @"</styleUrl>
+                  <MultiGeometry>
                   <Polygon>
                     <tessellate>1</tessellate>
                     <outerBoundaryIs>
@@ -311,6 +365,10 @@ namespace AircraftTrajectories.Views
                       </LinearRing>
                     </outerBoundaryIs>
                   </Polygon>
+                  <Point id='contourPoint" + i + @"'>
+                    <Coordinates></Coordinates>
+                  </Point>
+                  </MultiGeometry>
                 </Placemark>
 
                 ");
@@ -428,8 +486,6 @@ namespace AircraftTrajectories.Views
                 var contours = CalculateNoiseContours(t, t+0.01);
                 RijksdriehoekComponent converter = new RijksdriehoekComponent();
                 List<int> visibleContours = new List<int>();
-                var startDBValue = 55;
-                var stepDBValue = 1;
                 foreach (Contour contour in contours) {
                     if (!contour.IsClosed) { continue; }
 
@@ -443,13 +499,29 @@ namespace AircraftTrajectories.Views
                     visibleContours.Add(contourId);
                     
                     var coordinateString = "";
+                    double pointX = 0;
+                    double pointY = 0;
+                    double smallestHeadingDeviation = 180;
                     foreach (ContourPoint p in contour.Points) {
                         double x = (104062 + (p.Location.X * 125));
                         double y = (475470 + (p.Location.Y * 125));
+
                         PointF contourlatLong = converter.ConvertToLatLong(x, y);
-                        coordinateString += contourlatLong.X + ","+ contourlatLong.Y + ",0\n";
+                        coordinateString += contourlatLong.X + "," + contourlatLong.Y + ",0\n";
+
+                        double pointHeading = getHeadingBetweenPoints(contourlatLong, new PointF((float)currentLong, (float)currentLat));
+                        double desiredHeading = (heading + 160) % 360;
+                        if(pointHeading < desiredHeading && Math.Abs(pointHeading - desiredHeading) < smallestHeadingDeviation) {
+                            smallestHeadingDeviation = Math.Abs(pointHeading - desiredHeading);
+                            pointX = contourlatLong.X;
+                            pointY = contourlatLong.Y;
+                        }
                     }
                     plotUpdate(kml, "LinearRing", coordinateString, "contour" + contourId);
+                    // Plot point
+                    if(contoursOfInterest.Contains(startDBValue + (contourId*stepDBValue))) {
+                        plotUpdate(kml, "Point", pointX + "," + pointY + ",0", "contourPoint" + contourId);
+                    }
                 }
                 for(int i=1; i<=numberOfContours; i++) {
                     if(!visibleContours.Contains(i)) {
@@ -542,6 +614,11 @@ namespace AircraftTrajectories.Views
             RijksdriehoekComponent RDConverter = new RijksdriehoekComponent();
             PointF point1 = RDConverter.ConvertToLatLong(xSpline.Interpolate(t1), ySpline.Interpolate(t1));
             PointF point2 = RDConverter.ConvertToLatLong(xSpline.Interpolate(t2), ySpline.Interpolate(t2));
+            return getHeadingBetweenPoints(point1, point2);
+        }
+
+        double getHeadingBetweenPoints(PointF point1, PointF point2)
+        {
             return (DegreeBearing(point1.Y, point1.X, point2.Y, point2.X) + 180) % 360;
         }
 
