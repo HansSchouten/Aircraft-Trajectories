@@ -65,7 +65,7 @@
                     latitude.ToString(CultureInfo.InvariantCulture.NumberFormat),
                     longitude.ToString(CultureInfo.InvariantCulture.NumberFormat));
                 */
-                return new PointF(latitude, longitude);
+                return new PointF(longitude, latitude);
             }
         }
     }
