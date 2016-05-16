@@ -46,7 +46,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 ExecuteINMTM();
                 double[][] noiseData = ReadNoiseData();
                 Grid grid = NoiseDataToGrid(noiseData);
-                _temporalGrid.addGrid(grid);
+                _temporalGrid.AddGrid(grid);
 
                 Progress = (t / _trajectory.Duration) * 100;
                 Console.WriteLine(Progress);

@@ -12,7 +12,7 @@ namespace AircraftTrajectories.Models.TemporalGrid
     /// </summary>
     class Grid
     {
-        protected IEnumerable<Contour> _contours;
+        public IEnumerable<Contour> Contours { get; protected set; }
         protected double[][] _data;
 
 
@@ -23,6 +23,13 @@ namespace AircraftTrajectories.Models.TemporalGrid
         public Grid(double[][] data)
         {
             _data = data;
+            CalculateContours();
+        }
+
+        protected void CalculateContours()
+        {
+            IEnumerable<ContourPoint>[][] hgrid, vgrid;
+            Contours = Contour.CreateContours(_data, out hgrid, out vgrid).ToArray();
         }
     }
 }
