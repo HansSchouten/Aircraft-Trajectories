@@ -5,7 +5,6 @@ using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using GEPlugin;
 using MathNet.Numerics.Interpolation;
-using AircraftTrajectories.Models.WGS.Research.Core;
 using System.Drawing;
 using System.Xml;
 using System.Device.Location;
@@ -13,6 +12,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
 using AircraftTrajectories.Models.Contours;
+using AircraftTrajectories.Models.Space3D;
 
 namespace AircraftTrajectories.Views
 {
@@ -47,8 +47,8 @@ namespace AircraftTrajectories.Views
 
             planeData = AircraftTrajectories.Properties.Resources.EHAM.Split('\n').Select(q => q.Trim().Split(',').Select(Convert.ToDouble).ToArray()).ToArray();
 
-            RijksdriehoekComponent r = new RijksdriehoekComponent();
-            PointF latLong = r.ConvertToLatLong(planeData[0][0] * feetToMeters, planeData[0][1] * feetToMeters);
+            RDToGeographic r = new RDToGeographic();
+            PointF latLong = r.convertToLatLong(planeData[0][0] * feetToMeters, planeData[0][1] * feetToMeters);
 
             Double[] tData = new Double[planeData.Length];
             Double[] xData = new Double[planeData.Length];
@@ -278,8 +278,8 @@ namespace AircraftTrajectories.Views
         public void createAnimationKML()
         {
             // line 6782 (t = 03:03)
-            RijksdriehoekComponent RDConverter = new RijksdriehoekComponent();
-            PointF startLocation = RDConverter.ConvertToLatLong(xSpline.Interpolate(0), ySpline.Interpolate(0));
+            RDToGeographic RDConverter = new RDToGeographic();
+            PointF startLocation = RDConverter.convertToLatLong(xSpline.Interpolate(0), ySpline.Interpolate(0));
 
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings()
             {
@@ -407,7 +407,7 @@ namespace AircraftTrajectories.Views
             string plotGroundCoordinates = "";
             for (int t = 0; t < totalDuration; t++) {
                     Console.WriteLine(t);
-                    PointF latLong = RDConverter.ConvertToLatLong(xSpline.Interpolate(t), ySpline.Interpolate(t));
+                    PointF latLong = RDConverter.convertToLatLong(xSpline.Interpolate(t), ySpline.Interpolate(t));
                     double currentLat = latLong.Y;
                     double currentLong = latLong.X;
                     double currentAlt = zSpline.Interpolate(t);
@@ -484,7 +484,7 @@ namespace AircraftTrajectories.Views
                 //plotUpdate(kml, "LineString", plotGroundCoordinates, "plotground");
 
                 var contours = CalculateNoiseContours(t, t+0.01);
-                RijksdriehoekComponent converter = new RijksdriehoekComponent();
+                RDToGeographic converter = new RDToGeographic();
                 List<int> visibleContours = new List<int>();
                 foreach (Contour contour in contours) {
                     if (!contour.IsClosed) { continue; }
@@ -506,7 +506,7 @@ namespace AircraftTrajectories.Views
                         double x = (104062 + (p.Location.X * 125));
                         double y = (475470 + (p.Location.Y * 125));
 
-                        PointF contourlatLong = converter.ConvertToLatLong(x, y);
+                        PointF contourlatLong = converter.convertToLatLong(x, y);
                         coordinateString += contourlatLong.X + "," + contourlatLong.Y + ",0\n";
 
                         double pointHeading = getHeadingBetweenPoints(contourlatLong, new PointF((float)currentLong, (float)currentLat));
@@ -586,10 +586,10 @@ namespace AircraftTrajectories.Views
         double getBankAngle(double t1, double t2, double t3)
         {
             //http://www.regentsprep.org/regents/math/geometry/gcg6/RCir.htm
-            RijksdriehoekComponent RDConverter = new RijksdriehoekComponent();
-            PointF point1 = RDConverter.ConvertToLatLong(xSpline.Interpolate(t1), ySpline.Interpolate(t1));
-            PointF point2 = RDConverter.ConvertToLatLong(xSpline.Interpolate(t2), ySpline.Interpolate(t2));
-            PointF point3 = RDConverter.ConvertToLatLong(xSpline.Interpolate(t3), ySpline.Interpolate(t3));
+            RDToGeographic RDConverter = new RDToGeographic();
+            PointF point1 = RDConverter.convertToLatLong(xSpline.Interpolate(t1), ySpline.Interpolate(t1));
+            PointF point2 = RDConverter.convertToLatLong(xSpline.Interpolate(t2), ySpline.Interpolate(t2));
+            PointF point3 = RDConverter.convertToLatLong(xSpline.Interpolate(t3), ySpline.Interpolate(t3));
 
             double m_r = (point2.X - point1.X) / (point2.Y - point1.Y);
             double m_t = (point3.X - point2.X) / (point3.Y - point2.Y);
@@ -611,9 +611,9 @@ namespace AircraftTrajectories.Views
 
         double getHeading(double t1, double t2)
         {
-            RijksdriehoekComponent RDConverter = new RijksdriehoekComponent();
-            PointF point1 = RDConverter.ConvertToLatLong(xSpline.Interpolate(t1), ySpline.Interpolate(t1));
-            PointF point2 = RDConverter.ConvertToLatLong(xSpline.Interpolate(t2), ySpline.Interpolate(t2));
+            RDToGeographic RDConverter = new RDToGeographic();
+            PointF point1 = RDConverter.convertToLatLong(xSpline.Interpolate(t1), ySpline.Interpolate(t1));
+            PointF point2 = RDConverter.convertToLatLong(xSpline.Interpolate(t2), ySpline.Interpolate(t2));
             return getHeadingBetweenPoints(point1, point2);
         }
 

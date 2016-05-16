@@ -61,12 +61,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\ColorMap.cs" />
-    <Compile Include="Models\Contours\Coordinate.cs" />
-    <Compile Include="Models\Contours\Contour.cs" />
-    <Compile Include="Models\Contours\ContourDirection.cs" />
-    <Compile Include="Models\Contours\ContourPoint.cs" />
+    <Compile Include="Models\Space3D\GeoPoint3D.cs" />
+    <Compile Include="Models\Space3D\Point3D.cs" />
+    <Compile Include="Models\Space3D\CoordinateConversion.cs" />
+    <Compile Include="Models\IntegratedNoiseModel\IntegratedNoiseModel.cs" />
+    <Compile Include="Models\Space3D\GeographicToMetric.cs" />
+    <Compile Include="Models\Space3D\MetricToGeographic.cs" />
+    <Compile Include="Models\TemporalGrid\Contours\Coordinate.cs" />
+    <Compile Include="Models\TemporalGrid\Contours\Contour.cs" />
+    <Compile Include="Models\TemporalGrid\Contours\ContourDirection.cs" />
+    <Compile Include="Models\TemporalGrid\Contours\ContourPoint.cs" />
     <Compile Include="Models\LockBitmap.cs" />
-    <Compile Include="Models\WGS\Rijksdriehoek.cs" />
+    <Compile Include="Models\TemporalGrid\Grid.cs" />
+    <Compile Include="Models\TemporalGrid\TemporalGrid.cs" />
+    <Compile Include="Models\TemporalGrid\TemporalGridReader.cs" />
+    <Compile Include="Models\Space3D\RDToGeographic.cs" />
+    <Compile Include="Models\Trajectory\Aircraft.cs" />
+    <Compile Include="Models\Trajectory\Trajectory.cs" />
+    <Compile Include="Models\Trajectory\TrajectoryFileReader.cs" />
     <Compile Include="Presenters\GoogleEarthPresenter.cs" />
     <Compile Include="Views\GoogleEarthForm.cs">
       <SubType>Form</SubType>
@@ -77,6 +89,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\IGoogleEarthForm.cs" />
+    <Compile Include="Views\Test.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Test.Designer.cs">
+      <DependentUpon>Test.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Views\GoogleEarthForm.resx">
       <DependentUpon>GoogleEarthForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -90,6 +108,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\Test.resx">
+      <DependentUpon>Test.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Data\A380.csv" />
     <None Include="Data\Data.csv" />
     <None Include="Data\EHAM.csv" />
