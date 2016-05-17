@@ -25,6 +25,7 @@ namespace AircraftTrajectories.Views
 
             var legend = new LegendCreator();
             legend.OutputLegendImage();
+            legend.OutputLegendTitle();
 
             var animator = new Animator(trajectory, aircraft, temporalGrid);
             animator.createAnimationKML();

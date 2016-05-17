@@ -53,14 +53,49 @@ namespace AircraftTrajectories.Models.Visualisation
 
             kml.WriteStartElement("overlayXY");
             kml.WriteAttributeString("x", "0.03");
-            kml.WriteAttributeString("y", "0.95");
+            kml.WriteAttributeString("y", "0.85");
             kml.WriteAttributeString("xunits", "fraction");
             kml.WriteAttributeString("yunits", "fraction");
             kml.WriteEndElement();
 
             kml.WriteStartElement("screenXY");
             kml.WriteAttributeString("x", "0.03");
-            kml.WriteAttributeString("y", "0.95");
+            kml.WriteAttributeString("y", "0.85");
+            kml.WriteAttributeString("xunits", "fraction");
+            kml.WriteAttributeString("yunits", "fraction");
+            kml.WriteEndElement();
+
+            kml.WriteStartElement("rotationXY");
+            kml.WriteAttributeString("x", "0.5");
+            kml.WriteAttributeString("y", "0.5");
+            kml.WriteAttributeString("xunits", "fraction");
+            kml.WriteAttributeString("yunits", "fraction");
+            kml.WriteEndElement();
+
+            kml.WriteStartElement("size");
+            kml.WriteAttributeString("x", "0");
+            kml.WriteAttributeString("y", "0");
+            kml.WriteAttributeString("xunits", "pixels");
+            kml.WriteAttributeString("yunits", "pixels");
+            kml.WriteEndElement();
+            kml.WriteEndElement();
+
+            kml.WriteStartElement("ScreenOverlay");
+            kml.WriteElementString("name", "Legenda Title");
+            kml.WriteStartElement("Icon");
+            kml.WriteElementString("href", @"titleImage.png");
+            kml.WriteEndElement();
+
+            kml.WriteStartElement("overlayXY");
+            kml.WriteAttributeString("x", "0.02");
+            kml.WriteAttributeString("y", "0.94");
+            kml.WriteAttributeString("xunits", "fraction");
+            kml.WriteAttributeString("yunits", "fraction");
+            kml.WriteEndElement();
+
+            kml.WriteStartElement("screenXY");
+            kml.WriteAttributeString("x", "0.02");
+            kml.WriteAttributeString("y", "0.94");
             kml.WriteAttributeString("xunits", "fraction");
             kml.WriteAttributeString("yunits", "fraction");
             kml.WriteEndElement();
