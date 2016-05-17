@@ -20,10 +20,10 @@ namespace AircraftTrajectories.Views
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     public partial class GoogleEarthForm : Form, IGoogleEarthForm
     {
+        public string _currentFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
         public double feetToMeters = 1;//0.3048;
 
-        private const string PLUGIN_URL =
-            @"http://earth-api-samples.googlecode.com/svn/trunk/demos/desktop-embedded/pluginhost.html";
+        public string PLUGIN_URL;
         private IGEPlugin ge = null;
         public String CURRENT_DIR = Path.GetDirectoryName(Application.ExecutablePath);
 
@@ -39,72 +39,74 @@ namespace AircraftTrajectories.Views
         public CubicSpline xSpline;
         public CubicSpline zSpline;
         double totalDuration = 0;
+
         private void GoogleEarthForm_Load(object sender, EventArgs e)
         {
+            PLUGIN_URL = _currentFolder + @"/pluginhost.html";
             pnlControl.Enabled = false;
             webBrowser.Navigate(PLUGIN_URL);
             webBrowser.ObjectForScripting = this;
 
-            planeData = AircraftTrajectories.Properties.Resources.EHAM.Split('\n').Select(q => q.Trim().Split(',').Select(Convert.ToDouble).ToArray()).ToArray();
+            //planeData = AircraftTrajectories.Properties.Resources.EHAM.Split('\n').Select(q => q.Trim().Split(',').Select(Convert.ToDouble).ToArray()).ToArray();
 
-            RDToGeographic r = new RDToGeographic();
-            PointF latLong = r.convertToLatLong(planeData[0][0] * feetToMeters, planeData[0][1] * feetToMeters);
+            //RDToGeographic r = new RDToGeographic();
+            //PointF latLong = r.convertToLatLong(planeData[0][0] * feetToMeters, planeData[0][1] * feetToMeters);
 
-            Double[] tData = new Double[planeData.Length];
-            Double[] xData = new Double[planeData.Length];
-            Double[] yData = new Double[planeData.Length];
-            Double[] zData = new Double[planeData.Length];
-            /*
-            RijksdriehoekComponent r = new RijksdriehoekComponent();
-            PointF latLong = r.ConvertToLatLong(planeData[0][0] * feetToMeters, planeData[0][1] * feetToMeters);
-            */
-            xData[0] = planeData[0][0] * feetToMeters;
-            yData[0] = planeData[0][1] * feetToMeters;
-            zData[0] = planeData[0][2] * feetToMeters;
-            tData[0] = 0;
+            //Double[] tData = new Double[planeData.Length];
+            //Double[] xData = new Double[planeData.Length];
+            //Double[] yData = new Double[planeData.Length];
+            //Double[] zData = new Double[planeData.Length];
+            ///*
+            //RijksdriehoekComponent r = new RijksdriehoekComponent();
+            //PointF latLong = r.ConvertToLatLong(planeData[0][0] * feetToMeters, planeData[0][1] * feetToMeters);
+            //*/
+            //xData[0] = planeData[0][0] * feetToMeters;
+            //yData[0] = planeData[0][1] * feetToMeters;
+            //zData[0] = planeData[0][2] * feetToMeters;
+            //tData[0] = 0;
 
-            double xMetricPrevious = planeData[0][0] * feetToMeters;
-            double yMetricPrevious = planeData[0][1] * feetToMeters;
-            double zMetricPrevious = planeData[0][2] * feetToMeters;
-            for (int t = 1; t < planeData.Length; t++)
-            {
-                double xMetric = planeData[t][0] * feetToMeters;
-                double yMetric = planeData[t][1] * feetToMeters;
-                double zMetric = planeData[t][2] * feetToMeters;
-                double deltaX = xMetric - xMetricPrevious;
-                double deltaY = yMetric - yMetricPrevious;
-                double deltaZ = zMetric - zMetricPrevious;
-                double distance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
-                double duration = distance / (200 * 0.514);
+            //double xMetricPrevious = planeData[0][0] * feetToMeters;
+            //double yMetricPrevious = planeData[0][1] * feetToMeters;
+            //double zMetricPrevious = planeData[0][2] * feetToMeters;
+            //for (int t = 1; t < planeData.Length; t++)
+            //{
+            //    double xMetric = planeData[t][0] * feetToMeters;
+            //    double yMetric = planeData[t][1] * feetToMeters;
+            //    double zMetric = planeData[t][2] * feetToMeters;
+            //    double deltaX = xMetric - xMetricPrevious;
+            //    double deltaY = yMetric - yMetricPrevious;
+            //    double deltaZ = zMetric - zMetricPrevious;
+            //    double distance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+            //    double duration = distance / (200 * 0.514);
 
-                //latLong = r.ConvertToLatLong(planeData[t][0] * feetToMeters, planeData[t][1] * feetToMeters);
-                xData[t] = planeData[t][0] * feetToMeters;
-                yData[t] = planeData[t][1] * feetToMeters;
-                zData[t] = planeData[t][2] * feetToMeters;
-                tData[t] = totalDuration + duration;
+            //    //latLong = r.ConvertToLatLong(planeData[t][0] * feetToMeters, planeData[t][1] * feetToMeters);
+            //    xData[t] = planeData[t][0] * feetToMeters;
+            //    yData[t] = planeData[t][1] * feetToMeters;
+            //    zData[t] = planeData[t][2] * feetToMeters;
+            //    tData[t] = totalDuration + duration;
 
-                // Prepare next iteration
-                xMetricPrevious = xMetric;
-                yMetricPrevious = yMetric;
-                zMetricPrevious = zMetric;
-                totalDuration += duration;
-            }
-            xSpline = CubicSpline.InterpolateNatural(tData, xData);
-            ySpline = CubicSpline.InterpolateNatural(tData, yData);
-            zSpline = CubicSpline.InterpolateNatural(tData, zData);
+            //    // Prepare next iteration
+            //    xMetricPrevious = xMetric;
+            //    yMetricPrevious = yMetric;
+            //    zMetricPrevious = zMetric;
+            //    totalDuration += duration;
+            //}
+            //xSpline = CubicSpline.InterpolateNatural(tData, xData);
+            //ySpline = CubicSpline.InterpolateNatural(tData, yData);
+            //zSpline = CubicSpline.InterpolateNatural(tData, zData);
 
-            noiseDataGridLAMax = new double[69][];
-            for (int c=0; c<69; c++) {
-                noiseDataGridLAMax[c] = new double[81];
-            }
-            noiseDataGridSEL = new double[69][];
-            for (int c = 0; c < 69; c++) {
-                noiseDataGridSEL[c] = new double[81];
-            }
+            //noiseDataGridLAMax = new double[69][];
+            //for (int c=0; c<69; c++) {
+            //    noiseDataGridLAMax[c] = new double[81];
+            //}
+            //noiseDataGridSEL = new double[69][];
+            //for (int c = 0; c < 69; c++) {
+            //    noiseDataGridSEL[c] = new double[81];
+            //}
 
-            createAnimationKML();
-            //CalculateNoiseContours();
-            this.Close();
+            //createAnimationKML();
+            ////CalculateNoiseContours();
+            //this.Close();
         }
 
         public IEnumerable<Contour> CalculateNoiseContours(double t1, double t2)
@@ -233,10 +235,20 @@ namespace AircraftTrajectories.Views
 
 
         // called from initCallback in JavaScript
+        public string kmlString = "";
         public void JSInitSuccessCallback_(object pluginInstance)
         {
             ge = (IGEPlugin)pluginInstance;
             pnlControl.Enabled = true;
+
+            webBrowser.Document.InvokeScript("playTour");
+            /*
+            MessageBox.Show(kmlString.Length.ToString());
+            IKmlObject kmlO = ge.parseKml(kmlString);
+            var te = ge.getTourPlayer();
+            te.
+            te.play();
+            */
         }
 
         // called from failureCallback in JavaScript
@@ -790,7 +802,5 @@ namespace AircraftTrajectories.Views
                 model.setOrientation(or);
             }
         }
-
-
     }
 }

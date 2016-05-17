@@ -12,13 +12,15 @@ namespace AircraftTrajectories.Models.Visualisation
     using AircraftTrajectories.Models.Space3D;
     using AircraftTrajectories.Models.Contours;
     using System.Device.Location;
-
+    using System.Text;
+    using Views;
     class Animator
     {
         protected string _currentFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
         protected Trajectory _trajectory;
         protected Aircraft _aircraft;
         protected TemporalGrid _temporalGrid;
+        public string kmlString { get; set; }
 
         public Animator(Trajectory trajectory, Aircraft aircraft, TemporalGrid temporalGrid)
         {
@@ -33,14 +35,14 @@ namespace AircraftTrajectories.Models.Visualisation
         public void createAnimationKML()
         {
             GeoPoint3D startLocation = _trajectory.GeoPoint(0);
-
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings()
             {
                 Indent = true,
                 IndentChars = "\t",
                 NewLineOnAttributes = true
             };
-            XmlWriter kml = XmlWriter.Create(_currentFolder + "/anim.kml", xmlWriterSettings);
+            StringBuilder builder = new StringBuilder();
+            XmlWriter kml = XmlWriter.Create(builder, xmlWriterSettings);
 
             kml.WriteRaw("<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\">");
 
@@ -321,6 +323,8 @@ namespace AircraftTrajectories.Models.Visualisation
 
             kml.WriteRaw("</kml>");
             kml.Close();
+
+            kmlString = builder.ToString();
         }
 
         void plotUpdate(XmlWriter kml, String type, String coordinateString, string targetId)

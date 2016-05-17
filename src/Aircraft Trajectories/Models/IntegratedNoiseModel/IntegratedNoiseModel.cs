@@ -3,11 +3,11 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.ComponentModel;
 
 namespace AircraftTrajectories.Models.IntegratedNoiseModel
 {
     using AircraftTrajectories.Models.Trajectory;
-    using AircraftTrajectories.Models.Space3D;
     using AircraftTrajectories.Models.TemporalGrid;
     using System.Collections.Generic;
 
@@ -16,7 +16,11 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         protected string _currentFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
         protected Trajectory _trajectory;
         protected Aircraft _aircraft;
-        protected TemporalGrid _temporalGrid;
+        public TemporalGrid TemporalGrid { get; protected set; }
+
+        protected BackgroundWorker _backgroundWorker;
+        protected ProgressBar _progressBar;
+
         public double Progress { get; protected set; }
 
 
@@ -30,14 +34,37 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             _trajectory = trajectory;
             _aircraft = aircraft;
         }
+        
+
+        public void StartCalculation(Action calculationCompletedCallback, ProgressBar progressBar = null)
+        {
+            _backgroundWorker = new BackgroundWorker();
+            _backgroundWorker.WorkerSupportsCancellation = false;
+            _backgroundWorker.WorkerReportsProgress = true;
+            _backgroundWorker.DoWork += BackgroundWorker_DoWork;
+            _backgroundWorker.ProgressChanged += delegate (object sender, ProgressChangedEventArgs e)
+            {
+                if (_progressBar != null)
+                {
+                    _progressBar.Value = e.ProgressPercentage;
+                }
+            };
+            _backgroundWorker.RunWorkerCompleted += delegate (object sender, RunWorkerCompletedEventArgs e)
+            {
+                calculationCompletedCallback();
+            };
+
+            _progressBar = progressBar;
+            _backgroundWorker.RunWorkerAsync();
+        }
 
         /// <summary>
         /// Calculate the noise produced by the aircraft for every second along the defined trajectory
         /// </summary>
-        public TemporalGrid CalculateNoise()
+        public void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            _temporalGrid = new TemporalGrid();
-            _temporalGrid.Interval = 1;
+            TemporalGrid = new TemporalGrid();
+            TemporalGrid.Interval = 1;
 
             Progress = 0;
             for (int t = 0; t <= _trajectory.Duration; t++)
@@ -46,14 +73,14 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 ExecuteINMTM();
                 double[][] noiseData = ReadNoiseData();
                 Grid grid = NoiseDataToGrid(noiseData);
-                _temporalGrid.AddGrid(grid);
+                TemporalGrid.AddGrid(grid);
 
                 Progress = (t / _trajectory.Duration) * 100;
+                _backgroundWorker.ReportProgress((int) Progress);
                 Console.WriteLine(Progress);
             }
             Progress = 100;
-
-            return _temporalGrid;
+            _backgroundWorker.ReportProgress(100);
         }
 
         protected void CreatePositionFile(int t)
