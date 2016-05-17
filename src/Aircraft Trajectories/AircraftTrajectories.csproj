@@ -80,6 +80,7 @@
     <Compile Include="Models\Trajectory\Trajectory.cs" />
     <Compile Include="Models\Trajectory\TrajectoryFileReader.cs" />
     <Compile Include="Models\Visualisation\Animator.cs" />
+    <Compile Include="Models\Visualisation\LegendCreator.cs" />
     <Compile Include="Presenters\GoogleEarthPresenter.cs" />
     <Compile Include="Views\GoogleEarthForm.cs">
       <SubType>Form</SubType>

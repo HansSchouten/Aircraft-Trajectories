@@ -23,6 +23,9 @@ namespace AircraftTrajectories.Views
             var noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
             var temporalGrid = noiseModel.CalculateNoise();
 
+            var legend = new LegendCreator();
+            legend.OutputLegendImage();
+
             var animator = new Animator(trajectory, aircraft, temporalGrid);
             animator.createAnimationKML();
         }
