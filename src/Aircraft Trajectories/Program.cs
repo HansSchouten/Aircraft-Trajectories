@@ -14,10 +14,8 @@ namespace AircraftTrajectories
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var googleEarthForm = new Test();
-            var googleEarthPresenter = new GoogleEarthPresenter(googleEarthForm);
-
-            Application.Run(googleEarthForm);
+            var startupForm = new GoogleEarthServerForm();
+            Application.Run(startupForm);
         }
     }
 }
