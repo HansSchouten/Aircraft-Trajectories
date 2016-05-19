@@ -135,17 +135,17 @@ namespace AircraftTrajectories.Models.Visualisation
             kml.WriteRaw(@"
 	            <Style id=""houseStyle"">
                     <IconStyle>
-                      <scale>1</scale>
+                      <scale>0.9</scale>
                       <Icon>
-                        <href>happy.png</href>
+                        <href>happy2.png</href>
                       </Icon>
                     </IconStyle>
 	            </Style>
 	            <Style id=""houseStyleAwake"">
                     <IconStyle>
-                      <scale>1</scale>
+                      <scale>1.2</scale>
                       <Icon>
-                        <href>angry.png</href>
+                        <href>angry2.png</href>
                       </Icon>
                     </IconStyle>
 	            </Style>
@@ -158,14 +158,37 @@ namespace AircraftTrajectories.Models.Visualisation
                 var geoPoint = converter.ConvertToLongLat(row[0],row[1]);
                 var coordinates = geoPoint.X+","+geoPoint.Y+",0";
                 kml.WriteRaw(@"
-    <Placemark id=""house_placemark_" + houseId + @""">
-		<styleUrl>#houseStyle</styleUrl>
+    <Placemark>
+	    <Style>
+            <IconStyle id=""house_iconstyle_" + houseId + @""">
+                <scale>0.9</scale>
+                <Icon>
+                <href>happy2.png</href>
+                </Icon>
+            </IconStyle>
+	    </Style>
         <Point>
             <coordinates>" + coordinates + @"</coordinates>
         </Point>
     </Placemark> 
                     ");
             }
+
+            // Force loading angry2.png
+            kml.WriteRaw(@"
+    <Placemark>
+	    <Style>
+            <IconStyle>
+                <Icon>
+                <href>angry2.png</href>
+                </Icon>
+            </IconStyle>
+	    </Style>
+        <Point>
+            <coordinates></coordinates>
+        </Point>
+    </Placemark> 
+            ");
 
             kml.WriteRaw(@"
                 <Style id='plotair_style'>
@@ -341,12 +364,15 @@ namespace AircraftTrajectories.Models.Visualisation
                     {
                         kml.WriteRaw(@"
                 <gx:AnimatedUpdate>
-                   <gx:duration>1</gx:duration>
+                   <gx:duration>0.3</gx:duration>
                    <Update>
                       <Change>
-                          <Placemark targetId=""house_placemark_" + houseId + @""">
-                            <styleUrl>#houseStyleAwake</styleUrl>
-                          </Placemark>
+                        <IconStyle targetId=""house_iconstyle_" + houseId + @""">
+                          <scale>1.4</scale>
+                          <Icon>
+                            <href>angry2.png</href>
+                          </Icon>
+                        </IconStyle>
                       </Change>
                    </Update>
                 </gx:AnimatedUpdate>
@@ -424,7 +450,7 @@ namespace AircraftTrajectories.Models.Visualisation
         private double getChance(double noiseValue)
         {
             //return 0.0087 * Math.Pow(noiseValue - 50.5, 1.79);
-            return 0.0087 * Math.Pow(noiseValue - 60, 1.79);
+            return 0.0087 * Math.Pow(noiseValue - 65, 1.79);
         }
 
         private Boolean randomBool(double chance, int seed)
