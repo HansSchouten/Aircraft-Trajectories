@@ -83,7 +83,25 @@ namespace AircraftTrajectories.Views
                     inGridPoints.Add(new int[] { x, y, row[2] });
                 }
             }
-            return inGridPoints;
+            
+            double chance = 0.1;
+            var chosenPoints = new List<int[]>();
+            int i = 0;
+            foreach (int[] row in inGridPoints)
+            {
+                i++;
+                if (randomBool(chance, i))
+                {
+                    chosenPoints.Add(new int[] { row[0], row[1], row[2] });
+                }
+            }
+            return chosenPoints;
+        }
+
+        private Boolean randomBool(double chance, int seed)
+        {
+            Random randomListCell = new Random(seed);
+            return (chance > randomListCell.NextDouble());
         }
     }
 }

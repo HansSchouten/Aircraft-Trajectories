@@ -133,11 +133,12 @@ namespace AircraftTrajectories.Models.Visualisation
 
 
             kml.WriteRaw(@"
-	<Style id=""houseStyle"">
-		<PolyStyle>
-			<outline>0</outline>
-		</PolyStyle>
-	</Style>
+	            <Style id=""houseStyle"">
+		            <PolyStyle>
+			            <color>dc14f0ff</color>
+			            <outline>0</outline>
+		            </PolyStyle>
+	            </Style>
                     ");
             int houseId = 0;
             foreach (int[] row in _populationData)
@@ -146,21 +147,16 @@ namespace AircraftTrajectories.Models.Visualisation
                 var converter = new MetricToGeographic();
                 var geoPoint = converter.ConvertToLongLat(row[0],row[1]);
                 var coordinates = geoPoint.X+","+geoPoint.Y+",-10 ";
-                coordinates += (geoPoint.X + 0.0001) + "," + geoPoint.Y + ",-10 ";
-                coordinates += (geoPoint.X + 0.0001) + "," + (geoPoint.Y + 0.0001) + ",-10 ";
-                coordinates += geoPoint.X + "," + (geoPoint.Y + 0.0001) + ",-10 ";
+                coordinates += (geoPoint.X + 0.0002) + "," + geoPoint.Y + ",-10 ";
+                coordinates += (geoPoint.X + 0.0002) + "," + (geoPoint.Y + 0.0002) + ",-10 ";
+                coordinates += geoPoint.X + "," + (geoPoint.Y + 0.0002) + ",-10 ";
                 kml.WriteRaw(@"
     <Placemark id=""house_placemark_" + houseId + @""">
         <visibility>0</visibility>
 		<styleUrl>#houseStyle</styleUrl>
-		<Style>
-			<PolyStyle id=""house_color_" + houseId + @""">
-				<color>dc78f03c</color>
-			</PolyStyle>
-		</Style>
       <Polygon>
-			<extrude>1</extrude>
-			<altitudeMode>absolute</altitudeMode>
+		<extrude>1</extrude>
+		<altitudeMode>absolute</altitudeMode>
         <outerBoundaryIs> 
           <LinearRing id=""house_bar_" + houseId + @"""> 
             <coordinates> 
@@ -204,6 +200,8 @@ namespace AircraftTrajectories.Models.Visualisation
             Console.WriteLine(_trajectory.Duration);
             string plotAirCoordinates = "";
             string plotGroundCoordinates = "";
+
+            List<int[]> hideHouses = new List<int[]>();
             for (int t = 0; t < _trajectory.Duration; t++)
             {
                 Grid grid = _temporalGrid.GetGrid(t);
@@ -336,7 +334,36 @@ namespace AircraftTrajectories.Models.Visualisation
                     }
                 }
 
+                /*
+                foreach (int[] row in hideHouses)
+                {
+                    houseId = row[3];
+                    var c = new MetricToGeographic();
+                    var height = -10;
+                    var geoPoint = c.ConvertToLongLat(row[0], row[1]);
+                    var coordinates = geoPoint.X + "," + geoPoint.Y + "," + height + " ";
+                    coordinates += (geoPoint.X + 0.00008) + "," + geoPoint.Y + "," + height + " ";
+                    coordinates += (geoPoint.X + 0.00008) + "," + (geoPoint.Y + 0.00008) + "," + height + " ";
+                    coordinates += geoPoint.X + "," + (geoPoint.Y + 0.00008) + "," + height + " ";
+                    kml.WriteRaw(@"
+                <gx:AnimatedUpdate>
+                   <gx:duration>1</gx:duration>
+                   <Update>
+                      <Change>
+                          <LinearRing targetId=""house_bar_" + houseId + @"""> 
+                            <coordinates> 
+                                " + coordinates + @"
+			                </coordinates> 
+                          </LinearRing>
+                      </Change>
+                   </Update>
+                </gx:AnimatedUpdate>
+                        ");
+                }
+                */
+
                 houseId = 0;
+                //hideHouses = new List<int[]>();
                 foreach (int[] row in _populationData)
                 {
                     houseId++;
@@ -348,12 +375,12 @@ namespace AircraftTrajectories.Models.Visualisation
                         var height = row[2] * 50;
                         var geoPoint = c.ConvertToLongLat(row[0], row[1]);
                         var coordinates = geoPoint.X + "," + geoPoint.Y + "," + height + " ";
-                        coordinates += (geoPoint.X + 0.0001) + "," + geoPoint.Y + "," + height + " ";
-                        coordinates += (geoPoint.X + 0.0001) + "," + (geoPoint.Y + 0.0001) + "," + height + " ";
-                        coordinates += geoPoint.X + "," + (geoPoint.Y + 0.0001) + "," + height + " ";
+                        coordinates += (geoPoint.X + 0.00008) + "," + geoPoint.Y + "," + height + " ";
+                        coordinates += (geoPoint.X + 0.00008) + "," + (geoPoint.Y + 0.00008) + "," + height + " ";
+                        coordinates += geoPoint.X + "," + (geoPoint.Y + 0.00008) + "," + height + " ";
                         kml.WriteRaw(@"
                 <gx:AnimatedUpdate>
-                   <gx:duration>1.0</gx:duration>
+                   <gx:duration>1</gx:duration>
                    <Update>
                       <Change>
                           <Placemark targetId=""house_placemark_" + houseId + @"""> 
@@ -364,13 +391,11 @@ namespace AircraftTrajectories.Models.Visualisation
                                 " + coordinates + @"
 			                </coordinates> 
                           </LinearRing>
-			              <PolyStyle targetId=""house_color_" + houseId + @""">
-				            <color>dcF0D214</color>
-			              </PolyStyle>
                       </Change>
                    </Update>
                 </gx:AnimatedUpdate>
                         ");
+                        //hideHouses.Add(new int[] { row[0], row[1], row[2], houseId });
                     }
                 }
             }
