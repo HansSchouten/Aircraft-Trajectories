@@ -85,7 +85,7 @@ namespace AircraftTrajectories.Views
                 }
             }
 
-            double chance = 0.05;
+            double chance = 0.03;
             var chosenPoints = new List<int[]>();
             int i = 0;
             foreach (int[] row in inGridPoints)
