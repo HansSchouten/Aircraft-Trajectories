@@ -44,5 +44,10 @@ namespace AircraftTrajectories.Models.TemporalGrid
         {
             return _grids[t];
         }
+
+        public int GetNumberOfGrids()
+        {
+            return _grids.Count;
+        }
     }
 }

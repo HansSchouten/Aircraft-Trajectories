@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.0">
+<NetworkLink>
+  <name>CRW Experimental 5km Products</name>
+  <open>1</open>
+  <Url>
+<href>http://coralreefwatch.noaa.gov/testing/kml_testing/CRW_5km_Product_Suite.kml</href>
+  </Url>
+</NetworkLink>
+</kml>

@@ -20,13 +20,15 @@ namespace AircraftTrajectories.Models.Visualisation
         protected Trajectory _trajectory;
         protected Aircraft _aircraft;
         protected TemporalGrid _temporalGrid;
+        protected List<int[]> _populationData;
         public string kmlString { get; set; }
 
-        public Animator(Trajectory trajectory, Aircraft aircraft, TemporalGrid temporalGrid)
+        public Animator(Trajectory trajectory, Aircraft aircraft, TemporalGrid temporalGrid, List<int[]> populationData)
         {
             _trajectory = trajectory;
             _aircraft = aircraft;
             _temporalGrid = temporalGrid;
+            _populationData = populationData;
         }
 
 
@@ -129,6 +131,48 @@ namespace AircraftTrajectories.Models.Visualisation
                 ");
             }
 
+
+            kml.WriteRaw(@"
+	<Style id=""houseStyle"">
+		<PolyStyle>
+			<outline>0</outline>
+		</PolyStyle>
+	</Style>
+                    ");
+            int houseId = 0;
+            foreach (int[] row in _populationData)
+            {
+                houseId++;
+                var converter = new MetricToGeographic();
+                var geoPoint = converter.ConvertToLongLat(row[0],row[1]);
+                var coordinates = geoPoint.X+","+geoPoint.Y+",-10 ";
+                coordinates += (geoPoint.X + 0.0001) + "," + geoPoint.Y + ",-10 ";
+                coordinates += (geoPoint.X + 0.0001) + "," + (geoPoint.Y + 0.0001) + ",-10 ";
+                coordinates += geoPoint.X + "," + (geoPoint.Y + 0.0001) + ",-10 ";
+                kml.WriteRaw(@"
+    <Placemark id=""house_placemark_" + houseId + @""">
+        <visibility>0</visibility>
+		<styleUrl>#houseStyle</styleUrl>
+		<Style>
+			<PolyStyle id=""house_color_" + houseId + @""">
+				<color>dc78f03c</color>
+			</PolyStyle>
+		</Style>
+      <Polygon>
+			<extrude>1</extrude>
+			<altitudeMode>absolute</altitudeMode>
+        <outerBoundaryIs> 
+          <LinearRing id=""house_bar_" + houseId + @"""> 
+            <coordinates> 
+                " + coordinates + @"
+			</coordinates> 
+          </LinearRing> 
+        </outerBoundaryIs> 
+      </Polygon> 
+    </Placemark> 
+                    ");
+            }
+
             kml.WriteRaw(@"
                 <Style id='plotair_style'>
                   <LineStyle>
@@ -206,7 +250,7 @@ namespace AircraftTrajectories.Models.Visualisation
                          </Location>
                       </Change>
                    </Update>
-                </gx:AnimatedUpdate>			
+                </gx:AnimatedUpdate>
                 <gx:AnimatedUpdate>
                    <gx:duration>1.0</gx:duration>
                    <Update>
@@ -291,6 +335,44 @@ namespace AircraftTrajectories.Models.Visualisation
                         plotUpdate(kml, "LinearRing", aircraft.Longitude + "," + aircraft.Latitude + ",0", "contour" + i);
                     }
                 }
+
+                houseId = 0;
+                foreach (int[] row in _populationData)
+                {
+                    houseId++;
+                    double noiseAtHouse = getNoiseValue(row[0], row[1], grid);
+                    bool awakens = randomBool(getChance(noiseAtHouse), houseId);
+                    if(awakens)
+                    {
+                        var c = new MetricToGeographic();
+                        var height = row[2] * 50;
+                        var geoPoint = c.ConvertToLongLat(row[0], row[1]);
+                        var coordinates = geoPoint.X + "," + geoPoint.Y + "," + height + " ";
+                        coordinates += (geoPoint.X + 0.0001) + "," + geoPoint.Y + "," + height + " ";
+                        coordinates += (geoPoint.X + 0.0001) + "," + (geoPoint.Y + 0.0001) + "," + height + " ";
+                        coordinates += geoPoint.X + "," + (geoPoint.Y + 0.0001) + "," + height + " ";
+                        kml.WriteRaw(@"
+                <gx:AnimatedUpdate>
+                   <gx:duration>1.0</gx:duration>
+                   <Update>
+                      <Change>
+                          <Placemark targetId=""house_placemark_" + houseId + @"""> 
+                            <visibility>1</visibility>
+                          </Placemark> 
+                          <LinearRing targetId=""house_bar_" + houseId + @"""> 
+                            <coordinates> 
+                                " + coordinates + @"
+			                </coordinates> 
+                          </LinearRing>
+			              <PolyStyle targetId=""house_color_" + houseId + @""">
+				            <color>dcF0D214</color>
+			              </PolyStyle>
+                      </Change>
+                   </Update>
+                </gx:AnimatedUpdate>
+                        ");
+                    }
+                }
             }
 
             kml.WriteRaw("</gx:Playlist></gx:Tour>");
@@ -325,6 +407,9 @@ namespace AircraftTrajectories.Models.Visualisation
             kml.Close();
 
             kmlString = builder.ToString();
+            System.IO.StreamWriter file = new System.IO.StreamWriter(_currentFolder + @"\webroot\animation.kml");
+            file.Write(kmlString);
+            file.Close();
         }
 
         void plotUpdate(XmlWriter kml, String type, String coordinateString, string targetId)
@@ -343,8 +428,34 @@ namespace AircraftTrajectories.Models.Visualisation
                    </Update>
                 </gx:AnimatedUpdate>
                     ");
-
         }
+
+        private double getNoiseValue(int x, int y, Grid grid)
+        {
+            x -= 104062;
+            y -= 475470;
+            int stepX = 125;
+            int stepY = 125;
+            int gridX = (int)Math.Floor((decimal)x / stepX);
+            int gridY = (int)Math.Floor((decimal)y / stepY);
+            return grid.Data[gridX][gridY];
+        }
+
+        private double getChance(double noiseValue)
+        {
+            //return 0.0087 * Math.Pow(noiseValue - 50.5, 1.79);
+            return 0.0087 * Math.Pow(noiseValue - 70, 1.79);
+        }
+
+        private Boolean randomBool(double chance, int seed)
+        {
+            Random randomListCell = new Random(seed);
+            return (chance > randomListCell.NextDouble());
+        }
+
+
+
+
 
         double getBankAngle(double t1, double t2, double t3)
         {

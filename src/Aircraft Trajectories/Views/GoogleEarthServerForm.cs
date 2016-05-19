@@ -19,8 +19,7 @@ namespace AircraftTrajectories.Views
             InitializeComponent();
 
             GETraceListener trace = new GETraceListener(richTextBox);
-            richTextBox.LinkClicked += (o, e) => { Process.Start(e.LinkText); };
-            
+            richTextBox.LinkClicked += (o, e) => { Process.Start(e.LinkText); };            
             Debug.Listeners.Add(trace);
 
             server = new GEServer(System.Net.IPAddress.Loopback, 8080, "webroot");
@@ -44,7 +43,8 @@ namespace AircraftTrajectories.Views
             this.kmlTreeView.SetBrowserInstance(this.geWebBrowser);
 
             //this.geWebBrowser.FetchKml("http://localhost:8080/B733_Fuel_Animation.kml");
-            this.geWebBrowser.FetchKml("http://localhost:8080/CRW_5km_Product_Suite.kmz");
+            this.geWebBrowser.FetchKml("http://localhost:8080/animation.kml");
+            //this.geWebBrowser.FetchKml("http://localhost:8080/CRW_5km_Product_Suite.kmz");
         }
 
         void geWebBrowser_KmlLoaded(object sender, GEEventArgs e)
@@ -59,6 +59,18 @@ namespace AircraftTrajectories.Views
             this.richTextBox.Clear();
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     public class GETraceListener : TraceListener
     {

@@ -13,8 +13,7 @@ namespace AircraftTrajectories.Models.TemporalGrid
     class Grid
     {
         public IEnumerable<Contour> Contours { get; protected set; }
-        protected double[][] _data;
-
+        public double[][] Data { get; set; }
 
         /// <summary>
         /// Construct a Grid
@@ -22,14 +21,14 @@ namespace AircraftTrajectories.Models.TemporalGrid
         /// <param name="data"></param>
         public Grid(double[][] data)
         {
-            _data = data;
+            Data = data;
             CalculateContours();
         }
 
         protected void CalculateContours()
         {
             IEnumerable<ContourPoint>[][] hgrid, vgrid;
-            Contours = Contour.CreateContours(_data, out hgrid, out vgrid).ToArray();
+            Contours = Contour.CreateContours(Data, out hgrid, out vgrid).ToArray();
         }
     }
 }
