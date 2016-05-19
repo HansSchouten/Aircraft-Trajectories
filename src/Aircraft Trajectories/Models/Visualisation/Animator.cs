@@ -135,13 +135,15 @@ namespace AircraftTrajectories.Models.Visualisation
             kml.WriteRaw(@"
 	            <Style id=""houseStyle"">
                     <IconStyle>
+                      <scale>1</scale>
                       <Icon>
-                        <href>smile.png</href>
+                        <href>happy.png</href>
                       </Icon>
                     </IconStyle>
 	            </Style>
 	            <Style id=""houseStyleAwake"">
                     <IconStyle>
+                      <scale>1</scale>
                       <Icon>
                         <href>angry.png</href>
                       </Icon>
@@ -422,7 +424,7 @@ namespace AircraftTrajectories.Models.Visualisation
         private double getChance(double noiseValue)
         {
             //return 0.0087 * Math.Pow(noiseValue - 50.5, 1.79);
-            return 0.0087 * Math.Pow(noiseValue - 70, 1.79);
+            return 0.0087 * Math.Pow(noiseValue - 60, 1.79);
         }
 
         private Boolean randomBool(double chance, int seed)

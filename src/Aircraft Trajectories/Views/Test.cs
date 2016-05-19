@@ -83,8 +83,8 @@ namespace AircraftTrajectories.Views
                     inGridPoints.Add(new int[] { x, y, row[2] });
                 }
             }
-            
-            double chance = 0.05;
+
+            double chance = 0.025;
             var chosenPoints = new List<int[]>();
             int i = 0;
             foreach (int[] row in inGridPoints)
