@@ -131,7 +131,7 @@ namespace AircraftTrajectories.Models.Visualisation
                 ");
             }
 
-
+            /*
             kml.WriteRaw(@"
 	            <Style id=""houseStyle"">
                     <IconStyle>
@@ -150,6 +150,7 @@ namespace AircraftTrajectories.Models.Visualisation
                     </IconStyle>
 	            </Style>
                     ");
+            */
             int houseId = 0;
             foreach (int[] row in _populationData)
             {
@@ -368,7 +369,7 @@ namespace AircraftTrajectories.Models.Visualisation
                    <Update>
                       <Change>
                         <IconStyle targetId=""house_iconstyle_" + houseId + @""">
-                          <scale>1.4</scale>
+                          <scale>1.35</scale>
                           <Icon>
                             <href>angry2.png</href>
                           </Icon>
@@ -450,7 +451,7 @@ namespace AircraftTrajectories.Models.Visualisation
         private double getChance(double noiseValue)
         {
             //return 0.0087 * Math.Pow(noiseValue - 50.5, 1.79);
-            return 0.0087 * Math.Pow(noiseValue - 65, 1.79);
+            return 0.0087 * Math.Pow(noiseValue - 63, 1.79);
         }
 
         private Boolean randomBool(double chance, int seed)

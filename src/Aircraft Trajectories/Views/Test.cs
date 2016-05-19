@@ -38,11 +38,12 @@ namespace AircraftTrajectories.Views
         private void calculationCompleted()
         {
             TemporalGrid temporalGrid = noiseModel.TemporalGrid;
-            /*
-            GridConverter converter = new GridConverter(temporalGrid, GridTransformation.SEL);
-            TemporalGrid convertedGrid = converter.transform();
-            */
-            var animator = new Animator(trajectory, aircraft, temporalGrid, getPopulationData());
+            //GridConverter converter = new GridConverter(temporalGrid, GridTransformation.MAX);
+            //temporalGrid = converter.transform();
+
+            var populationData = getPopulationData();
+            //populationData = new List<int[]>() { };
+            var animator = new Animator(trajectory, aircraft, temporalGrid, populationData);
             animator.createAnimationKML();
 
             GoogleEarthServerForm googleEarthForm = new GoogleEarthServerForm();
@@ -84,7 +85,7 @@ namespace AircraftTrajectories.Views
                 }
             }
 
-            double chance = 0.013;
+            double chance = 0.05;
             var chosenPoints = new List<int[]>();
             int i = 0;
             foreach (int[] row in inGridPoints)
