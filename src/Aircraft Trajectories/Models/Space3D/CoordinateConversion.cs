@@ -36,7 +36,6 @@ namespace AircraftTrajectories.Models.Space3D
                     var metricPoint = converter.ConvertToXY(point.X, point.Y);
                     newX = metricPoint.X;
                     newY = metricPoint.Y;
-                    Console.WriteLine(newX + " " + newY);
                     break;
             }
 
