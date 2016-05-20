@@ -49,6 +49,76 @@ namespace AircraftTrajectories.Models.Visualisation
             kml.WriteRaw("<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\">");
 
             kml.WriteStartElement("Document");
+            kml.WriteStartElement("ScreenOverlay");
+            kml.WriteElementString("name", "Legenda");
+            kml.WriteStartElement("Icon");
+            kml.WriteElementString("href", @"gradientImage.png");
+            kml.WriteEndElement();
+
+            kml.WriteStartElement("overlayXY");
+            kml.WriteAttributeString("x", "0.03");
+            kml.WriteAttributeString("y", "0.85");
+            kml.WriteAttributeString("xunits", "fraction");
+            kml.WriteAttributeString("yunits", "fraction");
+            kml.WriteEndElement();
+
+            kml.WriteStartElement("screenXY");
+            kml.WriteAttributeString("x", "0.03");
+            kml.WriteAttributeString("y", "0.85");
+            kml.WriteAttributeString("xunits", "fraction");
+            kml.WriteAttributeString("yunits", "fraction");
+            kml.WriteEndElement();
+
+            kml.WriteStartElement("rotationXY");
+            kml.WriteAttributeString("x", "0.5");
+            kml.WriteAttributeString("y", "0.5");
+            kml.WriteAttributeString("xunits", "fraction");
+            kml.WriteAttributeString("yunits", "fraction");
+            kml.WriteEndElement();
+
+            kml.WriteStartElement("size");
+            kml.WriteAttributeString("x", "0");
+            kml.WriteAttributeString("y", "0");
+            kml.WriteAttributeString("xunits", "pixels");
+            kml.WriteAttributeString("yunits", "pixels");
+            kml.WriteEndElement();
+            kml.WriteEndElement();
+
+            kml.WriteStartElement("ScreenOverlay");
+            kml.WriteElementString("name", "Legenda Title");
+            kml.WriteStartElement("Icon");
+            kml.WriteElementString("href", @"titleImage.png");
+            kml.WriteEndElement();
+
+            kml.WriteStartElement("overlayXY");
+            kml.WriteAttributeString("x", "0.02");
+            kml.WriteAttributeString("y", "0.94");
+            kml.WriteAttributeString("xunits", "fraction");
+            kml.WriteAttributeString("yunits", "fraction");
+            kml.WriteEndElement();
+
+            kml.WriteStartElement("screenXY");
+            kml.WriteAttributeString("x", "0.02");
+            kml.WriteAttributeString("y", "0.94");
+            kml.WriteAttributeString("xunits", "fraction");
+            kml.WriteAttributeString("yunits", "fraction");
+            kml.WriteEndElement();
+
+            kml.WriteStartElement("rotationXY");
+            kml.WriteAttributeString("x", "0.5");
+            kml.WriteAttributeString("y", "0.5");
+            kml.WriteAttributeString("xunits", "fraction");
+            kml.WriteAttributeString("yunits", "fraction");
+            kml.WriteEndElement();
+
+            kml.WriteStartElement("size");
+            kml.WriteAttributeString("x", "0");
+            kml.WriteAttributeString("y", "0");
+            kml.WriteAttributeString("xunits", "pixels");
+            kml.WriteAttributeString("yunits", "pixels");
+            kml.WriteEndElement();
+            kml.WriteEndElement();
+
             kml.WriteStartElement("Placemark");
             kml.WriteElementString("name", "Aircraft Animation");
             kml.WriteElementString("visibility", "1");

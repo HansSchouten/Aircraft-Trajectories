@@ -29,7 +29,7 @@ namespace AircraftTrajectories.Views
         {
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
             trajectory = reader.createTrajectoryFromFile("track_schiphol.dat");
-
+			
             aircraft = new Aircraft("GP7270", "wing");
             noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
             noiseModel.StartCalculation(calculationCompleted, pbAnimation);
@@ -37,6 +37,10 @@ namespace AircraftTrajectories.Views
 
         private void calculationCompleted()
         {
+            var legend = new LegendCreator();
+            legend.OutputLegendImage();
+            legend.OutputLegendTitle();
+			
             TemporalGrid temporalGrid = noiseModel.TemporalGrid;
             //GridConverter converter = new GridConverter(temporalGrid, GridTransformation.MAX);
             //temporalGrid = converter.transform();
