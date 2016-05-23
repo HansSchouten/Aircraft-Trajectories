@@ -1,0 +1,6 @@
+version: 1.0.{build}
+environment:
+  COVERALLS_REPO_TOKEN:
+    secure: 5OWl9UUevjD59I4mRKS7W8kAwyJGLaVmi
+build:
+  verbosity: minimal
