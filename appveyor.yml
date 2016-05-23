@@ -22,7 +22,7 @@ test_script:
     $env:APPVEYOR_BUILD_NUMBER
     
     $wc = New-Object 'System.Net.WebClient'
-    $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\opencoverCoverage.xml))
+    $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_BUILD_NUMBER)", (Resolve-Path .\opencoverCoverage.xml))
     
     $coveralls = (Resolve-Path "src/packages/coveralls.net.*/tools/csmacnz.coveralls.exe").ToString()
     
