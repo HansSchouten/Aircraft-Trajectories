@@ -1,4 +1,5 @@
 /src/.vs/
+/src/packages/
 /src/AircraftTrajectories.v11.suo
 /src/AircraftTrajectories/obj/
 /src/AircraftTrajectories/bin/Debug/AircraftTrajectories.exe
