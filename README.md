@@ -20,4 +20,4 @@ c)	Besides that, a tool should be developed to visualize the noise produced alon
 
 The resulting program will present a creative and efficient way to compute and visualize aircraft noise along simulated and real flight routes.
 
-[![Coverage Status](https://coveralls.io/repos/github/Hansschouten/Aircraft-Trajectories/badge.svg?branch=master)](https://coveralls.io/github/Hansschouten/Aircraft-Trajectories?branch=master)
+[![Build status](https://ci.appveyor.com/api/projects/status/wptia5rpaq5c6b46?svg=true)](https://ci.appveyor.com/project/Hansschouten/aircraft-trajectories)
