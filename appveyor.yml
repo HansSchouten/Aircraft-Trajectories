@@ -17,16 +17,12 @@ build:
   verbosity: minimal
 test_script:
 - ps: >-
-    .\src\packages\OpenCover.4.6.166\tools\OpenCover.Console.exe -register:user -target:nunit-console.exe "-targetargs:""src\AircraftTrajectories.NUnit.Tests\bin\$env:CONFIGURATION\AircraftTrajectories.NUnit.Tests.dll"" /noshadow" -filter:"+[AircraftTrajectories*]*" -output:.\opencoverCoverage.xml
+    .\src\packages\OpenCover.4.6.166\tools\OpenCover.Console.exe -register:user -target:nunit-console.exe "-targetargs:""src\AircraftTrajectories.NUnit.Tests\bin\$env:CONFIGURATION\AircraftTrajectories.NUnit.Tests.dll"" /noshadow" -filter:"+[AircraftTrajectories*]*" -output:opencoverCoverage.xml
     
     $env:APPVEYOR_BUILD_NUMBER
     
-    $wc = New-Object 'System.Net.WebClient'
-    $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_BUILD_NUMBER)", (Resolve-Path .\opencoverCoverage.xml))
+    .\src\packages\coveralls.net.0.6.0\tools\csmacnz.Coveralls.exe --opencover -i opencoverCoverage.xml --repoToken %COVERALLS_REPO_TOKEN% --commitBranch %APPVEYOR_REPO_BRANCH%
     
-    $coveralls = (Resolve-Path "src/packages/coveralls.net.*/tools/csmacnz.coveralls.exe").ToString()
-    
-    & $coveralls --opencover -i .\opencoverCoverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
 artifacts:
 - path: opencoverCoverage.xml
   name: opencoverCoverage.xml
