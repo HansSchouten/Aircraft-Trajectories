@@ -19,6 +19,8 @@ test_script:
 - ps: >-
     .\src\packages\OpenCover.4.6.166\tools\OpenCover.Console.exe -register:user -target:nunit-console.exe "-targetargs:""src\AircraftTrajectories.NUnit.Tests\bin\$env:CONFIGURATION\AircraftTrajectories.NUnit.Tests.dll"" /noshadow" -filter:"+[AircraftTrajectories*]*" -output:.\opencoverCoverage.xml
     
+    $env:APPVEYOR_BUILD_NUMBER
+    
     $wc = New-Object 'System.Net.WebClient'
     $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\opencoverCoverage.xml))
     
