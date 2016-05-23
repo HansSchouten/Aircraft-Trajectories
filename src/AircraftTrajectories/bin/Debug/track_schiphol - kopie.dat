@@ -1,0 +1,67 @@
+************************************************************************************
+*     Trajectory input file for the INMTM noise tool                               *
+************************************************************************************
+*
+*     Author:    Sander Hartjes
+*     Delft University of Technology, 2010
+*
+*     This file contains the input data required to define a trajectory for the 
+*     INMTM noise calculation model version 3.0
+*
+*     Description of the parameters:
+*
+*     Sys            The unit system used:
+*                       imp       for imperial units
+*                       met       for metric units
+*
+*     x              x-coordinate                     [m or ft]
+*     y              y-coordinate                     [m or ft]
+*     h              altitude                         [m or ft]
+*     V              true airspeed                    [m/s or kts]
+*     T              net corrected thrust per engine  [N, lbf or %]
+*     m              flight mode:
+*                       1         departure procedures
+*                       2         arrival procedures
+*
+*     nois_id        String to define the engine type (see INM_data.pdf)
+*     engine mount   String to define the engine mounting:
+*                       wing      for wing mounted engines
+*                       fuselage  for fuselage mounted engines
+*                       prop      for propeller aircraft
+*
+*     Please note that the total number of nodes must not exceed 1,000
+*
+Sys
+====================================================================================
+imp
+
+         x         y         h         V         T         m
+====================================================================================
+110658     478103     10.668     400      50000        2
+110541     478031     35.34622902861065     400      50000        2
+110482     477995     47.70313208377475     400      50000        2
+110364     477924     72.43306301161373     400      50000        2
+110305     477888     84.80616920697339     400      50000        2
+110188     477816     109.5495227651107     400      50000        2
+110129     477780     121.92     400      50000        2
+109971     477690     148.9796166055206     400      50000        2
+109890     477649     162.5166411784364     400      50000        2
+109723     477576     189.6051432667465     400      50000        2
+109638     477545     203.1566208019122     400      50000        2
+109464     477491     230.2740491586955     400      50000        2
+109375     477470     243.84     400      50000        2
+108295     477471     243.8399999999999     400      50000        2
+107755     477655     243.8399999999998     400      50000        2
+106874     478357     243.8399999999998     400      50000        2
+106520     478875     243.8399999999998     400      50000        2
+106112     480196     243.8399999999997     400      50000        2
+106062     480988     243.8399999999996     400      50000        2
+106354     482691     369.0401506811173     400      50000        2
+106690     483564     525.5403390325143     400      50000        2
+107617     485101     757.9981428946356     400      50000        2
+
+
+nois_id / engine mount
+====================================================================================
+GP7270
+wing

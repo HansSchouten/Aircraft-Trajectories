@@ -1,15 +1,18 @@
 /src/.vs/
-/src/Aircraft Trajectories.v11.suo
-/src/Aircraft Trajectories/obj/
-/src/Aircraft Trajectories/bin/Debug/AircraftTrajectories.exe
-/src/Aircraft Trajectories/bin/Debug/AircraftTrajectories.exe.config
-/src/Aircraft Trajectories/bin/Debug/AircraftTrajectories.pdb
-/src/Aircraft Trajectories/bin/Debug/AircraftTrajectories.vshost.exe
-/src/Aircraft Trajectories/bin/Debug/AircraftTrajectories.vshost.config
-/src/Aircraft Trajectories/bin/Debug/AircraftTrajectories.vshost.manifest
-/src/Aircraft Trajectories/bin/Debug/AircraftTrajectories.vshost.exe.config
-/src/Aircraft Trajectories/bin/Debug/AircraftTrajectories.vshost.exe.manifest
-/src/Aircraft Trajectories/bin/Debug/MathNet.Numerics.dll
-/src/Aircraft Trajectories/bin/Debug/MathNet.Numerics.xml
-/src/Aircraft Trajectories/bin/Debug/current_position.dat
-/src/Aircraft Trajectories/bin/Debug/personen.dat
+/src/AircraftTrajectories.v11.suo
+/src/AircraftTrajectories/obj/
+/src/AircraftTrajectories/bin/Debug/AircraftTrajectories.exe
+/src/AircraftTrajectories/bin/Debug/AircraftTrajectories.exe.config
+/src/AircraftTrajectories/bin/Debug/AircraftTrajectories.pdb
+/src/AircraftTrajectories/bin/Debug/AircraftTrajectories.vshost.exe
+/src/AircraftTrajectories/bin/Debug/AircraftTrajectories.vshost.config
+/src/AircraftTrajectories/bin/Debug/AircraftTrajectories.vshost.manifest
+/src/AircraftTrajectories/bin/Debug/AircraftTrajectories.vshost.exe.config
+/src/AircraftTrajectories/bin/Debug/AircraftTrajectories.vshost.exe.manifest
+/src/AircraftTrajectories/bin/Debug/MathNet.Numerics.dll
+/src/AircraftTrajectories/bin/Debug/MathNet.Numerics.xml
+/src/AircraftTrajectories/bin/Debug/current_position.dat
+/src/AircraftTrajectories/bin/Debug/personen.dat
+
+/src/AircraftTrajectories.NUnit.Tests/bin/
+/src/AircraftTrajectories.NUnit.Tests/obj/
