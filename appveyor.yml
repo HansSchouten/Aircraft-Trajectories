@@ -9,7 +9,7 @@ assembly_info:
   assembly_informational_version: '{version}'
 environment:
   COVERALLS_REPO_TOKEN:
-    repo_token: 5OWl9UUevjD59I4mRKS7W8kAwyJGLaVmi
+    secure: 5OWl9UUevjD59I4mRKS7W8kAwyJGLaVmi
 before_build:
   - nuget restore ".\src\AircraftTrajectories.sln"
 build:
