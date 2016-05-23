@@ -1,5 +1,9 @@
 # Aircraft Trajectories and Noise Visualization
 
+[![Build status](https://ci.appveyor.com/api/projects/status/wptia5rpaq5c6b46?svg=true)](https://ci.appveyor.com/project/Hansschouten/aircraft-trajectories)
+[![Coverage Status](https://coveralls.io/repos/github/Hansschouten/Aircraft-Trajectories/badge.svg?branch=master)](https://coveralls.io/github/Hansschouten/Aircraft-Trajectories?branch=master)
+
+
 Bachelor Graduation Project, Delft University of Technology<br>
 Elvan Kula (ekula), E.Kula@student.tudelft.nl<br>
 Hans Schouten (hansschouten), J.Schouten-1@student.tudelft.nl
@@ -19,6 +23,3 @@ b)	The code should be optimized with multi-core processing to achieve real-time 
 c)	Besides that, a tool should be developed to visualize the noise produced along the simulated trajectory pictured on a real map. This requires an implementation of noise contours, which are ‘noise footprints’ whose shape indicate areas of constant noise. Noise contours are a new subject to our research group and haven’t been implemented before so this will be a challenging and novel topic.
 
 The resulting program will present a creative and efficient way to compute and visualize aircraft noise along simulated and real flight routes.
-
-[![Build status](https://ci.appveyor.com/api/projects/status/wptia5rpaq5c6b46?svg=true)](https://ci.appveyor.com/project/Hansschouten/aircraft-trajectories)
-[![Coverage Status](https://coveralls.io/repos/github/Hansschouten/Aircraft-Trajectories/badge.svg?branch=master)](https://coveralls.io/github/Hansschouten/Aircraft-Trajectories?branch=master)
