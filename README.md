@@ -1,7 +1,7 @@
 # Aircraft Trajectories and Noise Visualization
 
 [![Build status](https://ci.appveyor.com/api/projects/status/wptia5rpaq5c6b46?svg=true)](https://ci.appveyor.com/project/Hansschouten/aircraft-trajectories)
-[![Coverage Status](https://coveralls.io/repos/github/Hansschouten/Aircraft-Trajectories/badge.svg?branch=master)](https://coveralls.io/github/Hansschouten/Aircraft-Trajectories?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/Hansschouten/Aircraft-Trajectories/badge.svg?branch=master&)](https://coveralls.io/github/Hansschouten/Aircraft-Trajectories?branch=master)
 
 
 Bachelor Graduation Project, Delft University of Technology<br>
