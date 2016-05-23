@@ -17,7 +17,7 @@ build:
   verbosity: minimal
 test_script:
 - ps: >-
-    .\src\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:nunit-console.exe "-targetargs:""src\AircraftTrajectories.NUnit.Tests\bin\$env:CONFIGURATION\AircraftTrajectories.NUnit.Tests.dll"" /noshadow" -filter:"+[GameOfLife*]*" -output:opencoverCoverage.xml
+    .\src\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:nunit-console.exe "-targetargs:""src\AircraftTrajectories.NUnit.Tests\bin\$env:CONFIGURATION\AircraftTrajectories.NUnit.Tests.dll"" /noshadow" -filter:"+[AircraftTrajectories*]*" -output:opencoverCoverage.xml
     $coveralls = (Resolve-Path "src/packages/coveralls.net.*/tools/csmacnz.coveralls.exe").ToString()
     
     $env:APPVEYOR_BUILD_NUMBER
