@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using AircraftTrajectories.Models.Visualisation.KML;
+using System;
 
 namespace AircraftTrajectories.Models.Visualisation
 {
-    class ContourAnimator : IAnimatorInterface
+    class ContourAnimator : KMLAnimatorInterface
     {
 
-        public string animationStep()
+        public string KMLAnimationStep(int t)
         {
             throw new NotImplementedException();
         }
 
+        public string KMLSetup()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
