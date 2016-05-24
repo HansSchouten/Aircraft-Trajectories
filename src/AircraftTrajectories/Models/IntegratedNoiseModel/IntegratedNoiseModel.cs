@@ -13,7 +13,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
 
     public class IntegratedNoiseModel
     {
-        protected string _currentFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+        
         protected Trajectory _trajectory;
         protected Aircraft _aircraft;
         public TemporalGrid TemporalGrid { get; protected set; }
@@ -86,7 +86,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         protected void CreatePositionFile(int t)
         {
             using (System.IO.StreamWriter file =
-            new System.IO.StreamWriter(_currentFolder + "/current_position.dat", false))
+            new System.IO.StreamWriter(Globals.webrootDirectory + "/../current_position.dat", false))
             {
                 file.WriteLine("Sys");
                 file.WriteLine("====================================================================================");
@@ -120,7 +120,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
 
         protected double[][] ReadNoiseData()
         {
-            string rawNoise = File.ReadAllText(_currentFolder + "/noise.out");
+            string rawNoise = File.ReadAllText(Globals.webrootDirectory + "/../noise.out");
             double[][] noiseData = rawNoise
                 .Split('\n')
                 .Skip(2)
