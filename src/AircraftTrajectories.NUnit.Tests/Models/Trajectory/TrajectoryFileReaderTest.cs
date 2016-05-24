@@ -15,7 +15,7 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Trajectory
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
             Assert.IsNotNull(reader);
 
-            var obj = reader.createTrajectoryFromFile(@"AircraftTrajectories\bin\Debug\track_schiphol.dat");
+            var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
         }
 
     }

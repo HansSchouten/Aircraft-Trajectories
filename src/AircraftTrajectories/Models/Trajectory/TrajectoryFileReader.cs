@@ -14,7 +14,6 @@ namespace AircraftTrajectories.Models.Trajectory
     public class TrajectoryFileReader
     {
         public CoordinateUnit CoordinateUnits { get; set; }
-        protected string _currentFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
         protected double[][] _trackData;
         protected List<double> _tData, _xData, _yData, _zData, _longitudeData, _latitudeData;
         protected double totalDuration;
@@ -40,11 +39,11 @@ namespace AircraftTrajectories.Models.Trajectory
         /// <summary>
         /// Create a Trajectory object with the data found in the given file
         /// </summary>
-        /// <param name="fileName">the file of which the data should be read</param>
+        /// <param name="filepath">the file of which the data should be read</param>
         /// <returns>a Trajectory object</returns>
-        public Trajectory createTrajectoryFromFile(string fileName)
+        public Trajectory createTrajectoryFromFile(string filepath)
         {
-            readFromFile(fileName);
+            readFromFile(filepath);
             convertCoordinates();
             calculateTimeSteps();
 
@@ -62,10 +61,10 @@ namespace AircraftTrajectories.Models.Trajectory
         /// <summary>
         /// Read the data from the given file and store it as an array of double arrays
         /// </summary>
-        /// <param name="fileName"></param>
-        protected void readFromFile(string fileName)
+        /// <param name="filepath"></param>
+        protected void readFromFile(string filepath)
         {
-            string rawTrackData = File.ReadAllText(_currentFolder + "/" + fileName);
+            string rawTrackData = File.ReadAllText(filepath);
             _trackData = rawTrackData
                 .Split('\n')
                 .Select(q =>

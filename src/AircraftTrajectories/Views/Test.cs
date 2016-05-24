@@ -28,8 +28,8 @@ namespace AircraftTrajectories.Views
         private void Test_Load(object sender, EventArgs e)
         {
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
-            trajectory = reader.createTrajectoryFromFile("track_schiphol.dat");
-			
+            trajectory = reader.createTrajectoryFromFile(Globals.webrootDirectory + @"\..\schiphol_track.dat");
+
             aircraft = new Aircraft("GP7270", "wing");
             noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
             noiseModel.StartCalculation(calculationCompleted, pbAnimation);

@@ -14,7 +14,7 @@ namespace AircraftTrajectories.NUnit.Tests.Trajectory
         public void Trajectory()
         {
             TrajectoryFileReader reader = new TrajectoryFileReader(CoordinateUnit.metric);
-            var obj = reader.createTrajectoryFromFile(@"AircraftTrajectories\bin\Debug\track_schiphol.dat");
+            var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
 
             Assert.IsNotNull(obj);
         }
@@ -23,7 +23,7 @@ namespace AircraftTrajectories.NUnit.Tests.Trajectory
         public void TrajectoryXYZ()
         {
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
-            var obj = reader.createTrajectoryFromFile(@"AircraftTrajectories\bin\Debug\track_schiphol.dat");
+            var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
 
             Assert.AreEqual("110640.775", Math.Round(obj.X(0.1), 3).ToString());
             Assert.AreEqual("478092.382", Math.Round(obj.Y(0.1), 3).ToString());
@@ -36,7 +36,7 @@ namespace AircraftTrajectories.NUnit.Tests.Trajectory
         public void TrajectoryLongLat()
         {
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
-            var obj = reader.createTrajectoryFromFile(@"AircraftTrajectories\bin\Debug\track_schiphol.dat");
+            var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
 
             Assert.AreEqual("52.289", Math.Round(obj.Latitude(0.1), 3).ToString());
             Assert.AreEqual("4.737", Math.Round(obj.Longitude(0.1), 3).ToString());
@@ -46,7 +46,7 @@ namespace AircraftTrajectories.NUnit.Tests.Trajectory
         public void TrajectoryGeoPoint()
         {
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
-            var obj = reader.createTrajectoryFromFile(@"AircraftTrajectories\bin\Debug\track_schiphol.dat");
+            var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
 
             GeoPoint3D geopoint = obj.GeoPoint(2.5);
             Assert.IsNotNull(geopoint);
@@ -59,7 +59,7 @@ namespace AircraftTrajectories.NUnit.Tests.Trajectory
         public void TrajectoryPoint()
         {
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
-            var obj = reader.createTrajectoryFromFile(@"AircraftTrajectories\bin\Debug\track_schiphol.dat");
+            var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
 
             Point3D point = obj.Point3D(0.05);
             Assert.IsNotNull(point);

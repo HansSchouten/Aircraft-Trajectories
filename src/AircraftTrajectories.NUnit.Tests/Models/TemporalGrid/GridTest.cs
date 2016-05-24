@@ -3,6 +3,8 @@ using NUnit.Framework;
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace AircraftTrajectories.NUnit.Tests.TemporalGrid
 {
@@ -12,7 +14,7 @@ namespace AircraftTrajectories.NUnit.Tests.TemporalGrid
         [Test]
         public void Grid()
         {
-            string currentFolder = Directory.GetCurrentDirectory() + @"\AircraftTrajectories\bin\Debug\track_schiphol.dat";
+            string currentFolder = Globals.testdataDirectory + "test_track.dat";
             string rawTrackData = File.ReadAllText(currentFolder);
             double[][] trackData = rawTrackData
                 .Split('\n')
