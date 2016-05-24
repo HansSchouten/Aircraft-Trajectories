@@ -8,11 +8,17 @@ using System.Drawing.Drawing2D;
 
 namespace AircraftTrajectories.Models.Visualisation
 {
-    class LegendCreator
+    public class LegendCreator
     {
 
-        public int max = 80;
-        public int min = 65;
+        public int max;
+        public int min;
+
+        public LegendCreator()
+        {
+            max = 80;
+            min = 65;
+        }
 
         public void OutputLegendImage()
         {

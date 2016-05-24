@@ -16,8 +16,5 @@
 /src/AircraftTrajectories/bin/Debug/personen.dat
 
 /src/AircraftTrajectories.NUnit.Tests/bin/
-!/src/AircraftTrajectories.NUnit.Tests/bin/Debug/schiphol_grid2D.dat
-!/src/AircraftTrajectories.NUnit.Tests/bin/Debug/INMTM_v3.exe
-!/src/AircraftTrajectories.NUnit.Tests/bin/Debug/INM_data.dat
 
 /src/AircraftTrajectories.NUnit.Tests/obj/

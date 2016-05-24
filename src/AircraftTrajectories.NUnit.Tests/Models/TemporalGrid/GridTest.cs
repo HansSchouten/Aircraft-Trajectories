@@ -33,11 +33,5 @@ namespace AircraftTrajectories.NUnit.Tests.TemporalGrid
             */
         }
 
-        [Test]
-        public void AircraftModel()
-        {
-            
-        }
-
     }
 }

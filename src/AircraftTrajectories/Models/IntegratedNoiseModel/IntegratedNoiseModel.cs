@@ -112,18 +112,10 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             startInfo.FileName = "INMTM_v3.exe";
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
             startInfo.Arguments = "current_position.dat schiphol_grid2D.dat";
-            try
+            using (Process exeProcess = Process.Start(startInfo))
             {
-
-                using (Process exeProcess = Process.Start(startInfo))
-                {
-                    exeProcess.WaitForExit();
-                }
-            } catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
+                exeProcess.WaitForExit();
             }
-            MessageBox.Show("hoi");
         }
 
         protected double[][] ReadNoiseData()
