@@ -9,7 +9,7 @@ assembly_info:
   assembly_informational_version: '{version}'
 environment:
   COVERALLS_REPO_TOKEN:
-    secure: 5OWl9UUevjD59I4mRKS7W8kAwyJGLaVmi
+    secure: ei6kFSXZpycYdaICBlwkQ/JtifaOqITPry+VsZdIl46If5PIgnn1w8RISQKigWtn
 before_build:
   - nuget restore ".\src\AircraftTrajectories.sln"
 build:
@@ -24,3 +24,8 @@ test_script:
     $env:APPVEYOR_BUILD_NUMBER
     
     & $coveralls --opencover -i opencoverCoverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_BUILD_NUMBER --serviceName appveyor
+    
+    
+artifacts:
+- path: opencoverCoverage.xml
+  name: opencoverCoverage.xml
