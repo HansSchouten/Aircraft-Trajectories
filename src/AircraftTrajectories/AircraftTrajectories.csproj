@@ -98,12 +98,6 @@
     <Compile Include="Views\Awakenings.Designer.cs">
       <DependentUpon>Awakenings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\GoogleEarthForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\GoogleEarthForm.Designer.cs">
-      <DependentUpon>GoogleEarthForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\GoogleEarthServerForm.cs">
@@ -121,9 +115,6 @@
     </Compile>
     <EmbeddedResource Include="Views\Awakenings.resx">
       <DependentUpon>Awakenings.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\GoogleEarthForm.resx">
-      <DependentUpon>GoogleEarthForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
