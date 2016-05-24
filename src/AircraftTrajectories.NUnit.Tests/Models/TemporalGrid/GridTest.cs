@@ -12,7 +12,7 @@ namespace AircraftTrajectories.NUnit.Tests.TemporalGrid
         [Test]
         public void Grid()
         {
-            string currentFolder = Directory.GetCurrentDirectory() + @"\Aircraft Trajectories\bin\Debug\track_schiphol.dat";
+            string currentFolder = Directory.GetCurrentDirectory() + @"\AircraftTrajectories\bin\Debug\track_schiphol.dat";
             string rawTrackData = File.ReadAllText(currentFolder);
             double[][] trackData = rawTrackData
                 .Split('\n')

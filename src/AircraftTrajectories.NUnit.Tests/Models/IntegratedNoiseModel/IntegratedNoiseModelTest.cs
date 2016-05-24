@@ -12,7 +12,7 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
         public void IntegratedNoiseModel()
         {
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
-            var trajectory = reader.createTrajectoryFromFile(@"Aircraft Trajectories\bin\Debug\track_schiphol.dat");
+            var trajectory = reader.createTrajectoryFromFile(@"AircraftTrajectories\bin\Debug\track_schiphol.dat");
 
             //aircraft = new Aircraft("GP7270", "wing");
             //noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
