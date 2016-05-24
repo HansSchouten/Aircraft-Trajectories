@@ -65,7 +65,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\ColorMap.cs" />
     <Compile Include="Models\Space3D\GeoPoint3D.cs" />
     <Compile Include="Models\Space3D\Point3D.cs" />
     <Compile Include="Models\Space3D\CoordinateConversion.cs" />
@@ -76,7 +75,6 @@
     <Compile Include="Models\TemporalGrid\Contours\Contour.cs" />
     <Compile Include="Models\TemporalGrid\Contours\ContourDirection.cs" />
     <Compile Include="Models\TemporalGrid\Contours\ContourPoint.cs" />
-    <Compile Include="Models\LockBitmap.cs" />
     <Compile Include="Models\TemporalGrid\Grid.cs" />
     <Compile Include="Models\TemporalGrid\GridConverter.cs" />
     <Compile Include="Models\TemporalGrid\TemporalGrid.cs" />
