@@ -2,7 +2,7 @@
 
 namespace AircraftTrajectories.Models.Space3D
 {
-    class GeographicToMetric
+    public class GeographicToMetric
     {
         public Point3D ConvertToXY(double longitude, double latitude)
         {

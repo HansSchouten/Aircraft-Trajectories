@@ -4,7 +4,7 @@ using AircraftTrajectories.Models.Space3D;
 
 namespace AircraftTrajectories.Models.Trajectory
 {
-    class Trajectory
+    public class Trajectory
     {
         protected CubicSpline _xSpline;
         protected CubicSpline _ySpline;

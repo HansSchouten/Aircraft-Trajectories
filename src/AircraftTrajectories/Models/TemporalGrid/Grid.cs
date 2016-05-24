@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AircraftTrajectories.Models.TemporalGrid
 {
@@ -10,7 +8,7 @@ namespace AircraftTrajectories.Models.TemporalGrid
     /// <summary>
     /// Class that represents a two-dimensional dataset
     /// </summary>
-    class Grid
+    public class Grid
     {
         public IEnumerable<Contour> Contours { get; protected set; }
         public double[][] Data { get; set; }

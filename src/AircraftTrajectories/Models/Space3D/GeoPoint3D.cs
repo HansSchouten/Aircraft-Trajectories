@@ -2,7 +2,7 @@
 
 namespace AircraftTrajectories.Models.Space3D
 {
-    class GeoPoint3D
+    public class GeoPoint3D
     {
         public CoordinateUnit CoordinateUnits { get; protected set; }
         public double Longitude { get; protected set; }

@@ -52,7 +52,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\IntegratedNoiseModel\IntegratedNoiseModelTest.cs" />
     <Compile Include="Models\Space3D\MetricToGeographicTest.cs" />
+    <Compile Include="Models\TemporalGrid\GridTest.cs" />
+    <Compile Include="Models\TemporalGrid\TemporalGridTest.cs" />
+    <Compile Include="Models\Trajectory\AircraftTest.cs" />
+    <Compile Include="Models\Trajectory\TrajectoryFileReaderTest.cs" />
+    <Compile Include="Models\Trajectory\TrajectoryTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -65,6 +71,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Testdata\test_track.dat" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

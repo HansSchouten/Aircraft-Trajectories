@@ -4,7 +4,7 @@ namespace AircraftTrajectories.Models.Space3D
 {
     public enum CoordinateUnit { imperial, metric, geographic };
 
-    class CoordinateConversion
+    public class CoordinateConversion
     {
         public static double FeetToMeters { get { return 0.3048; } }
 

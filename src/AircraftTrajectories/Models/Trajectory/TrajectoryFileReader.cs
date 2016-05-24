@@ -11,7 +11,7 @@ namespace AircraftTrajectories.Models.Trajectory
     /// <summary>
     /// Class that contains the logic to read a trajectory from file and construct a Trajectory object
     /// </summary>
-    class TrajectoryFileReader
+    public class TrajectoryFileReader
     {
         public CoordinateUnit CoordinateUnits { get; set; }
         protected string _currentFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);

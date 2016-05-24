@@ -2,7 +2,7 @@
 
 namespace AircraftTrajectories.Models.TemporalGrid
 {
-    class TemporalGridReader
+    public class TemporalGridReader
     {
     }
 }

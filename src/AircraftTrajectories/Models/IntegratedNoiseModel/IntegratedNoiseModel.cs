@@ -11,7 +11,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
     using AircraftTrajectories.Models.TemporalGrid;
     using System.Collections.Generic;
 
-    class IntegratedNoiseModel
+    public class IntegratedNoiseModel
     {
         protected string _currentFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
         protected Trajectory _trajectory;

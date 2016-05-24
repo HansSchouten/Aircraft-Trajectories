@@ -6,7 +6,7 @@ namespace AircraftTrajectories.Models.TemporalGrid
     /// <summary>
     /// Class that represents grid values changing over time
     /// </summary>
-    class TemporalGrid
+    public class TemporalGrid
     {
         /// <summary>
         /// The time in seconds between two subsequent grids

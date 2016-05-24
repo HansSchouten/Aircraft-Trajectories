@@ -2,7 +2,7 @@
 
 namespace AircraftTrajectories.Models.Trajectory
 {
-    class Aircraft
+    public class Aircraft
     {
         public String EngineId { get; protected set; }
         public String EngineMount { get; protected set; }

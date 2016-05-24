@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 
 namespace AircraftTrajectories.Models.TemporalGrid
 {
-    enum GridTransformation { MAX, SEL };
+    public enum GridTransformation { MAX, SEL };
 
-    class GridConverter
+    public class GridConverter
     {
-        TemporalGrid _input;
-        TemporalGrid _output;
-        GridTransformation _transformation;
+        protected TemporalGrid _input;
+        protected TemporalGrid _output;
+        protected GridTransformation _transformation;
 
         public GridConverter(TemporalGrid input, GridTransformation transformation)
         {
