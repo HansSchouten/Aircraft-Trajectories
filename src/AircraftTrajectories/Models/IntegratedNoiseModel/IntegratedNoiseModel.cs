@@ -86,7 +86,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         protected void CreatePositionFile(int t)
         {
             using (System.IO.StreamWriter file =
-            new System.IO.StreamWriter(Globals.webrootDirectory + "/../current_position.dat", false))
+            new System.IO.StreamWriter(Globals.currentDirectory + "/current_position.dat", false))
             {
                 file.WriteLine("Sys");
                 file.WriteLine("====================================================================================");
@@ -108,10 +108,11 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.CreateNoWindow = true;
             startInfo.UseShellExecute = false;
-            startInfo.WorkingDirectory = Application.StartupPath;
+            startInfo.WorkingDirectory = Globals.currentDirectory;
             startInfo.FileName = "INMTM_v3.exe";
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
             startInfo.Arguments = "current_position.dat schiphol_grid2D.dat";
+
             using (Process exeProcess = Process.Start(startInfo))
             {
                 exeProcess.WaitForExit();
@@ -120,7 +121,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
 
         protected double[][] ReadNoiseData()
         {
-            string rawNoise = File.ReadAllText(Globals.webrootDirectory + "/../noise.out");
+            string rawNoise = File.ReadAllText(Globals.currentDirectory + "/noise.out");
             double[][] noiseData = rawNoise
                 .Split('\n')
                 .Skip(2)
