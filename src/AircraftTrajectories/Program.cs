@@ -8,9 +8,9 @@ namespace AircraftTrajectories
 {
     internal static class Globals
     {
-        public static string webrootDirectory = Path.GetDirectoryName(
+        public static string currentDirectory = Path.GetDirectoryName(
                 (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath
-            ) + @"\webroot\";
+            );
     }
 
     static class Program
@@ -18,8 +18,6 @@ namespace AircraftTrajectories
         [STAThread]
         static void Main()
         {
-            MessageBox.Show(Globals.webrootDirectory);
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
