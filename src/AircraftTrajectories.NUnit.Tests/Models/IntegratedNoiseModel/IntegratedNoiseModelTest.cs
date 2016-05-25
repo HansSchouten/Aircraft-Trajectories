@@ -8,6 +8,7 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
     using AircraftTrajectories.Models.TemporalGrid;
     using System.Diagnostics;
     using System.IO;
+    using System.Threading;
     using System.Windows.Forms;
     [TestFixture]
     public class IntegratedNoiseModelTest
@@ -48,6 +49,7 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
 
 
         [Test]
+        [RequiresThread]
         public void INMExecutableTest()
         {
             Process process = new Process();
@@ -71,6 +73,7 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
 
         IntegratedNoiseModel noiseModel;
         [Test]
+        [RequiresThread]
         public void INMFullTest()
         {
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
@@ -84,6 +87,16 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
         {
             TemporalGrid temporalGrid = noiseModel.TemporalGrid;
             Assert.AreNotEqual(0, temporalGrid.GetNumberOfGrids());
+        }
+
+        [Test]
+        public void processStartTest()
+        {
+            Process proc = Process.Start(@"c:\windows\system32\cmd.exe");
+            if (null == proc)
+                Assert.Fail("Could not start process");
+            Thread.Sleep(5000);
+            proc.Kill();
         }
 
     }
