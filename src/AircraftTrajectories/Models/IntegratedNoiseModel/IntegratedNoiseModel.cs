@@ -86,7 +86,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         protected void CreatePositionFile(int t)
         {
             using (System.IO.StreamWriter file =
-            new System.IO.StreamWriter(Globals.currentDirectory + "/current_position.dat", false))
+            new System.IO.StreamWriter(Globals.currentDirectory + "current_position.dat", false))
             {
                 file.WriteLine("Sys");
                 file.WriteLine("====================================================================================");
@@ -105,23 +105,42 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
 
         protected void ExecuteINMTM()
         {
+            //MessageBox.Show(Globals.currentDirectory);
+            try
+            {
+                ProcessStartInfo cmdsi = new ProcessStartInfo(Globals.currentDirectory+ "INMTM_v3.exe");
+                cmdsi.Arguments = "current_position.dat schiphol_grid2D.dat";
+                Process cmds = Process.Start(cmdsi);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            
             ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.CreateNoWindow = true;
+            startInfo.CreateNoWindow = false;
             startInfo.UseShellExecute = false;
             startInfo.WorkingDirectory = Globals.currentDirectory;
             startInfo.FileName = "INMTM_v3.exe";
-            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            startInfo.WindowStyle = ProcessWindowStyle.Maximized;
             startInfo.Arguments = "current_position.dat schiphol_grid2D.dat";
-
-            using (Process exeProcess = Process.Start(startInfo))
+            try
             {
-                exeProcess.WaitForExit();
+                using (Process exeProcess = Process.Start(startInfo))
+                {
+                    exeProcess.WaitForExit();
+                }
+            } catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
+            MessageBox.Show("done");
         }
 
         protected double[][] ReadNoiseData()
         {
-            string rawNoise = File.ReadAllText(Globals.currentDirectory + "/noise.out");
+            string rawNoise = File.ReadAllText(Globals.currentDirectory + "noise.out");
             double[][] noiseData = rawNoise
                 .Split('\n')
                 .Skip(2)
