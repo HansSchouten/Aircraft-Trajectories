@@ -27,6 +27,7 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
         {
             TemporalGrid temporalGrid = noiseModel.TemporalGrid;
             Assert.IsNotNull(temporalGrid);
+            
         }
     }
 

@@ -44,6 +44,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -54,12 +55,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\IntegratedNoiseModel\IntegratedNoiseModelTest.cs" />
+    <Compile Include="Models\Space3D\CoordinateConversionTest.cs" />
+    <Compile Include="Models\Space3D\GeographicToMetricTest.cs" />
     <Compile Include="Models\Space3D\MetricToGeographicTest.cs" />
+    <Compile Include="Models\Space3D\RDToGeographicTest.cs" />
     <Compile Include="Models\TemporalGrid\GridTest.cs" />
     <Compile Include="Models\TemporalGrid\TemporalGridTest.cs" />
     <Compile Include="Models\Trajectory\AircraftTest.cs" />
     <Compile Include="Models\Trajectory\TrajectoryFileReaderTest.cs" />
     <Compile Include="Models\Trajectory\TrajectoryTest.cs" />
+    <Compile Include="Models\Visualisation\LegendCreatorTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
