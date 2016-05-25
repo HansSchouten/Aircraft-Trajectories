@@ -9,13 +9,22 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
     using System.Diagnostics;
     using System.IO;
     using System.Threading;
-    using System.Windows.Forms;
     [TestFixture]
     public class IntegratedNoiseModelTest
     {
 
         [Test]
-        public void INMExecutableFoundTest()
+        public void t0_processCanBeStartedTest()
+        {
+            Process proc = Process.Start(@"c:\windows\system32\cmd.exe");
+            if (null == proc)
+                Assert.Fail("Could not start process");
+            Thread.Sleep(5000);
+            proc.Kill();
+        }
+
+        [Test]
+        public void t1_INMExecutableFoundTest()
         {
             Assert.DoesNotThrow(() => INMExecutableProcessStart(), "the INM executable cannot be executed");
         }
@@ -33,7 +42,7 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
 
 
         [Test]
-        public void INMGridExists()
+        public void t2_INMGridExists()
         {
             string gridPath = Globals.currentDirectory + "schiphol_grid2D.dat";
             Assert.True(File.Exists(gridPath), gridPath+" does not exist");
@@ -41,7 +50,7 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
 
 
         [Test]
-        public void INMPositionFileCanBeCreatedTest()
+        public void t3_INMPositionFileCanBeCreatedTest()
         {
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
             var trajectory = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
@@ -59,7 +68,7 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
 
         [Test]
         [RequiresThread]
-        public void INMExecutableTest()
+        public void t4_INMExecutableTest()
         {
             Process process = new Process();
             process.StartInfo.FileName = Globals.currentDirectory + "INMTM_v3.exe";
@@ -83,7 +92,7 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
         IntegratedNoiseModel noiseModel;
         [Test]
         [RequiresThread]
-        public void INMFullTest()
+        public void t5_INMFullTest()
         {
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
             var trajectory = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
@@ -96,16 +105,6 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
         {
             TemporalGrid temporalGrid = noiseModel.TemporalGrid;
             Assert.AreNotEqual(0, temporalGrid.GetNumberOfGrids());
-        }
-
-        [Test]
-        public void processCanBeStartedTest()
-        {
-            Process proc = Process.Start(@"c:\windows\system32\cmd.exe");
-            if (null == proc)
-                Assert.Fail("Could not start process");
-            Thread.Sleep(5000);
-            proc.Kill();
         }
 
     }
