@@ -33,6 +33,13 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
 
 
         [Test]
+        public void INMGridExists()
+        {
+            Assert.True(File.Exists(Globals.currentDirectory + "schiphol_grid2D.dat"), "schiphol_grid2D.dat does not exist");
+        }
+
+
+        [Test]
         public void INMPositionFileCanBeCreatedTest()
         {
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
@@ -90,7 +97,7 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
         }
 
         [Test]
-        public void processStartTest()
+        public void processCanBeStartedTest()
         {
             Process proc = Process.Start(@"c:\windows\system32\cmd.exe");
             if (null == proc)
