@@ -30,6 +30,7 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
             process.Start();
         }
 
+
         [Test]
         public void INMPositionFileCanBeCreatedTest()
         {
@@ -45,24 +46,7 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
             Assert.True(File.Exists(Globals.currentDirectory + "current_position.dat"), "current_position.dat does not exist");
         }
 
-        IntegratedNoiseModel noiseModel;
-        [Test]
-        public void INMFullTest()
-        {
-            var reader = new TrajectoryFileReader(CoordinateUnit.metric);
-            var trajectory = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
 
-            var aircraft = new Aircraft("GP7270", "wing");
-            noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
-            noiseModel.StartCalculation(fullTestCompleted);
-        }
-        private void fullTestCompleted()
-        {
-            TemporalGrid temporalGrid = noiseModel.TemporalGrid;
-            Assert.AreNotEqual(0, temporalGrid.GetNumberOfGrids());
-        }
-
-        /*
         [Test]
         public void INMExecutableTest()
         {
@@ -83,7 +67,24 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
 
             Assert.AreEqual("", output);
         }
-        */
+
+
+        IntegratedNoiseModel noiseModel;
+        [Test]
+        public void INMFullTest()
+        {
+            var reader = new TrajectoryFileReader(CoordinateUnit.metric);
+            var trajectory = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
+
+            var aircraft = new Aircraft("GP7270", "wing");
+            noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
+            noiseModel.StartCalculation(fullTestCompleted);
+        }
+        private void fullTestCompleted()
+        {
+            TemporalGrid temporalGrid = noiseModel.TemporalGrid;
+            Assert.AreNotEqual(0, temporalGrid.GetNumberOfGrids());
+        }
 
     }
 
