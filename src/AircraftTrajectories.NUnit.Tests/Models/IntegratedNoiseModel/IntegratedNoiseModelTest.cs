@@ -7,31 +7,65 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
     using AircraftTrajectories.Models.IntegratedNoiseModel;
     using AircraftTrajectories.Models.TemporalGrid;
     using System.Diagnostics;
+    using System.IO;
     [TestFixture]
     public class IntegratedNoiseModelTest
     {
         IntegratedNoiseModel noiseModel;
 
         [Test]
-        public void IntegratedNoiseModel()
+        public void INMFullTest()
         {
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
-            var trajectory = reader.createTrajectoryFromFile(Globals.testdataDirectory + @"test_track.dat");
+            var trajectory = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
 
             var aircraft = new Aircraft("GP7270", "wing");
             noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
-            noiseModel.StartCalculation(calculationCompleted);
+            noiseModel.StartCalculation(fullTestCompleted);
         }
-
-        private void calculationCompleted()
+        private void fullTestCompleted()
         {
             TemporalGrid temporalGrid = noiseModel.TemporalGrid;
-            Assert.AreNotEqual(0, temporalGrid.GetNumberOfGrids());            
+            Assert.AreNotEqual(0, temporalGrid.GetNumberOfGrids());
         }
 
 
         [Test]
-        public void TestINMExecutable()
+        public void INMPositionFileTest()
+        {
+            var reader = new TrajectoryFileReader(CoordinateUnit.metric);
+            var trajectory = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
+
+            var aircraft = new Aircraft("GP7270", "wing");
+            noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
+            noiseModel.StartCalculation(positionFileTestCompleted);
+        }
+        private void positionFileTestCompleted()
+        {
+            Assert.True(File.Exists(Globals.testdataDirectory + "test_track.dat"));
+        }
+
+
+        [Test]
+        public void INMExecutableExceptionTest()
+        {
+            Assert.DoesNotThrow(() => INMExecutableProcessStart());
+        }
+        protected void INMExecutableProcessStart()
+        {
+            Process process = new Process();
+            process.StartInfo.FileName = Globals.currentDirectory + "INMTM_v3.exe";
+            process.StartInfo.Arguments = "current_position.dat schiphol_grid2D.dat";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardInput = true;
+            process.StartInfo.CreateNoWindow = true;
+            process.Start();
+        }
+
+
+        [Test]
+        public void INMExecutableTest()
         {
             Process process = new Process();
             process.StartInfo.FileName = Globals.currentDirectory + "INMTM_v3.exe";
