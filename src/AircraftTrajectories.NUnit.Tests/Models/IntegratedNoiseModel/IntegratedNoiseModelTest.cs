@@ -35,7 +35,8 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
         [Test]
         public void INMGridExists()
         {
-            Assert.True(File.Exists(Globals.currentDirectory + "schiphol_grid2D.dat"), "schiphol_grid2D.dat does not exist");
+            string gridPath = Globals.currentDirectory + "schiphol_grid2D.dat";
+            Assert.True(File.Exists(gridPath), gridPath+" does not exist");
         }
 
 
@@ -51,7 +52,8 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
         }
         private void positionFileTestCompleted()
         {
-            Assert.True(File.Exists(Globals.currentDirectory + "current_position.dat"), "current_position.dat does not exist");
+            string positionFile = Globals.currentDirectory + "current_position.dat";
+            Assert.True(File.Exists(positionFile), positionFile + " does not exist");
         }
 
 
