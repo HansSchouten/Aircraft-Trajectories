@@ -80,12 +80,11 @@ namespace AircraftTrajectories.Models.Trajectory
         /// </summary>
         protected void convertCoordinates()
         {
-            var converter = new CoordinateConversion();
             foreach (double[] row in _trackData)
             {
                 var currentPoint = new Point3D(row[0], row[1], row[2], CoordinateUnits);
-                var metricPoint = converter.ConvertCoordinates(currentPoint, CoordinateUnit.metric);
-                var geographicPoint = converter.ConvertCoordinates(currentPoint, CoordinateUnit.geographic);
+                var metricPoint = currentPoint.ConvertTo(CoordinateUnit.metric);
+                var geographicPoint = currentPoint.ConvertTo(CoordinateUnit.geographic);
 
                 _xData.Add(metricPoint.X);
                 _yData.Add(metricPoint.Y);

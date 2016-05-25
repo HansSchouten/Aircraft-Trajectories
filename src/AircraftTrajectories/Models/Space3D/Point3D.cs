@@ -16,5 +16,11 @@ namespace AircraftTrajectories.Models.Space3D
             Z = z;
             CoordinateUnits = coordinateUnits;
         }
+
+        public Point3D ConvertTo(CoordinateUnit targetUnit)
+        {
+            CoordinateConversion converter = new CoordinateConversion();
+            return converter.ConvertCoordinates(this, targetUnit);
+        }
     }
 }

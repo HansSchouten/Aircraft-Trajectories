@@ -105,37 +105,18 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
 
         protected void ExecuteINMTM()
         {
-            //MessageBox.Show(Globals.currentDirectory);
-            try
-            {
-                ProcessStartInfo cmdsi = new ProcessStartInfo(Globals.currentDirectory+ "INMTM_v3.exe");
-                cmdsi.Arguments = "current_position.dat schiphol_grid2D.dat";
-                Process cmds = Process.Start(cmdsi);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            Process process = new Process();
+            process.StartInfo.FileName = Globals.currentDirectory + "INMTM_v3.exe";
+            process.StartInfo.Arguments = "current_position.dat schiphol_grid2D.dat";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardInput = true;
+            process.StartInfo.CreateNoWindow = true;
+            process.Start();
 
-            
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.CreateNoWindow = false;
-            startInfo.UseShellExecute = false;
-            startInfo.WorkingDirectory = Globals.currentDirectory;
-            startInfo.FileName = "INMTM_v3.exe";
-            startInfo.WindowStyle = ProcessWindowStyle.Maximized;
-            startInfo.Arguments = "current_position.dat schiphol_grid2D.dat";
-			
-            try
-            {
-                using (Process exeProcess = Process.Start(startInfo))
-                {
-                    exeProcess.WaitForExit();
-                }
-            } catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            string output = process.StandardOutput.ReadToEnd();
+
+            process.WaitForExit();
         }
 
         protected double[][] ReadNoiseData()
