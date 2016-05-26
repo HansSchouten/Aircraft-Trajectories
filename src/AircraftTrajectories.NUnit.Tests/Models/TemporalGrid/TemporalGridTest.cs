@@ -38,5 +38,14 @@ namespace AircraftTrajectories.NUnit.Tests.TemporalGrid
             Assert.AreEqual(temp1.GetGrid(0), temporalGrid.GetGrid(0));
             Assert.AreEqual(temp, temporalGrid.GetGrid(0));
         }
+
+        private void GridCoordinateTest()
+        {
+            TemporalGrid temporalGrid = noiseModel.TemporalGrid;
+            GeoPoint3D point = temporalGrid.GridCoordinate(1.5, 4);
+            Assert.AreEqual(2, point.Latitude);
+            Assert.AreEqual(2, point.Longitude);
+            Assert.AreEqual(1, point.Z);
+        }
     }
 }

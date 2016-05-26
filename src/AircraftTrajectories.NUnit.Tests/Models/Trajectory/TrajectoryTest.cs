@@ -68,6 +68,59 @@ namespace AircraftTrajectories.NUnit.Tests.Trajectory
             Assert.AreEqual("12.488", Math.Round(point.Z, 3).ToString());
         }
 
+        [Test]
+        public void AirspeedTest()
+        {
+            var reader = new TrajectoryFileReader(CoordinateUnit.metric);
+            var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
+
+            Assert.AreEqual(102.8, obj.Airspeed(2));
+        }
+
+        [Test]
+        public void TiltTest()
+        {
+            var reader = new TrajectoryFileReader(CoordinateUnit.metric);
+            var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
+
+            Assert.AreEqual("22.455", Math.Round(obj.Tilt(3.5), 3).ToString());
+        }
+
+        [Test]
+        public void HeadingTest()
+        {
+            var reader = new TrajectoryFileReader(CoordinateUnit.metric);
+            var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
+
+            Assert.AreEqual("45.673", Math.Round(obj.Heading(4.2), 3).ToString());
+        }
+
+        [Test]
+        public void BankAngleLessTest()
+        {
+            var reader = new TrajectoryFileReader(CoordinateUnit.metric);
+            var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
+
+            Assert.AreEqual(0, obj.BankAngle(-20));
+        }
+
+        [Test]
+        public void BankAngleMoreTest()
+        {
+            var reader = new TrajectoryFileReader(CoordinateUnit.metric);
+            var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
+
+            Assert.AreEqual("0.019", Math.Round(obj.BankAngle(45),3).ToString());
+        }
+
+        [Test]
+        public void BankAngleInfinityTest()
+        {
+            var reader = new TrajectoryFileReader(CoordinateUnit.metric);
+            var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
+
+            Assert.AreEqual(39.286, Math.Round(obj.BankAngle(10), 3));
+        }
 
     }
 }
