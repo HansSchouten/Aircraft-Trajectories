@@ -5,12 +5,11 @@ using AircraftTrajectories.Models.IntegratedNoiseModel;
 
 namespace AircraftTrajectories.NUnit.Tests.TemporalGrid
 {
-    using AircraftTrajectories.Models.IntegratedNoiseModel;
+    using IntegratedNoiseModel;
 
     [TestFixture]
     public class TemporalGridTest
     {
-        IntegratedNoiseModel noiseModel;
 
         [Test]
         public void TemporalGrid()

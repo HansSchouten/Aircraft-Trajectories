@@ -90,6 +90,7 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
 
 
         IntegratedNoiseModel noiseModel;
+        bool INMRunned = false;
         [Test]
         [RequiresThread]
         public void t5_INMFullTest()
@@ -100,11 +101,15 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
             var aircraft = new Aircraft("GP7270", "wing");
             noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
             noiseModel.StartCalculation(fullTestCompleted);
+
+            while(!INMRunned) {}
+
+            TemporalGrid temporalGrid = noiseModel.TemporalGrid;
+            Assert.AreEqual(2, temporalGrid.GetNumberOfGrids());
         }
         private void fullTestCompleted()
         {
-            TemporalGrid temporalGrid = noiseModel.TemporalGrid;
-            Assert.AreNotEqual(0, temporalGrid.GetNumberOfGrids());
+            INMRunned = true;
         }
 
     }

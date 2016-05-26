@@ -54,7 +54,7 @@ namespace AircraftTrajectories.Models.Trajectory
             var latitudeSpline = CubicSpline.InterpolateNatural(_tData, _latitudeData);
 
             var trajectory = new Trajectory(xSpline, ySpline, zSpline, longitudeSpline, latitudeSpline);
-            trajectory.Duration = totalDuration;
+            trajectory.Duration = (int) totalDuration;
             return trajectory;
         }
 

@@ -3,6 +3,10 @@ using AircraftTrajectories.Models.Space3D;
 using AircraftTrajectories.Models.TemporalGrid;
 using AircraftTrajectories.Models.Trajectory;
 using AircraftTrajectories.Models.Visualisation;
+using AircraftTrajectories.Models.Visualisation.AnimationSections;
+using AircraftTrajectories.Models.Visualisation.KML;
+using AircraftTrajectories.Models.Visualisation.KML.AnimationSections;
+using AircraftTrajectories.Models.Visualisation.KML.AnimationSections.Cameras;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -40,15 +44,28 @@ namespace AircraftTrajectories.Views
             var legend = new LegendCreator();
             legend.OutputLegendImage();
             legend.OutputLegendTitle();
-			
+
             TemporalGrid temporalGrid = noiseModel.TemporalGrid;
+            temporalGrid.LowerLeftCorner = new Point3D(104062, 475470, 0, CoordinateUnit.metric);
+            temporalGrid.GridSize = 125;
             //GridConverter converter = new GridConverter(temporalGrid, GridTransformation.MAX);
             //temporalGrid = converter.transform();
 
             var populationData = getPopulationData();
             //populationData = new List<int[]>() { };
-            var animator = new Animator(trajectory, aircraft, temporalGrid, populationData);
-            animator.createAnimationKML();
+            //var animator = new Animator(trajectory, aircraft, temporalGrid, populationData);
+            //animator.createAnimationKML();
+
+            var camera = new FollowKMLAnimatorCamera(aircraft, trajectory);
+            var sections = new List<KMLAnimatorSectionInterface>() {
+                new AircraftKMLAnimator(aircraft, trajectory),
+                new AirplotKMLAnimator(trajectory),
+                new GroundplotKMLAnimator(trajectory),
+                new ContourKMLAnimator(temporalGrid, trajectory, new List<int>() { 65, 70, 75 }),
+                new AnnoyanceKMLAnimator(temporalGrid, populationData)
+            };
+            var animator = new KMLAnimator(sections, camera);
+            animator.AnimationToFile(trajectory.Duration, Globals.currentDirectory + "test.kml");
 
             GoogleEarthServerForm googleEarthForm = new GoogleEarthServerForm();
             

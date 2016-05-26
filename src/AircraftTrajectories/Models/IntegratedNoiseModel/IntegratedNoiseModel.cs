@@ -75,7 +75,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 Grid grid = NoiseDataToGrid(noiseData);
                 TemporalGrid.AddGrid(grid);
 
-                Progress = (t / _trajectory.Duration) * 100;
+                Progress = (t / (double)_trajectory.Duration) * 100;
                 _backgroundWorker.ReportProgress((int) Progress);
                 Console.WriteLine(Progress);
             }

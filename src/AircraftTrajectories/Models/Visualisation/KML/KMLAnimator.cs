@@ -1,40 +1,67 @@
-﻿using System.Collections.Generic;
+﻿using AircraftTrajectories.Models.Visualisation.KML.AnimationSections;
+using System.Collections.Generic;
 using System.Text;
 
 namespace AircraftTrajectories.Models.Visualisation.KML
 {
+    using AnimationSections.Cameras;
+
     public class KMLAnimator
     {
-        protected List<KMLAnimatorInterface> _animators;
+        protected List<KMLAnimatorSectionInterface> _animators;
+        protected KMLAnimatorCameraInterface _camera;
 
         /// <summary>
         /// Construct a KMLAnimator object
         /// </summary>
         /// <param name="animators">A list of objects all implementing KMLAnimatorInterface</param>
-        public KMLAnimator(List<KMLAnimatorInterface> animators)
+        public KMLAnimator(List<KMLAnimatorSectionInterface> animators, KMLAnimatorCameraInterface camera)
         {
             _animators = animators;
+            _camera = camera;
         }
 
         protected string CreateAnimationKML(int duration)
         {
             StringBuilder builder = new StringBuilder();
-            
+            builder.AppendLine("<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\">");
+            builder.AppendLine("<Document>");
+
             // Add each kml section definition of this animation
-            foreach (KMLAnimatorInterface kmlAnimator in _animators)
+            foreach (KMLAnimatorSectionInterface kmlAnimator in _animators)
             {
                 builder.Append(kmlAnimator.KMLSetup());
             }
-            
+
             // Add all kml updates of each animation section
+            builder.AppendLine("<gx:Tour><name>Flight animation</name><gx:Playlist>");
             for (int t = 0; t < duration; t++)
             {
-                foreach (KMLAnimatorInterface kmlAnimator in _animators)
+                builder.Append(@"
+<gx:AnimatedUpdate>
+    <gx:duration>1.0</gx:duration>
+    <Update>
+        <Change>");
+                foreach (KMLAnimatorSectionInterface kmlAnimator in _animators)
                 {
                     builder.Append(kmlAnimator.KMLAnimationStep(t));
                 }
+                builder.Append(@"
+        </Change>
+    </Update>
+</gx:AnimatedUpdate>");
+                builder.Append(_camera.KMLAnimationStep(t));
+            }
+            builder.AppendLine("</gx:Playlist></gx:Tour>");
+
+            // Add the post animation definitions
+            foreach (KMLAnimatorSectionInterface kmlAnimator in _animators)
+            {
+                builder.Append(kmlAnimator.KMLFinish());
             }
 
+            builder.AppendLine("</Document>");
+            builder.AppendLine("</kml>");
             return builder.ToString();
         }
 

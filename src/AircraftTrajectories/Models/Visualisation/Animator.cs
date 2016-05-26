@@ -13,7 +13,6 @@ namespace AircraftTrajectories.Models.Visualisation
     using AircraftTrajectories.Models.Contours;
     using System.Device.Location;
     using System.Text;
-    using Views;
     class Animator
     {
         protected string _currentFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
@@ -197,7 +196,6 @@ namespace AircraftTrajectories.Models.Visualisation
                   </Point>
                   </MultiGeometry>
                 </Placemark>
-
                 ");
             }
 
@@ -492,19 +490,19 @@ namespace AircraftTrajectories.Models.Visualisation
         void plotUpdate(XmlWriter kml, String type, String coordinateString, string targetId)
         {
             kml.WriteRaw(@"
-                <gx:AnimatedUpdate>
-                   <gx:duration>1.0</gx:duration>
-                   <Update>
-                      <Change>
-                         <" + type + @" targetId='" + targetId + @"'>
-                            <coordinates>
-                            " + coordinateString + @"
-                            </coordinates>
-                         </" + type + @">
-                      </Change>
-                   </Update>
-                </gx:AnimatedUpdate>
-                    ");
+<gx:AnimatedUpdate>
+    <gx:duration>1.0</gx:duration>
+    <Update>
+        <Change>
+            <" + type + @" targetId='" + targetId + @"'>
+            <coordinates>
+            " + coordinateString + @"
+            </coordinates>
+            </" + type + @">
+        </Change>
+    </Update>
+</gx:AnimatedUpdate>
+            ");
         }
 
         private double getNoiseValue(int x, int y, Grid grid)
