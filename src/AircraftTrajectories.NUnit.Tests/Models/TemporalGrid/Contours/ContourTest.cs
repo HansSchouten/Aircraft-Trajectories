@@ -1,10 +1,5 @@
 ﻿using NUnit.Framework;
-using AircraftTrajectories.Models.Contours;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AircraftTrajectories.Models.Contours;
 
 namespace AircraftTrajectories.Models.Contours.Tests
 {

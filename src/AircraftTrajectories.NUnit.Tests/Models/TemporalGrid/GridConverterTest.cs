@@ -35,7 +35,7 @@ namespace AircraftTrajectories.NUnit.Tests.Models.TemporalGrid
 
             Assert.AreEqual(2, res.GetNumberOfGrids());
             Assert.AreEqual(1, res.Interval);
-            Assert.AreEqual("0", res.GetGrid(1).Data[65][60].ToString());
+            Assert.AreEqual("25.9", res.GetGrid(1).Data[65][60].ToString());
         }
 
         private void test()

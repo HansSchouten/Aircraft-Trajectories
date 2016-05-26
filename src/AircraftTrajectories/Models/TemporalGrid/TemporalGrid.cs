@@ -69,16 +69,5 @@ namespace AircraftTrajectories.Models.TemporalGrid
             var geoPoint = metricPoint.ConvertTo(CoordinateUnit.geographic);
             return new GeoPoint3D(geoPoint.X, geoPoint.Y, geoPoint.Z);
         }
-
-        private double getNoiseValue(int x, int y, Grid grid)
-        {
-            x -= 104062;
-            y -= 475470;
-            int stepX = 125;
-            int stepY = 125;
-            int gridX = (int)Math.Floor((decimal)x / stepX);
-            int gridY = (int)Math.Floor((decimal)y / stepY);
-            return grid.Data[gridX][gridY];
-        }
     }
 }

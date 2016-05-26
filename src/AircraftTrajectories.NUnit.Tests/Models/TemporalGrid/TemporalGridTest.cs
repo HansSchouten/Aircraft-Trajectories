@@ -1,7 +1,6 @@
 ﻿using AircraftTrajectories.Models.Space3D;
 using AircraftTrajectories.Models.Trajectory;
 using NUnit.Framework;
-using AircraftTrajectories.Models.IntegratedNoiseModel;
 
 namespace AircraftTrajectories.NUnit.Tests.TemporalGrid
 {
@@ -12,8 +11,6 @@ namespace AircraftTrajectories.NUnit.Tests.TemporalGrid
     public class TemporalGridTest
     {
         IntegratedNoiseModel noiseModel;
-        TemporalGrid temporalGrid;
-        Grid temp;
 
         [Test]
         public void TemporalGrid()
