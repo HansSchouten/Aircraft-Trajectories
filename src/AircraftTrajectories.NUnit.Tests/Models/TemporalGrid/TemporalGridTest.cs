@@ -27,27 +27,16 @@ namespace AircraftTrajectories.NUnit.Tests.TemporalGrid
         {
             TemporalGrid temporalGrid = noiseModel.TemporalGrid;
             Assert.AreNotEqual(0, temporalGrid.GetNumberOfGrids());
-
-            double[][] input = new double[1][];
-
-            Grid temp = new Grid(input);
-            TemporalGrid temp1 = new TemporalGrid();
-
+            
+            Grid temp = new Grid(null);
             temporalGrid.AddGrid(temp);
-
             Assert.IsNotNull(temporalGrid.GetGrid(0));
             Assert.IsNull(temporalGrid.GetGrid(1));
 
+            TemporalGrid temp1 = new TemporalGrid();
             temp1.AddGrid(temporalGrid.GetGrid(0));
             Assert.AreEqual(temp1.GetGrid(0), temporalGrid.GetGrid(0));
             Assert.AreEqual(temp, temporalGrid.GetGrid(0));
         }
-
-
-
-
-
     }
-
 }
-
