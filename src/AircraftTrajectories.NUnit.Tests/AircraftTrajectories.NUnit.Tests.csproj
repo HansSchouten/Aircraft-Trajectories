@@ -59,6 +59,11 @@
     <Compile Include="Models\Space3D\GeographicToMetricTest.cs" />
     <Compile Include="Models\Space3D\MetricToGeographicTest.cs" />
     <Compile Include="Models\Space3D\RDToGeographicTest.cs" />
+    <Compile Include="Models\TemporalGrid\Contours\ContourDirectionTest.cs" />
+    <Compile Include="Models\TemporalGrid\Contours\ContourPointTest.cs" />
+    <Compile Include="Models\TemporalGrid\Contours\ContourTest.cs" />
+    <Compile Include="Models\TemporalGrid\Contours\CoordinateTest.cs" />
+    <Compile Include="Models\TemporalGrid\GridConverterTest.cs" />
     <Compile Include="Models\TemporalGrid\GridTest.cs" />
     <Compile Include="Models\TemporalGrid\TemporalGridTest.cs" />
     <Compile Include="Models\Trajectory\AircraftTest.cs" />
@@ -82,6 +87,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
