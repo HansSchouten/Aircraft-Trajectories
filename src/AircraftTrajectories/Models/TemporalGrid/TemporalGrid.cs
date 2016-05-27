@@ -1,6 +1,7 @@
 ﻿using AircraftTrajectories.Models.Space3D;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace AircraftTrajectories.Models.TemporalGrid
 {
@@ -63,11 +64,18 @@ namespace AircraftTrajectories.Models.TemporalGrid
             return _grids.Count;
         }
 
-        public GeoPoint3D GridCoordinate(double xGridIndex, double yGridIndex)
+        public GeoPoint3D GridCoordinate(double gridX, double gridY)
         {
-            var metricPoint = new Point3D(LowerLeftCorner.X + (xGridIndex * GridSize), LowerLeftCorner.Y + (yGridIndex * GridSize), 0, LowerLeftCorner.CoordinateUnits);
+            var metricPoint = new Point3D(LowerLeftCorner.X + (gridX * GridSize), LowerLeftCorner.Y + (gridY * GridSize), 0, LowerLeftCorner.CoordinateUnits);
             var geoPoint = metricPoint.ConvertTo(CoordinateUnit.geographic);
             return new GeoPoint3D(geoPoint.X, geoPoint.Y, geoPoint.Z);
+        }
+
+        public Point CoordinateToGridIndex(double x, double y)
+        {
+            int gridX = (int)Math.Floor((decimal)(x - LowerLeftCorner.X) / GridSize);
+            int gridY = (int)Math.Floor((decimal)(y - LowerLeftCorner.Y) / GridSize);
+            return new Point(gridX, gridY);
         }
     }
 }
