@@ -21,6 +21,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML
             _camera = camera;
         }
 
+        /// <summary>
+        /// Creates the actual KML file by starting an animation playlist
+        /// </summary>
+        /// <param name="duration"></param>
+        /// <returns></returns>
         protected string CreateAnimationKML(int duration)
         {
             StringBuilder builder = new StringBuilder();

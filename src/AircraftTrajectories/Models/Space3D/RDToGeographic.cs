@@ -5,6 +5,12 @@ namespace AircraftTrajectories.Models.Space3D
 {
     public class RDToGeographic
     {
+        /// <summary>
+        /// Converts the coordinates of 2D Point to Geographic units
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public PointF convertToLatLong(double x, double y)
         {
             // The city "Amsterfoort" is used as reference "Rijksdriehoek" coordinate.
@@ -47,17 +53,6 @@ namespace AircraftTrajectories.Models.Space3D
 
             float latitude = (float) (referenceWgs84X + (sumN / 3600));
             float longitude = (float) (referenceWgs84Y + (sumE / 3600));
-            /*
-            // Input
-            // x = 122202
-            // y = 487250
-            //
-            // Result
-            // "52.372143838117, 4.90559760435224"
-            result = string.Format("{0}, {1}",
-                latitude.ToString(CultureInfo.InvariantCulture.NumberFormat),
-                longitude.ToString(CultureInfo.InvariantCulture.NumberFormat));
-            */
 
             return new PointF(longitude, latitude);
         }

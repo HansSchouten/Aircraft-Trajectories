@@ -14,6 +14,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
         public string ImageDefault { get; set; }
         public string ImageAnnoyed { get; set; }
 
+        /// <summary>
+        ///  Return a string in KML format containing all pre animation definitions 
+        ///  that are required for the population annoyance
+        /// </summary>
+        /// <returns></returns>
         public AnnoyanceKMLAnimator(TemporalGrid temporalGrid, List<double[]> populationData)
         {
             _temporalGrid = temporalGrid;
@@ -23,6 +28,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             ImageAnnoyed = "angry2.png";
         }
 
+        /// <summary>
+        ///  Return a string in KML format containing all pre animation definitions 
+        ///  that are required for the population annoyance
+        /// </summary>
+        /// <returns></returns>
         public string KMLSetup()
         {
             int houseId = 0;
@@ -68,6 +78,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             return setupString;
         }
 
+        /// <summary>
+        /// Return a string in KML format containing all updates
+        /// for the population annoyance at the given moment in time
+        /// </summary>
+        /// <returns></returns>
         public string KMLAnimationStep(int t)
         {
             Grid grid = _temporalGrid.GetGrid(t);
@@ -94,17 +109,32 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             return updateString;
         }
 
+        /// <summary>
+        /// Returns a string in KML format containing all after animation definitions 
+        /// that are required for the population annoyance
+        /// </summary>
+        /// <returns></returns>
         public string KMLFinish()
         {
             return "";
         }
 
+        /// <summary>
+        /// Returns the chance of someone getting annoyed by a noise value
+        /// </summary>
+        /// <param name="noiseValue"></param>
+        /// <returns></returns>
         protected double getChance(double noiseValue)
         {
-            //return 0.0087 * Math.Pow(noiseValue - 50.5, 1.79);
             return 0.0087 * Math.Pow(noiseValue - 63, 1.79);
         }
 
+        /// <summary>
+        /// Returns true with a given chance
+        /// </summary>
+        /// <param name="chance"></param>
+        /// <param name="seed"></param>
+        /// <returns></returns>
         protected bool randomBool(double chance, int seed)
         {
             Random randomListCell = new Random(seed);

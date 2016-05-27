@@ -15,6 +15,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             _trajectory = trajectory;
         }
 
+        /// <summary>
+        ///  Return a string in KML format containing all pre animation definitions 
+        ///  that are required for the aircraft
+        /// </summary>
+        /// <returns></returns>
         public string KMLSetup()
         {
             GeoPoint3D startingPoint = _trajectory.GeoPoint(0);
@@ -48,6 +53,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             ";
         }
 
+        /// <summary>
+        /// Return a string in KML format containing all updates
+        /// for the aircraft at the given moment in time
+        /// </summary>
+        /// <returns></returns>
         public string KMLAnimationStep(int t)
         {
             GeoPoint3D animationPoint = _trajectory.GeoPoint(t);
@@ -66,6 +76,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             ";
         }
 
+        /// <summary>
+        /// Returns a string in KML format containing all after animation definitions 
+        /// that are required for the aircraft
+        /// </summary>
+        /// <returns></returns>
         public string KMLFinish()
         {
             return "";

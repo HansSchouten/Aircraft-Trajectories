@@ -92,7 +92,7 @@ namespace AircraftTrajectories.NUnit.Tests.Trajectory
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
             var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
 
-            Assert.AreEqual(45.673, obj.Heading(4.2), 0.001);
+            Assert.AreEqual(270.0003, obj.Heading(4.2), 0.001);
         }
 
         [Test]

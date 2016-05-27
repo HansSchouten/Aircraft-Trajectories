@@ -29,6 +29,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             ContourValueStep = 1;
         }
 
+        /// <summary>
+        ///  Return a string in KML format containing all pre animation definitions 
+        ///  that are required for the contour animation
+        /// </summary>
+        /// <returns></returns>
         public string KMLSetup()
         {
             Color c1 = Color.FromArgb(0, 100, 237, 75);
@@ -83,6 +88,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             return contourSetup;
         }
 
+        /// <summary>
+        /// Return a string in KML format containing all updates
+        /// for the contour animation at the given moment in time
+        /// </summary>
+        /// <returns></returns>
         public string KMLAnimationStep(int t)
         {
             string updateStep = "";
@@ -139,11 +149,23 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             return updateStep;
         }
 
+        /// <summary>
+        /// Return a string in KML format containing all updates
+        /// for the contour animation at the given moment in time
+        /// </summary>
+        /// <returns></returns>
         public string KMLFinish()
         {
             return "";
         }
 
+        /// <summary>
+        /// Updates the coordinates of the contours
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="coordinateString"></param>
+        /// <param name="targetId"></param>
+        /// <returns></returns>
         protected string plotUpdate(String type, String coordinateString, string targetId)
         {
             return @"
@@ -155,6 +177,13 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             ";
         }
 
+        /// <summary>
+        /// Interpolates the colors between chosen noise values
+        /// </summary>
+        /// <param name="lowerBound"></param>
+        /// <param name="upperBound"></param>
+        /// <param name="numberOfIntervals"></param>
+        /// <returns></returns>
         protected Color[] interpolateColors(Color lowerBound, Color upperBound, int numberOfIntervals)
         {
             Color[] colorPalette = new Color[numberOfIntervals];

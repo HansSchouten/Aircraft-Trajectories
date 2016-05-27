@@ -17,6 +17,10 @@ namespace AircraftTrajectories.Models.TemporalGrid
             _transformation = transformation;
         }
 
+        /// <summary>
+        /// Transforms all grids from one metric to the metrics stored in the converter
+        /// </summary>
+        /// <returns></returns>
         public TemporalGrid transform()
         {
             _output = new TemporalGrid();
@@ -34,6 +38,11 @@ namespace AircraftTrajectories.Models.TemporalGrid
         }
 
         protected Grid memoryGrid;
+        /// <summary>
+        /// Converts a single grid to the required unit
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         protected Grid transformGrid(Grid input)
         {
             double[][] newData = new double[input.Data.Length][];
@@ -50,6 +59,12 @@ namespace AircraftTrajectories.Models.TemporalGrid
             return newGrid;
         }
 
+        /// <summary>
+        /// Calculates the noise for the chosen output level based on the previous and current value
+        /// </summary>
+        /// <param name="previousVal"></param>
+        /// <param name="newVal"></param>
+        /// <returns></returns>
         protected double calculate(double previousVal, double newVal)
         {
             switch (_transformation)
