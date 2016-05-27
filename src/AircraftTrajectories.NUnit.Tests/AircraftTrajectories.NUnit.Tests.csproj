@@ -76,6 +76,7 @@
     <Compile Include="Models\Visualisation\KML\AnimationSection\AnnoyanceKMLAnimatorTest.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSection\ContourKMLAnimatorTest.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSection\GroundPlotKMLAnimator.cs" />
+    <Compile Include="Models\Visualisation\KML\AnimationSection\Cameras\FollowKMLAnimatorCameraTest.cs" />
     <Compile Include="Models\Visualisation\LegendCreatorTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
