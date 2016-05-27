@@ -59,11 +59,21 @@ namespace AircraftTrajectories.Models.TemporalGrid
             return _grids[t];
         }
 
+        /// <summary>
+        /// Returns the number of grids stored
+        /// </summary>
+        /// <returns></returns>
         public int GetNumberOfGrids()
         {
             return _grids.Count;
         }
 
+        /// <summary>
+        /// Retuns GeoPoint based on the entered x y index of the grid
+        /// </summary>
+        /// <param name="gridX"></param>
+        /// <param name="gridY"></param>
+        /// <returns></returns>
         public GeoPoint3D GridCoordinate(double gridX, double gridY)
         {
             var metricPoint = new Point3D(LowerLeftCorner.X + (gridX * GridSize), LowerLeftCorner.Y + (gridY * GridSize), 0, LowerLeftCorner.CoordinateUnits);
@@ -71,6 +81,12 @@ namespace AircraftTrajectories.Models.TemporalGrid
             return new GeoPoint3D(geoPoint.X, geoPoint.Y, geoPoint.Z);
         }
 
+        /// <summary>
+        /// Returns a x y index of the grid based on the entered corner coordinates
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public Point CoordinateToGridIndex(double x, double y)
         {
             int gridX = (int)Math.Floor((decimal)(x - LowerLeftCorner.X) / GridSize);

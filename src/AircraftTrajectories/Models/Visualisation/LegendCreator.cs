@@ -13,12 +13,18 @@ namespace AircraftTrajectories.Models.Visualisation
         public int max;
         public int min;
 
+        /// <summary>
+        /// Creates a legend based on max and min contour value that needs to be visualized
+        /// </summary>
         public LegendCreator()
         {
             max = 80;
             min = 65;
         }
 
+        /// <summary>
+        /// Creates the actual legend image and saves it as a bitmap file
+        /// </summary>
         public void OutputLegendImage()
         {
             // specify size bitmap
@@ -33,6 +39,9 @@ namespace AircraftTrajectories.Models.Visualisation
             bitmap.Save("gradientImage.png", ImageFormat.Png);
         }
 
+        /// <summary>
+        /// Creates the title on the right position
+        /// </summary>
         public void OutputLegendTitle()
         {
             // specify size bitmap
@@ -45,6 +54,10 @@ namespace AircraftTrajectories.Models.Visualisation
             bitmap.Save("titleImage.png", ImageFormat.Png);
         }
 
+        /// <summary>
+        /// Creates the gradient layering in the legend image
+        /// </summary>
+        /// <param name="bmp"></param>
         public void GenerateGradient(Bitmap bmp) {
 
             using (Graphics graphics = Graphics.FromImage(bmp))
@@ -60,6 +73,11 @@ namespace AircraftTrajectories.Models.Visualisation
             }
         }
 
+        /// <summary>
+        /// Fills in the outlying space of the legend and title transparent
+        /// </summary>
+        /// <param name="bmp"></param>
+        /// <param name="gradient"></param>
         public void TransparentBackground(Bitmap bmp, Boolean gradient)
         {
             using (Graphics graphics2 = Graphics.FromImage(bmp))
@@ -79,6 +97,11 @@ namespace AircraftTrajectories.Models.Visualisation
             }
         }
 
+        /// <summary>
+        /// Draws boundary values on the legend and title
+        /// </summary>
+        /// <param name="bmp"></param>
+        /// <param name="gradient"></param>
          public void DrawText(Bitmap bmp, Boolean gradient)
         {
             Graphics g = Graphics.FromImage(bmp);

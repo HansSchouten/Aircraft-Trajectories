@@ -16,6 +16,13 @@ namespace AircraftTrajectories.Models.Contours
 
         public ContourDirection Direction { get; set; }
 
+        /// <summary>
+        /// Finds next contourpoint on a grid that is a candidate to the current point
+        /// </summary>
+        /// <param name="vgrid"></param>
+        /// <param name="hgrid"></param>
+        /// <returns></returns>
+
         public ContourPoint FindNext(IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint>[][] hgrid)
         {
             IEnumerable<ContourPoint> candidates = null;

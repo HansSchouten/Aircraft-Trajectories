@@ -13,17 +13,32 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             _trajectory = trajectory;
         }
 
+        /// <summary>
+        ///  Return a string in KML format containing all pre animation definitions 
+        ///  that are required for the plotted ground path
+        /// </summary>
+        /// <returns></returns>
         public string KMLSetup()
         {
             return "";
         }
 
+        /// <summary>
+        /// Return a string in KML format containing all updates
+        /// for the plotted ground path at the given moment in time
+        /// </summary>
+        /// <returns></returns>
         public string KMLAnimationStep(int t)
         {
             _plotgroundCoordinates += _trajectory.Longitude(t) + "," + _trajectory.Latitude(t) + "," + 0 + "\n";
             return "";
         }
 
+        /// <summary>
+        /// Return a string in KML format containing all updates
+        /// for the plotted ground path at the given moment in time
+        /// </summary>
+        /// <returns></returns>
         public string KMLFinish()
         {
             return @"

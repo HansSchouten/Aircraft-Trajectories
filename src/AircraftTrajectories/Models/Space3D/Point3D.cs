@@ -17,6 +17,11 @@ namespace AircraftTrajectories.Models.Space3D
             CoordinateUnits = coordinateUnits;
         }
 
+        /// <summary>
+        /// Converts the coordinates of a 3D Point into the chosen unit
+        /// </summary>
+        /// <param name="targetUnit"></param>
+        /// <returns></returns>
         public Point3D ConvertTo(CoordinateUnit targetUnit)
         {
             CoordinateConversion converter = new CoordinateConversion();
