@@ -55,6 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\IntegratedNoiseModel\IntegratedNoiseModelTest.cs" />
+    <Compile Include="Models\Space3D\Point3DTest.cs" />
+    <Compile Include="Models\Space3D\GeoPoint3DTest.cs" />
     <Compile Include="Models\Space3D\CoordinateConversionTest.cs" />
     <Compile Include="Models\Space3D\GeographicToMetricTest.cs" />
     <Compile Include="Models\Space3D\MetricToGeographicTest.cs" />
