@@ -7,14 +7,14 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
     using System.Drawing;
     using TemporalGrid;
 
-    class AnnoyanceKMLAnimator : KMLAnimatorSectionInterface
+    public class AnnoyanceKMLAnimator : KMLAnimatorSectionInterface
     {
         protected TemporalGrid _temporalGrid;
-        protected List<int[]> _populationData;
+        protected List<double[]> _populationData;
         public string ImageDefault { get; set; }
         public string ImageAnnoyed { get; set; }
 
-        public AnnoyanceKMLAnimator(TemporalGrid temporalGrid, List<int[]> populationData)
+        public AnnoyanceKMLAnimator(TemporalGrid temporalGrid, List<double[]> populationData)
         {
             _temporalGrid = temporalGrid;
             _populationData = populationData;
@@ -27,7 +27,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
         {
             int houseId = 0;
             string setupString = "";
-            foreach (int[] row in _populationData)
+            foreach (double[] row in _populationData)
             {
                 houseId++;
                 Point3D geoPoint = (new Point3D(row[0], row[1], 0, CoordinateUnit.metric)).ConvertTo(CoordinateUnit.geographic);
@@ -73,7 +73,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             Grid grid = _temporalGrid.GetGrid(t);
             int houseId = 0;
             string updateString = "";
-            foreach (int[] row in _populationData)
+            foreach (double[] row in _populationData)
             {
                 houseId++;
                 Point gridIndex = _temporalGrid.CoordinateToGridIndex(row[0], row[1]);

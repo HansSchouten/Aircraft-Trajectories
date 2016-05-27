@@ -8,6 +8,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
     using System.Drawing;
     using Trajectory;
     using Space3D;
+
     public class ContourKMLAnimator : KMLAnimatorSectionInterface
     {
         protected TemporalGrid _temporalGrid;

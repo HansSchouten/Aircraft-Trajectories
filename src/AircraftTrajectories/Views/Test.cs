@@ -3,13 +3,11 @@ using AircraftTrajectories.Models.Space3D;
 using AircraftTrajectories.Models.TemporalGrid;
 using AircraftTrajectories.Models.Trajectory;
 using AircraftTrajectories.Models.Visualisation;
-using AircraftTrajectories.Models.Visualisation.AnimationSections;
 using AircraftTrajectories.Models.Visualisation.KML;
 using AircraftTrajectories.Models.Visualisation.KML.AnimationSections;
 using AircraftTrajectories.Models.Visualisation.KML.AnimationSections.Cameras;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -74,7 +72,7 @@ namespace AircraftTrajectories.Views
             googleEarthForm.Show();
         }
 
-        private List<int[]> getPopulationData()
+        private List<double[]> getPopulationData()
         {
             string currentFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
             string rawData = File.ReadAllText(currentFolder + "/personen.dat");
@@ -107,14 +105,14 @@ namespace AircraftTrajectories.Views
             }
 
             double chance = 0.03;
-            var chosenPoints = new List<int[]>();
+            var chosenPoints = new List<double[]>();
             int i = 0;
             foreach (int[] row in inGridPoints)
             {
                 i++;
                 if (randomBool(chance, i))
                 {
-                    chosenPoints.Add(new int[] { row[0], row[1], row[2] });
+                    chosenPoints.Add(new double[] { row[0], row[1], row[2] });
                 }
             }
             return chosenPoints;

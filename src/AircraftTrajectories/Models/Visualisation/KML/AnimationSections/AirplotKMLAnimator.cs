@@ -3,7 +3,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
 {
     using Trajectory;
 
-    class AirplotKMLAnimator : KMLAnimatorSectionInterface
+    public class AirplotKMLAnimator : KMLAnimatorSectionInterface
     {
         protected string _plotairCoordinates = "";
         protected Trajectory _trajectory;
