@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using static System.Net.Mime.MediaTypeNames;
-using System.Windows.Forms;
 
 namespace AircraftTrajectories.Models.Population
 {
     public class PopulationData
     {
         protected string _file;
+        public double Chance { get; set; }
 
         /// <summary>
         /// Creates a populationdata object based on input file
@@ -20,6 +18,7 @@ namespace AircraftTrajectories.Models.Population
         public PopulationData(string file)
         {
             _file = file;
+            Chance = 0.3;
         }
 
         /// <summary>
@@ -58,13 +57,12 @@ namespace AircraftTrajectories.Models.Population
                 }
             }
 
-            double chance = 0.03;
             var chosenPoints = new List<double[]>();
             int i = 0;
             foreach (int[] row in inGridPoints)
             {
                 i++;
-                if (randomBool(chance, i))
+                if (randomBool(Chance, i))
                 {
                     chosenPoints.Add(new double[] { row[0], row[1], row[2] });
                 }
@@ -78,7 +76,7 @@ namespace AircraftTrajectories.Models.Population
         /// <param name="chance"></param>
         /// <param name="seed"></param>
         /// <returns></returns>
-        private Boolean randomBool(double chance, int seed)
+        private bool randomBool(double chance, int seed)
         {
             Random randomListCell = new Random(seed);
             return (chance > randomListCell.NextDouble());

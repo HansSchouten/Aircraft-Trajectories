@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
 using AircraftTrajectories.Models.Space3D;
-using System.Windows.Forms;
 
 namespace AircraftTrajectories.NUnit.Tests.Models.Space3D
 {
