@@ -71,6 +71,7 @@
     <Compile Include="Models\Trajectory\AircraftTest.cs" />
     <Compile Include="Models\Trajectory\TrajectoryFileReaderTest.cs" />
     <Compile Include="Models\Trajectory\TrajectoryTest.cs" />
+    <Compile Include="Models\Visualisation\AnimationSection\AircraftKMLAnimatorTest.cs" />
     <Compile Include="Models\Visualisation\LegendCreatorTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
