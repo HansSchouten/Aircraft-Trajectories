@@ -1,9 +1,8 @@
 ﻿
-namespace AircraftTrajectories.Models.Visualisation.AnimationSections
+namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
 {
     using Trajectory;
     using Space3D;
-    using KML.AnimationSections;
 
     public class AircraftKMLAnimator : KMLAnimatorSectionInterface
     {

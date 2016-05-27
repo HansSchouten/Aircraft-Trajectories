@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
 
-namespace AircraftTrajectories.NUnit.Tests.Models.Visualisation.AnimationSection
+namespace AircraftTrajectories.NUnit.Tests.Models.Visualisation.KML.AnimationSection
 {
     using AircraftTrajectories.Models.Space3D;
     using AircraftTrajectories.Models.Trajectory;
-    using AircraftTrajectories.Models.Visualisation.AnimationSections;
+    using AircraftTrajectories.Models.Visualisation.KML.AnimationSections;
     using System.Xml;
 
     [TestFixture]
