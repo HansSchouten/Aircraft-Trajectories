@@ -9,9 +9,11 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
     using System.Diagnostics;
     using System.IO;
     using System.Threading;
+
     [TestFixture]
     public class IntegratedNoiseModelTest
     {
+        protected bool completed = false;
 
         [Test]
         public void t0_processCanBeStartedTest()
@@ -19,7 +21,7 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
             Process proc = Process.Start(@"c:\windows\system32\cmd.exe");
             if (null == proc)
                 Assert.Fail("Could not start process");
-            Thread.Sleep(5000);
+            Thread.Sleep(500);
             proc.Kill();
         }
 
@@ -40,15 +42,13 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
             process.Start();
         }
 
-
         [Test]
         public void t2_INMGridExists()
         {
             string gridPath = Globals.currentDirectory + "schiphol_grid2D.dat";
             Assert.True(File.Exists(gridPath), gridPath+" does not exist");
         }
-
-
+        
         [Test]
         public void t3_INMPositionFileCanBeCreatedTest()
         {
@@ -57,17 +57,17 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
 
             var aircraft = new Aircraft("GP7270", "wing");
             IntegratedNoiseModel noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
-            noiseModel.StartCalculation(positionFileTestCompleted);
-        }
-        private void positionFileTestCompleted()
-        {
+            noiseModel.StartCalculation(INMCompleted);
+
+            while(!completed) { }
+
             string positionFile = Globals.currentDirectory + "current_position.dat";
             Assert.True(File.Exists(positionFile), positionFile + " does not exist");
+
+            completed = false;
         }
 
-
         [Test]
-        [RequiresThread]
         public void t4_INMExecutableTest()
         {
             Process process = new Process();
@@ -87,31 +87,28 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
 
             Assert.AreEqual("", output);
         }
-
-
-        IntegratedNoiseModel noiseModel;
-        bool INMRunned = false;
+        
         [Test]
-        [RequiresThread]
         public void t5_INMFullTest()
         {
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
             var trajectory = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
 
             var aircraft = new Aircraft("GP7270", "wing");
-            noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
-            noiseModel.StartCalculation(fullTestCompleted);
+            var noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
+            noiseModel.StartCalculation(INMCompleted);
 
-            while(!INMRunned) {}
+            while(!completed) {}
 
             TemporalGrid temporalGrid = noiseModel.TemporalGrid;
             Assert.AreEqual(2, temporalGrid.GetNumberOfGrids());
+
+            completed = false;
         }
-        private void fullTestCompleted()
+
+        private void INMCompleted()
         {
-            INMRunned = true;
+            completed = true;
         }
-
     }
-
 }

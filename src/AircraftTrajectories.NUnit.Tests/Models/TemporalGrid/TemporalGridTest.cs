@@ -8,9 +8,12 @@ namespace AircraftTrajectories.NUnit.Tests.TemporalGrid
     using AircraftTrajectories.Models.TemporalGrid;
     using System;
     using System.Drawing;
+    using System.Windows.Forms;
+
     [TestFixture]
     public class TemporalGridTest
     {
+        protected bool completed = false;
         IntegratedNoiseModel noiseModel;
 
         [Test]
@@ -21,23 +24,21 @@ namespace AircraftTrajectories.NUnit.Tests.TemporalGrid
 
             Aircraft aircraft = new Aircraft("GP7270", "wing");
             noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
-            noiseModel.StartCalculation(fullTestCompleted);
-        }
+            noiseModel.StartCalculation(INMCompleted);
 
-        private void fullTestCompleted()
-        {
+            while (!completed) { }
+
             TemporalGrid temporalGrid = noiseModel.TemporalGrid;
-            Assert.AreNotEqual(0, temporalGrid.GetNumberOfGrids());
-            
-            Grid temp = new Grid(null);
+            int numberOfGrids = temporalGrid.GetNumberOfGrids();
+            Assert.AreNotEqual(0, numberOfGrids);
+
+            Grid temp = new Grid(new double[1][] { new double[] { 0 } });
             temporalGrid.AddGrid(temp);
             Assert.IsNotNull(temporalGrid.GetGrid(0));
-            Assert.IsNull(temporalGrid.GetGrid(1));
+            Assert.AreEqual(numberOfGrids+1, temporalGrid.GetNumberOfGrids());
+            Assert.AreEqual(temp, temporalGrid.GetGrid(numberOfGrids));
 
-            TemporalGrid temp1 = new TemporalGrid();
-            temp1.AddGrid(temporalGrid.GetGrid(0));
-            Assert.AreEqual(temp1.GetGrid(0), temporalGrid.GetGrid(0));
-            Assert.AreEqual(temp, temporalGrid.GetGrid(0));
+            completed = false;
         }
 
         [Test]
@@ -84,5 +85,11 @@ namespace AircraftTrajectories.NUnit.Tests.TemporalGrid
 
             Assert.AreEqual(0, point.Y);
         }
+
+        private void INMCompleted()
+        {
+            completed = true;
+        }
+
     }
 }
