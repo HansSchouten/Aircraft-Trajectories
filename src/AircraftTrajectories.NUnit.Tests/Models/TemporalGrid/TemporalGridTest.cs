@@ -6,14 +6,15 @@ namespace AircraftTrajectories.NUnit.Tests.TemporalGrid
 {
     using AircraftTrajectories.Models.IntegratedNoiseModel;
     using AircraftTrajectories.Models.TemporalGrid;
-	
+    using System;
+    using System.Drawing;
     [TestFixture]
     public class TemporalGridTest
     {
         IntegratedNoiseModel noiseModel;
 
         [Test]
-        public void TemporalGrid()
+        public void t1_TemporalGrid()
         { 
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
             var trajectory = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
@@ -39,13 +40,49 @@ namespace AircraftTrajectories.NUnit.Tests.TemporalGrid
             Assert.AreEqual(temp, temporalGrid.GetGrid(0));
         }
 
-        private void GridCoordinateTest()
+        [Test]
+        public void t2_GridCoordinateXTest()
         {
             TemporalGrid temporalGrid = noiseModel.TemporalGrid;
             GeoPoint3D point = temporalGrid.GridCoordinate(1.5, 4);
-            Assert.AreEqual(2, point.Latitude);
-            Assert.AreEqual(2, point.Longitude);
-            Assert.AreEqual(1, point.Z);
+         
+            Assert.AreEqual(47.979, Math.Round(point.Latitude, 3));
+        }
+
+        [Test]
+        public void t3_GridCoordinateYTest()
+        {
+            TemporalGrid temporalGrid = noiseModel.TemporalGrid;
+            GeoPoint3D point = temporalGrid.GridCoordinate(1.5, 4);
+
+            Assert.AreEqual(3.316, Math.Round(point.Longitude, 3));
+        }
+
+        [Test]
+        public void t4_GridCoordinateZTest()
+        {
+            TemporalGrid temporalGrid = noiseModel.TemporalGrid;
+            GeoPoint3D point = temporalGrid.GridCoordinate(1.5, 4);
+
+            Assert.AreEqual(0.0, Math.Round(point.Z, 1));
+        }
+
+        [Test]
+        public void t5_GridCoordinateToGridXTest()
+        {
+            TemporalGrid temporalGrid = noiseModel.TemporalGrid;
+            Point point = temporalGrid.CoordinateToGridIndex(1.5, 4);
+
+            Assert.AreEqual(0, point.X);
+        }
+
+        [Test]
+        public void t6_GridCoordinateToGridYTest()
+        {
+            TemporalGrid temporalGrid = noiseModel.TemporalGrid;
+            Point point = temporalGrid.CoordinateToGridIndex(1.5, 4);
+
+            Assert.AreEqual(0, point.Y);
         }
     }
 }
