@@ -53,7 +53,7 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Space3D
             GeoPoint3D destination = new GeoPoint3D(8.5, 4.5, 7.8);
             double res = point.HeadingTo(destination);
 
-            Assert.AreEqual(90.3577, res, 0.001);
+            Assert.AreEqual(252.523, res, 0.001);
         }
 
         [Test]
