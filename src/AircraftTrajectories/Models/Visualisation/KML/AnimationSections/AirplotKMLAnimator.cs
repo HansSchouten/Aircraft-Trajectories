@@ -13,6 +13,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             _trajectory = trajectory;
         }
 
+        /// <summary>
+        ///  Return a string in KML format containing all pre animation definitions 
+        ///  that are required for the plotted air path
+        /// </summary>
+        /// <returns></returns>
         public string KMLSetup()
         {
             return @"
@@ -41,6 +46,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             ";
         }
 
+        /// <summary>
+        /// Return a string in KML format containing all updates
+        /// for the plotted air path at the given moment in time
+        /// </summary>
+        /// <returns></returns>
         public string KMLAnimationStep(int t)
         {
             _plotairCoordinates += _trajectory.Longitude(t) + "," + _trajectory.Latitude(t) + "," + _trajectory.Z(t) + "\n";
@@ -53,6 +63,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             ";
         }
 
+        /// <summary>
+        /// Returns a string in KML format containing all after animation definitions 
+        /// that are required for the plotted air path
+        /// </summary>
+        /// <returns></returns>
         public string KMLFinish()
         {
             return "";

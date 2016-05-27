@@ -13,11 +13,20 @@ namespace AircraftTrajectories.Models.Population
     {
         protected string _file;
 
+        /// <summary>
+        /// Creates a populationdata object based on input file
+        /// </summary>
+        /// <param name="file"></param>
         public PopulationData(string file)
         {
             _file = file;
         }
 
+        /// <summary>
+        /// Reads the population data from the input file into the required format
+        /// Based on calculated chances
+        /// </summary>
+        /// <returns></returns>
         public List<double[]> getPopulationData()
         {
             string rawData = File.ReadAllText(_file);
@@ -63,6 +72,12 @@ namespace AircraftTrajectories.Models.Population
             return chosenPoints;
         }
 
+        /// <summary>
+        /// Returns true with the given chance
+        /// </summary>
+        /// <param name="chance"></param>
+        /// <param name="seed"></param>
+        /// <returns></returns>
         private Boolean randomBool(double chance, int seed)
         {
             Random randomListCell = new Random(seed);

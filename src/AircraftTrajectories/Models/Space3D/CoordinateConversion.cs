@@ -6,14 +6,28 @@ namespace AircraftTrajectories.Models.Space3D
 
     public class CoordinateConversion
     {
+        /// <summary>
+        /// Conversion constant from feet to meters
+        /// </summary>
         public static double FeetToMeters { get { return 0.3048; } }
 
+        /// <summary>
+        /// Converts the coordinates of a 3D point into requred unit
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="newUnits"></param>
+        /// <returns></returns>
         public Point3D ConvertCoordinates(Point3D point, CoordinateUnit newUnits)
         {
             Point3D metricPoint = ConvertToMetrics(point);
             return ConvertMetricsTo(metricPoint, newUnits);
         }
 
+        /// <summary>
+        /// Converts the corodinates of a 3D point in meters
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
         protected Point3D ConvertToMetrics(Point3D point)
         {
             double newX = point.X;
@@ -42,6 +56,12 @@ namespace AircraftTrajectories.Models.Space3D
             return new Point3D(newX, newY, newZ, CoordinateUnit.metric);
         }
 
+        /// <summary>
+        /// Converts the coordinates of a 3D point from meters to required unit
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="newUnits"></param>
+        /// <returns></returns>
         protected Point3D ConvertMetricsTo(Point3D point, CoordinateUnit newUnits)
         {
             double newX = point.X;

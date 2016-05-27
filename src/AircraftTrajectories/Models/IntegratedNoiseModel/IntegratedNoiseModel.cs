@@ -35,7 +35,11 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             _aircraft = aircraft;
         }
         
-
+        /// <summary>
+        /// Starts the noise calculation while keeping track of the progress
+        /// </summary>
+        /// <param name="calculationCompletedCallback"></param>
+        /// <param name="progressBar"></param>
         public void StartCalculation(Action calculationCompletedCallback, ProgressBar progressBar = null)
         {
             _backgroundWorker = new BackgroundWorker();
@@ -61,6 +65,8 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         /// <summary>
         /// Calculate the noise produced by the aircraft for every second along the defined trajectory
         /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             TemporalGrid = new TemporalGrid();
@@ -83,6 +89,10 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             _backgroundWorker.ReportProgress(100);
         }
 
+        /// <summary>
+        /// Creates the position file for a particular time step
+        /// </summary>
+        /// <param name="t"></param>
         protected void CreatePositionFile(int t)
         {
             using (System.IO.StreamWriter file =
@@ -103,6 +113,9 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             }
         }
 
+        /// <summary>
+        /// Starts the execution process of the noise model
+        /// </summary>
         protected void ExecuteINMTM()
         {
             Process process = new Process();
@@ -118,7 +131,11 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
 
             process.WaitForExit();
         }
-
+        
+        /// <summary>
+        /// Parses the noise output values of the noise model
+        /// </summary>
+        /// <returns></returns>
         protected double[][] ReadNoiseData()
         {
             string rawNoise = File.ReadAllText(Globals.currentDirectory + "noise.out");
@@ -134,6 +151,11 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             return noiseData;
         }
 
+        /// <summary>
+        /// Converts the noise output into a grid of noise values
+        /// </summary>
+        /// <param name="noiseData"></param>
+        /// <returns></returns>
         protected Grid NoiseDataToGrid(double[][] noiseData)
         {
             // Store noise levels in a 2D grid
