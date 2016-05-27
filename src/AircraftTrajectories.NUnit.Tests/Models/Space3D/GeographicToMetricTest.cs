@@ -1,6 +1,5 @@
 ﻿using AircraftTrajectories.Models.Space3D;
 using NUnit.Framework;
-using System;
 
 namespace AircraftTrajectories.NUnit.Tests.Models.Space3D
 {
@@ -11,10 +10,10 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Space3D
         public void convertToXY()
         {
             var converter = new GeographicToMetric();
-            var metricPoint = converter.ConvertToXY(122202, 487250);
+            var metricPoint = converter.ConvertToXY(4.7, 53);
 
-            Assert.AreEqual("1118889.975", Math.Round(metricPoint.Y, 3).ToString());
-            Assert.AreEqual("13603464413.919", Math.Round(metricPoint.X, 3).ToString());
+            Assert.AreEqual(6982997.9204, metricPoint.Y, 0.001);
+            Assert.AreEqual(523201.6067, metricPoint.X, 0.001);
         }
     }
 }

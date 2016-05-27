@@ -9,16 +9,16 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Trajectory
         [Test]
         public void Aircraft()
         {
-            Aircraft obj = new Aircraft("2CF650", "m");
-            Assert.IsNotNull(obj);
+            Aircraft aircraft = new Aircraft("2CF650", "m");
+            Assert.IsNotNull(aircraft);
         }
 
         [Test]
         public void AircraftModel()
         {
-            Aircraft obj = new Aircraft("2CF650", "m");
-            Assert.AreEqual(obj.EngineId, "2CF650");
-            Assert.AreEqual(obj.EngineMount, "m");
+            Aircraft aircraft = new Aircraft("2CF650", "m");
+            Assert.AreEqual(aircraft.EngineId, "2CF650");
+            Assert.AreEqual(aircraft.EngineMount, "m");
         }
 
     }

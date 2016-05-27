@@ -25,11 +25,11 @@ namespace AircraftTrajectories.NUnit.Tests.Trajectory
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
             var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
 
-            Assert.AreEqual("110640.78", Math.Round(obj.X(0.1), 3).ToString());
-            Assert.AreEqual("478092.374", Math.Round(obj.Y(0.1), 3).ToString());
-            Assert.AreEqual("14.309", Math.Round(obj.Z(0.1), 3).ToString());
-            Assert.AreEqual("52.289", Math.Round(obj.Latitude(0.1), 3).ToString());
-            Assert.AreEqual("4.737", Math.Round(obj.Longitude(0.1), 3).ToString());
+            Assert.AreEqual(110640.78, obj.X(0.1), 0.001);
+            Assert.AreEqual(478092.374, obj.Y(0.1), 0.001);
+            Assert.AreEqual(14.3085, obj.Z(0.1), 0.001);
+            Assert.AreEqual(52.289, obj.Latitude(0.1), 0.001);
+            Assert.AreEqual(4.737, obj.Longitude(0.1), 0.001);
         }
 
         [Test]
@@ -38,8 +38,8 @@ namespace AircraftTrajectories.NUnit.Tests.Trajectory
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
             var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
 
-            Assert.AreEqual("52.289", Math.Round(obj.Latitude(0.1), 3).ToString());
-            Assert.AreEqual("4.737", Math.Round(obj.Longitude(0.1), 3).ToString());
+            Assert.AreEqual(52.289, obj.Latitude(0.1), 0.001);
+            Assert.AreEqual(4.737, obj.Longitude(0.1), 0.001);
         }
 
         [Test]
@@ -50,9 +50,9 @@ namespace AircraftTrajectories.NUnit.Tests.Trajectory
 
             GeoPoint3D geopoint = obj.GeoPoint(2.5);
             Assert.IsNotNull(geopoint);
-            Assert.AreEqual("52.287", Math.Round(geopoint.Latitude, 3).ToString());
-            Assert.AreEqual("4.731", Math.Round(geopoint.Longitude, 3).ToString());
-            Assert.AreEqual("101.974", Math.Round(geopoint.Z, 3).ToString());
+            Assert.AreEqual(52.287, geopoint.Latitude, 0.001);
+            Assert.AreEqual(4.731, geopoint.Longitude, 0.001);
+            Assert.AreEqual(101.974, geopoint.Z, 0.001);
         }
 
         [Test]
@@ -63,9 +63,9 @@ namespace AircraftTrajectories.NUnit.Tests.Trajectory
 
             Point3D point = obj.Point3D(0.05);
             Assert.IsNotNull(point);
-            Assert.AreEqual("110649.39", Math.Round(point.X, 3).ToString());
-            Assert.AreEqual("478097.687", Math.Round(point.Y, 3).ToString());
-            Assert.AreEqual("12.488", Math.Round(point.Z, 3).ToString());
+            Assert.AreEqual(110649.39, point.X, 0.001);
+            Assert.AreEqual(478097.687, point.Y, 0.001);
+            Assert.AreEqual(12.488, point.Z, 0.001);
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace AircraftTrajectories.NUnit.Tests.Trajectory
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
             var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
 
-            Assert.AreEqual(102.8, obj.Airspeed(2));
+            Assert.AreEqual(102.8, obj.Airspeed(2), 0.001);
         }
 
         [Test]
@@ -83,7 +83,7 @@ namespace AircraftTrajectories.NUnit.Tests.Trajectory
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
             var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
 
-            Assert.AreEqual("22.455", Math.Round(obj.Tilt(3.5), 3).ToString());
+            Assert.AreEqual(22.455, obj.Tilt(3.5), 0.001);
         }
 
         [Test]
@@ -92,7 +92,7 @@ namespace AircraftTrajectories.NUnit.Tests.Trajectory
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
             var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
 
-            Assert.AreEqual("45.673", Math.Round(obj.Heading(4.2), 3).ToString());
+            Assert.AreEqual(45.673, obj.Heading(4.2), 0.001);
         }
 
         [Test]
@@ -110,7 +110,7 @@ namespace AircraftTrajectories.NUnit.Tests.Trajectory
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
             var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
 
-            Assert.AreEqual("0.019", Math.Round(obj.BankAngle(45),3).ToString());
+            Assert.AreEqual(0.019, obj.BankAngle(45), 0.001);
         }
 
         [Test]
@@ -119,7 +119,7 @@ namespace AircraftTrajectories.NUnit.Tests.Trajectory
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
             var obj = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
 
-            Assert.AreEqual(39.286, Math.Round(obj.BankAngle(10), 3));
+            Assert.AreEqual(39.286, obj.BankAngle(10), 0.001);
         }
 
     }

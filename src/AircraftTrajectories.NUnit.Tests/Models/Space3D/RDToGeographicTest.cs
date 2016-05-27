@@ -22,9 +22,11 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Space3D
             PointF point = converter.convertToLatLong(x, y);
             Assert.AreEqual("4.905598", point.X.ToString());
             Assert.AreEqual("52.37214", point.Y.ToString());
-            Assert.AreEqual("4.905598, 52.37214", string.Format("{0}, {1}",
-    point.X.ToString(CultureInfo.InvariantCulture.NumberFormat),
-    point.Y.ToString(CultureInfo.InvariantCulture.NumberFormat)));
+            Assert.AreEqual("4.905598, 52.37214", 
+            string.Format("{0}, {1}",
+                point.X.ToString(CultureInfo.InvariantCulture.NumberFormat),
+                point.Y.ToString(CultureInfo.InvariantCulture.NumberFormat))
+            );
         }
 
     }

@@ -16,7 +16,7 @@ using System.Windows.Forms;
 namespace AircraftTrajectories.Views
 {
 
-    public partial class Test : Form, IGoogleEarthForm
+    public partial class Test : Form
     {
         public Test()
         {

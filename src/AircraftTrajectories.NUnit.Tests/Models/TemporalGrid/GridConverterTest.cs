@@ -93,7 +93,7 @@ namespace AircraftTrajectories.NUnit.Tests.Models.TemporalGrid
             TemporalGrid res = converter_MAX.transform();
             Assert.IsNotNull(converter_MAX);
 
-            Assert.AreEqual("25.9", res.GetGrid(1).Data[65][60].ToString());
+            Assert.AreEqual(25.9, res.GetGrid(1).Data[65][60], 0.01);
 
             testRunned_MAX = false;
 
@@ -161,7 +161,7 @@ namespace AircraftTrajectories.NUnit.Tests.Models.TemporalGrid
             var converter_SEL = new GridConverter(noiseModel_SEL.TemporalGrid, GridTransformation.SEL);
             TemporalGrid res = converter_SEL.transform();
 
-            Assert.AreEqual("30.67", Math.Round(res.GetGrid(1).Data[65][60], 2).ToString());
+            Assert.AreEqual(30.67, Math.Round(res.GetGrid(1).Data[65][60], 2), 0.001);
 
             testRunned_SEL = false;
         }

@@ -8,7 +8,6 @@ namespace AircraftTrajectories.NUnit.Tests.TemporalGrid
     using AircraftTrajectories.Models.TemporalGrid;
     using System;
     using System.Drawing;
-    using System.Windows.Forms;
 
     [TestFixture]
     public class TemporalGridTest

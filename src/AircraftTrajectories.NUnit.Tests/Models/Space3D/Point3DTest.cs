@@ -48,7 +48,7 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Space3D
             Point3D test = new Point3D(15555, 14656, 4500, CoordinateUnit.metric);
             Point3D converted = test.ConvertTo(CoordinateUnit.geographic);
 
-            Assert.AreEqual(3.52, Math.Round(converted.X, 2));
+            Assert.AreEqual(3.5166, converted.X, 0.001);
         }
 
 

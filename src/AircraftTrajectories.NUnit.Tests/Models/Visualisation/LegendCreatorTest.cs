@@ -13,8 +13,8 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Visualisation
         {
             LegendCreator creator = new LegendCreator();
             Assert.IsNotNull(creator);
-            Assert.AreEqual("80", creator.max.ToString());
-            Assert.AreEqual("65", creator.min.ToString());
+            Assert.AreEqual(80, creator.max);
+            Assert.AreEqual(65, creator.min);
         }
 
         [Test]
@@ -27,7 +27,6 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Visualisation
             {
                 Assert.Pass();
             }
-
         }
 
         [Test]
@@ -40,8 +39,6 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Visualisation
             {
                 Assert.Pass();
             }
-
         }
-
     }
 }

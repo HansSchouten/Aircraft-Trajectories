@@ -44,8 +44,7 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Space3D
 
             GeoPoint3D destination = new GeoPoint3D(0, 100, 100);
 
-            Assert.AreEqual("1.5", Math.Round(movedPoint.Longitude, 1).ToString());
-
+            Assert.AreEqual(1.5, movedPoint.Longitude, 0.001);
         }
 
         [Test]
@@ -55,9 +54,8 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Space3D
             GeoPoint3D destination = new GeoPoint3D(8.5, 4.5, 7.8);
             double res = point.HeadingTo(destination);
 
-            Assert.AreEqual("252.523", Math.Round(res, 3).ToString());
+            Assert.AreEqual(252.523, res, 0.001);
         }
-
-
+        
     }
 }

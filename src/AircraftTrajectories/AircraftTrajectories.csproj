@@ -100,7 +100,6 @@
     <Compile Include="Views\GoogleEarthServerForm.Designer.cs">
       <DependentUpon>GoogleEarthServerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\IGoogleEarthForm.cs" />
     <Compile Include="Views\Test.cs">
       <SubType>Form</SubType>
     </Compile>
