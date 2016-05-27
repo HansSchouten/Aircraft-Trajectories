@@ -65,6 +65,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Population\PopulationData.cs" />
     <Compile Include="Models\Space3D\GeoPoint3D.cs" />
     <Compile Include="Models\Space3D\Point3D.cs" />
     <Compile Include="Models\Space3D\CoordinateConversion.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Models\Visualisation\KML\AnimationSections\Cameras\KMLAnimatorCameraInterface.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\ContourKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\GroundplotKMLAnimator.cs" />
+    <Compile Include="Models\Visualisation\KML\AnimationSections\KMLAnimatorTest.cs" />
     <Compile Include="Models\Visualisation\KML\KMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\KMLAnimatorSectionInterface.cs" />
     <Compile Include="Models\Visualisation\LegendCreator.cs" />

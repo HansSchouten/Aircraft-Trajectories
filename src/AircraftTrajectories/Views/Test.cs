@@ -1,4 +1,5 @@
 ﻿using AircraftTrajectories.Models.IntegratedNoiseModel;
+using AircraftTrajectories.Models.Population;
 using AircraftTrajectories.Models.Space3D;
 using AircraftTrajectories.Models.TemporalGrid;
 using AircraftTrajectories.Models.Trajectory;
@@ -46,13 +47,8 @@ namespace AircraftTrajectories.Views
             TemporalGrid temporalGrid = noiseModel.TemporalGrid;
             temporalGrid.LowerLeftCorner = new Point3D(104062, 475470, 0, CoordinateUnit.metric);
             temporalGrid.GridSize = 125;
-            //GridConverter converter = new GridConverter(temporalGrid, GridTransformation.MAX);
-            //temporalGrid = converter.transform();
 
-            var populationData = getPopulationData();
-            //populationData = new List<int[]>() { };
-            //var animator = new Animator(trajectory, aircraft, temporalGrid, populationData);
-            //animator.createAnimationKML();
+            var population = new PopulationData(Globals.currentDirectory + "population.dat");
 
             var camera = new FollowKMLAnimatorCamera(aircraft, trajectory);
             var sections = new List<KMLAnimatorSectionInterface>() {
@@ -60,7 +56,7 @@ namespace AircraftTrajectories.Views
                 new AirplotKMLAnimator(trajectory),
                 new GroundplotKMLAnimator(trajectory),
                 new ContourKMLAnimator(temporalGrid, trajectory, new List<int>() { 65, 70, 75 }),
-                new AnnoyanceKMLAnimator(temporalGrid, populationData)
+                new AnnoyanceKMLAnimator(temporalGrid, population.getPopulationData())
             };
             var animator = new KMLAnimator(sections, camera);
             animator.AnimationToFile(trajectory.Duration, Globals.currentDirectory + "test.kml");
@@ -70,58 +66,6 @@ namespace AircraftTrajectories.Views
             this.Hide();
             googleEarthForm.Closed += (s, args) => this.Close();
             googleEarthForm.Show();
-        }
-
-        private List<double[]> getPopulationData()
-        {
-            string currentFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
-            string rawData = File.ReadAllText(currentFolder + "/personen.dat");
-            int[][] populationData;
-            populationData = rawData
-                .Split('\n')
-                .Select(q =>
-                    q.Split(new[] { "\t" }, StringSplitOptions.RemoveEmptyEntries)
-                     .Select(x => {
-                         return (int)decimal.Parse(x, NumberStyles.Float);
-                     })
-                     .ToArray()
-                )
-                .ToArray();
-
-            var inGridPoints = new List<int[]>();
-            int minX = 104062;
-            int maxX = 112658;
-            int minY = 475470;
-            int maxY = 485564;
-            foreach (int[] row in populationData)
-            {
-                if (row.Length < 3) { continue; }
-                int x = row[0];
-                int y = row[1];
-                if (x > minX && x < maxX && y > minY && y < maxY)
-                {
-                    inGridPoints.Add(new int[] { x, y, row[2] });
-                }
-            }
-
-            double chance = 0.03;
-            var chosenPoints = new List<double[]>();
-            int i = 0;
-            foreach (int[] row in inGridPoints)
-            {
-                i++;
-                if (randomBool(chance, i))
-                {
-                    chosenPoints.Add(new double[] { row[0], row[1], row[2] });
-                }
-            }
-            return chosenPoints;
-        }
-
-        private Boolean randomBool(double chance, int seed)
-        {
-            Random randomListCell = new Random(seed);
-            return (chance > randomListCell.NextDouble());
         }
     }
 }
