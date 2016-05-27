@@ -10,7 +10,6 @@ namespace AircraftTrajectories.Models.Visualisation
 {
     public class LegendCreator
     {
-
         public int max;
         public int min;
 

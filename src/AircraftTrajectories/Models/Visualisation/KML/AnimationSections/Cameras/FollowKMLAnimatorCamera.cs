@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections.Cameras
 {
     using Space3D;
