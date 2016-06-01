@@ -6,7 +6,7 @@ namespace AircraftTrajectories.Models.Optimalisation
     public class ISA
     {
         // Atmospheric conditions at Mean Sea Level
-        public double t0 = 272.15 + 15;                 // Temperature [degrees Kelvin]
+        public double t0 = 273.15 + 15;                 // Temperature [degrees Kelvin]
         public double lambda = -6.5 / 1000;             // Temperature with height [degrees Kelvin / m]
         public double p0 = 101325;                      // Pressure [N/m^2]
         public double R_gas = 8.314510 / 0.0289645;     // Gas constant for air [m^2/degrees Kelvin * sec^2]
@@ -15,7 +15,7 @@ namespace AircraftTrajectories.Models.Optimalisation
         public double gamma = 1.4;                      // Ratio of specific heats
 
         // Properties
-        public double T { get { return T - 272.15; } protected set { } }
+        public double T { get; protected set; }
         public double dTdZ { get; protected set; }
         public double Theta { get; protected set; }
         public double dThetaDz { get; protected set; }
