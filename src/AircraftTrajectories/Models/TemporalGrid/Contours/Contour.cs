@@ -14,6 +14,13 @@ namespace AircraftTrajectories.Models.Contours
             Points = GetPoints(first, vgrid, hgrid).ToArray();
         }
 
+        /// <summary>
+        /// Returns the contour points on a grid starting in a given contour point
+        /// </summary>
+        /// <param name="first"></param>
+        /// <param name="vgrid"></param>
+        /// <param name="hgrid"></param>
+        /// <returns></returns>
         private IEnumerable<ContourPoint> GetPoints(ContourPoint first, IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint>[][] hgrid)
         {
             first.Parent = this;
@@ -33,6 +40,13 @@ namespace AircraftTrajectories.Models.Contours
 
         public bool IsClosed { get; private set; }
 
+        /// <summary>
+        /// Creates contours based on noise data and given grid
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="hgrid"></param>
+        /// <param name="vgrid"></param>
+        /// <returns></returns>
         public static IEnumerable<Contour> CreateContours(double[][] data, out IEnumerable<ContourPoint>[][] hgrid, out IEnumerable<ContourPoint>[][] vgrid)
         {
             if (data == null)
@@ -81,6 +95,12 @@ namespace AircraftTrajectories.Models.Contours
             return GenerateContours(vgrid, hgrid);
         }
 
+        /// <summary>
+        /// Generates the contours by finding closed circles
+        /// </summary>
+        /// <param name="vgrid"></param>
+        /// <param name="hgrid"></param>
+        /// <returns></returns>
         private static IEnumerable<Contour> GenerateContours(IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint>[][] hgrid)
         {
             // iterate the frame

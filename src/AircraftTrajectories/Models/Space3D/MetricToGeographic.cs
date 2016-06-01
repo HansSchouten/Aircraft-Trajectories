@@ -4,6 +4,12 @@ namespace AircraftTrajectories.Models.Space3D
 {
     public class MetricToGeographic
     {
+        /// <summary>
+        /// Converts two values from meters to Geographic units 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public Point3D ConvertToLongLat(double x, double y)
         {
             // The city "Amsterfoort" is used as reference "Rijksdriehoek" coordinate.

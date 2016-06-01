@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace AircraftTrajectories.Models.Space3D
 {
+    
     public class GeoPoint3D
     {
         public CoordinateUnit CoordinateUnits { get; protected set; }
@@ -17,6 +19,12 @@ namespace AircraftTrajectories.Models.Space3D
             CoordinateUnits = CoordinateUnit.geographic;
         }
 
+        /// <summary>
+        /// Calculates the GeoPoint 3D that is reached with the given distance and heading 
+        /// </summary>
+        /// <param name="distance"></param>
+        /// <param name="heading"></param>
+        /// <returns></returns>
         public GeoPoint3D MoveInDirection(double distance, double heading)
         {
             var R = 6378137;
@@ -34,6 +42,11 @@ namespace AircraftTrajectories.Models.Space3D
             return new GeoPoint3D(newLongitude, newLatitude, Z);
         }
 
+        /// <summary>
+        /// Calculates the heading to the given GeoPoint 3D
+        /// </summary>
+        /// <param name="destination"></param>
+        /// <returns></returns>
         public double HeadingTo(GeoPoint3D destination)
         {
             var dLon = (destination.Longitude - Longitude) * (Math.PI / 180);

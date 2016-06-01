@@ -23,6 +23,9 @@ namespace AircraftTrajectories.Models.TemporalGrid
             CalculateContours();
         }
 
+        /// <summary>
+        /// Calculates the contours within a vertical and horizontal grid
+        /// </summary>
         protected void CalculateContours()
         {
             IEnumerable<ContourPoint>[][] hgrid, vgrid;

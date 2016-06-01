@@ -55,6 +55,16 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Space3D
 
             Assert.AreEqual(252.523, res, 0.001);
         }
-        
+
+        [Test]
+        public void GeoPointHeadingToHighDlonTest()
+        {
+            GeoPoint3D point = new GeoPoint3D(1.5, 2.3, 4.5);
+            GeoPoint3D destination = new GeoPoint3D(850, 4500, 7800);
+            double res = point.HeadingTo(destination);
+
+            Assert.AreEqual(Double.NaN, res);
+        }
+
     }
 }
