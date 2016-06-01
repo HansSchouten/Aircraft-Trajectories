@@ -8,7 +8,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
     using System.Drawing;
     using Trajectory;
     using Space3D;
-
+    using System.Device.Location;
     public class ContourKMLAnimator : KMLAnimatorSectionInterface
     {
         protected TemporalGrid _temporalGrid;
@@ -23,7 +23,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             _temporalGrid = temporalGrid;
             _trajectory = trajectory;
             _labeledContours = labeledContours;
-
+            
             NumberOfContours = 30;
             FirstContourValue = 55;
             ContourValueStep = 1;
@@ -104,16 +104,17 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
                 visibleContours.Add(contourId);
 
                 var coordinateString = "";
-                double pointLongitude = 0;
-                double pointLatitude = 0;
+                GeoPoint3D contourPoint = _temporalGrid.GridCoordinate(contour.Points[0].Location.X, contour.Points[0].Location.Y);
+                double pointLongitude = contourPoint.Longitude;
+                double pointLatitude = contourPoint.Latitude;
                 double smallestHeadingDeviation = 180;
+                double desiredHeading = (_trajectory.Heading(t) + 160) % 360;
                 foreach (ContourPoint p in contour.Points)
                 {
-                    GeoPoint3D contourPoint = _temporalGrid.GridCoordinate(p.Location.X, p.Location.Y);
+                    contourPoint = _temporalGrid.GridCoordinate(p.Location.X, p.Location.Y);
                     coordinateString += contourPoint.Longitude + "," + contourPoint.Latitude + ",0\n";
 
                     double pointHeading = contourPoint.HeadingTo(_trajectory.GeoPoint(t));
-                    double desiredHeading = (_trajectory.Heading(t) + 160) % 360;
                     if (pointHeading < desiredHeading && Math.Abs(pointHeading - desiredHeading) < smallestHeadingDeviation)
                     {
                         smallestHeadingDeviation = Math.Abs(pointHeading - desiredHeading);
@@ -125,7 +126,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
                 // Plot point
                 if (_labeledContours.Contains(FirstContourValue + (contourId * ContourValueStep)))
                 {
-                    updateStep += plotUpdate("Point", pointLongitude + "," + pointLatitude + ",0", "contourPoint" + contourId);
+                    var planeCoord = new GeoCoordinate(_trajectory.Latitude(t), _trajectory.Longitude(t));
+                    var contourCoord = new GeoCoordinate(pointLatitude, pointLongitude);
+                    var distance = planeCoord.GetDistanceTo(contourCoord);
+                    var labelPoint = _trajectory.GeoPoint(t).MoveInDirection(distance, desiredHeading);
+                    updateStep += plotUpdate("Point", labelPoint.Longitude + "," + labelPoint.Latitude + ",0", "contourPoint" + contourId);
                 }
             }
             for (int i = 1; i <= NumberOfContours; i++)

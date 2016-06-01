@@ -50,7 +50,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
 
         public string KMLAnimationStep(int t)
         {
-            GeoPoint3D animationPoint = _trajectory.GeoPoint(t);
+            GeoPoint3D animationPoint = _trajectory.GeoPoint(t).MoveInDirection(70, (_trajectory.Heading(t)+210)%360);
 
             return @"
             <Location targetId='model_location'>

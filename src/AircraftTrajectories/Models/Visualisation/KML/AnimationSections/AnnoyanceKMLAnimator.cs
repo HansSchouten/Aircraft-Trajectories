@@ -83,7 +83,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
                 {
                     updateString += @"
                     <IconStyle targetId='house_iconstyle_" + houseId + @"'>
-                        <scale>1.35</scale>
+                        <scale>1.3</scale>
                         <Icon>
                             <href>" + ImageAnnoyed + @"</href>
                         </Icon>

@@ -18,7 +18,7 @@ namespace AircraftTrajectories.Models.Population
         public PopulationData(string file)
         {
             _file = file;
-            Chance = 0.3;
+            Chance = 0.03;
         }
 
         /// <summary>

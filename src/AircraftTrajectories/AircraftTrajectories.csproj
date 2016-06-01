@@ -41,12 +41,40 @@
     <Reference Include="FC.GEPluginCtrls">
       <HintPath>.\FC.GEPluginCtrls.dll</HintPath>
     </Reference>
+    <Reference Include="GeneticSharp.Domain, Version=1.0.5894.2743, Culture=neutral, PublicKeyToken=d63d2a65268366c6, processorArchitecture=MSIL">
+      <HintPath>..\packages\GeneticSharp.1.0.100\lib\net35\GeneticSharp.Domain.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GeneticSharp.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f24c5e2578f0ecff, processorArchitecture=MSIL">
+      <HintPath>..\packages\GeneticSharp.1.0.100\lib\net35\GeneticSharp.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GeneticSharp.Infrastructure.Framework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f24c5e2578f0ecff, processorArchitecture=MSIL">
+      <HintPath>..\packages\GeneticSharp.1.0.100\lib\net35\GeneticSharp.Infrastructure.Framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GeneticSharp.Infrastructure.Threading, Version=1.0.5894.2743, Culture=neutral, PublicKeyToken=f24c5e2578f0ecff, processorArchitecture=MSIL">
+      <HintPath>..\packages\GeneticSharp.1.0.100\lib\net35\GeneticSharp.Infrastructure.Threading.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="HelperSharp, Version=1.0.5560.27038, Culture=neutral, PublicKeyToken=3d44152485e1a4e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\GeneticSharp.1.0.100\lib\net35\HelperSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Interop.GEPlugin">
       <HintPath>.\Interop.GEPlugin.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="MathNet.Numerics, Version=3.11.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MathNet.Numerics.3.11.1\lib\net40\MathNet.Numerics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NCalc, Version=1.3.8.0, Culture=neutral, PublicKeyToken=973cde3f1cafed03, processorArchitecture=MSIL">
+      <HintPath>..\packages\GeneticSharp.1.0.100\lib\net35\NCalc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SmartThreadPool, Version=2.2.3.0, Culture=neutral, PublicKeyToken=1126fe8b671e8a79, processorArchitecture=MSIL">
+      <HintPath>..\packages\SmartThreadPool.dll.2.2.3\lib\SmartThreadPool.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -65,6 +93,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Optimalisation\Boeing747-700.cs" />
+    <Compile Include="Models\Optimalisation\ISA.cs" />
+    <Compile Include="Models\Optimalisation\TrajectoryChromosome.cs" />
     <Compile Include="Models\Population\PopulationData.cs" />
     <Compile Include="Models\Space3D\GeoPoint3D.cs" />
     <Compile Include="Models\Space3D\Point3D.cs" />
@@ -90,7 +121,6 @@
     <Compile Include="Models\Visualisation\KML\AnimationSections\Cameras\KMLAnimatorCameraInterface.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\ContourKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\GroundplotKMLAnimator.cs" />
-    <Compile Include="Models\Visualisation\KML\AnimationSections\KMLAnimatorTest.cs" />
     <Compile Include="Models\Visualisation\KML\KMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\KMLAnimatorSectionInterface.cs" />
     <Compile Include="Models\Visualisation\LegendCreator.cs" />
@@ -102,11 +132,41 @@
     <Compile Include="Views\GoogleEarthServerForm.Designer.cs">
       <DependentUpon>GoogleEarthServerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\INM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\INM.Designer.cs">
+      <DependentUpon>INM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Optimize.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Optimize.Designer.cs">
+      <DependentUpon>Optimize.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Startup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Startup.Designer.cs">
+      <DependentUpon>Startup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Test.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\Test.Designer.cs">
       <DependentUpon>Test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VisualiseKML.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\VisualiseKML.Designer.cs">
+      <DependentUpon>VisualiseKML.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VisualiseOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\VisualiseOptions.Designer.cs">
+      <DependentUpon>VisualiseOptions.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -121,8 +181,23 @@
     <EmbeddedResource Include="Views\GoogleEarthServerForm.resx">
       <DependentUpon>GoogleEarthServerForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\INM.resx">
+      <DependentUpon>INM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Optimize.resx">
+      <DependentUpon>Optimize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Startup.resx">
+      <DependentUpon>Startup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Test.resx">
       <DependentUpon>Test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\VisualiseKML.resx">
+      <DependentUpon>VisualiseKML.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\VisualiseOptions.resx">
+      <DependentUpon>VisualiseOptions.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Data\A380.csv" />
     <None Include="Data\Data.csv" />
