@@ -93,9 +93,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Optimalisation\Boeing747-700.cs" />
-    <Compile Include="Models\Optimalisation\ISA.cs" />
-    <Compile Include="Models\Optimalisation\TrajectoryChromosome.cs" />
+    <Compile Include="Models\Optimisation\Boeing747-400.cs" />
+    <Compile Include="Models\Optimisation\FlightSimulator.cs" />
+    <Compile Include="Models\Optimisation\ISA.cs" />
+    <Compile Include="Models\Optimisation\ISimulatorModel.cs" />
+    <Compile Include="Models\Optimisation\TrajectoryChromosome.cs" />
+    <Compile Include="Models\Optimisation\TrajectoryFitness.cs" />
     <Compile Include="Models\Population\PopulationData.cs" />
     <Compile Include="Models\Space3D\GeoPoint3D.cs" />
     <Compile Include="Models\Space3D\Point3D.cs" />

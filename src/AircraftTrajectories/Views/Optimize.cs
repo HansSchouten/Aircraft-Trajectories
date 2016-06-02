@@ -1,4 +1,10 @@
-﻿using AircraftTrajectories.Models.Optimalisation;
+﻿using AircraftTrajectories.Models.Optimisation;
+using GeneticSharp.Domain;
+using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Populations;
+using GeneticSharp.Domain.Selections;
+using GeneticSharp.Domain.Terminations;
 using System;
 using System.Windows.Forms;
 
@@ -11,48 +17,31 @@ namespace AircraftTrajectories.Views
             InitializeComponent();
         }
 
-        // Configuration
-        public int firstHeight = 1500;
-        public int v2 = 155;
-        public int secondHeight = 3000;
-        public int v_clean = 250;
-        public double T_takeoff;
-        public double T_climb;
 
-        // State parameters
-        public int v0;
-        public int h0;
-        // Control parameters
-        public double throttle_setting;
-        public double flight_path_angle;
-        // Min/max
-        public double angle_min;
-        public double angle_max;
-        public double throttle_min;
-        public double throttle_max;
+        public Boeing747_400 aircraft;
 
         private void Optimize_Load(object sender, EventArgs e)
         {
-            Configure();
-            FirstStep();
-        }
+            var selection = new EliteSelection();
+            var crossover = new OrderedCrossover();
+            var mutation = new ReverseSequenceMutation();
+            var fitness = new TrajectoryFitness();
+            var chromosome = new TrajectoryChromosome(3);
+            var population = new Population(50, 70, chromosome);
 
-        private void Configure()
-        {
-            v0 = v2 + 10;
-            h0 = 0;
-        }
+            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
+            ga.Termination = new GenerationNumberTermination(50);
 
-        private void FirstStep()
-        {
-            throttle_setting = 1;
-            var A = 0.5;
-            var B = 0.5;
-        }
+            Console.WriteLine("GA running...");
+            ga.Start();
+            Console.WriteLine("Best solution found has {0} fitness.", int.MaxValue - ga.BestChromosome.Fitness);
+            Console.WriteLine(ga.BestChromosome.GetGene(0).Value + " " + ga.BestChromosome.GetGene(1).Value + " " + ga.BestChromosome.GetGene(2).Value);
 
-        protected double Interpolate(double min, double max, double factor)
-        {
-            return (max - min) * factor + min;
+            /*
+            aircraft = new Boeing747_400();
+            FlightSimulator f = new FlightSimulator(aircraft);
+            f.Simulate();
+            */
         }
     }
 }

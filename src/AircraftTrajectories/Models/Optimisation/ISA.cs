@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace AircraftTrajectories.Models.Optimalisation
+namespace AircraftTrajectories.Models.Optimisation
 {
     public class ISA
     {
@@ -9,7 +9,7 @@ namespace AircraftTrajectories.Models.Optimalisation
         public double t0 = 273.15 + 15;                 // Temperature [degrees Kelvin]
         public double lambda = -6.5 / 1000;             // Temperature with height [degrees Kelvin / m]
         public double p0 = 101325;                      // Pressure [N/m^2]
-        public double R_gas = 8.314510 / 0.0289645;     // Gas constant for air [m^2/degrees Kelvin * sec^2]
+        public double R_gas = 8.31432 / 0.0289644;      // Gas constant for air [m^2/degrees Kelvin * sec^2]
         public double rho0 = 1.225;                     // Air density [kg/m^3]
         public double g0 = 9.80665;                     // Gravitational acceleration [m/sec^2]
         public double gamma = 1.4;                      // Ratio of specific heats
