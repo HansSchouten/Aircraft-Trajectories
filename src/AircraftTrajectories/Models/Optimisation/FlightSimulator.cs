@@ -11,6 +11,11 @@ namespace AircraftTrajectories.Models.Optimisation
 
     public class FlightSimulator
     {
+        protected void Log(string message)
+        {
+            ///Console.WriteLine(message);
+        }
+
         protected const int MAX_SEGMENT_LENGTH = 15000;
         protected const int MAX_TURN_RADIUS = 8000;
 
@@ -79,7 +84,7 @@ namespace AircraftTrajectories.Models.Optimisation
                 duration++;
                 //Console.WriteLine("A: " + _angle + " H:" + _height + " V:" + _speed);
             }
-            Console.WriteLine("X:"+_x+" Y:"+_y);
+            Log("X:"+_x+" Y:"+_y);
             //Console.WriteLine(duration + " " + fuel);
         }
 
@@ -216,7 +221,7 @@ namespace AircraftTrajectories.Models.Optimisation
             {
                 if (currentPoint.DistanceTo(_segmentStartPoint) >= _endPoint.DistanceTo(_segmentStartPoint))
                 {
-                    Console.WriteLine("Reached end of segment" + _segmentIndex + " (straight) X:" + _x + " Y:" + _y + " Heading:" + _heading * 180 / Math.PI);
+                    Log("Reached end of segment" + _segmentIndex + " (straight) X:" + _x + " Y:" + _y + " Heading:" + _heading * 180 / Math.PI);
                     _vertical_state = VERTICAL_STATE.END;
                 }
             }
@@ -227,14 +232,14 @@ namespace AircraftTrajectories.Models.Optimisation
                 if (_segmentIndex == _numberOfSegments - 2 && 
                     currentPoint.DistanceTo(_endPoint)/2 < _aircraft.MinimumTurnRadius(_aircraft.VMax))
                 {
-                    Console.WriteLine("Continue X:"+_x);
+                    Log("Continue X:"+_x);
                     return;
                 }
 
                 // Switch from flying straight to a turn if we reach beyond the given segment length
                 if (currentPoint.DistanceTo(_segmentStartPoint) >= Interpolate(0, MAX_SEGMENT_LENGTH, Setting(2)))
                 {
-                    Console.WriteLine("Reached end of segment" + _segmentIndex + " (straight) X:"+_x + " Y:"+_y + " Heading:"+_heading*180/Math.PI);
+                    Log("Reached end of segment" + _segmentIndex + " (straight) X:"+_x + " Y:"+_y + " Heading:"+_heading*180/Math.PI);
                     _horizontal_state = HORIZONTAL_STATE.TURN;
                     _segmentStartHeading = _heading;
                     _segmentIndex++;
@@ -275,7 +280,7 @@ namespace AircraftTrajectories.Models.Optimisation
 
             if (switchHorizontalState || deltaHeading == 0)
             {
-                Console.WriteLine("Reached end of segment" + _segmentIndex + " (turn) X:" + _x + " Y:" + _y + " Heading:" + _heading * 180 / Math.PI);
+                Log("Reached end of segment" + _segmentIndex + " (turn) X:" + _x + " Y:" + _y + " Heading:" + _heading * 180 / Math.PI);
 
                 _horizontal_state = HORIZONTAL_STATE.STRAIGHT;
                 _segmentStartPoint = new Point3D(_x, _y, 0, CoordinateUnit.metric);

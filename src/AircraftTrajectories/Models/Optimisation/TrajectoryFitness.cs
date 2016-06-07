@@ -12,36 +12,33 @@ namespace AircraftTrajectories.Models.Optimisation
 
     public class TrajectoryFitness : IFitness
     {
-        bool completed = false;
 
         public double Evaluate(IChromosome chromosome)
         {
-            
+            var trajectoryChromosome = (TrajectoryChromosome) chromosome;
             var aircraft = new Boeing747_400();
             var settings = new List<double>();
 
-            for (int i = 0; i < chromosome.Length; i++)
-            {
+            for (int i = 0; i < chromosome.Length; i++) {
                 settings.Add((double) chromosome.GetGene(i).Value);
             }
 
-            FlightSimulator f = new FlightSimulator(aircraft, new Point3D(18000, 0, 0, CoordinateUnit.metric), 1, settings);
-
+            FlightSimulator f = new FlightSimulator(aircraft, new Point3D(18000, 18000, 0, CoordinateUnit.metric), trajectoryChromosome.NumberOfSegments, settings);
+            var time = DateTime.Now;
             f.Simulate();
 
             var trajectory = f.createTrajectory();
-
             var INMaircraft = new Aircraft("GP7270", "wing");
             var noiseModel = new IntegratedNoiseModel(trajectory, INMaircraft, true);
-            noiseModel.StartCalculation(INMCompleted);
-            Console.WriteLine(0);
-            while (!completed) { }
+
+            //Console.WriteLine("INM started");
+            noiseModel.RunINMFullTrajectory();
+            //Console.WriteLine("INM completed");
 
             TemporalGrid temporalGrid = noiseModel.TemporalGrid;
-
             GridConverter converter = new GridConverter(temporalGrid, GridTransformation.MAX);
             Grid last = converter.transform().GetGrid(temporalGrid.GetNumberOfGrids()-1);
-            Console.WriteLine(2);
+
             double sum = 0;
             for (int c=0; c < last.Data.Length; c++)
             {
@@ -50,14 +47,11 @@ namespace AircraftTrajectories.Models.Optimisation
                     sum += last.Data[c][r];
                 }
             }
+            
+            Console.WriteLine(DateTime.Now.Subtract(time).Milliseconds);
 
             return int.MaxValue - sum;
-            
         }
-
-    private void INMCompleted()
-    {
-        completed = true;
+        
     }
-}
 }
