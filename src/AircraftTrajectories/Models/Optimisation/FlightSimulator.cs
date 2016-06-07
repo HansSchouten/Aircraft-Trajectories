@@ -68,7 +68,7 @@ namespace AircraftTrajectories.Models.Optimisation
 
         protected double Setting(int offset)
         {
-            return Math.Floor(_segmentIndex-1/2.0)*4 + Math.Ceiling(_segmentIndex-1/2.0)*3 + offset;
+            return _settings[TrajectoryChromosome.SegmentSettingIndex(_segmentIndex, offset)];
         }
 
         protected void updatePosition()
@@ -229,7 +229,6 @@ namespace AircraftTrajectories.Models.Optimisation
                 Console.WriteLine(AngleDifference(_segmentStartHeading, targetHeading));
                 Console.WriteLine(deltaHeading);
                 Console.WriteLine(Setting(3));
-                Console.WriteLine(_segmentIndex - 1 + 3);
 
                 switchHorizontalState =
                     (deltaHeading < 0 && AngleDifference(_heading, _segmentStartHeading) >= AngleDifference(targetHeading, _segmentStartHeading)) ||

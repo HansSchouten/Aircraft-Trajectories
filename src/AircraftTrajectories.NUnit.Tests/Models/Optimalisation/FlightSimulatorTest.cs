@@ -41,7 +41,7 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Optimalisation
         public void FlightSimulatorFlyStraightTest()
         {
             var aircraft = new Boeing747_400();
-            var settings = new List<double>() { 1, 1, 1, 0 } ;
+            var settings = new List<double>() { 1, 1, 1 } ;
             FlightSimulator sim = new FlightSimulator(aircraft, new Point3D(18000, 0, 0, CoordinateUnit.metric), 1, settings);
             sim.Simulate();
             
@@ -53,7 +53,7 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Optimalisation
         public void FlightSimulatorFlyFarStraightTest()
         {
             var aircraft = new Boeing747_400();
-            var settings = new List<double>() { 1, 1, 1, 0 };
+            var settings = new List<double>() { 1, 1, 1 };
             FlightSimulator sim = new FlightSimulator(aircraft, new Point3D(50000, 0, 0, CoordinateUnit.metric), 1, settings);
             sim.Simulate();
 

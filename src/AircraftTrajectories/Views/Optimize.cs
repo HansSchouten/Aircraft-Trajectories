@@ -32,7 +32,7 @@ namespace AircraftTrajectories.Views
             f.C = 0.5;
             f.Simulate();
             return;
-
+            */
             var selection = new EliteSelection();
             var crossover = new OrderedCrossover();
             var mutation = new ReverseSequenceMutation();
