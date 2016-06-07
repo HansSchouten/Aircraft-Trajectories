@@ -37,7 +37,7 @@ namespace AircraftTrajectories.Views
             var crossover = new OrderedCrossover();
             var mutation = new ReverseSequenceMutation();
             var fitness = new TrajectoryFitness();
-            var chromosome = new TrajectoryChromosome(3);
+            var chromosome = new TrajectoryChromosome(TrajectoryChromosome.ChromosomeLength(3), 3);
             var population = new Population(50, 70, chromosome);
 
             var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);

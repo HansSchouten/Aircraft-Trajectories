@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 namespace AircraftTrajectories.Models.Optimisation
 {
+    using AircraftTrajectories.Models.Trajectory;
+    using MathNet.Numerics.Interpolation;
     public enum VERTICAL_STATE { TAKEOFF, CLIMB, FREECLIMB, END }
     public enum HORIZONTAL_STATE { STRAIGHT, TURN }
 
@@ -32,6 +34,10 @@ namespace AircraftTrajectories.Models.Optimisation
         protected double _segmentStartHeading;
 
         protected List<double> _settings;
+        protected List<double> _xData;
+        protected List<double> _yData;
+        protected List<double> _zData;
+        protected List<double> _tData;
 
         public int duration;
         public double fuel;
@@ -48,6 +54,12 @@ namespace AircraftTrajectories.Models.Optimisation
             _endPoint = endPoint;
             _numberOfSegments = numberOfSegments;
             _segmentIndex = 1;
+
+            _xData = new List<double>();
+            _yData = new List<double>();
+            _zData = new List<double>();
+            _tData = new List<double>();
+
         }
 
         public void Simulate()
@@ -56,6 +68,11 @@ namespace AircraftTrajectories.Models.Optimisation
             //Console.WriteLine("A: " + A + " B:" + B + " C:" + C);
             while (_vertical_state != VERTICAL_STATE.END)
             {
+                _xData.Add(_x);
+                _yData.Add(_y);
+                _zData.Add(_height * 0.3048);
+                _tData.Add(duration);
+
                 updatePosition();
                 updateVerticalState();
                 updateHorizontalState();
@@ -64,6 +81,18 @@ namespace AircraftTrajectories.Models.Optimisation
             }
             Console.WriteLine("X:"+_x+" Y:"+_y);
             //Console.WriteLine(duration + " " + fuel);
+        }
+
+        public Trajectory createTrajectory()
+        {
+            var xSpline = CubicSpline.InterpolateNatural(_tData, _xData);
+            var ySpline = CubicSpline.InterpolateNatural(_tData, _yData);
+            var zSpline = CubicSpline.InterpolateNatural(_tData, _zData);
+
+            var trajectory = new Trajectory(xSpline, ySpline, zSpline, null, null);
+            trajectory.Duration = (int) _tData[_tData.Count - 1];
+            
+            return trajectory;
         }
 
         protected double Setting(int offset)
