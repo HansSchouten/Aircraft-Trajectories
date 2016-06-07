@@ -6,21 +6,19 @@ namespace AircraftTrajectories.Models.Optimisation
 {
     public class TrajectoryChromosome : ChromosomeBase
     {
-        protected int _numberOfGenes;
-        protected int _numberOfSegments;
+        public int NumberOfSegments { get; protected set; }
 
-        public TrajectoryChromosome(int length, int numberOfSegments) : base(length)
+        public TrajectoryChromosome(int numberOfGenes, int numberOfSegments) : base(numberOfGenes)
         {
-            _numberOfGenes = length;
-            _numberOfSegments = numberOfSegments;
-            for (int i = 0; i < length; i++) {
+            NumberOfSegments = numberOfSegments;
+            for (int i = 0; i < Length; i++) {
                 ReplaceGene(i, GenerateGene(i));
             }
         }
 
         public override IChromosome CreateNew()
         {
-            return new TrajectoryChromosome(_numberOfGenes, _numberOfSegments);
+            return new TrajectoryChromosome(Length, NumberOfSegments);
         }
 
         public override Gene GenerateGene(int geneIndex)
