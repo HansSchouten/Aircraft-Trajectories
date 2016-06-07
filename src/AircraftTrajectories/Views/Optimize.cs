@@ -33,6 +33,7 @@ namespace AircraftTrajectories.Views
             f.Simulate();
             return;
             */
+            /*
             var selection = new EliteSelection();
             var crossover = new OrderedCrossover();
             var mutation = new ReverseSequenceMutation();
@@ -47,7 +48,7 @@ namespace AircraftTrajectories.Views
             ga.Start();
             Console.WriteLine("Best solution found has {0} fitness.", int.MaxValue - ga.BestChromosome.Fitness);
             Console.WriteLine(ga.BestChromosome.GetGene(0).Value + " " + ga.BestChromosome.GetGene(1).Value + " " + ga.BestChromosome.GetGene(2).Value);
-
+            */
             /*
             aircraft = new Boeing747_400();
             FlightSimulator f = new FlightSimulator(aircraft);

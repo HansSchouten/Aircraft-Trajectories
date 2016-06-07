@@ -145,7 +145,7 @@ namespace AircraftTrajectories.Models.Optimisation
                 var radius = Interpolate(_aircraft.MinimumTurnRadius(_speed), MAX_TURN_RADIUS, Setting(2));
                 var speedMs = _speed * 0.514444444;
                 _bankAngle = Math.Atan(_speed * _speed / radius / 9.81);
-                _bankAngle = (Setting(3) < 0.5) ? _bankAngle : -_bankAngle;
+                _bankAngle = (Setting(3) > 0.5) ? _bankAngle : -_bankAngle;
             }
         }
 
@@ -253,11 +253,13 @@ namespace AircraftTrajectories.Models.Optimisation
             {
                 var currentPoint = new Point3D(_x, _y, 0, CoordinateUnit.metric);
                 targetHeading = currentPoint.HeadingTo(_endPoint) * Math.PI / 180;
+                /*
                 Console.WriteLine((_heading * 180 / Math.PI) + " to " + targetHeading * 180 / Math.PI + " seg:"+ _segmentStartHeading * 180 / Math.PI);
                 Console.WriteLine(AngleDifference(_heading, _segmentStartHeading));
                 Console.WriteLine(AngleDifference(_segmentStartHeading, targetHeading));
                 Console.WriteLine(deltaHeading);
                 Console.WriteLine(Setting(3));
+                */
 
                 switchHorizontalState =
                     (deltaHeading < 0 && AngleDifference(_heading, _segmentStartHeading) >= AngleDifference(targetHeading, _segmentStartHeading)) ||
