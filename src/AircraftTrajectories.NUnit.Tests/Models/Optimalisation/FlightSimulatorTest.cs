@@ -89,7 +89,7 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Optimalisation
         public void FlightSimulator3SegmentTestContinueStraight()
         {
             var aircraft = new Boeing747_400();
-            var settings = new List<double>() { 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0 };
+            var settings = new List<double>() { 1,1,1,0, 1,1,1,1, 1,1,1,0 };
             FlightSimulator sim = new FlightSimulator(aircraft, new Point3D(10000, 0, 0, CoordinateUnit.metric), 3, settings);
             sim.Simulate();
 
