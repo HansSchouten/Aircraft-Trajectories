@@ -16,6 +16,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         
         protected Trajectory _trajectory;
         protected Aircraft _aircraft;
+        protected bool _timeSteps;
         public TemporalGrid TemporalGrid { get; protected set; }
 
         protected BackgroundWorker _backgroundWorker;
@@ -29,10 +30,11 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         /// </summary>
         /// <param name="trajectory">The trajectory for which the aircraft noise will be calculated</param>
         /// <param name="aircraft"></param>
-        public IntegratedNoiseModel(Trajectory trajectory, Aircraft aircraft)
+        public IntegratedNoiseModel(Trajectory trajectory, Aircraft aircraft, bool timeSteps = false)
         {
             _trajectory = trajectory;
             _aircraft = aircraft;
+            _timeSteps = timeSteps;
         }
         
         /// <summary>
@@ -45,21 +47,30 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             _backgroundWorker = new BackgroundWorker();
             _backgroundWorker.WorkerSupportsCancellation = false;
             _backgroundWorker.WorkerReportsProgress = true;
-            _backgroundWorker.DoWork += BackgroundWorker_DoWork;
-            _backgroundWorker.ProgressChanged += delegate (object sender, ProgressChangedEventArgs e)
+            if (_timeSteps)
             {
-                if (_progressBar != null)
-                {
-                    _progressBar.Value = e.ProgressPercentage;
-                }
-            };
-            _backgroundWorker.RunWorkerCompleted += delegate (object sender, RunWorkerCompletedEventArgs e)
-            {
+                RunINMFullTrajectory();
                 calculationCompletedCallback();
-            };
+            } else
+            {
+                _backgroundWorker.DoWork += BackgroundWorker_DoWork;
+                _backgroundWorker.ProgressChanged += delegate (object sender, ProgressChangedEventArgs e)
+                {
+                    if (_progressBar != null)
+                    {
+                        _progressBar.Value = e.ProgressPercentage;
+                    }
+                };
+                _backgroundWorker.RunWorkerCompleted += delegate (object sender, RunWorkerCompletedEventArgs e)
+                {
+                    Console.WriteLine("COMPLETED");
+                    calculationCompletedCallback();
+                };
 
-            _progressBar = progressBar;
-            _backgroundWorker.RunWorkerAsync();
+                _progressBar = progressBar;
+                _backgroundWorker.RunWorkerAsync();
+            }
+
         }
 
         /// <summary>
@@ -89,6 +100,19 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             _backgroundWorker.ReportProgress(100);
         }
 
+
+        public void RunINMFullTrajectory()
+        {
+            TemporalGrid = new TemporalGrid();
+            TemporalGrid.Interval = 1;
+
+            CreateTrajectoryFile();
+            ExecuteINMTM();
+            double[][] noiseData = ReadNoiseData();
+            Grid grid = NoiseDataToGrid(noiseData);
+            TemporalGrid.AddGrid(grid);
+        }
+
         /// <summary>
         /// Creates the position file for a particular time step
         /// </summary>
@@ -112,6 +136,30 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 file.WriteLine(_aircraft.EngineMount);
             }
         }
+        /// <summary>
+        /// Creates the position file for the whole trajectory
+        /// </summary>
+        protected void CreateTrajectoryFile()
+        {
+            using (System.IO.StreamWriter file =
+            new System.IO.StreamWriter(Globals.currentDirectory + "current_position.dat", false))
+            {
+                file.WriteLine("Sys");
+                file.WriteLine("====================================================================================");
+                file.WriteLine("met");
+                file.WriteLine("         x         y         h         V         T         m");
+                file.WriteLine("====================================================================================");
+                for (int t=0; t<_trajectory.Duration; t = t+20)
+                {
+                    file.WriteLine(_trajectory.X(t) + "      " + _trajectory.Y(t) + "     " + _trajectory.Z(t) + "     400      50000        2");
+                }
+                file.WriteLine();
+                file.WriteLine("nois_id / engine mount");
+                file.WriteLine("====================================================================================");
+                file.WriteLine(_aircraft.EngineId);
+                file.WriteLine(_aircraft.EngineMount);
+            }
+        }
 
         /// <summary>
         /// Starts the execution process of the noise model
@@ -120,7 +168,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         {
             Process process = new Process();
             process.StartInfo.FileName = Globals.currentDirectory + "INMTM_v3.exe";
-            process.StartInfo.Arguments = "current_position.dat schiphol_grid2D.dat";
+            process.StartInfo.Arguments = "current_position.dat optGrid2D.dat";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardInput = true;

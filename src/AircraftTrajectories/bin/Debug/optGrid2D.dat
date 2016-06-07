@@ -1,0 +1,25 @@
+************************************************************
+*     Network input file for the INMTM noise tool          *
+************************************************************
+*
+*     Author:  Sander Hartjes
+*     Delft University of Technology, 2010
+*
+*     This file contains the input data required to define
+*     a 2D grid for the INMTM v3 noise calculation tool
+*
+*     Description of the parameters:
+*
+*     x_min     minimum x value           [m]
+*     x_max     maximum x value           [m]
+*     x_sz      cell size in x-direction  [m]
+*     y_min     minimum y value           [m]
+*     y_max     maximum y value           [m]
+*     y_sz      cell size in y-direction  [m]
+*
+*     Please note that the total size of the grid must not
+*     exceed 10,000 km^2 and/or 641,601 grid points
+*
+     x_min     x_max      x_sz     y_min     y_max      y_sz
+============================================================
+     -3000     18000       125     -3000     3000       125
