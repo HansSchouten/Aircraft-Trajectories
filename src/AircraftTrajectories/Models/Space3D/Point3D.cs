@@ -27,5 +27,22 @@ namespace AircraftTrajectories.Models.Space3D
             CoordinateConversion converter = new CoordinateConversion();
             return converter.ConvertCoordinates(this, targetUnit);
         }
+
+        public double DistanceTo(Point3D other)
+        {
+            return Math.Sqrt(Math.Pow(other.X - X, 2)  + Math.Pow(other.Y - Y, 2) + Math.Pow(other.Z - Z, 2));
+        }
+
+        /// <summary>
+        /// Calculates the heading to the given Point3D, based on metric coordinates
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public double HeadingTo(Point3D other)
+        {
+            var dX = (other.X - X);
+            var dY = (other.Y - Y);
+            return ((90 - (180 / Math.PI) * Math.Atan2(dY, dX)) + 360) % 360;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AircraftTrajectories.Models.Optimisation;
+using AircraftTrajectories.Models.Space3D;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
@@ -19,9 +20,19 @@ namespace AircraftTrajectories.Views
 
 
         public Boeing747_400 aircraft;
+        
 
         private void Optimize_Load(object sender, EventArgs e)
         {
+            /*
+            var aircraft = new Boeing747_400();
+            FlightSimulator f = new FlightSimulator(aircraft, 3, new Point3D(18000, 0, 0, CoordinateUnit.metric));
+            f.A = 0.5;
+            f.B = 0.5;
+            f.C = 0.5;
+            f.Simulate();
+            return;
+
             var selection = new EliteSelection();
             var crossover = new OrderedCrossover();
             var mutation = new ReverseSequenceMutation();

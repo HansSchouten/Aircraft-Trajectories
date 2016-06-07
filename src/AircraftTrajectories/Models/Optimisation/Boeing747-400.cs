@@ -8,14 +8,18 @@ namespace AircraftTrajectories.Models.Optimisation
     {
         public const int NumberOfEngines = 4;
         public const double ReferenceArea = 541.16;
-        public FLAP_SETTINGS FlapSetting = FLAP_SETTINGS.FLAPS20;
+        public FLAP_SETTINGS FlapSetting = FLAP_SETTINGS.FLAPS10;
 
         public double Mass {
-            get { return 178756 + 120000 + (300 * 85); }
+            get { return 350000; }
         }
         public double VClean
         {
             get { return 280; }
+        }
+        public double VMax
+        {
+            get { return 300; }
         }
 
         public double TakeOffThrust(double TAS, double altitude)
@@ -24,6 +28,8 @@ namespace AircraftTrajectories.Models.Optimisation
             double lbfToN = 4.4482216;
             var isa = new ISA(altitude);
             double machNumber = (TAS * ktsToMps) / isa.VSound;
+            //Console.WriteLine(isa.P);
+            //Console.WriteLine(machNumber);
             return lbfToN * NumberOfEngines * isa.Delta * (
                 (56283 + 1.3231 * altitude - 0.000048825 * altitude * altitude) +
                 (-55343 - 0.41746 * altitude + 0.000013332 * altitude * altitude) * machNumber +
@@ -44,16 +50,17 @@ namespace AircraftTrajectories.Models.Optimisation
             );
         }
 
-        public double FuelFLow(double thrust, double TAS, double altitude)
+        public double FuelFLow(double totalThrust, double TAS, double altitude)
         {
             double ktsToMps = 0.514444444;
             double lbsToKg = 0.45359237;
             var isa = new ISA(altitude);
             double machNumber = (TAS * ktsToMps) / isa.VSound;
+            double thrust = totalThrust / NumberOfEngines;
             double thrustNormalized = thrust / isa.Delta;
             double temperatureRatio = isa.Theta;
 
-            return isa.Delta * Math.Pow(temperatureRatio, 0.62) * (
+            return NumberOfEngines  * isa.Delta * Math.Pow(temperatureRatio, 0.62) * (
                 (826.15 + 2140.5 * machNumber - 382.94 * machNumber * machNumber) +
                 (0.2332 + 0.14859 * machNumber - 0.095481 * machNumber * machNumber) * thrustNormalized +
                 (0.000001461 + 0.00000901 * machNumber - 0.000010795 * machNumber * machNumber) * thrustNormalized * thrustNormalized
@@ -92,6 +99,13 @@ namespace AircraftTrajectories.Models.Optimisation
         protected double LiftCoefficient(double rho, double airspeed)
         {
             return (Mass * 9.81) / (0.5 * rho * airspeed * airspeed * ReferenceArea);
+        }
+
+        public double MinimumTurnRadius(double speed)
+        {
+            double ktsToMps = 0.514444444;
+            speed *= ktsToMps;
+            return speed * speed / 9.81 * Math.Sin(15 * Math.PI / 180);
         }
     }
 }
