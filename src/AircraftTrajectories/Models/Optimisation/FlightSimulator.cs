@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 namespace AircraftTrajectories.Models.Optimisation
 {
-    using AircraftTrajectories.Models.Trajectory;
+    using Trajectory;
     using MathNet.Numerics.Interpolation;
+    using TemporalGrid;
     public enum VERTICAL_STATE { TAKEOFF, CLIMB, FREECLIMB, END }
     public enum HORIZONTAL_STATE { STRAIGHT, TURN }
 
@@ -78,6 +79,7 @@ namespace AircraftTrajectories.Models.Optimisation
                 _zData.Add(_height * 0.3048);
                 _tData.Add(duration);
 
+                updateNoise();
                 updatePosition();
                 updateVerticalState();
                 updateHorizontalState();
@@ -86,6 +88,34 @@ namespace AircraftTrajectories.Models.Optimisation
             }
             Log("X:"+_x+" Y:"+_y);
             //Console.WriteLine(duration + " " + fuel);
+        }
+
+
+        public Grid LAMaxGrid;
+        public void updateNoise()
+        {
+            if(duration % 25 != 0) { return; }
+            var thrust = CurrentThrust();
+            var NPD = NoisePowerDistance.Instance;
+
+            double z = _height * 0.3048;
+            double[][] data = new double[160][];
+            for (int x=0; x<20000; x = x+125)
+            {
+                double[] col = new double[160];
+                for (int y=0; y<20000; y = y+125)
+                {
+                    double dx = (x - _x);
+                    double dy = (y - _y);
+                    double dz = z;
+                    var distance = Math.Sqrt(dx*dx + dy*dy + dz*dz);
+                    var noise = NPD.GetNoiseValue("2CF650",'E','D',distance, thrust);
+                    col[y / 125] = (LAMaxGrid == null) ? noise : Math.Max(noise, LAMaxGrid.Data[x/125][y/125]);
+                }
+                data[x / 125] = col;
+            }
+            Grid grid = new Grid(data, false);
+            LAMaxGrid = grid;
         }
 
         public Trajectory createTrajectory()

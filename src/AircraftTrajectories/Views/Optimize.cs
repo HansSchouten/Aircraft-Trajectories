@@ -38,7 +38,7 @@ namespace AircraftTrajectories.Views
             var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
             var executor = new SmartThreadPoolTaskExecutor();
             executor.MinThreads = 1;
-            executor.MaxThreads = 5;
+            executor.MaxThreads = 1;
             ga.TaskExecutor = executor;
             ga.Termination = new GenerationNumberTermination(10);
 

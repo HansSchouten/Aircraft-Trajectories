@@ -30,8 +30,13 @@ namespace AircraftTrajectories.Models.Optimisation
                 FlightSimulator f = new FlightSimulator(aircraft, new Point3D(18000, 18000, 0, CoordinateUnit.metric), trajectoryChromosome.NumberOfSegments, settings);
                 var time = DateTime.Now;
                 f.Simulate();
+                /*
+                var grid = f.LAMaxGrid;
+                Console.WriteLine(grid.Data[0][0]);
+                */
 
-                for (int i=0; i<(160*160*f.duration); i++)
+                /*
+                for (int i=0; i<(160*160*f.duration/2); i++)
                 {
                     var x1 = 10.0;
                     var x2 = 12.0;
@@ -39,7 +44,7 @@ namespace AircraftTrajectories.Models.Optimisation
                     var y2 = 23.0;
                     var z1 = 25.0;
                     var z2 = 30.0;
-                    var d = Math.Sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2) + (z1 - z2)*(z1 - z2));
+                    var d = Math.Log10(Math.Sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2) + (z1 - z2)*(z1 - z2)));
 
                     var P = 18000.0;
                     var LP1D1 = 80.0;
@@ -54,14 +59,14 @@ namespace AircraftTrajectories.Models.Optimisation
                     var LP1D = LP1D1 + (((LP1D2 - LP1D1) * (d - D1)) / (D2 - D1));
                     var LP2D = LP2D1 + (((LP2D2 - LP2D1) * (d - D1)) / (D2 - D1));
                     var LPD = LP1D1 + (((LP2D - LP1D) * (P - P1)) / (P2 - P1));
-
-                    /*
-                    var LP1D = LP1D1 + ( ((LP1D2 - LP1D1) * (Math.Log10(d) - Math.Log10(D1))) / (Math.Log10(D2) - Math.Log10(D1)) );
-                    var LP2D = LP2D1 + ( ((LP2D2 - LP2D1) * (Math.Log10(d) - Math.Log10(D1))) / (Math.Log10(D2) - Math.Log10(D1)) );
-                    var LPD = LP1D1 + (((LP2D - LP1D) * (P - P1)) / (P2 - P1));
-                    */
+                    
+                    //var LP1D = LP1D1 + ( ((LP1D2 - LP1D1) * (Math.Log10(d) - Math.Log10(D1))) / (Math.Log10(D2) - Math.Log10(D1)) );
+                    //var LP2D = LP2D1 + ( ((LP2D2 - LP2D1) * (Math.Log10(d) - Math.Log10(D1))) / (Math.Log10(D2) - Math.Log10(D1)) );
+                    //var LPD = LP1D1 + (((LP2D - LP1D) * (P - P1)) / (P2 - P1));
+                    
                     //Console.WriteLine(LPD);
                 }
+                */
 
                 /*
                 var trajectory = f.createTrajectory();

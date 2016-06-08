@@ -17,10 +17,13 @@ namespace AircraftTrajectories.Models.TemporalGrid
         /// Construct a Grid
         /// </summary>
         /// <param name="data"></param>
-        public Grid(double[][] data)
+        public Grid(double[][] data, bool calculateContours = true)
         {
             Data = data;
-            CalculateContours();
+            if (calculateContours)
+            {
+                CalculateContours();
+            }
         }
 
         /// <summary>
