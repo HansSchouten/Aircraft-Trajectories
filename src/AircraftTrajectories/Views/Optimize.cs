@@ -6,6 +6,7 @@ using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
+using GeneticSharp.Infrastructure.Threading;
 using System;
 using System.Windows.Forms;
 
@@ -29,13 +30,23 @@ namespace AircraftTrajectories.Views
             var mutation = new ReverseSequenceMutation();
             var fitness = new TrajectoryFitness();
             var chromosome = new TrajectoryChromosome(TrajectoryChromosome.ChromosomeLength(3), 3);
-            var population = new Population(4, 7, chromosome);
-
+            var population = new Population(20, 20, chromosome);
+            //72 (6)
+            //67 (2)
+            //49 (3)
+            //102 (1)
             var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-            ga.Termination = new GenerationNumberTermination(5);
+            var executor = new SmartThreadPoolTaskExecutor();
+            executor.MinThreads = 1;
+            executor.MaxThreads = 5;
+            ga.TaskExecutor = executor;
+            ga.Termination = new GenerationNumberTermination(10);
 
             Console.WriteLine("GA running...");
+            var t = DateTime.Now;
             ga.Start();
+            Console.WriteLine("Time:"+DateTime.Now.Subtract(t).TotalSeconds);
+
             Console.WriteLine("Best solution found has {0} fitness.", int.MaxValue - ga.BestChromosome.Fitness);
             Console.WriteLine(ga.BestChromosome.GetGene(0).Value + " " + ga.BestChromosome.GetGene(1).Value + " " + ga.BestChromosome.GetGene(2).Value);
            

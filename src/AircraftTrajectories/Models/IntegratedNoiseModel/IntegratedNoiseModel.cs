@@ -18,6 +18,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         protected Aircraft _aircraft;
         protected bool _timeSteps;
         public TemporalGrid TemporalGrid { get; protected set; }
+        public string FileSuffix = "";
 
         protected BackgroundWorker _backgroundWorker;
         protected ProgressBar _progressBar;
@@ -120,7 +121,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         protected void CreatePositionFile(int t)
         {
             using (System.IO.StreamWriter file =
-            new System.IO.StreamWriter(Globals.currentDirectory + "current_position.dat", false))
+            new System.IO.StreamWriter(Globals.currentDirectory + "current_position"+ FileSuffix + ".dat", false))
             {
                 file.WriteLine("Sys");
                 file.WriteLine("====================================================================================");
@@ -142,7 +143,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         protected void CreateTrajectoryFile()
         {
             using (System.IO.StreamWriter file =
-            new System.IO.StreamWriter(Globals.currentDirectory + "current_position.dat", false))
+            new System.IO.StreamWriter(Globals.currentDirectory + "current_position"+ FileSuffix + ".dat", false))
             {
                 file.WriteLine("Sys");
                 file.WriteLine("====================================================================================");
@@ -168,7 +169,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         {
             Process process = new Process();
             process.StartInfo.FileName = Globals.currentDirectory + "INMTM_v3.exe";
-            process.StartInfo.Arguments = "current_position.dat optGrid2D.dat";
+            process.StartInfo.Arguments = "current_position"+ FileSuffix + ".dat optGrid2D.dat";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardInput = true;
