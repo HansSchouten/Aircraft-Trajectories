@@ -36,6 +36,7 @@ namespace AircraftTrajectories.Models.TemporalGrid
         {
             _grids = new List<Grid>();
 
+            Interval = 1;
             LowerLeftCorner = new Point3D(0, 0, 0, CoordinateUnit.metric);
             GridSize = 125;
         }

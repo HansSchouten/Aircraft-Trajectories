@@ -69,6 +69,7 @@
     <Compile Include="Models\TemporalGrid\Contours\ContourTest.cs" />
     <Compile Include="Models\TemporalGrid\Contours\CoordinateTest.cs" />
     <Compile Include="Models\TemporalGrid\GridConverterTest.cs" />
+    <Compile Include="Models\TemporalGrid\TemporalGridFileReaderTest.cs" />
     <Compile Include="Models\TemporalGrid\TemporalGridTest.cs" />
     <Compile Include="Models\Trajectory\AircraftTest.cs" />
     <Compile Include="Models\Trajectory\TrajectoryFileReaderTest.cs" />

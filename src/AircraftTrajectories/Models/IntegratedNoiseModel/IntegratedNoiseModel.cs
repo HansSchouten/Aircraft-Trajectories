@@ -168,7 +168,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         {
             Process process = new Process();
             process.StartInfo.FileName = Globals.currentDirectory + "INMTM_v3.exe";
-            process.StartInfo.Arguments = "current_position.dat optGrid2D.dat";
+            process.StartInfo.Arguments = "current_position.dat schiphol_grid2D.dat";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardInput = true;
@@ -218,6 +218,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                     if (columnIndex == 0) {
                         // Now the total number of columns of the grid is known
                         int numberOfColumns = noiseData.Length / column.Count;
+
                         noiseDataGrid = new double[numberOfColumns][];
                     }
                     // Add the column to the grid
