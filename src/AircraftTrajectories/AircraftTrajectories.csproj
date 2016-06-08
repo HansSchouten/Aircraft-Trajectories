@@ -114,6 +114,7 @@
     <Compile Include="Models\TemporalGrid\GridConverter.cs" />
     <Compile Include="Models\TemporalGrid\TemporalGrid.cs" />
     <Compile Include="Models\Space3D\RDToGeographic.cs" />
+    <Compile Include="Models\TemporalGrid\TemporalGridFileReader.cs" />
     <Compile Include="Models\Trajectory\Aircraft.cs" />
     <Compile Include="Models\Trajectory\Trajectory.cs" />
     <Compile Include="Models\Trajectory\TrajectoryFileReader.cs" />
