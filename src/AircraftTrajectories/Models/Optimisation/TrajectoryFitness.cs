@@ -9,6 +9,10 @@ namespace AircraftTrajectories.Models.Optimisation
 {
     using GeneticSharp.Domain.Randomizations;
     using IntegratedNoiseModel;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.IO;
+    using System.Windows.Forms;
     using TemporalGrid;
 
     public class TrajectoryFitness : IFitness
@@ -16,91 +20,104 @@ namespace AircraftTrajectories.Models.Optimisation
 
         public double Evaluate(IChromosome chromosome)
         {
-            try
+            //try
+            //{
+            var trajectoryChromosome = (TrajectoryChromosome)chromosome;
+            var aircraft = new Boeing747_400();
+            var settings = new List<double>();
+
+            for (int i = 0; i < chromosome.Length; i++)
             {
-                var trajectoryChromosome = (TrajectoryChromosome)chromosome;
-                var aircraft = new Boeing747_400();
-                var settings = new List<double>();
+                settings.Add((double)chromosome.GetGene(i).Value);
+            }
 
-                for (int i = 0; i < chromosome.Length; i++)
+            FlightSimulator f = new FlightSimulator(aircraft, new Point3D(30000, 30000, 0, CoordinateUnit.metric), trajectoryChromosome.NumberOfSegments, settings);
+            var time = DateTime.Now;
+            f.Simulate();
+
+
+
+
+
+            var grid = f.LAMaxGrid;
+            //Console.WriteLine("calculated:"+grid.Data[159][159]);
+            double[][] noiseDataGrid = grid.Data;
+            var c = new Models.ColorMap();
+            var cmap = c.Custom(noiseDataGrid);
+            Bitmap b = new Bitmap(200, 200);
+            LockBitmap l = new LockBitmap(b);
+            l.LockBits();
+            for (int x = 0; x < noiseDataGrid.Length - 1; x++)
+            {
+                for (int y = 0; y < noiseDataGrid[0].Length - 1; y++)
                 {
-                    settings.Add((double)chromosome.GetGene(i).Value);
+                    l.SetPixel(x, y, Color.FromArgb(Math.Max(0,cmap[x, y, 0]), Math.Max(cmap[x, y, 1],0), Math.Max(cmap[x,y,2], 0)));
                 }
+            }
+            l.UnlockBits();
+            b.Save(@"C:\Users\hanss\Desktop\AT.png", ImageFormat.Png);
 
-                FlightSimulator f = new FlightSimulator(aircraft, new Point3D(18000, 18000, 0, CoordinateUnit.metric), trajectoryChromosome.NumberOfSegments, settings);
-                var time = DateTime.Now;
-                f.Simulate();
-                /*
-                var grid = f.LAMaxGrid;
-                Console.WriteLine(grid.Data[0][0]);
-                */
 
-                /*
-                for (int i=0; i<(160*160*f.duration/2); i++)
+
+            
+            var trajectory = f.createTrajectory();
+            var INMaircraft = new Aircraft("GP7270", "wing");
+            var noiseModel = new IntegratedNoiseModel(trajectory, INMaircraft, true);
+
+            int randomNumber = RandomizationProvider.Current.GetInt(0, 10000000);
+            //Console.WriteLine(randomNumber);
+            noiseModel.FileSuffix = randomNumber.ToString();
+
+            //Console.WriteLine("INM started");
+            noiseModel.RunINMFullTrajectory();
+            //Console.WriteLine("INM completed");
+
+            /*
+            TemporalGrid temporalGrid = noiseModel.TemporalGrid;
+            GridConverter converter = new GridConverter(temporalGrid, GridTransformation.MAX);
+            Grid last = converter.transform().GetGrid(temporalGrid.GetNumberOfGrids() - 1);
+            double sum = 0;
+            for (int c = 0; c < last.Data.Length; c++)
+            {
+                for (int r = 0; r < last.Data[0].Length; r++)
                 {
-                    var x1 = 10.0;
-                    var x2 = 12.0;
-                    var y1 = 20.0;
-                    var y2 = 23.0;
-                    var z1 = 25.0;
-                    var z2 = 30.0;
-                    var d = Math.Log10(Math.Sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2) + (z1 - z2)*(z1 - z2)));
-
-                    var P = 18000.0;
-                    var LP1D1 = 80.0;
-                    var LP2D1 = 85.0;
-                    var LP1D2 = 79.0;
-                    var LP2D2 = 83.0;
-                    var P1 = 10000.0;
-                    var P2 = 15000.0;
-                    var D1 = 200.0;
-                    var D2 = 800.0;
-
-                    var LP1D = LP1D1 + (((LP1D2 - LP1D1) * (d - D1)) / (D2 - D1));
-                    var LP2D = LP2D1 + (((LP2D2 - LP2D1) * (d - D1)) / (D2 - D1));
-                    var LPD = LP1D1 + (((LP2D - LP1D) * (P - P1)) / (P2 - P1));
-                    
-                    //var LP1D = LP1D1 + ( ((LP1D2 - LP1D1) * (Math.Log10(d) - Math.Log10(D1))) / (Math.Log10(D2) - Math.Log10(D1)) );
-                    //var LP2D = LP2D1 + ( ((LP2D2 - LP2D1) * (Math.Log10(d) - Math.Log10(D1))) / (Math.Log10(D2) - Math.Log10(D1)) );
-                    //var LPD = LP1D1 + (((LP2D - LP1D) * (P - P1)) / (P2 - P1));
-                    
-                    //Console.WriteLine(LPD);
+                    sum += last.Data[c][r];
                 }
-                */
+            }
+            */
 
-                /*
-                var trajectory = f.createTrajectory();
-                var INMaircraft = new Aircraft("GP7270", "wing");
-                var noiseModel = new IntegratedNoiseModel(trajectory, INMaircraft, true);
 
-                int randomNumber = RandomizationProvider.Current.GetInt(0, 10000000);
-                //Console.WriteLine(randomNumber);
-                noiseModel.FileSuffix = randomNumber.ToString();
 
-                //Console.WriteLine("INM started");
-                noiseModel.RunINMFullTrajectory();
-                //Console.WriteLine("INM completed");
+            Console.WriteLine("INM:" + noiseModel.TemporalGrid.GetGrid(0).Data[160][160]);
+            noiseDataGrid = noiseModel.TemporalGrid.GetGrid(0).Data;
+            c = new Models.ColorMap();
+            cmap = c.Custom(noiseDataGrid);
+            b = new Bitmap(200, 200);
+            l = new LockBitmap(b);
+            l.LockBits();
+            for (int x = 0; x < noiseDataGrid.Length - 1; x++)
+            {
 
-                TemporalGrid temporalGrid = noiseModel.TemporalGrid;
-                GridConverter converter = new GridConverter(temporalGrid, GridTransformation.MAX);
-                Grid last = converter.transform().GetGrid(temporalGrid.GetNumberOfGrids() - 1);
-
-                double sum = 0;
-                for (int c = 0; c < last.Data.Length; c++)
+                for (int y = 0; y < noiseDataGrid[0].Length - 1; y++)
                 {
-                    for (int r = 0; r < last.Data[0].Length; r++)
-                    {
-                        sum += last.Data[c][r];
-                    }
+                    l.SetPixel(x, y, Color.FromArgb(Math.Max(0,cmap[x, y, 0]), Math.Max(cmap[x, y, 1],0), Math.Max(cmap[x,y,2], 0)));
                 }
-                */
-                Console.WriteLine(DateTime.Now.Subtract(time).TotalMilliseconds);
-                return 0;// int.MaxValue - sum;
+            }
+            l.UnlockBits();
+            b.Save(@"C:\Users\hanss\Desktop\INM.png", ImageFormat.Png);
+
+
+
+            Console.WriteLine(DateTime.Now.Subtract(time).TotalMilliseconds);
+            return 0;// int.MaxValue - sum;
+
+            /*
             } catch (Exception ex)
             {
                 Console.WriteLine("Evaluation exception");
                 return int.MaxValue;
             }
+            */
         }
         
     }

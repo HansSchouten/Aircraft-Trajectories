@@ -14,7 +14,7 @@ namespace AircraftTrajectories.Models.Optimisation
     {
         protected void Log(string message)
         {
-            ///Console.WriteLine(message);
+            Console.WriteLine(message);
         }
 
         protected const int MAX_SEGMENT_LENGTH = 15000;
@@ -55,6 +55,8 @@ namespace AircraftTrajectories.Models.Optimisation
             _vertical_state = VERTICAL_STATE.TAKEOFF;
             _aircraft = aircraft;
             _speed = 160;
+            _x = 10000;
+            _y = 15000;
             _heading = Math.PI / 2;
 
             _endPoint = endPoint;
@@ -72,6 +74,7 @@ namespace AircraftTrajectories.Models.Optimisation
         {
             duration = 0;
             //Console.WriteLine("A: " + A + " B:" + B + " C:" + C);
+            NoisePowerDistance.Instance.LAMaxGrid = null;
             while (_vertical_state != VERTICAL_STATE.END)
             {
                 _xData.Add(_x);
@@ -86,6 +89,7 @@ namespace AircraftTrajectories.Models.Optimisation
                 duration++;
                 //Console.WriteLine("A: " + _angle + " H:" + _height + " V:" + _speed);
             }
+            LAMaxGrid = NoisePowerDistance.Instance.LAMaxGrid;
             Log("X:"+_x+" Y:"+_y);
             //Console.WriteLine(duration + " " + fuel);
         }
@@ -94,6 +98,11 @@ namespace AircraftTrajectories.Models.Optimisation
         public Grid LAMaxGrid;
         public void updateNoise()
         {
+            if (duration % 10 != 0) { return; }
+            var NPD = NoisePowerDistance.Instance;
+            NPD.CalculateNoise(new Point3D(_x,_y, _height * 0.3048, CoordinateUnit.metric), CurrentThrust()/4.0*0.2248);
+
+            /*
             if(duration % 25 != 0) { return; }
             var thrust = CurrentThrust();
             var NPD = NoisePowerDistance.Instance;
@@ -116,6 +125,7 @@ namespace AircraftTrajectories.Models.Optimisation
             }
             Grid grid = new Grid(data, false);
             LAMaxGrid = grid;
+            */
         }
 
         public Trajectory createTrajectory()

@@ -30,7 +30,7 @@ namespace AircraftTrajectories.Views
             var mutation = new ReverseSequenceMutation();
             var fitness = new TrajectoryFitness();
             var chromosome = new TrajectoryChromosome(TrajectoryChromosome.ChromosomeLength(3), 3);
-            var population = new Population(20, 20, chromosome);
+            var population = new Population(2, 2, chromosome);
             //72 (6)
             //67 (2)
             //49 (3)
@@ -40,7 +40,7 @@ namespace AircraftTrajectories.Views
             executor.MinThreads = 1;
             executor.MaxThreads = 1;
             ga.TaskExecutor = executor;
-            ga.Termination = new GenerationNumberTermination(10);
+            ga.Termination = new GenerationNumberTermination(1);
 
             Console.WriteLine("GA running...");
             var t = DateTime.Now;
