@@ -63,6 +63,7 @@ namespace AircraftTrajectories.Models.Optimisation
             var trajectory = f.createTrajectory();
             var INMaircraft = new Aircraft("GP7270", "wing");
             var noiseModel = new IntegratedNoiseModel(trajectory, INMaircraft, true);
+            noiseModel.GridName = "optGrid2D";
 
             int randomNumber = RandomizationProvider.Current.GetInt(0, 10000000);
             //Console.WriteLine(randomNumber);

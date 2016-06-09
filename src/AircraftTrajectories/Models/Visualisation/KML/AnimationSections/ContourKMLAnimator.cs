@@ -143,6 +143,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
                     updateStep += plotUpdate("Point", labelPoint.Longitude + "," + labelPoint.Latitude + ",0", "contourPoint" + contourId);
                 }
             }
+            /*
             for (int i = 1; i <= NumberOfContours; i++)
             {
                 if (!visibleContours.Contains(i))
@@ -150,6 +151,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
                     updateStep += plotUpdate("LinearRing", _trajectory.Longitude(t) + "," + _trajectory.Latitude(t) + ",0", "contour" + i);
                 }
             }
+            */
 
             return updateStep;
         }

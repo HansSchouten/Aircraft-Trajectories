@@ -126,6 +126,7 @@
     <Compile Include="Models\Visualisation\KML\AnimationSections\AnnoyanceKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\Cameras\FollowKMLAnimatorCamera.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\Cameras\KMLAnimatorCameraInterface.cs" />
+    <Compile Include="Models\Visualisation\KML\AnimationSections\Cameras\TopViewKMLAnimatorCamera.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\ContourKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\GroundplotKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\KMLAnimator.cs" />
@@ -163,6 +164,12 @@
     <Compile Include="Views\Test.Designer.cs">
       <DependentUpon>Test.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\TopView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\TopView.Designer.cs">
+      <DependentUpon>TopView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\VisualiseKML.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -199,6 +206,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Test.resx">
       <DependentUpon>Test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\TopView.resx">
+      <DependentUpon>TopView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\VisualiseKML.resx">
       <DependentUpon>VisualiseKML.cs</DependentUpon>

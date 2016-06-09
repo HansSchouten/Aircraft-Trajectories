@@ -19,6 +19,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         protected bool _timeSteps;
         public TemporalGrid TemporalGrid { get; protected set; }
         public string FileSuffix = "";
+        public string GridName = "schiphol_grid2D";
 
         protected BackgroundWorker _backgroundWorker;
         protected ProgressBar _progressBar;
@@ -64,7 +65,6 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 };
                 _backgroundWorker.RunWorkerCompleted += delegate (object sender, RunWorkerCompletedEventArgs e)
                 {
-                    Console.WriteLine("COMPLETED");
                     calculationCompletedCallback();
                 };
 
@@ -169,7 +169,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         {
             Process process = new Process();
             process.StartInfo.FileName = Globals.currentDirectory + "INMTM_v3.exe";
-            process.StartInfo.Arguments = "current_position"+ FileSuffix + ".dat optGrid2D.dat";
+            process.StartInfo.Arguments = "current_position"+ FileSuffix + ".dat " + GridName + ".dat";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardInput = true;

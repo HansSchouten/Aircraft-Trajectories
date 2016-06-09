@@ -21,7 +21,7 @@ namespace AircraftTrajectories
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var startupForm = new Optimize();
+            var startupForm = new TopView();
             Application.Run(startupForm);
         }
     }
