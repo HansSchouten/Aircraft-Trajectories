@@ -37,8 +37,7 @@ namespace AircraftTrajectories.Models.Optimisation
 
 
 
-
-
+            /*
             var grid = f.LAMaxGrid;
             //Console.WriteLine("calculated:"+grid.Data[159][159]);
             double[][] noiseDataGrid = grid.Data;
@@ -72,6 +71,8 @@ namespace AircraftTrajectories.Models.Optimisation
             //Console.WriteLine("INM started");
             noiseModel.RunINMFullTrajectory();
             //Console.WriteLine("INM completed");
+            */
+
 
             /*
             TemporalGrid temporalGrid = noiseModel.TemporalGrid;
@@ -88,7 +89,7 @@ namespace AircraftTrajectories.Models.Optimisation
             */
 
 
-
+            /*
             Console.WriteLine("INM:" + noiseModel.TemporalGrid.GetGrid(0).Data[160][160]);
             noiseDataGrid = noiseModel.TemporalGrid.GetGrid(0).Data;
             c = new Models.ColorMap();
@@ -106,7 +107,7 @@ namespace AircraftTrajectories.Models.Optimisation
             }
             l.UnlockBits();
             b.Save(@"C:\Users\hanss\Desktop\INM.png", ImageFormat.Png);
-
+            */
 
 
             Console.WriteLine(DateTime.Now.Subtract(time).TotalMilliseconds);

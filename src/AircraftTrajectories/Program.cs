@@ -20,9 +20,9 @@ namespace AircraftTrajectories
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            var startupForm = new TopView();
-            Application.Run(startupForm);
+            
+            new StartupForm().Show();
+            Application.Run();
         }
     }
 }
