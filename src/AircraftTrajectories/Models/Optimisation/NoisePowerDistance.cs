@@ -16,7 +16,7 @@ namespace AircraftTrajectories.Models.Optimisation
         {
             readINMData();
         }
-        
+
         protected void readINMData()
         {
             string[][] rawData = ReadRawData();

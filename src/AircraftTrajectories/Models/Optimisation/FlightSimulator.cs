@@ -55,8 +55,8 @@ namespace AircraftTrajectories.Models.Optimisation
             _vertical_state = VERTICAL_STATE.TAKEOFF;
             _aircraft = aircraft;
             _speed = 160;
-            _x = 10000;
-            _y = 15000;
+            _x = 0;
+            _y = 0;
             _heading = Math.PI / 2;
 
             _endPoint = endPoint;
