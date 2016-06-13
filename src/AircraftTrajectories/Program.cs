@@ -1,6 +1,4 @@
-﻿using AircraftTrajectories.Views;
-using System;
-using System.Windows.Forms;
+﻿using System;
 using System.IO;
 using System.Reflection;
 
@@ -16,13 +14,6 @@ namespace AircraftTrajectories
     static class Program
     {
         [STAThread]
-        static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-            var startupForm = new TopView();
-            Application.Run(startupForm);
-        }
+        static void Main() { }
     }
 }
