@@ -4,7 +4,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 
-namespace AircraftTrajectories.NUnit.Tests.Models.Optimalisation
+namespace AircraftTrajectories.NUnit.Tests.Models.Optimisation
 {
     [TestFixture]
     class FlightSimulatorTest

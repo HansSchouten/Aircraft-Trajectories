@@ -140,23 +140,11 @@
     <Compile Include="Views\GoogleEarthServerForm.Designer.cs">
       <DependentUpon>GoogleEarthServerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\INM.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\INM.Designer.cs">
-      <DependentUpon>INM.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\Optimize.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\Optimize.Designer.cs">
       <DependentUpon>Optimize.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Startup.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Startup.Designer.cs">
-      <DependentUpon>Startup.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Test.cs">
       <SubType>Form</SubType>
@@ -169,18 +157,6 @@
     </Compile>
     <Compile Include="Views\TopView.Designer.cs">
       <DependentUpon>TopView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\VisualiseKML.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\VisualiseKML.Designer.cs">
-      <DependentUpon>VisualiseKML.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\VisualiseOptions.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\VisualiseOptions.Designer.cs">
-      <DependentUpon>VisualiseOptions.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -195,26 +171,14 @@
     <EmbeddedResource Include="Views\GoogleEarthServerForm.resx">
       <DependentUpon>GoogleEarthServerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\INM.resx">
-      <DependentUpon>INM.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\Optimize.resx">
       <DependentUpon>Optimize.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Startup.resx">
-      <DependentUpon>Startup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Test.resx">
       <DependentUpon>Test.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\TopView.resx">
       <DependentUpon>TopView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\VisualiseKML.resx">
-      <DependentUpon>VisualiseKML.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\VisualiseOptions.resx">
-      <DependentUpon>VisualiseOptions.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Data\A380.csv" />
     <None Include="Data\Data.csv" />
