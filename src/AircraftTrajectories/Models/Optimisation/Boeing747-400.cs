@@ -22,6 +22,12 @@ namespace AircraftTrajectories.Models.Optimisation
             get { return 300; }
         }
 
+        /// <summary>
+        /// Calculate the takeoff thrust
+        /// </summary>
+        /// <param name="TAS">The current True AirSpeed</param>
+        /// <param name="altitude">The current altitude</param>
+        /// <returns></returns>
         public double TakeOffThrust(double TAS, double altitude)
         {
             double ktsToMps = 0.514444444;
@@ -36,7 +42,13 @@ namespace AircraftTrajectories.Models.Optimisation
                 (37825 + 1.1609 * altitude - 0.000031028 * altitude * altitude) * machNumber * machNumber
             );
         }
-        
+
+        /// <summary>
+        /// Calculate the climb thrust
+        /// </summary>
+        /// <param name="TAS">The current True AirSpeed</param>
+        /// <param name="altitude">The current altitude</param>
+        /// <returns></returns>
         public double ClimbThrust(double TAS, double altitude)
         {
             double ktsToMps = 0.514444444;
@@ -50,6 +62,13 @@ namespace AircraftTrajectories.Models.Optimisation
             );
         }
 
+        /// <summary>
+        /// Calculate the amound of fuel is consumed in kilograms per second
+        /// </summary>
+        /// <param name="totalThrust">The total amound of thrust delivered by all engines</param>
+        /// <param name="TAS">The current True AirSpeed</param>
+        /// <param name="altitude">The current altitude</param>
+        /// <returns></returns>
         public double FuelFLow(double totalThrust, double TAS, double altitude)
         {
             double ktsToMps = 0.514444444;
@@ -67,6 +86,12 @@ namespace AircraftTrajectories.Models.Optimisation
             ) / 3600.0 * lbsToKg;
         }
 
+        /// <summary>
+        /// Calculate the drag for the given speed and altitude
+        /// </summary>
+        /// <param name="airspeed">The current airspeed</param>
+        /// <param name="altitude">The current altitude</param>
+        /// <returns></returns>
         public double Drag(double airspeed, double altitude)
         {
             double ktsToMps = 0.514444444;
@@ -76,7 +101,12 @@ namespace AircraftTrajectories.Models.Optimisation
             return dragPolar * 0.5 * isa.Rho * airspeed * airspeed * ReferenceArea;
         }
 
-
+        /// <summary>
+        /// Calculate the drag polar
+        /// </summary>
+        /// <param name="rho">The rho value received from ISA</param>
+        /// <param name="airspeed">The current airspeed</param>
+        /// <returns></returns>
         protected double DragPolar(double rho, double airspeed)
         {
             double CL = LiftCoefficient(rho, airspeed);
@@ -96,11 +126,22 @@ namespace AircraftTrajectories.Models.Optimisation
             }
         }
         
+        /// <summary>
+        /// Calculate the lift coeficient
+        /// </summary>
+        /// <param name="rho">The rho value received from ISA</param>
+        /// <param name="airspeed">The current airspeed</param>
+        /// <returns></returns>
         protected double LiftCoefficient(double rho, double airspeed)
         {
             return (Mass * 9.81) / (0.5 * rho * airspeed * airspeed * ReferenceArea);
         }
 
+        /// <summary>
+        /// Calculate the radius of the smallest turn the aircraft can execute at the given speed
+        /// </summary>
+        /// <param name="speed"></param>
+        /// <returns></returns>
         public double MinimumTurnRadius(double speed)
         {
             double ktsToMps = 0.514444444;

@@ -7,16 +7,25 @@ using System.Linq;
 
 namespace AircraftTrajectories.Models.Optimisation
 {
+    /// <summary>
+    /// A singleton class that interpolates noise values based on the NPD database
+    /// </summary>
     public class NoisePowerDistance
     {
         private static NoisePowerDistance instance;
         protected Dictionary<string, List<double[]>> _INMData;
 
+        /// <summary>
+        /// Create a NPD object
+        /// </summary>
         private NoisePowerDistance()
         {
             readINMData();
         }
-
+        
+        /// <summary>
+        /// Read and process the NPD database
+        /// </summary>
         protected void readINMData()
         {
             string[][] rawData = ReadRawData();
@@ -51,6 +60,10 @@ namespace AircraftTrajectories.Models.Optimisation
             }
         }
 
+        /// <summary>
+        /// Read the raw NPD database from disk
+        /// </summary>
+        /// <returns></returns>
         protected string[][] ReadRawData()
         {
             string rawData = File.ReadAllText(Globals.currentDirectory + "INM_data.dat");
@@ -66,6 +79,9 @@ namespace AircraftTrajectories.Models.Optimisation
             return INMData;
         }
 
+        /// <summary>
+        /// Return the singleton instance
+        /// </summary>
         public static NoisePowerDistance Instance
         {
             get
@@ -78,6 +94,15 @@ namespace AircraftTrajectories.Models.Optimisation
             }
         }
 
+        /// <summary>
+        /// Return the interpolated noise value
+        /// </summary>
+        /// <param name="engineId">The engine used by the aircraft</param>
+        /// <param name="noiseMetric">The noise metric we are currently calculating</param>
+        /// <param name="operationalMode">The operational mode (takeoff, landing, overflight)</param>
+        /// <param name="distance">The slant range from the aircraft to the point on the ground</param>
+        /// <param name="thrust">The current trust setting</param>
+        /// <returns></returns>
         public double GetNoiseValue(string engineId, char noiseMetric, char operationalMode, double distance, double thrust)
         {
             double D = Math.Log10(distance);
