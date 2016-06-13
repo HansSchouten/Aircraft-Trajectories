@@ -13,7 +13,6 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Visualisation.KML.AnimationSec
     using System;
     using System.IO;
     using System.Xml;
-    using Views;
 
     [TestFixture]
     class KMLAnimatorTest
