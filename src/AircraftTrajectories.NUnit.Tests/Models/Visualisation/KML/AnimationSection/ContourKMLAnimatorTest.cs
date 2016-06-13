@@ -100,6 +100,37 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Visualisation.KML.AnimationSec
         }
 
         [Test]
+        public void ContourKMLAnimatorStepClosedTest()
+        {
+            var reader = new TrajectoryFileReader(CoordinateUnit.metric);
+            var trajectory = reader.createTrajectoryFromFile(Globals.testdataDirectory + "track_schiphol.dat");
+            var aircraft = new Aircraft("GP7270", "wing");
+
+            var noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
+            noiseModel.StartCalculation(INMCompleted);
+
+            while (!completed) { }
+
+            var labeledContours = new List<int> {
+                65, 75, 80
+            };
+
+            var animator = new ContourKMLAnimator(noiseModel.TemporalGrid, trajectory, labeledContours);
+
+            try
+            {
+                var xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml("<root>" + animator.KMLAnimationStep(0) + "</root>");
+            }
+            catch (XmlException ex)
+            {
+                Assert.Fail(ex.Message);
+            }
+
+            completed = false;
+        }
+
+        [Test]
         public void ContourKMLAnimatorFinishTest()
         {
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);

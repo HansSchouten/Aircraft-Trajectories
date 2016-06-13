@@ -124,7 +124,6 @@
     <Compile Include="Models\Visualisation\KML\AnimationSections\AnnoyanceKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\Cameras\FollowKMLAnimatorCamera.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\Cameras\KMLAnimatorCameraInterface.cs" />
-    <Compile Include="Models\Visualisation\KML\AnimationSections\Cameras\TopViewKMLAnimatorCamera.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\ContourKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\GroundplotKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\KMLAnimator.cs" />

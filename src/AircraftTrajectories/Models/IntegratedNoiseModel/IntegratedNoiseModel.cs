@@ -137,6 +137,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 file.WriteLine(_aircraft.EngineMount);
             }
         }
+
         /// <summary>
         /// Creates the position file for the whole trajectory
         /// </summary>

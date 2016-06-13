@@ -151,7 +151,7 @@ namespace AircraftTrajectories.Models.Contours
         /// <param name="vgrid"></param>
         /// <param name="hgrid"></param>
         /// <returns></returns>
-        private static IEnumerable<Contour> findContours(IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint>[][] hgrid)
+        protected static IEnumerable<Contour> findContours(IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint>[][] hgrid)
         {
             foreach (var l in vgrid) {
                 foreach (var i in l[0].Where(i => i.Direction == ContourDirection.East)) {
@@ -169,7 +169,7 @@ namespace AircraftTrajectories.Models.Contours
         /// <param name="vgrid"></param>
         /// <param name="hgrid"></param>
         /// <returns></returns>
-        private static IEnumerable<Contour> findCircles(IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint>[][] hgrid)
+        protected static IEnumerable<Contour> findCircles(IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint>[][] hgrid)
         {
             for (int y = 1; y < vgrid.Length - 1; y++) {
                 for (int x = 1; x < vgrid[y].Length - 1; x++) {

@@ -75,7 +75,7 @@ namespace AircraftTrajectories.Models.Contours
         /// <param name="Y"></param>
         /// <param name="dir"></param>
         /// <returns></returns>
-        public IEnumerable<ContourPoint> setDirection(IEnumerable<ContourPoint>[][] grid, int X, int Y, ContourDirection dir)
+        protected IEnumerable<ContourPoint> setDirection(IEnumerable<ContourPoint>[][] grid, int X, int Y, ContourDirection dir)
         {
             IEnumerable<ContourPoint> candidates = (grid[X][Y]).Where(x => x.Direction == dir);
 
@@ -91,7 +91,7 @@ namespace AircraftTrajectories.Models.Contours
         /// <param name="Y"></param>
         /// <param name="dir"></param>
         /// <returns></returns>
-        public IEnumerable<ContourPoint> concatenateDirection(IEnumerable<ContourPoint> cand, IEnumerable<ContourPoint>[][] grid, int X, int Y, ContourDirection dir)
+        protected IEnumerable<ContourPoint> concatenateDirection(IEnumerable<ContourPoint> cand, IEnumerable<ContourPoint>[][] grid, int X, int Y, ContourDirection dir)
         {
             IEnumerable<ContourPoint> candidates = cand.Concat(
                 (grid[X][Y].Where(x => x.Direction == dir)));
@@ -107,7 +107,7 @@ namespace AircraftTrajectories.Models.Contours
         /// <param name="candidates"></param>
         /// <param name="X"></param>
         /// <param name="Y"></param>
-        public void setEast(IEnumerable<ContourPoint>[][] hgrid, IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint> candidates, int X, int Y)
+        protected void setEast(IEnumerable<ContourPoint>[][] hgrid, IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint> candidates, int X, int Y)
         {
             candidates = setDirection(vgrid, Coordinate.X, Coordinate.Y + 1, ContourDirection.East);
 
@@ -130,7 +130,7 @@ namespace AircraftTrajectories.Models.Contours
         /// <param name="candidates"></param>
         /// <param name="X"></param>
         /// <param name="Y"></param>
-        public void setWest(IEnumerable<ContourPoint>[][] hgrid, IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint> candidates, int X, int Y)
+        protected void setWest(IEnumerable<ContourPoint>[][] hgrid, IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint> candidates, int X, int Y)
         {
             candidates = setDirection(vgrid, Coordinate.X, Coordinate.Y - 1, ContourDirection.West);
 
@@ -149,7 +149,7 @@ namespace AircraftTrajectories.Models.Contours
         /// <param name="candidates"></param>
         /// <param name="X"></param>
         /// <param name="Y"></param>
-        public void setNorth(IEnumerable<ContourPoint>[][] hgrid, IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint> candidates, int X, int Y)
+        protected void setNorth(IEnumerable<ContourPoint>[][] hgrid, IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint> candidates, int X, int Y)
         {
             candidates = setDirection(hgrid, Coordinate.X - 1, Coordinate.Y, ContourDirection.North);
 
@@ -172,7 +172,7 @@ namespace AircraftTrajectories.Models.Contours
         /// <param name="candidates"></param>
         /// <param name="X"></param>
         /// <param name="Y"></param>
-        public void setSouth(IEnumerable<ContourPoint>[][] hgrid, IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint> candidates, int X, int Y)
+        protected void setSouth(IEnumerable<ContourPoint>[][] hgrid, IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint> candidates, int X, int Y)
         {
             candidates = setDirection(hgrid, Coordinate.X + 1, Coordinate.Y, ContourDirection.South);
 

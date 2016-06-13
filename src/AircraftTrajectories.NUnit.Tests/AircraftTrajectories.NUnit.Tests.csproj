@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\IntegratedNoiseModel\IntegratedNoiseModelTest.cs" />
+    <Compile Include="Models\Optimisation\Boeing747-400Test.cs" />
     <Compile Include="Models\Optimisation\FlightSimulatorTest.cs" />
     <Compile Include="Models\Optimisation\NoisePowerDistanceTest.cs" />
     <Compile Include="Models\Optimisation\ISATest.cs" />

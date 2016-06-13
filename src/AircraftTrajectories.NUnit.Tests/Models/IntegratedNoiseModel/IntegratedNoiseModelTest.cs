@@ -106,6 +106,42 @@ namespace AircraftTrajectories.NUnit.Tests.IntegratedNoiseModel
             completed = false;
         }
 
+        [Test]
+        public void t6_INMFullTrajectoryTest()
+        {
+            var reader = new TrajectoryFileReader(CoordinateUnit.metric);
+            var trajectory = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
+
+            var aircraft = new Aircraft("GP7270", "wing");
+            var noiseModel = new IntegratedNoiseModel(trajectory, aircraft, true);
+            noiseModel.StartCalculation(INMCompleted);
+
+            while (!completed) { }
+
+            TemporalGrid temporalGrid = noiseModel.TemporalGrid;
+            Assert.AreEqual(1, temporalGrid.GetNumberOfGrids());
+
+            completed = false;
+        }
+
+        [Test]
+        public void t7_INMTrajectoryFileCanBeCreatedTest()
+        {
+            var reader = new TrajectoryFileReader(CoordinateUnit.metric);
+            var trajectory = reader.createTrajectoryFromFile(Globals.testdataDirectory + "test_track.dat");
+
+            var aircraft = new Aircraft("GP7270", "wing");
+            IntegratedNoiseModel noiseModel = new IntegratedNoiseModel(trajectory, aircraft, true);
+            noiseModel.StartCalculation(INMCompleted);
+
+            while (!completed) { }
+
+            string positionFile = Globals.currentDirectory + "current_position.dat";
+            Assert.True(File.Exists(positionFile), positionFile + " does not exist");
+
+            completed = false;
+        }
+
         private void INMCompleted()
         {
             completed = true;
