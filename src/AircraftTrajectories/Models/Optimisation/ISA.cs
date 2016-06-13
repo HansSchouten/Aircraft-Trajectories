@@ -1,8 +1,10 @@
-﻿
-using System;
+﻿using System;
 
 namespace AircraftTrajectories.Models.Optimisation
 {
+    /// <summary>
+    /// Class that represents the International Standard Atmosphere
+    /// </summary>
     public class ISA
     {
         // Atmospheric conditions at Mean Sea Level

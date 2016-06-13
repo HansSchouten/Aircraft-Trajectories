@@ -14,6 +14,9 @@ namespace AircraftTrajectories.Models.Optimisation
     {
         private static NoisePowerDistance instance;
         protected Dictionary<string, List<double[]>> _INMData;
+        protected List<double> _distances = new List<double>() { 200, 400, 630, 1000, 2000, 4000, 6300, 10000, 16000, 25000 };
+        protected List<double> _logDistances = new List<double>() { 2.301, 2.602, 2.799, 3.0, 3.301, 3.602, 3.799, 4.0, 4.204, 4.398 };
+        public Grid LAMaxGrid { get; set; }
 
         /// <summary>
         /// Create a NPD object
@@ -28,34 +31,23 @@ namespace AircraftTrajectories.Models.Optimisation
         /// </summary>
         protected void readINMData()
         {
-            string[][] rawData = ReadRawData();
             _INMData = new Dictionary<string, List<double[]>>();
-            var currentOperatingMode = "";
-            var currentKey = "";
+            string currentOperatingMode = "", currentKey = "";
             var engineData = new List<double[]>();
-            foreach (string[] row in rawData)
-            {
-                // Check whether we switch from operating mode
-                if (row[2] != currentOperatingMode)
-                {
-                    // Confirm that this is not the first iteration (i.e. engineData is filled)
-                    if (currentOperatingMode != "")
-                    {
+            foreach (string[] row in ReadRawData()) {
+                if (row[2] != currentOperatingMode) {
+                    if (currentOperatingMode != "") {
                         _INMData.Add(currentKey, engineData);
                     }
-                    // Reset engineData and currentOperatingMode for the next iterations
                     engineData = new List<double[]>();
                     currentOperatingMode = row[2];
                     currentKey = row[0] + row[1] + row[2];
                 }
 
-                // Construct a double array containing for a number of distances the uncorrected noise value
                 double[] engineThrustNoiseData = new double[11];
-                for (int c = 3; c < row.Length-1; c++)
-                {
+                for (int c = 3; c < row.Length-1; c++) {
                     engineThrustNoiseData[c-3] = Double.Parse(row[c]);
                 }
-                // Add noise noise values for the curent thrust setting to engineData
                 engineData.Add(engineThrustNoiseData);
             }
         }
@@ -110,8 +102,8 @@ namespace AircraftTrajectories.Models.Optimisation
             _INMData.TryGetValue(engineId+noiseMetric+operationalMode, out engineData);
 
             int PIndex1, PIndex2, DIndex1, DIndex2;
-            double D1, D2;
             selectP(engineData, thrust, out PIndex1, out PIndex2);
+            double D1, D2;
             selectD(engineData, D, out DIndex1, out DIndex2, out D1, out D2);
 
             double P1 = engineData[PIndex1][0];
@@ -121,82 +113,30 @@ namespace AircraftTrajectories.Models.Optimisation
             double LP2D1 = engineData[PIndex2][DIndex1];
             double LP2D2 = engineData[PIndex2][DIndex2];
 
-            var LP1D = LP1D1 + (((LP1D2 - LP1D1) * (D - D1)) / (D2 - D1));
-            var LP2D = LP2D1 + (((LP2D2 - LP2D1) * (D - D1)) / (D2 - D1));
+            double LP1D = LP1D1 + (((LP1D2 - LP1D1) * (D - D1)) / (D2 - D1));
+            double LP2D = LP2D1 + (((LP2D2 - LP2D1) * (D - D1)) / (D2 - D1));
             return LP1D + (((LP2D - LP1D) * (thrust - P1)) / (P2 - P1));
         }
         
-        public Grid LAMaxGrid;        
+        /// <summary>
+        /// Calculate the noise over the whole grid for the given aircraft position and thrust
+        /// </summary>
+        /// <param name="aircraftPosition">The current aircraft position</param>
+        /// <param name="thrust">The current thrust</param>
         public void CalculateNoise(Point3D aircraftPosition, double thrust)
         {
             int cellSize = 250;
-            List<double[]> _engineData;
-            _INMData.TryGetValue("GP7270"+'M'+'D', out _engineData);
-            var distances = new List<double>() { 200, 400, 630, 1000, 2000, 4000, 6300, 10000, 16000, 25000 };
-            var logDistances = new List<double>() { 2.301, 2.602, 2.799, 3.0, 3.301, 3.602, 3.799, 4.0, 4.204, 4.398 };
-
-            double _x = aircraftPosition.X;
-            double _y = aircraftPosition.Y;
-            double _z = aircraftPosition.Z;
-            int PIndex1, PIndex2, DIndex1, DIndex2;
-            double D1, D2, dx, dy, D;
+            double dx, dy, D;
             double[][] data = new double[200][];
-            for (int x = 0; x < 200 * cellSize; x = x + cellSize)
-            {
+            for (int x = 0; x < 200 * cellSize; x = x + cellSize) {
                 double[] col = new double[200];
-                for (int y = 0; y < 200 * cellSize; y = y + cellSize)
-                {
-                    dx = (x - _x);
-                    dy = (y - _y);
-                    D = Math.Log10(Math.Sqrt(dx * dx + dy * dy + _z * _z));
+                for (int y = 0; y < 200 * cellSize; y = y + cellSize) {
+                    dx = (x - aircraftPosition.X);
+                    dy = (y - aircraftPosition.Y);
+                    D = Math.Log10(Math.Sqrt(dx * dx + dy * dy + aircraftPosition.Z * aircraftPosition.Z));
 
-                    // GET NOISE VALUE
-                    PIndex1 = 0;
-                    PIndex2 = 1;
-                    for (int i = 1; i < _engineData.Count - 1; i++)
-                    {
-                        if (thrust >= _engineData[i][0])
-                        {
-                            PIndex1 = i;
-                            PIndex2 = i + 1;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-
-                    DIndex1 = 1;
-                    DIndex2 = 2;
-                    D1 = logDistances[0];
-                    D2 = logDistances[1];
-                    for (int i = 1; i < logDistances.Count - 1; i++)
-                    {
-                        if (D >= logDistances[i])
-                        {
-                            DIndex1 = i + 1;
-                            DIndex2 = i + 2;
-                            D1 = logDistances[i];
-                            D2 = logDistances[i + 1];
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-
-                    double P1 = _engineData[PIndex1][0];
-                    double P2 = _engineData[PIndex2][0];
-                    double LP1D1 = _engineData[PIndex1][DIndex1];
-                    double LP1D2 = _engineData[PIndex1][DIndex2];
-                    double LP2D1 = _engineData[PIndex2][DIndex1];
-                    double LP2D2 = _engineData[PIndex2][DIndex2];
-
-                    var LP1D = LP1D1 + (((LP1D2 - LP1D1) * (D - D1)) / (D2 - D1));
-                    var LP2D = LP2D1 + (((LP2D2 - LP2D1) * (D - D1)) / (D2 - D1));
-                    var noise = LP1D + (((LP2D - LP1D) * (thrust - P1)) / (P2 - P1));
-                    //col[y / cellSize] = noise;
-                    col[y / cellSize] = (LAMaxGrid == null || (x == 0 && y == 0)) ? noise : Math.Max(noise, LAMaxGrid.Data[x / cellSize][y / cellSize]);
+                    var noise = GetNoiseValue("GP7270", 'M', 'D', D, thrust);
+                    col[y / cellSize] = (LAMaxGrid == null) ? noise : Math.Max(noise, LAMaxGrid.Data[x / cellSize][y / cellSize]);
                 }
                 data[x / cellSize] = col;
             }
@@ -204,46 +144,48 @@ namespace AircraftTrajectories.Models.Optimisation
             LAMaxGrid = grid;
         }
 
+        /// <summary>
+        /// Select the thrust values from the given enginedata closest to the given real thrust value
+        /// </summary>
+        /// <param name="engineData">The engine data from the NPD database</param>
+        /// <param name="realThrust">The current thrust value</param>
+        /// <param name="PIndex1">The index of the closest thrust value</param>
+        /// <param name="PIndex2">The index of the second closest thrust value</param>
         protected void selectP(List<double[]> engineData, double realThrust, out int PIndex1, out int PIndex2)
         {
             PIndex1 = 0;
             PIndex2 = 1;
 
-            for (int i=1; i < engineData.Count-1; i++)
-            {
-                if (realThrust >= engineData[i][0])
-                {
+            for (int i=1; i < engineData.Count-1; i++) {
+                if (realThrust >= engineData[i][0]) {
                     PIndex1 = i;
                     PIndex2 = i+1;
-                }
-                else
-                {
-                    break;
                 }
             }
         }
 
+        /// <summary>
+        /// Select the distance values from the given enginedata closest to the given real distance value
+        /// </summary>
+        /// <param name="engineData">The engine data from the NPD database</param>
+        /// <param name="realDistance">The current distance value</param>
+        /// <param name="DIndex1">The index of the closest distance value</param>
+        /// <param name="DIndex2">The index of the second closest distance value</param>
+        /// <param name="D1">The distance value stored at DIndex1</param>
+        /// <param name="D2">The distance value stored at DIndex2</param>
         protected void selectD(List<double[]> engineData, double realDistance, out int DIndex1, out int DIndex2, out double D1, out double D2)
         {
-            var distances = new List<double>() { 200, 400, 630, 1000, 2000, 4000, 6300, 10000, 16000, 25000 };
-            var logDistances = new List<double>() { 2.301, 2.602, 2.799, 3.0, 3.301, 3.602, 3.799, 4.0, 4.204, 4.398 };
             DIndex1 = 1;
             DIndex2 = 2;
-            D1 = logDistances[0];
-            D2 = logDistances[1];
+            D1 = _logDistances[0];
+            D2 = _logDistances[1];
 
-            for (int i = 1; i < logDistances.Count - 1; i++)
-            {
-                if (realDistance >= logDistances[i])
-                {
+            for (int i = 1; i < _logDistances.Count - 1; i++) {
+                if (realDistance >= _logDistances[i]) {
                     DIndex1 = i + 1;
                     DIndex2 = i + 2;
-                    D1 = logDistances[i];
-                    D2 = logDistances[i+1];
-                }
-                else
-                {
-                    break;
+                    D1 = _logDistances[i];
+                    D2 = _logDistances[i+1];
                 }
             }
         }

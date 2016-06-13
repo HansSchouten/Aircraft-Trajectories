@@ -15,19 +15,15 @@ namespace AircraftTrajectories.Models.Optimisation
     /// </summary>
     public class FlightSimulator
     {
-        protected void Log(string message)
-        {
-            Console.WriteLine(message);
-        }
-
-        protected const int MAX_SEGMENT_LENGTH = 15000;
-        protected const int MAX_TURN_RADIUS = 8000;
-
         protected ISimulatorModel _aircraft;
         protected VERTICAL_STATE _vertical_state;
         protected HORIZONTAL_STATE _horizontal_state;
         protected Point3D _endPoint;
         protected int _numberOfSegments;
+
+        // Constants
+        protected const int MAX_SEGMENT_LENGTH = 15000;
+        protected const int MAX_TURN_RADIUS = 8000;
 
         // State variables
         public double _x;
@@ -37,19 +33,22 @@ namespace AircraftTrajectories.Models.Optimisation
         protected double _heading;
         protected double _angle;
         protected double _bankAngle;
+
         // Segment variables
         protected int _segmentIndex;
         protected Point3D _segmentStartPoint;
         protected double _segmentStartHeading;
 
+        // Optimisation data
+        public int duration;
+        public double fuel;
+
+        // Trajectory data
         protected List<double> _settings;
         protected List<double> _xData;
         protected List<double> _yData;
         protected List<double> _zData;
         protected List<double> _tData;
-
-        public int duration;
-        public double fuel;
 
         /// <summary>
         /// Create a new FlightSimulator object
@@ -65,8 +64,6 @@ namespace AircraftTrajectories.Models.Optimisation
             _vertical_state = VERTICAL_STATE.TAKEOFF;
             _aircraft = aircraft;
             _speed = 160;
-            _x = 0;
-            _y = 0;
             _heading = Math.PI / 2;
 
             _endPoint = endPoint;
@@ -86,7 +83,6 @@ namespace AircraftTrajectories.Models.Optimisation
         public void Simulate()
         {
             duration = 0;
-            //Console.WriteLine("A: " + A + " B:" + B + " C:" + C);
             NoisePowerDistance.Instance.LAMaxGrid = null;
             while (_vertical_state != VERTICAL_STATE.END)
             {
@@ -100,11 +96,8 @@ namespace AircraftTrajectories.Models.Optimisation
                 updateVerticalState();
                 updateHorizontalState();
                 duration++;
-                //Console.WriteLine("A: " + _angle + " H:" + _height + " V:" + _speed);
             }
             LAMaxGrid = NoisePowerDistance.Instance.LAMaxGrid;
-            Log("X:"+_x+" Y:"+_y);
-            //Console.WriteLine(duration + " " + fuel);
         }
 
 
@@ -117,31 +110,6 @@ namespace AircraftTrajectories.Models.Optimisation
             if (duration % 10 != 0) { return; }
             var NPD = NoisePowerDistance.Instance;
             NPD.CalculateNoise(new Point3D(_x,_y, _height * 0.3048, CoordinateUnit.metric), CurrentThrust()/4.0*0.2248);
-
-            /*
-            if(duration % 25 != 0) { return; }
-            var thrust = CurrentThrust();
-            var NPD = NoisePowerDistance.Instance;
-
-            double z = _height * 0.3048;
-            double[][] data = new double[160][];
-            for (int x=0; x<20000; x = x+125)
-            {
-                double[] col = new double[160];
-                for (int y=0; y<20000; y = y+125)
-                {
-                    double dx = (x - _x);
-                    double dy = (y - _y);
-                    double dz = z;
-                    var distance = Math.Sqrt(dx*dx + dy*dy + dz*dz);
-                    var noise = NPD.GetNoiseValue("2CF650",'E','D',distance, thrust);
-                    col[y / 125] = (LAMaxGrid == null) ? noise : Math.Max(noise, LAMaxGrid.Data[x/125][y/125]);
-                }
-                data[x / 125] = col;
-            }
-            Grid grid = new Grid(data, false);
-            LAMaxGrid = grid;
-            */
         }
 
         /// <summary>
@@ -186,16 +154,6 @@ namespace AircraftTrajectories.Models.Optimisation
             _heading = (_heading + (2*Math.PI)) % (2 * Math.PI);
             _x += _speed * 0.514444444 * Math.Cos(_angle) * Math.Sin(_heading);
             _y += _speed * 0.514444444 * Math.Cos(_angle) * Math.Cos(_heading);
-            //Console.WriteLine(_x + " " + _y + " " + _heading);
-
-            /*
-            if (_height >= 0) {
-                Console.WriteLine(_aircraft.TakeOffThrust(160, 1640));
-                Console.WriteLine(currentThrust + " " + currentDrag);
-                Console.WriteLine(_aircraft.FuelFLow(currentThrust, _speed, _height));
-            }
-            */
-
             fuel += _aircraft.FuelFLow(currentThrust, _speed, _height);
         }
         
@@ -238,7 +196,6 @@ namespace AircraftTrajectories.Models.Optimisation
         protected void updateSpeed(double thrust, double drag)
         {
             if (_vertical_state == VERTICAL_STATE.FREECLIMB) {
-                //Console.WriteLine("T:" + thrust + " D:" + drag + " A:"+_angle);
                 _speed += (1/_aircraft.Mass) * (thrust - drag - ((_aircraft.Mass * 9.81) * Math.Sin(_angle)));
             }
         }
@@ -259,22 +216,6 @@ namespace AircraftTrajectories.Models.Optimisation
                     if (_height >= 3600 || _speed >= 250) {
                         _vertical_state = VERTICAL_STATE.FREECLIMB;
                     }
-                    break;
-                default:
-                    /*
-                    if (_height >= 6000 || _speed >= _aircraft.VClean) {
-                        Console.WriteLine("Trajectory reached max height or VClean");
-                        _vertical_state = VERTICAL_STATE.END;
-                    }
-                    */
-                    /*
-                    // force stop:
-                    if (duration >= 750) {
-                        Console.WriteLine("Trajectory timeout");
-                        fuel = int.MaxValue;
-                        _vertical_state = VERTICAL_STATE.END;
-                    }
-                    */
                     break;
             }
         }
@@ -311,29 +252,32 @@ namespace AircraftTrajectories.Models.Optimisation
             {
                 if (currentPoint.DistanceTo(_segmentStartPoint) >= _endPoint.DistanceTo(_segmentStartPoint))
                 {
-                    Log("Reached end of segment" + _segmentIndex + " (straight) X:" + _x + " Y:" + _y + " Heading:" + _heading * 180 / Math.PI);
                     _vertical_state = VERTICAL_STATE.END;
                 }
+                return;
             }
-            else
-            {
-                // At the second last straight segment, 
-                // continue flying as long as we cannot reach the endpoint with a minimum radius turn in less than a 180degree turn
-                if (_segmentIndex == _numberOfSegments - 2 && 
-                    currentPoint.DistanceTo(_endPoint)/2 < _aircraft.MinimumTurnRadius(_aircraft.VMax))
-                {
-                    Log("Continue X:"+_x);
-                    return;
-                }
 
-                // Switch from flying straight to a turn if we reach beyond the given segment length
-                if (currentPoint.DistanceTo(_segmentStartPoint) >= Interpolate(0, MAX_SEGMENT_LENGTH, Setting(2)))
-                {
-                    Log("Reached end of segment" + _segmentIndex + " (straight) X:"+_x + " Y:"+_y + " Heading:"+_heading*180/Math.PI);
-                    _horizontal_state = HORIZONTAL_STATE.TURN;
-                    _segmentStartHeading = _heading;
-                    _segmentIndex++;
-                }
+            CheckStraightNotLastSegment(currentPoint);
+        }
+
+        /// <summary>
+        /// Check whether we are at the end of a straight segment, that is not the last segment
+        /// </summary>
+        /// <param name="currentPoint">The current position</param>
+        protected void CheckStraightNotLastSegment(Point3D currentPoint)
+        {
+            // At the second last straight segment, continue flying as long as we cannot reach the endpoint with a minimum radius turn in less than a 180degree turn
+            if (_segmentIndex == _numberOfSegments - 2 &&
+                currentPoint.DistanceTo(_endPoint) / 2 < _aircraft.MinimumTurnRadius(_aircraft.VMax)) {
+                return;
+            }
+
+            // Switch from flying straight to a turn if we reach beyond the given segment length
+            if (currentPoint.DistanceTo(_segmentStartPoint) >= Interpolate(0, MAX_SEGMENT_LENGTH, Setting(2)))
+            {
+                _horizontal_state = HORIZONTAL_STATE.TURN;
+                _segmentStartHeading = _heading;
+                _segmentIndex++;
             }
         }
 
@@ -342,44 +286,47 @@ namespace AircraftTrajectories.Models.Optimisation
         /// </summary>
         public void CheckEndOfTurn()
         {
-            bool switchHorizontalState = false;
             double deltaHeading = Interpolate(-Math.PI / 2, Math.PI / 2, Setting(3));
             double targetHeading = _heading;
+            bool switchHorizontalState = SwitchHorizontalState(deltaHeading, targetHeading);
+
+            if (switchHorizontalState)
+            {
+                _horizontal_state = HORIZONTAL_STATE.STRAIGHT;
+                _segmentStartPoint = new Point3D(_x, _y, 0, CoordinateUnit.metric);
+                _heading = targetHeading;
+                _segmentIndex++;
+            }
+        }
+
+        /// <summary>
+        /// Return whether we should switch the horizontal state
+        /// </summary>
+        /// <param name="deltaHeading">The heading </param>
+        /// <param name="targetHeading"></param>
+        /// <returns></returns>
+        protected bool SwitchHorizontalState(double deltaHeading, double targetHeading)
+        {
+            bool switchHorizontalState = false;
 
             // Check whether we are in the last turn of the trajectory
             if (_segmentIndex == _numberOfSegments - 1)
             {
                 var currentPoint = new Point3D(_x, _y, 0, CoordinateUnit.metric);
                 targetHeading = currentPoint.HeadingTo(_endPoint) * Math.PI / 180;
-                /*
-                Console.WriteLine((_heading * 180 / Math.PI) + " to " + targetHeading * 180 / Math.PI + " seg:"+ _segmentStartHeading * 180 / Math.PI);
-                Console.WriteLine(AngleDifference(_heading, _segmentStartHeading));
-                Console.WriteLine(AngleDifference(_segmentStartHeading, targetHeading));
-                Console.WriteLine(deltaHeading);
-                Console.WriteLine(Setting(3));
-                */
 
                 switchHorizontalState =
-                    (deltaHeading < 0 && AngleDifference(_heading, _segmentStartHeading) >= AngleDifference(targetHeading, _segmentStartHeading)) ||
-                    (deltaHeading > 0 && AngleDifference(_segmentStartHeading, _heading) >= AngleDifference(_segmentStartHeading, targetHeading));
+                    (deltaHeading <= 0 && AngleDifference(_heading, _segmentStartHeading) >= AngleDifference(targetHeading, _segmentStartHeading)) ||
+                    (deltaHeading >= 0 && AngleDifference(_segmentStartHeading, _heading) >= AngleDifference(_segmentStartHeading, targetHeading));
             }
             else
             {
                 targetHeading = (_segmentStartHeading + deltaHeading) % (2 * Math.PI);
                 switchHorizontalState =
-                    (deltaHeading < 0 && AngleDifference(_heading, _segmentStartHeading) >= AngleDifference(targetHeading, _segmentStartHeading)) ||
-                    (deltaHeading > 0 && AngleDifference(_segmentStartHeading, _heading) >= AngleDifference(_segmentStartHeading, targetHeading));
+                    (deltaHeading <= 0 && AngleDifference(_heading, _segmentStartHeading) >= AngleDifference(targetHeading, _segmentStartHeading)) ||
+                    (deltaHeading >= 0 && AngleDifference(_segmentStartHeading, _heading) >= AngleDifference(_segmentStartHeading, targetHeading));
             }
-
-            if (switchHorizontalState || deltaHeading == 0)
-            {
-                Log("Reached end of segment" + _segmentIndex + " (turn) X:" + _x + " Y:" + _y + " Heading:" + _heading * 180 / Math.PI);
-
-                _horizontal_state = HORIZONTAL_STATE.STRAIGHT;
-                _segmentStartPoint = new Point3D(_x, _y, 0, CoordinateUnit.metric);
-                _heading = targetHeading;
-                _segmentIndex++;
-            }
+            return switchHorizontalState;
         }
 
         /// <summary>
@@ -390,10 +337,8 @@ namespace AircraftTrajectories.Models.Optimisation
         /// <returns></returns>
         public double AngleDifference(double a, double b)
         {
-            if (a > b)
-            {
-                if (a < Math.PI)
-                {
+            if (a > b) {
+                if (a < Math.PI) {
                     return SmallAngleDifference(a, Math.PI) + Math.PI + SmallAngleDifference(0, b);
                 }
                 return SmallAngleDifference(a, 0) + SmallAngleDifference(0, b);

@@ -93,8 +93,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\ColorMap.cs" />
-    <Compile Include="Models\LockBitMap.cs" />
     <Compile Include="Models\Optimisation\Boeing747-400.cs" />
     <Compile Include="Models\Optimisation\FlightSimulator.cs" />
     <Compile Include="Models\Optimisation\NoisePowerDistance.cs" />
