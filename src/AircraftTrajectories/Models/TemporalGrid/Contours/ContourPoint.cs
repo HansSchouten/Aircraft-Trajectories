@@ -1,3 +1,4 @@
+using AircraftTrajectories.Models.TemporalGrid;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -33,76 +34,28 @@ namespace AircraftTrajectories.Models.Contours
                     {
                         return null;
                     }
-                    candidates = (vgrid[Coordinate.X][Coordinate.Y + 1]).Where(x => x.Direction == ContourDirection.East);
-                    if (Coordinate.Y < hgrid[Coordinate.X].Length)
-                    {
-                        if (Coordinate.X < hgrid.Length)
-                        {
-                            candidates = candidates
-                                .Concat(
-                                    (hgrid[Coordinate.X + 1][Coordinate.Y]).Where(
-                                        x => x.Direction == ContourDirection.South));
-                        }
-
-                        candidates =
-                            candidates.Concat(
-                                (hgrid[Coordinate.X][Coordinate.Y].Where(x => x.Direction == ContourDirection.North)));
-                    }
+                    setEast(hgrid, vgrid, candidates, Coordinate.X, Coordinate.Y);
                     break;
                 case ContourDirection.West:
                     if (Coordinate.Y == 0)
                     {
                         return null;
                     }
-                    candidates = (vgrid[Coordinate.X][Coordinate.Y - 1]).Where(x => x.Direction == ContourDirection.West);
-                    if (Coordinate.X < hgrid.Length)
-                    {
-                        candidates = candidates
-                            .Concat((hgrid[Coordinate.X + 1][Coordinate.Y - 1]).Where(x => x.Direction == ContourDirection.South));
-                    }
-                    candidates =
-                        candidates.Concat(
-                            (hgrid[Coordinate.X][Coordinate.Y - 1].Where(x => x.Direction == ContourDirection.North)));
+                    setWest(hgrid, vgrid, candidates, Coordinate.X, Coordinate.Y);
                     break;
                 case ContourDirection.North:
                     if (Coordinate.X == 0)
                     {
                         return null;
                     }
-                    candidates = hgrid[Coordinate.X - 1][Coordinate.Y].Where(x => x.Direction == ContourDirection.North);
-                    if (Coordinate.X > 0)
-                    {
-                        candidates =
-                            candidates.Concat(
-                                (vgrid[Coordinate.X - 1][Coordinate.Y].Where(
-                                    x => x.Direction == ContourDirection.West)));
-                        if (Coordinate.Y < vgrid[Coordinate.X - 1].Length + 1)
-                        {
-                            candidates =
-                                candidates.Concat((vgrid[Coordinate.X - 1][Coordinate.Y + 1]).Where(
-                                    x => x.Direction == ContourDirection.East));
-
-                        }
-                        
-                    }
+                    setNorth(hgrid, vgrid, candidates, Coordinate.X, Coordinate.Y);
                     break;
                 case ContourDirection.South:
                     if (Coordinate.X == hgrid.Length - 1)
                     {
                         return null;
                     }
-                    candidates = hgrid[Coordinate.X + 1][Coordinate.Y].Where(x => x.Direction == ContourDirection.South);
-                    if (Coordinate.X < vgrid.Length)
-                    {
-                        candidates =
-                            candidates.Concat((vgrid[Coordinate.X][Coordinate.Y + 1]).Where(
-                                x => x.Direction == ContourDirection.East));
-
-                        candidates =
-                            candidates.Concat(
-                                (vgrid[Coordinate.X][Coordinate.Y].Where(
-                                    x => x.Direction == ContourDirection.West)));
-                    }
+                    setSouth(hgrid, vgrid, candidates, Coordinate.X, Coordinate.Y);
                     break;
             }
             if (candidates == null)
@@ -112,5 +65,124 @@ namespace AircraftTrajectories.Models.Contours
             return candidates
                 .Where(x => x.Parent == null && x.Value == Value).FirstOrDefault();
         }
+
+        /// <summary>
+        /// Set each step in the contours' candidates to the required direction
+        /// </summary>
+        /// <param name="cand"></param>
+        /// <param name="grid"></param>
+        /// <param name="X"></param>
+        /// <param name="Y"></param>
+        /// <param name="dir"></param>
+        /// <returns></returns>
+        public IEnumerable<ContourPoint> setDirection(IEnumerable<ContourPoint>[][] grid, int X, int Y, ContourDirection dir)
+        {
+            IEnumerable<ContourPoint> candidates = (grid[X][Y]).Where(x => x.Direction == dir);
+
+            return candidates;
+        }
+
+        /// <summary>
+        /// Concatenate the contour's candidates with specified direction
+        /// </summary>
+        /// <param name="cand"></param>
+        /// <param name="grid"></param>
+        /// <param name="X"></param>
+        /// <param name="Y"></param>
+        /// <param name="dir"></param>
+        /// <returns></returns>
+        public IEnumerable<ContourPoint> concatenateDirection(IEnumerable<ContourPoint> cand, IEnumerable<ContourPoint>[][] grid, int X, int Y, ContourDirection dir)
+        {
+            IEnumerable<ContourPoint> candidates = cand.Concat(
+                (grid[X][Y].Where(x => x.Direction == dir)));
+
+            return candidates;
+        }
+
+        /// <summary>
+        /// Set the direction of each point in the contour's candidates to East
+        /// </summary>
+        /// <param name="hgrid"></param>
+        /// <param name="vgrid"></param>
+        /// <param name="candidates"></param>
+        /// <param name="X"></param>
+        /// <param name="Y"></param>
+        public void setEast(IEnumerable<ContourPoint>[][] hgrid, IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint> candidates, int X, int Y)
+        {
+            candidates = setDirection(vgrid, Coordinate.X, Coordinate.Y + 1, ContourDirection.East);
+
+            if (Y < hgrid[X].Length)
+            {
+                if (X < hgrid.Length)
+                {
+                    candidates = concatenateDirection(candidates, hgrid, X + 1, Y, ContourDirection.South);
+                }
+
+                candidates = concatenateDirection(candidates, hgrid, X, Y, ContourDirection.North);
+            }
+        }
+
+        /// <summary>
+        /// Set the direction of each point in the contour's candidates to West
+        /// </summary>
+        /// <param name="hgrid"></param>
+        /// <param name="vgrid"></param>
+        /// <param name="candidates"></param>
+        /// <param name="X"></param>
+        /// <param name="Y"></param>
+        public void setWest(IEnumerable<ContourPoint>[][] hgrid, IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint> candidates, int X, int Y)
+        {
+            candidates = setDirection(vgrid, Coordinate.X, Coordinate.Y - 1, ContourDirection.West);
+
+            if (X < hgrid.Length)
+            {
+                candidates = concatenateDirection(candidates, hgrid, X + 1, Y - 1, ContourDirection.South);
+            }
+            candidates = concatenateDirection(candidates, hgrid, X, Y - 1, ContourDirection.North);
+        }
+
+        /// <summary>
+        /// Set the direction of each point in the contour's candidates to North
+        /// </summary>
+        /// <param name="hgrid"></param>
+        /// <param name="vgrid"></param>
+        /// <param name="candidates"></param>
+        /// <param name="X"></param>
+        /// <param name="Y"></param>
+        public void setNorth(IEnumerable<ContourPoint>[][] hgrid, IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint> candidates, int X, int Y)
+        {
+            candidates = setDirection(hgrid, Coordinate.X - 1, Coordinate.Y, ContourDirection.North);
+
+            if (X > 0)
+            {
+                candidates = concatenateDirection(candidates, vgrid, X - 1, Y, ContourDirection.West);
+
+                if (Y < vgrid[X - 1].Length + 1)
+                {
+                    candidates = concatenateDirection(candidates, vgrid, X - 1, Y + 1, ContourDirection.East);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Set the direction of each point in the contour's candidates to South
+        /// </summary>
+        /// <param name="hgrid"></param>
+        /// <param name="vgrid"></param>
+        /// <param name="candidates"></param>
+        /// <param name="X"></param>
+        /// <param name="Y"></param>
+        public void setSouth(IEnumerable<ContourPoint>[][] hgrid, IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint> candidates, int X, int Y)
+        {
+            candidates = setDirection(hgrid, Coordinate.X + 1, Coordinate.Y, ContourDirection.South);
+
+            if (X < vgrid.Length)
+            {
+                candidates = concatenateDirection(candidates, vgrid, X, Y + 1, ContourDirection.East);
+
+                candidates = concatenateDirection(candidates, vgrid, X, Y, ContourDirection.West);
+            }
+        }
+
     }
 }

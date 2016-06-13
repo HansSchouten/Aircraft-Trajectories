@@ -28,9 +28,14 @@ namespace AircraftTrajectories.Models.Space3D
             return converter.ConvertCoordinates(this, targetUnit);
         }
 
+        /// <summary>
+        /// Calculates the distance between two 3D points using Pythagoras
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public double DistanceTo(Point3D other)
         {
-            return Math.Sqrt(Math.Pow(other.X - X, 2)  + Math.Pow(other.Y - Y, 2) + Math.Pow(other.Z - Z, 2));
+            return Math.Sqrt(Math.Pow(other.X - X, 2) + Math.Pow(other.Y - Y, 2) + Math.Pow(other.Z - Z, 2));
         }
 
         /// <summary>

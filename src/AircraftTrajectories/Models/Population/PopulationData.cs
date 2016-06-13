@@ -41,6 +41,17 @@ namespace AircraftTrajectories.Models.Population
                 )
                 .ToArray();
 
+            List<double[]> chosenPoints = selectChosenPoints(populationData);
+
+            return chosenPoints;
+        }
+
+        /// <summary>
+        /// Adds corresponding population numbers to each grid cell
+        /// </summary>
+        /// <param name="populationData"></param>
+        private List<int[]> addGridPoints(int[][] populationData)
+        {
             var inGridPoints = new List<int[]>();
             int minX = 104062;
             int maxX = 112658;
@@ -56,6 +67,18 @@ namespace AircraftTrajectories.Models.Population
                     inGridPoints.Add(new int[] { x, y, row[2] });
                 }
             }
+
+            return inGridPoints;
+        }
+
+        /// <summary>
+        /// Returns coordinates of people that are annoyed with the given chance
+        /// </summary>
+        /// <param name="inGridPoints"></param>
+        /// <returns></returns>
+        private List<double[]> selectChosenPoints(int[][] populationData)
+        {
+            List<int[]> inGridPoints = addGridPoints(populationData);
 
             var chosenPoints = new List<double[]>();
             int i = 0;

@@ -8,14 +8,17 @@ namespace AircraftTrajectories.Models.TemporalGrid
 {
     public class TemporalGridFileReader
     {
-
+        /// <summary>
+        /// Create Temporal Grid from the position files for each time step
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public TemporalGrid createTemporalGridFromFile(string filePath)
         {
             double[][] genericData = readGenericData(filePath);
             TemporalGrid temporalGrid = new TemporalGrid();
 
-            for (int i = 0; i < genericData[0].Length - 3; i++)
-            {
+            for (int i = 0; i < genericData[0].Length - 3; i++) {
                 temporalGrid.AddGrid(GenericDataToGrid(genericData, i));
             }
 
@@ -23,7 +26,7 @@ namespace AircraftTrajectories.Models.TemporalGrid
         }
 
         /// <summary>
-        /// Parses the generic input values 
+        /// Parses the generic input values into a 2D array
         /// </summary>
         /// <returns></returns>
         protected double[][] readGenericData(string filePath)
@@ -41,8 +44,6 @@ namespace AircraftTrajectories.Models.TemporalGrid
             return genericData;
         }
 
-
-
         /// <summary>
         /// Converts the generic input file into a grid of values
         /// </summary>
@@ -55,14 +56,11 @@ namespace AircraftTrajectories.Models.TemporalGrid
             double currentX = genericData[0][0];
             List<double> column = new List<double>();
             int columnIndex = 0;
-            for (int i = 0; i < genericData.Length - 1; i++)
-            {
+            for (int i = 0; i < genericData.Length - 1; i++) {
                 // Check whether we encountered a new column
-                if (currentX != genericData[i][0])
-                {
+                if (currentX != genericData[i][0]) {
                     // Check whether this was the first column
-                    if (columnIndex == 0)
-                    {
+                    if (columnIndex == 0) {
                         // Now the total number of columns of the grid is known
                         int numberOfColumns = genericData.Length / column.Count;
                         genericDataGrid = new double[numberOfColumns][];

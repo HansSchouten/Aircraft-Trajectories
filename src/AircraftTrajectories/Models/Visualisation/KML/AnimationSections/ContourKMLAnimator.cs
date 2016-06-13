@@ -14,16 +14,22 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
         protected TemporalGrid _temporalGrid;
         protected Trajectory _trajectory;
         protected List<int> _labeledContours;
+
         public int NumberOfContours { get; set; }
         public int FirstContourValue { get; set; }
         public int ContourValueStep { get; set; }
+        public double smallestHeadingDeviation = 180;
+        public double pointLongitude;
+        public double pointLatitude;
+
+        private string coordinateString = "";
 
         public ContourKMLAnimator(TemporalGrid temporalGrid, Trajectory trajectory, List<int> labeledContours)
         {
             _temporalGrid = temporalGrid;
             _trajectory = trajectory;
             _labeledContours = labeledContours;
-            
+
             NumberOfContours = 30;
             FirstContourValue = 55;
             ContourValueStep = 1;
@@ -101,57 +107,20 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             foreach (Contour contour in grid.Contours)
             {
                 if (!contour.IsClosed) { continue; }
-
                 int contourId = -1;
-                for (int i = 0; i < NumberOfContours; i++)
-                {
-                    if (contour.Value == FirstContourValue + (i * ContourValueStep))
-                    {
-                        contourId = i + 1;
-                    }
-                }
+
+                indexingContours(NumberOfContours, contour, contourId);
+
                 if (contourId == -1) { continue; }
                 visibleContours.Add(contourId);
 
-                var coordinateString = "";
                 GeoPoint3D contourPoint = _temporalGrid.GridCoordinate(contour.Points[0].Location.X, contour.Points[0].Location.Y);
-                double pointLongitude = contourPoint.Longitude;
-                double pointLatitude = contourPoint.Latitude;
-                double smallestHeadingDeviation = 180;
                 double desiredHeading = (_trajectory.Heading(t) + 160) % 360;
-                foreach (ContourPoint p in contour.Points)
-                {
-                    contourPoint = _temporalGrid.GridCoordinate(p.Location.X, p.Location.Y);
-                    coordinateString += contourPoint.Longitude + "," + contourPoint.Latitude + ",0\n";
 
-                    double pointHeading = contourPoint.HeadingTo(_trajectory.GeoPoint(t));
-                    if (pointHeading < desiredHeading && Math.Abs(pointHeading - desiredHeading) < smallestHeadingDeviation)
-                    {
-                        smallestHeadingDeviation = Math.Abs(pointHeading - desiredHeading);
-                        pointLongitude = contourPoint.Longitude;
-                        pointLatitude = contourPoint.Latitude;
-                    }
-                }
-                updateStep += plotUpdate("LinearRing", coordinateString, "contour" + contourId);
-                // Plot point
-                if (_labeledContours.Contains(FirstContourValue + (contourId * ContourValueStep)))
-                {
-                    var planeCoord = new GeoCoordinate(_trajectory.Latitude(t), _trajectory.Longitude(t));
-                    var contourCoord = new GeoCoordinate(pointLatitude, pointLongitude);
-                    var distance = planeCoord.GetDistanceTo(contourCoord);
-                    var labelPoint = _trajectory.GeoPoint(t).MoveInDirection(distance, desiredHeading);
-                    updateStep += plotUpdate("Point", labelPoint.Longitude + "," + labelPoint.Latitude + ",0", "contourPoint" + contourId);
-                }
+                addUpdateContours(updateStep, t, contour, contourPoint, contourId, desiredHeading);
             }
-            /*
-            for (int i = 1; i <= NumberOfContours; i++)
-            {
-                if (!visibleContours.Contains(i))
-                {
-                    updateStep += plotUpdate("LinearRing", _trajectory.Longitude(t) + "," + _trajectory.Latitude(t) + ",0", "contour" + i);
-                }
-            }
-            */
+
+            updateStep = plotLinearRing(updateStep, t, visibleContours);
 
             return updateStep;
         }
@@ -164,6 +133,99 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
         public string KMLFinish()
         {
             return "";
+        }
+
+        /// <summary>
+        /// Plot point by adding a contour point to the KML string
+        /// </summary>
+        /// <param name="update"></param>
+        /// <param name="t"></param>
+        /// <param name="pointLatitude"></param>
+        /// <param name="pointLongitude"></param>
+        /// <param name="desiredHeading"></param>
+        /// <param name="contourId"></param>
+        /// <returns></returns>
+        protected String plotPoint(String update, int t, double pointLatitude, double pointLongitude, double desiredHeading, int contourId)
+        {
+            var planeCoord = new GeoCoordinate(_trajectory.Latitude(t), _trajectory.Longitude(t));
+            var contourCoord = new GeoCoordinate(pointLatitude, pointLongitude);
+            var distance = planeCoord.GetDistanceTo(contourCoord);
+            var labelPoint = _trajectory.GeoPoint(t).MoveInDirection(distance, desiredHeading);
+
+            return update += plotUpdate("Point", labelPoint.Longitude + "," + labelPoint.Latitude + ",0", "contourPoint" + contourId);
+        }
+
+        /// <summary>
+        /// Plot linear ring by extending KML string 
+        /// </summary>
+        /// <param name="updateStep"></param>
+        /// <param name="t"></param>
+        /// <param name="visibleContours"></param>
+        /// <returns></returns>
+        protected String plotLinearRing(String updateStep, int t, List<int> visibleContours)
+        {
+            for (int i = 1; i <= NumberOfContours; i++) {
+                if (!visibleContours.Contains(i)) {
+                    updateStep += plotUpdate("LinearRing", _trajectory.Longitude(t) + "," + _trajectory.Latitude(t) + ",0", "contour" + i);
+                }
+            }
+            return updateStep;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="contourPoint"></param>
+        /// <param name="coordinateString"></param>
+        /// <param name="desiredHeading"></param>
+        protected void setHeadingPoint(ContourPoint point, GeoPoint3D contourPoint, double desiredHeading, int t)
+        {
+            contourPoint = _temporalGrid.GridCoordinate(point.Location.X, point.Location.Y);
+            coordinateString += contourPoint.Longitude + "," + contourPoint.Latitude + ",0\n";
+
+            double pointHeading = contourPoint.HeadingTo(_trajectory.GeoPoint(t));
+            if (pointHeading < desiredHeading && Math.Abs(pointHeading - desiredHeading) < smallestHeadingDeviation) {
+                smallestHeadingDeviation = Math.Abs(pointHeading - desiredHeading);
+                double pointLongitude = contourPoint.Longitude;
+                double pointLatitude = contourPoint.Latitude;
+            }
+        }
+
+        /// <summary>
+        /// Adds a labeled point and linear ring for each plotted contour (with the right heading)
+        /// </summary>
+        /// <param name="updateStep"></param>
+        /// <param name="t"></param>
+        /// <param name="contour"></param>
+        /// <param name="contourPoint"></param>
+        /// <param name="contourId"></param>
+        /// <param name="desiredHeading"></param>
+        protected void addUpdateContours(String updateStep, int t, Contour contour, GeoPoint3D contourPoint, int contourId, double desiredHeading)
+        {
+            foreach (ContourPoint p in contour.Points) {
+                setHeadingPoint(p, contourPoint, desiredHeading, t);
+            }
+
+            updateStep += plotUpdate("LinearRing", coordinateString, "contour" + contourId);
+
+            if (_labeledContours.Contains(FirstContourValue + (contourId * ContourValueStep))) {
+                updateStep = plotPoint(updateStep, t, pointLatitude, pointLongitude, desiredHeading, contourId);
+            }
+        }
+
+        /// <summary>
+        /// Indexes all contours in increasing order
+        /// </summary>
+        /// <param name="numberOfContours"></param>
+        /// <param name="contour"></param>
+        protected void indexingContours(int numberOfContours, Contour contour, int contourId)
+        {
+            for (int i = 0; i < NumberOfContours; i++) {
+                if (contour.Value == FirstContourValue + (i * ContourValueStep)) {
+                    contourId = i + 1;
+                }
+            }
         }
 
         /// <summary>
@@ -205,8 +267,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             int current_G = lowerBound.G;
             int current_B = lowerBound.B;
 
-            for (var i = 0; i < numberOfIntervals; i++)
-            {
+            for (var i = 0; i < numberOfIntervals; i++) {
                 colorPalette[i] = Color.FromArgb(current_A, current_R, current_G, current_B);
 
                 current_A += interval_A;
