@@ -24,7 +24,7 @@ namespace AircraftTrajectories.Views
 
         private void btnOptimise_Click(object sender, EventArgs e)
         {
-            new OptimisationForm().Show();
+            new Optimisation.OptimisationForm().Show();
             this.Close();
         }
 

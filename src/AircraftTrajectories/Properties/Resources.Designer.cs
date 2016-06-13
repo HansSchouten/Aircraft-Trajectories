@@ -75,7 +75,7 @@ namespace AircraftTrajectories.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap appbar_globe {
             get {
-                object obj = ResourceManager.GetObject("appbar.globe", resourceCulture);
+                object obj = ResourceManager.GetObject("appbar_globe", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -85,7 +85,7 @@ namespace AircraftTrajectories.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap appbar_transit_connection {
             get {
-                object obj = ResourceManager.GetObject("appbar.transit.connection", resourceCulture);
+                object obj = ResourceManager.GetObject("appbar_transit_connection", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -132,6 +132,16 @@ namespace AircraftTrajectories.Properties {
         internal static string EHAM {
             get {
                 return ResourceManager.GetString("EHAM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap loading {
+            get {
+                object obj = ResourceManager.GetObject("loading", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }
