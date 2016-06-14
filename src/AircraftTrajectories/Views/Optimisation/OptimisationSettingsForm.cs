@@ -19,7 +19,7 @@ namespace AircraftTrajectories.Views.Optimisation
 
         private void btnOptimise_Click(object sender, EventArgs e)
         {
-            ((OptimisationForm)this.MdiParent).RunOptimisation();
+            ((OptimisationForm)this.MdiParent).RunOptimisationClick();
         }
     }
 }
