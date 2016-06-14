@@ -9,7 +9,7 @@ namespace AircraftTrajectories.Models.Contours.Tests
 {
     class ContourPointTest
     {
-        [Test()]
+        [Test]
         public void ContourPoint()
         {
             ContourPoint point = new ContourPoint();
@@ -18,14 +18,32 @@ namespace AircraftTrajectories.Models.Contours.Tests
             IEnumerable<ContourPoint>[][] hgrid = new IEnumerable<ContourPoint>[2][];
             IEnumerable<ContourPoint>[][] vgrid = new IEnumerable<ContourPoint>[2][];
 
-           
-        }
+            Assert.AreEqual(ContourDirection.East, point.Direction);
+         }
 
-        [Test()]
-        public void findNextTest()
+        [Test]
+        public void findNextContourPointTest()
         {
             ContourPoint point = new ContourPoint();
             point.Direction = ContourDirection.West;
+        }
+
+        [Test]
+        public void findParentContourPointTest()
+        {
+            ContourPoint point = new ContourPoint();
+            point.Direction = ContourDirection.West;
+            
+            Assert.IsNull(point.Parent);
+        }
+
+        [Test]
+        public void findValueContourPointTest()
+        {
+            ContourPoint point = new ContourPoint();
+            point.Direction = ContourDirection.West;
+
+            Assert.AreEqual(0, point.Value);
         }
 
     }
