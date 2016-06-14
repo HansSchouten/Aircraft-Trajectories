@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.label25 = new System.Windows.Forms.Label();
-            this.textBox8 = new System.Windows.Forms.TextBox();
-            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.txtNumberOfGenerations = new System.Windows.Forms.TextBox();
+            this.txtPopulationSize = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.btnOptimise = new System.Windows.Forms.Button();
@@ -43,24 +43,24 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.txtNumberOfSegments = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.txtEndLongitude = new System.Windows.Forms.TextBox();
+            this.txtEndLatitude = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.txtTakeoffSpeed = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtTakeoffHeading = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.txtTotalAircraftMass = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtStartLongitude = new System.Windows.Forms.TextBox();
+            this.txtTakeoffLatitude = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -73,29 +73,29 @@
             this.label25.Location = new System.Drawing.Point(393, 9);
             this.label25.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(316, 32);
+            this.label25.Size = new System.Drawing.Size(317, 32);
             this.label25.TabIndex = 109;
             this.label25.Text = "Genetic Algorithm Parameters";
             // 
-            // textBox8
+            // txtNumberOfGenerations
             // 
-            this.textBox8.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.textBox8.Location = new System.Drawing.Point(561, 96);
-            this.textBox8.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(120, 25);
-            this.textBox8.TabIndex = 108;
-            this.textBox8.Text = "100";
+            this.txtNumberOfGenerations.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtNumberOfGenerations.Location = new System.Drawing.Point(561, 96);
+            this.txtNumberOfGenerations.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.txtNumberOfGenerations.Name = "txtNumberOfGenerations";
+            this.txtNumberOfGenerations.Size = new System.Drawing.Size(120, 25);
+            this.txtNumberOfGenerations.TabIndex = 108;
+            this.txtNumberOfGenerations.Text = "100";
             // 
-            // textBox9
+            // txtPopulationSize
             // 
-            this.textBox9.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.textBox9.Location = new System.Drawing.Point(561, 59);
-            this.textBox9.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(120, 25);
-            this.textBox9.TabIndex = 107;
-            this.textBox9.Text = "70";
+            this.txtPopulationSize.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtPopulationSize.Location = new System.Drawing.Point(561, 59);
+            this.txtPopulationSize.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.txtPopulationSize.Name = "txtPopulationSize";
+            this.txtPopulationSize.Size = new System.Drawing.Size(120, 25);
+            this.txtPopulationSize.TabIndex = 107;
+            this.txtPopulationSize.Text = "70";
             // 
             // label28
             // 
@@ -232,18 +232,18 @@
             this.label12.Location = new System.Drawing.Point(393, 148);
             this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(113, 32);
+            this.label12.Size = new System.Drawing.Size(114, 32);
             this.label12.TabIndex = 94;
             this.label12.Text = "Trajectory";
             // 
-            // textBox10
+            // txtNumberOfSegments
             // 
-            this.textBox10.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.textBox10.Location = new System.Drawing.Point(559, 197);
-            this.textBox10.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(120, 25);
-            this.textBox10.TabIndex = 93;
+            this.txtNumberOfSegments.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtNumberOfSegments.Location = new System.Drawing.Point(559, 197);
+            this.txtNumberOfSegments.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.txtNumberOfSegments.Name = "txtNumberOfSegments";
+            this.txtNumberOfSegments.Size = new System.Drawing.Size(120, 25);
+            this.txtNumberOfSegments.TabIndex = 93;
             // 
             // label14
             // 
@@ -256,23 +256,23 @@
             this.label14.TabIndex = 92;
             this.label14.Text = "Number of segments";
             // 
-            // textBox11
+            // txtEndLongitude
             // 
-            this.textBox11.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.textBox11.Location = new System.Drawing.Point(559, 299);
-            this.textBox11.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(120, 25);
-            this.textBox11.TabIndex = 91;
+            this.txtEndLongitude.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtEndLongitude.Location = new System.Drawing.Point(559, 299);
+            this.txtEndLongitude.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.txtEndLongitude.Name = "txtEndLongitude";
+            this.txtEndLongitude.Size = new System.Drawing.Size(120, 25);
+            this.txtEndLongitude.TabIndex = 91;
             // 
-            // textBox12
+            // txtEndLatitude
             // 
-            this.textBox12.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.textBox12.Location = new System.Drawing.Point(559, 265);
-            this.textBox12.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.textBox12.Name = "textBox12";
-            this.textBox12.Size = new System.Drawing.Size(120, 25);
-            this.textBox12.TabIndex = 90;
+            this.txtEndLatitude.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtEndLatitude.Location = new System.Drawing.Point(559, 265);
+            this.txtEndLatitude.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.txtEndLatitude.Name = "txtEndLatitude";
+            this.txtEndLatitude.Size = new System.Drawing.Size(120, 25);
+            this.txtEndLatitude.TabIndex = 90;
             // 
             // label15
             // 
@@ -296,14 +296,14 @@
             this.label16.TabIndex = 88;
             this.label16.Text = "Latitude";
             // 
-            // textBox4
+            // txtTakeoffSpeed
             // 
-            this.textBox4.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.textBox4.Location = new System.Drawing.Point(150, 306);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(120, 25);
-            this.textBox4.TabIndex = 87;
+            this.txtTakeoffSpeed.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtTakeoffSpeed.Location = new System.Drawing.Point(150, 306);
+            this.txtTakeoffSpeed.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.txtTakeoffSpeed.Name = "txtTakeoffSpeed";
+            this.txtTakeoffSpeed.Size = new System.Drawing.Size(120, 25);
+            this.txtTakeoffSpeed.TabIndex = 87;
             // 
             // label11
             // 
@@ -313,7 +313,7 @@
             this.label11.Location = new System.Drawing.Point(10, 148);
             this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(88, 32);
+            this.label11.Size = new System.Drawing.Size(89, 32);
             this.label11.TabIndex = 86;
             this.label11.Text = "Takeoff";
             // 
@@ -327,14 +327,14 @@
             this.comboBox1.Size = new System.Drawing.Size(120, 25);
             this.comboBox1.TabIndex = 76;
             // 
-            // textBox3
+            // txtTakeoffHeading
             // 
-            this.textBox3.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.textBox3.Location = new System.Drawing.Point(150, 269);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(120, 25);
-            this.textBox3.TabIndex = 81;
+            this.txtTakeoffHeading.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtTakeoffHeading.Location = new System.Drawing.Point(150, 269);
+            this.txtTakeoffHeading.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.txtTakeoffHeading.Name = "txtTakeoffHeading";
+            this.txtTakeoffHeading.Size = new System.Drawing.Size(120, 25);
+            this.txtTakeoffHeading.TabIndex = 81;
             // 
             // label5
             // 
@@ -355,7 +355,7 @@
             this.label10.Location = new System.Drawing.Point(11, 9);
             this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(87, 32);
+            this.label10.Size = new System.Drawing.Size(88, 32);
             this.label10.TabIndex = 84;
             this.label10.Text = "Aircraft";
             // 
@@ -370,14 +370,14 @@
             this.label4.TabIndex = 75;
             this.label4.Text = "Aircraft model";
             // 
-            // textBox5
+            // txtTotalAircraftMass
             // 
-            this.textBox5.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.textBox5.Location = new System.Drawing.Point(150, 93);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(120, 25);
-            this.textBox5.TabIndex = 83;
+            this.txtTotalAircraftMass.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtTotalAircraftMass.Location = new System.Drawing.Point(150, 93);
+            this.txtTotalAircraftMass.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.txtTotalAircraftMass.Name = "txtTotalAircraftMass";
+            this.txtTotalAircraftMass.Size = new System.Drawing.Size(120, 25);
+            this.txtTotalAircraftMass.TabIndex = 83;
             // 
             // label3
             // 
@@ -401,23 +401,23 @@
             this.label7.TabIndex = 82;
             this.label7.Text = "Total aircraft mass";
             // 
-            // textBox2
+            // txtStartLongitude
             // 
-            this.textBox2.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.textBox2.Location = new System.Drawing.Point(150, 233);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(120, 25);
-            this.textBox2.TabIndex = 79;
+            this.txtStartLongitude.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtStartLongitude.Location = new System.Drawing.Point(150, 233);
+            this.txtStartLongitude.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.txtStartLongitude.Name = "txtStartLongitude";
+            this.txtStartLongitude.Size = new System.Drawing.Size(120, 25);
+            this.txtStartLongitude.TabIndex = 79;
             // 
-            // textBox1
+            // txtTakeoffLatitude
             // 
-            this.textBox1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.textBox1.Location = new System.Drawing.Point(150, 197);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(120, 25);
-            this.textBox1.TabIndex = 78;
+            this.txtTakeoffLatitude.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtTakeoffLatitude.Location = new System.Drawing.Point(150, 197);
+            this.txtTakeoffLatitude.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.txtTakeoffLatitude.Name = "txtTakeoffLatitude";
+            this.txtTakeoffLatitude.Size = new System.Drawing.Size(120, 25);
+            this.txtTakeoffLatitude.TabIndex = 78;
             // 
             // label2
             // 
@@ -449,8 +449,8 @@
             this.ClientSize = new System.Drawing.Size(864, 413);
             this.ControlBox = false;
             this.Controls.Add(this.label25);
-            this.Controls.Add(this.textBox8);
-            this.Controls.Add(this.textBox9);
+            this.Controls.Add(this.txtNumberOfGenerations);
+            this.Controls.Add(this.txtPopulationSize);
             this.Controls.Add(this.label28);
             this.Controls.Add(this.label29);
             this.Controls.Add(this.btnOptimise);
@@ -463,24 +463,24 @@
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label12);
-            this.Controls.Add(this.textBox10);
+            this.Controls.Add(this.txtNumberOfSegments);
             this.Controls.Add(this.label14);
-            this.Controls.Add(this.textBox11);
-            this.Controls.Add(this.textBox12);
+            this.Controls.Add(this.txtEndLongitude);
+            this.Controls.Add(this.txtEndLatitude);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label16);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.txtTakeoffSpeed);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.txtTakeoffHeading);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox5);
+            this.Controls.Add(this.txtTotalAircraftMass);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtStartLongitude);
+            this.Controls.Add(this.txtTakeoffLatitude);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -494,8 +494,8 @@
         #endregion
 
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.TextBox textBox8;
-        private System.Windows.Forms.TextBox textBox9;
+        public System.Windows.Forms.TextBox txtNumberOfGenerations;
+        public System.Windows.Forms.TextBox txtPopulationSize;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Button btnOptimise;
@@ -508,24 +508,24 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox textBox10;
+        public System.Windows.Forms.TextBox txtNumberOfSegments;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox textBox11;
-        private System.Windows.Forms.TextBox textBox12;
+        public System.Windows.Forms.TextBox txtEndLongitude;
+        public System.Windows.Forms.TextBox txtEndLatitude;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox textBox4;
+        public System.Windows.Forms.TextBox txtTakeoffSpeed;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox3;
+        public System.Windows.Forms.ComboBox comboBox1;
+        public System.Windows.Forms.TextBox txtTakeoffHeading;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox5;
+        public System.Windows.Forms.TextBox txtTotalAircraftMass;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        public System.Windows.Forms.TextBox txtStartLongitude;
+        public System.Windows.Forms.TextBox txtTakeoffLatitude;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
     }

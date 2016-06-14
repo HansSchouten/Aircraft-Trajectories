@@ -14,6 +14,7 @@ namespace AircraftTrajectories.Views.Optimisation
         public OptimisationRunForm RunForm { get; protected set; }
         public OptimisationCompletedForm CompletedForm { get; protected set; }
 
+
         /// <summary>
         /// Construct the OptimisationForm
         /// </summary>
@@ -66,6 +67,25 @@ namespace AircraftTrajectories.Views.Optimisation
         protected void OptimisationForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
+        }
+
+        #endregion
+
+        #region "ACCESS CONTROL ELEMENTS"
+
+        public int PopulationSize
+        {
+            get
+            {
+                return int.Parse(SettingsForm.txtPopulationSize.Text);
+            }
+        }
+        public int NumberOfGenerations
+        {
+            get
+            {
+                return int.Parse(SettingsForm.txtNumberOfGenerations.Text);
+            }
         }
 
         #endregion

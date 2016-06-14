@@ -29,13 +29,13 @@ namespace AircraftTrajectories.Presenters
             var mutation = new ReverseSequenceMutation();
             var fitness = new TrajectoryFitness();
             var chromosome = new TrajectoryChromosome(TrajectoryChromosome.ChromosomeLength(3), 3);
-            var population = new Population(35, 40, chromosome);
+            var population = new Population(_view.PopulationSize, _view.PopulationSize, chromosome);
             var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
             var executor = new SmartThreadPoolTaskExecutor();
             executor.MinThreads = 1;
             executor.MaxThreads = 1;
             ga.TaskExecutor = executor;
-            ga.Termination = new GenerationNumberTermination(10);
+            ga.Termination = new GenerationNumberTermination(_view.NumberOfGenerations);
 
             Console.WriteLine("GA running...");
             var t = DateTime.Now;

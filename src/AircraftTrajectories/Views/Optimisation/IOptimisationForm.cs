@@ -6,5 +6,8 @@ namespace AircraftTrajectories.Views.Optimisation
     {
         event EventHandler RunOptimisation;
         event EventHandler CancelOptimisation;
+
+        int PopulationSize { get; }
+        int NumberOfGenerations { get; }
     }
 }
