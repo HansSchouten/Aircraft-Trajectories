@@ -17,7 +17,16 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Trajectory
         public void AircraftModel()
         {
             Aircraft aircraft = new Aircraft("2CF650", "m");
+
             Assert.AreEqual(aircraft.EngineId, "2CF650");
+            Assert.AreEqual(aircraft.EngineMount, "m");
+        }
+
+        [Test]
+        public void AircraftEgineMount()
+        {
+            Aircraft aircraft = new Aircraft("2CF650", "m");
+
             Assert.AreEqual(aircraft.EngineMount, "m");
         }
 
