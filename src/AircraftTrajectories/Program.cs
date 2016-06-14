@@ -8,9 +8,9 @@ namespace AircraftTrajectories
 {
     internal static class Globals
     {
-        public static string currentDirectory = Path.GetDirectoryName(
-                (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath
-            ) + @"\";
+        public static string currentDirectory = Uri.UnescapeDataString(Path.GetDirectoryName(
+                (new Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath
+            ) + @"\");
     }
 
     static class Program

@@ -1,17 +1,18 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 
 namespace AircraftTrajectories.NUnit.Tests
 {
     internal static class Globals
     {
-        public static string testdataDirectory = Path.GetDirectoryName(
+        public static string testdataDirectory = Uri.UnescapeDataString(Path.GetDirectoryName(
                 (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath
-            ) + "/../../Testdata/";
+            ) + "/../../Testdata/");
 
-        public static string currentDirectory = Path.GetDirectoryName(
+        public static string currentDirectory = Uri.UnescapeDataString(Path.GetDirectoryName(
                 (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath
-            ) + @"\";
+            ) + @"\");
     }
 
     static class Program { }
