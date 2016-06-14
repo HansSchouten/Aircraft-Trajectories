@@ -49,20 +49,34 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             string contourSetup = "";
             for (int i = 1; i <= NumberOfContours; i++)
             {
-                var c = colors[i - 1];
-                var color = "00000000";
-                if (_labeledContours.Contains(FirstContourValue + (i * ContourValueStep)))
-                {
-                    color = string.Format("{0:X2}{1:X2}{2:X2}{3:X2}", Math.Min(255, c.A + 150), c.R, c.G, c.B);
+                Color c = colors[i - 1];
+                string colorString = "00000000";
+                if (_labeledContours.Contains(FirstContourValue + (i * ContourValueStep))) {
+                    colorString = string.Format("{0:X2}{1:X2}{2:X2}{3:X2}", Math.Min(255, c.A + 150), c.R, c.G, c.B);
                 }
-                contourSetup += @"
+                contourSetup += addStyle(i, c, colorString);
+                contourSetup += addPolygon(i);
+            }
+            return contourSetup;
+        }
+
+        /// <summary>
+        /// Add the style of the given contour
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="color"></param>
+        /// <param name="colorString"></param>
+        /// <returns></returns>
+        protected string addStyle(int i, Color color, string colorString)
+        {
+            return @"
 <Style id='contour_style" + i + @"'>
     <LineStyle>
-        <color>" + color + @"</color>
+        <color>" + colorString + @"</color>
         <width>2</width>
     </LineStyle>
     <PolyStyle>
-        <color>" + string.Format("{0:X2}{1:X2}{2:X2}{3:X2}", c.A, c.R, c.G, c.B) + @"</color>
+        <color>" + string.Format("{0:X2}{1:X2}{2:X2}{3:X2}", color.A, color.R, color.G, color.B) + @"</color>
     </PolyStyle>
     <IconStyle>
         <scale>0</scale>
@@ -72,6 +86,17 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
         <scale>0.35</scale>
     </LabelStyle>
 </Style>
+            ";
+        }
+
+        /// <summary>
+        /// Add the polygon of the given contour
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        protected string addPolygon(int i)
+        {
+            return @"
 <Placemark id='contour_placemark" + i + @"'>
     <name>" + (FirstContourValue + (i * ContourValueStep)) + @"dB</name>
     <styleUrl>#contour_style" + i + @"</styleUrl>
@@ -90,8 +115,6 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
     </MultiGeometry>
 </Placemark>
                 ";
-            }
-            return contourSetup;
         }
 
         /// <summary>
@@ -108,12 +131,10 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             {
                 if (!contour.IsClosed) { continue; }
                 int contourId = -1;
-
                 indexingContours(NumberOfContours, contour, contourId);
 
                 if (contourId == -1) { continue; }
                 visibleContours.Add(contourId);
-
                 GeoPoint3D contourPoint = _temporalGrid.GridCoordinate(contour.Points[0].Location.X, contour.Points[0].Location.Y);
                 double desiredHeading = (_trajectory.Heading(t) + 160) % 360;
 
@@ -121,7 +142,6 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             }
 
             updateStep = plotLinearRing(updateStep, t, visibleContours);
-
             return updateStep;
         }
 
@@ -261,7 +281,6 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             int interval_R = (upperBound.R - lowerBound.R) / numberOfIntervals;
             int interval_G = (upperBound.G - lowerBound.G) / numberOfIntervals;
             int interval_B = (upperBound.B - lowerBound.B) / numberOfIntervals;
-
             int current_A = lowerBound.A;
             int current_R = lowerBound.R;
             int current_G = lowerBound.G;

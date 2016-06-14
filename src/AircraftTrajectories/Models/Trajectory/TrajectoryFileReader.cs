@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 
 namespace AircraftTrajectories.Models.Trajectory
 {
@@ -108,13 +107,12 @@ namespace AircraftTrajectories.Models.Trajectory
                 double deltaY = _yData[row] - _yData[row-1];
                 double deltaZ = _zData[row] - _zData[row-1];
                 double distance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
-                double averageSpeed = ((_trackData[row-1][3] + _trackData[row][3]) / 2) * 0.514;          // TODO: support multiple speed units (default is kts)
+                double averageSpeed = ((_trackData[row-1][3] + _trackData[row][3]) / 2) * 0.514;
                 double duration = distance / averageSpeed;
                 totalDuration += duration;
 
                 _tData.Add(totalDuration);
             }
         }
-
     }
 }

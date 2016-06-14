@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace AircraftTrajectories.Models.TemporalGrid
 {
@@ -51,21 +50,16 @@ namespace AircraftTrajectories.Models.TemporalGrid
         /// <returns></returns>
         protected Grid GenericDataToGrid(double[][] genericData, int dataColumnIndex)
         {
-            // Store generic input in a 2D grid
             double[][] genericDataGrid = { };
             double currentX = genericData[0][0];
             List<double> column = new List<double>();
             int columnIndex = 0;
             for (int i = 0; i < genericData.Length - 1; i++) {
-                // Check whether we encountered a new column
                 if (currentX != genericData[i][0]) {
-                    // Check whether this was the first column
                     if (columnIndex == 0) {
-                        // Now the total number of columns of the grid is known
                         int numberOfColumns = genericData.Length / column.Count;
                         genericDataGrid = new double[numberOfColumns][];
                     }
-                    // Add the column to the grid
                     genericDataGrid[columnIndex] = column.ToArray();
 
                     column = new List<double>();

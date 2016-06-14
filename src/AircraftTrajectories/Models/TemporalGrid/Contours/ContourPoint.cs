@@ -7,14 +7,25 @@ namespace AircraftTrajectories.Models.Contours
 {
     public class ContourPoint
     {
+        /// <summary>
+        /// The contour this point is part of
+        /// </summary>
         public Contour Parent { get; set; }
-
+        /// <summary>
+        /// The location that this contour point occupies
+        /// </summary>
         public Point Location { get; set; }
-
+        /// <summary>
+        /// The value as meassured at the location of this contourpoint
+        /// </summary>
         public int Value { get; set; }
-
+        /// <summary>
+        /// The coordinate of this contour point
+        /// </summary>
         public Coordinate Coordinate { get; set; }
-
+        /// <summary>
+        /// The direction this contourpoint points to
+        /// </summary>
         public ContourDirection Direction { get; set; }
 
         /// <summary>
@@ -23,46 +34,33 @@ namespace AircraftTrajectories.Models.Contours
         /// <param name="vgrid"></param>
         /// <param name="hgrid"></param>
         /// <returns></returns>
-
         public ContourPoint FindNext(IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint>[][] hgrid)
         {
             IEnumerable<ContourPoint> candidates = null;
             switch (Direction)
             {
                 case ContourDirection.East:
-                    if (Coordinate.Y == vgrid[0].Length - 1)
-                    {
-                        return null;
+                    if (Coordinate.Y != vgrid[0].Length - 1) {
+                        setEast(hgrid, vgrid, candidates, Coordinate.X, Coordinate.Y);
                     }
-                    setEast(hgrid, vgrid, candidates, Coordinate.X, Coordinate.Y);
                     break;
                 case ContourDirection.West:
-                    if (Coordinate.Y == 0)
-                    {
-                        return null;
+                    if (Coordinate.Y != 0) {
+                        setWest(hgrid, vgrid, candidates, Coordinate.X, Coordinate.Y);
                     }
-                    setWest(hgrid, vgrid, candidates, Coordinate.X, Coordinate.Y);
                     break;
                 case ContourDirection.North:
-                    if (Coordinate.X == 0)
-                    {
-                        return null;
+                    if (Coordinate.X != 0) {
+                        setNorth(hgrid, vgrid, candidates, Coordinate.X, Coordinate.Y);
                     }
-                    setNorth(hgrid, vgrid, candidates, Coordinate.X, Coordinate.Y);
                     break;
                 case ContourDirection.South:
-                    if (Coordinate.X == hgrid.Length - 1)
-                    {
-                        return null;
+                    if (Coordinate.X != hgrid.Length - 1) {
+                        setSouth(hgrid, vgrid, candidates, Coordinate.X, Coordinate.Y);
                     }
-                    setSouth(hgrid, vgrid, candidates, Coordinate.X, Coordinate.Y);
                     break;
             }
-            if (candidates == null)
-            {
-                return null;
-            }
-            return candidates
+            return (candidates == null) ? null : candidates
                 .Where(x => x.Parent == null && x.Value == Value).FirstOrDefault();
         }
 
@@ -179,10 +177,8 @@ namespace AircraftTrajectories.Models.Contours
             if (X < vgrid.Length)
             {
                 candidates = concatenateDirection(candidates, vgrid, X, Y + 1, ContourDirection.East);
-
                 candidates = concatenateDirection(candidates, vgrid, X, Y, ContourDirection.West);
             }
         }
-
     }
 }

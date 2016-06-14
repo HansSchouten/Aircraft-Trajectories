@@ -7,8 +7,8 @@ using System.ComponentModel;
 
 namespace AircraftTrajectories.Models.IntegratedNoiseModel
 {
-    using AircraftTrajectories.Models.Trajectory;
-    using AircraftTrajectories.Models.TemporalGrid;
+    using Trajectory;
+    using TemporalGrid;
     using System.Collections.Generic;
 
     public class IntegratedNoiseModel
@@ -49,22 +49,17 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             _backgroundWorker = new BackgroundWorker();
             _backgroundWorker.WorkerSupportsCancellation = false;
             _backgroundWorker.WorkerReportsProgress = true;
-            if (_timeSteps)
-            {
+            if (_timeSteps) {
                 RunINMFullTrajectory();
                 calculationCompletedCallback();
-            } else
-            {
+            } else {
                 _backgroundWorker.DoWork += BackgroundWorker_DoWork;
-                _backgroundWorker.ProgressChanged += delegate (object sender, ProgressChangedEventArgs e)
-                {
-                    if (_progressBar != null)
-                    {
+                _backgroundWorker.ProgressChanged += delegate (object sender, ProgressChangedEventArgs e) {
+                    if (_progressBar != null) {
                         _progressBar.Value = e.ProgressPercentage;
                     }
                 };
-                _backgroundWorker.RunWorkerCompleted += delegate (object sender, RunWorkerCompletedEventArgs e)
-                {
+                _backgroundWorker.RunWorkerCompleted += delegate (object sender, RunWorkerCompletedEventArgs e) {
                     calculationCompletedCallback();
                 };
 
@@ -82,7 +77,6 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         public void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             TemporalGrid = new TemporalGrid();
-            TemporalGrid.Interval = 1;
 
             Progress = 0;
             for (int t = 0; t <= _trajectory.Duration; t++)
@@ -95,17 +89,15 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
 
                 Progress = (t / (double)_trajectory.Duration) * 100;
                 _backgroundWorker.ReportProgress((int) Progress);
-                Console.WriteLine(Progress);
             }
-            Progress = 100;
-            _backgroundWorker.ReportProgress(100);
         }
 
-
+        /// <summary>
+        /// Run the integrated noise model for a whole trajectory
+        /// </summary>
         public void RunINMFullTrajectory()
         {
             TemporalGrid = new TemporalGrid();
-            TemporalGrid.Interval = 1;
 
             CreateTrajectoryFile();
             ExecuteINMTM();
@@ -151,8 +143,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 file.WriteLine("met");
                 file.WriteLine("         x         y         h         V         T         m");
                 file.WriteLine("====================================================================================");
-                for (int t=0; t<_trajectory.Duration; t = t+20)
-                {
+                for (int t=0; t<_trajectory.Duration; t = t+20) {
                     file.WriteLine(_trajectory.X(t) + "      " + _trajectory.Y(t) + "     " + _trajectory.Z(t) + "     400      50000        2");
                 }
                 file.WriteLine();
@@ -178,7 +169,6 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             process.Start();
 
             string output = process.StandardOutput.ReadToEnd();
-
             process.WaitForExit();
         }
         
@@ -204,32 +194,26 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         /// <summary>
         /// Converts the noise output into a grid of noise values
         /// </summary>
-        /// <param name="noiseData"></param>
+        /// <param name="noiseData">The noisedata that needs to be converted to a grid</param>
         /// <returns></returns>
         protected Grid NoiseDataToGrid(double[][] noiseData)
         {
-            // Store noise levels in a 2D grid
             double[][] noiseDataGrid = { };
             double currentX = noiseData[0][0];
             List<double> column = new List<double>();
             int columnIndex = 0;
             for (int i = 0; i < noiseData.Length - 1; i++) {
-                // Check whether we encountered a new column
                 if (currentX != noiseData[i][0]) {
-                    // Check whether this was the first column
                     if (columnIndex == 0) {
-                        // Now the total number of columns of the grid is known
                         int numberOfColumns = noiseData.Length / column.Count;
                         noiseDataGrid = new double[numberOfColumns][];
                     }
-                    // Add the column to the grid
                     noiseDataGrid[columnIndex] = column.ToArray();
 
                     column = new List<double>();
                     currentX = noiseData[i][0];
                     columnIndex++;
                 }
-                
                 column.Add(noiseData[i][4]);
             }
             noiseDataGrid[columnIndex] = column.ToArray();

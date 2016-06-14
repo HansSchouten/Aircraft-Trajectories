@@ -13,7 +13,6 @@ namespace AircraftTrajectories.Models.Space3D
         /// <returns></returns>
         public PointF convertToLatLong(double x, double y)
         {
-            // The city "Amsterfoort" is used as reference "Rijksdriehoek" coordinate.
             int referenceRdX = 155000;
             int referenceRdY = 463000;
 
@@ -45,9 +44,7 @@ namespace AircraftTrajectories.Models.Space3D
                 (0.00022 * Math.Pow(dY, 2)) +
                 (-0.00022 * Math.Pow(dX, 2)) +
                 (0.00026 * Math.Pow(dX, 5));
-
-
-            // The city "Amsterfoort" is used as reference "WGS84" coordinate.
+            
             double referenceWgs84X = 52.15517;
             double referenceWgs84Y = 5.387206;
 

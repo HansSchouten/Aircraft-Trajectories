@@ -12,16 +12,22 @@ namespace AircraftTrajectories.Models.Optimisation
         protected enum FLAP_SETTINGS { UP, FLAPS1, FLAPS5, FLAPS10, FLAPS20 }
         protected FLAP_SETTINGS FlapSetting = FLAP_SETTINGS.FLAPS10;
 
-        public double Mass
-        {
+        /// <summary>
+        /// The mass of the aircraft
+        /// </summary>
+        public double Mass {
             get { return 350000; }
         }
-        public double VClean
-        {
+        /// <summary>
+        /// The speed at which the landing gear and flaps are retracted
+        /// </summary>
+        public double VClean {
             get { return 280; }
         }
-        public double VMax
-        {
+        /// <summary>
+        /// The maximum allowed speed of the aircraft
+        /// </summary>
+        public double VMax {
             get { return 300; }
         }
 
@@ -117,7 +123,7 @@ namespace AircraftTrajectories.Models.Optimisation
                     return 0.0463 - 0.0424 * CL + 0.0726 * CL * CL;
                 case FLAP_SETTINGS.FLAPS20:
                     return 0.0387 + 0.0085 * CL + 0.0402 * CL * CL;
-                default: // Flaps up
+                default:
                     return 0.0233 - 0.0454 * CL + 0.1037 * CL * CL;
             }
         }
@@ -136,7 +142,7 @@ namespace AircraftTrajectories.Models.Optimisation
         /// <summary>
         /// Calculate the radius of the smallest turn the aircraft can execute at the given speed
         /// </summary>
-        /// <param name="speed"></param>
+        /// <param name="speed">The current airspeed</param>
         /// <returns></returns>
         public double MinimumTurnRadius(double speed)
         {

@@ -9,6 +9,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections.Camera
         protected Aircraft _aircraft;
         protected Trajectory _trajectory;
 
+        /// <summary>
+        /// Create a camera object that will follow the aircraft
+        /// </summary>
+        /// <param name="aircraft"></param>
+        /// <param name="trajectory"></param>
         public FollowKMLAnimatorCamera(Aircraft aircraft, Trajectory trajectory)
         {
             _aircraft = aircraft;
@@ -20,6 +25,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections.Camera
             return "";
         }
 
+        /// <summary>
+        /// Return the camera position for the given animation step
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public string KMLAnimationStep(int t)
         {
             var cameraHeading = (_trajectory.Heading(t) - 40) % 360;

@@ -141,12 +141,11 @@ namespace AircraftTrajectories.Models.Trajectory
         /// <returns></returns>
         public double BankAngle(int t)
         {
-            if(t < 1)
-            {
+            if(t < 1) {
                 return 0;
             }
 
-            //source: http://www.regentsprep.org/regents/math/geometry/gcg6/RCir.htm
+            // Source: http://www.regentsprep.org/regents/math/geometry/gcg6/RCir.htm
             GeoPoint3D point1 = GeoPoint(t - 1);
             GeoPoint3D point2 = GeoPoint(t);
             GeoPoint3D point3 = GeoPoint(t + 1);
@@ -156,8 +155,7 @@ namespace AircraftTrajectories.Models.Trajectory
             double x_c = (m_r * m_t * (point3.Longitude - point1.Longitude) + m_r * (point2.Latitude + point3.Latitude) - m_t * (point1.Latitude + point2.Latitude)) / (2 * (m_r - m_t));
             double y_c = -(1 / m_r) * (x_c - ((point1.Latitude + point2.Latitude) / 2)) + ((point1.Longitude + point2.Longitude) / 2);
 
-            if (double.IsInfinity(x_c))
-            {
+            if (double.IsInfinity(x_c)) {
                 return 0;
             }
 

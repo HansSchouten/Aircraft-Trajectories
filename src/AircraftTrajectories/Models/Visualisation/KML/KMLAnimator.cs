@@ -31,14 +31,28 @@ namespace AircraftTrajectories.Models.Visualisation.KML
             StringBuilder builder = new StringBuilder();
             builder.AppendLine("<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\">");
             builder.AppendLine("<Document>");
-
-            // Add each kml section definition of this animation
-            foreach (KMLAnimatorSectionInterface kmlAnimator in _animators)
-            {
+            
+            foreach (KMLAnimatorSectionInterface kmlAnimator in _animators) {
                 builder.Append(kmlAnimator.KMLSetup());
             }
+            builder = AddAnimationSteps(builder, duration);
+            foreach (KMLAnimatorSectionInterface kmlAnimator in _animators) {
+                builder.Append(kmlAnimator.KMLFinish());
+            }
 
-            // Add all kml updates of each animation section
+            builder.AppendLine("</Document>");
+            builder.AppendLine("</kml>");
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// Add the animation steps for all kml animtors
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="duration"></param>
+        /// <returns></returns>
+        protected StringBuilder AddAnimationSteps(StringBuilder builder, int duration)
+        {
             builder.AppendLine("<gx:Tour><name>Flight animation</name><gx:Playlist>");
             for (int t = 0; t < duration; t++)
             {
@@ -47,8 +61,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML
     <gx:duration>1.0</gx:duration>
     <Update>
         <Change>");
-                foreach (KMLAnimatorSectionInterface kmlAnimator in _animators)
-                {
+                foreach (KMLAnimatorSectionInterface kmlAnimator in _animators) {
                     builder.Append(kmlAnimator.KMLAnimationStep(t));
                 }
                 builder.Append(@"
@@ -58,16 +71,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML
                 builder.Append(_camera.KMLAnimationStep(t));
             }
             builder.AppendLine("</gx:Playlist></gx:Tour>");
-
-            // Add the post animation definitions
-            foreach (KMLAnimatorSectionInterface kmlAnimator in _animators)
-            {
-                builder.Append(kmlAnimator.KMLFinish());
-            }
-
-            builder.AppendLine("</Document>");
-            builder.AppendLine("</kml>");
-            return builder.ToString();
+            return builder;
         }
 
         /// <summary>

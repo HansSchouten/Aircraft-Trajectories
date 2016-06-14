@@ -58,23 +58,6 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
 </Placemark> 
                 ";
             }
-
-            // Load ImageAnnoyed into Google Earth memory
-            setupString += @"
-<Placemark>
-	<Style>
-        <IconStyle>
-            <Icon>
-                <href>" + ImageAnnoyed + @"</href>
-            </Icon>
-        </IconStyle>
-	</Style>
-    <Point>
-        <coordinates></coordinates>
-    </Point>
-</Placemark> 
-            ";
-
             return setupString;
         }
 
@@ -140,6 +123,5 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             Random randomListCell = new Random(seed);
             return (chance > randomListCell.NextDouble());
         }
-
     }
 }

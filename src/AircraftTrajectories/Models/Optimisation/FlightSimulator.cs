@@ -60,12 +60,10 @@ namespace AircraftTrajectories.Models.Optimisation
         public FlightSimulator(ISimulatorModel aircraft, Point3D endPoint, int numberOfSegments, List<double> settings)
         {
             _settings = settings;
-
             _vertical_state = VERTICAL_STATE.TAKEOFF;
             _aircraft = aircraft;
             _speed = 160;
             _heading = Math.PI / 2;
-
             _endPoint = endPoint;
             _numberOfSegments = numberOfSegments;
             _segmentIndex = 1;
@@ -247,7 +245,6 @@ namespace AircraftTrajectories.Models.Optimisation
         protected void CheckStraightEnd()
         {
             var currentPoint = new Point3D(_x, _y, 0, CoordinateUnit.metric);
-            // At the last straight segment, quit the optimisation when we reach the endpoint
             if (_segmentIndex == _numberOfSegments)
             {
                 if (currentPoint.DistanceTo(_segmentStartPoint) >= _endPoint.DistanceTo(_segmentStartPoint))
@@ -266,13 +263,11 @@ namespace AircraftTrajectories.Models.Optimisation
         /// <param name="currentPoint">The current position</param>
         protected void CheckStraightNotLastSegment(Point3D currentPoint)
         {
-            // At the second last straight segment, continue flying as long as we cannot reach the endpoint with a minimum radius turn in less than a 180degree turn
             if (_segmentIndex == _numberOfSegments - 2 &&
                 currentPoint.DistanceTo(_endPoint) / 2 < _aircraft.MinimumTurnRadius(_aircraft.VMax)) {
                 return;
             }
 
-            // Switch from flying straight to a turn if we reach beyond the given segment length
             if (currentPoint.DistanceTo(_segmentStartPoint) >= Interpolate(0, MAX_SEGMENT_LENGTH, Setting(2)))
             {
                 _horizontal_state = HORIZONTAL_STATE.TURN;
@@ -308,8 +303,7 @@ namespace AircraftTrajectories.Models.Optimisation
         protected bool SwitchHorizontalState(double deltaHeading, double targetHeading)
         {
             bool switchHorizontalState = false;
-
-            // Check whether we are in the last turn of the trajectory
+            
             if (_segmentIndex == _numberOfSegments - 1)
             {
                 var currentPoint = new Point3D(_x, _y, 0, CoordinateUnit.metric);
@@ -337,8 +331,10 @@ namespace AircraftTrajectories.Models.Optimisation
         /// <returns></returns>
         public double AngleDifference(double a, double b)
         {
-            if (a > b) {
-                if (a < Math.PI) {
+            if (a > b)
+            {
+                if (a < Math.PI)
+                {
                     return SmallAngleDifference(a, Math.PI) + Math.PI + SmallAngleDifference(0, b);
                 }
                 return SmallAngleDifference(a, 0) + SmallAngleDifference(0, b);

@@ -104,6 +104,5 @@ namespace AircraftTrajectories.Models.Population
             Random randomListCell = new Random(seed);
             return (chance > randomListCell.NextDouble());
         }
-
     }
 }

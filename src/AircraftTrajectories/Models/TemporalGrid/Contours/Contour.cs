@@ -7,6 +7,13 @@ namespace AircraftTrajectories.Models.Contours
 {
     public class Contour
     {
+        /// <summary>
+        /// Create a new Contour
+        /// </summary>
+        /// <param name="first"></param>
+        /// <param name="vgrid"></param>
+        /// <param name="hgrid"></param>
+        /// <param name="isClosed"></param>
         public Contour(ContourPoint first, IEnumerable<ContourPoint>[][] vgrid, IEnumerable<ContourPoint>[][] hgrid, bool isClosed)
         {
             Value = first.Value;
@@ -33,10 +40,17 @@ namespace AircraftTrajectories.Models.Contours
             }
         }
 
+        /// <summary>
+        /// The contourpoints of this contour
+        /// </summary>
         public ContourPoint[] Points { get; private set; }
-
+        /// <summary>
+        /// The value represented by each contour point
+        /// </summary>
         public int Value { get; private set; }
-
+        /// <summary>
+        /// Whether the contour fits in the grid or not
+        /// </summary>
         public bool IsClosed { get; private set; }
 
         /// <summary>
@@ -179,6 +193,5 @@ namespace AircraftTrajectories.Models.Contours
                 }
             }
         }
-
     }
 }

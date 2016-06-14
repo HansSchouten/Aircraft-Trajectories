@@ -24,18 +24,15 @@ namespace AircraftTrajectories.Models.Space3D
         }
 
         /// <summary>
-        /// Converts the corodinates of a 3D point in meters
+        /// Converts the coordinates of a 3D point in meters
         /// </summary>
-        /// <param name="point"></param>
+        /// <param name="point">The 3D point that needs to be converted</param>
         /// <returns></returns>
         protected Point3D ConvertToMetrics(Point3D point)
         {
-            double newX = point.X;
-            double newY = point.Y;
-            double newZ = point.Z;
+            double newX = point.X, newY = point.Y, newZ = point.Z;
 
-            switch (point.CoordinateUnits)
-            {
+            switch (point.CoordinateUnits) {
                 case CoordinateUnit.imperial:
                     newX = point.X * FeetToMeters;
                     newY = point.Y * FeetToMeters;
@@ -59,17 +56,14 @@ namespace AircraftTrajectories.Models.Space3D
         /// <summary>
         /// Converts the coordinates of a 3D point from meters to required unit
         /// </summary>
-        /// <param name="point"></param>
-        /// <param name="newUnits"></param>
+        /// <param name="point">The 3D point that needs to be converted</param>
+        /// <param name="newUnits">The target units</param>
         /// <returns></returns>
         protected Point3D ConvertMetricsTo(Point3D point, CoordinateUnit newUnits)
         {
-            double newX = point.X;
-            double newY = point.Y;
-            double newZ = point.Z;
+            double newX = point.X, newY = point.Y, newZ = point.Z;
 
-            switch (newUnits)
-            {
+            switch (newUnits) {
                 case CoordinateUnit.imperial:
                     newX = point.X / FeetToMeters;
                     newY = point.Y / FeetToMeters;
@@ -89,7 +83,5 @@ namespace AircraftTrajectories.Models.Space3D
 
             return new Point3D(newX, newY, newZ, newUnits);
         }
-
     }
-
 }

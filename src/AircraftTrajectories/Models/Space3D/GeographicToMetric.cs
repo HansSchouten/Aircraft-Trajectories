@@ -12,12 +12,10 @@ namespace AircraftTrajectories.Models.Space3D
         /// <returns></returns>
         public Point3D ConvertToXY(double longitude, double latitude)
         {
-            // The city "Amsterfoort" is used as reference "Rijksdriehoek" coordinate.
-            int referenceRdX = 0;// 155000;
-            int referenceRdY = 0;// 463000;
-            // The city "Amsterfoort" is used as reference "WGS84" coordinate.
-            double referenceWgs84Y = 2*latitude;// 52.15517;
-            double referenceWgs84X = 2*longitude;// 5.387206;
+            int referenceRdX = 0;
+            int referenceRdY = 0;
+            double referenceWgs84Y = 2*latitude;
+            double referenceWgs84X = 2*longitude;
 
             double RadiansPerDegree = Math.PI / 180;
             double Rad = (referenceWgs84Y - latitude) * RadiansPerDegree;

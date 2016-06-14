@@ -11,6 +11,11 @@ namespace AircraftTrajectories.Models.TemporalGrid
         protected TemporalGrid _output;
         protected GridTransformation _transformation;
 
+        /// <summary>
+        /// Create a GridConverter object
+        /// </summary>
+        /// <param name="input">The temporalgrid of which the grids needs to be transformed</param>
+        /// <param name="transformation"></param>
         public GridConverter(TemporalGrid input, GridTransformation transformation)
         {
             _input = input;
@@ -79,6 +84,5 @@ namespace AircraftTrajectories.Models.TemporalGrid
                     return 0;
             }
         }
-
     }
 }

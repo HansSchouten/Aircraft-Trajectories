@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Forms;
 
 namespace AircraftTrajectories.Models.Space3D
 {
@@ -11,6 +10,12 @@ namespace AircraftTrajectories.Models.Space3D
         public double Latitude { get; protected set; }
         public double Z { get; protected set; }
 
+        /// <summary>
+        /// Construct a new GeoPoint3D
+        /// </summary>
+        /// <param name="longitude">The longitude of the point</param>
+        /// <param name="latitude">The latitude of the point</param>
+        /// <param name="z">The altitude of the point</param>
         public GeoPoint3D(double longitude, double latitude, double z)
         {
             Longitude = longitude;
@@ -31,7 +36,6 @@ namespace AircraftTrajectories.Models.Space3D
             var brng = heading * Math.PI / 180;
             var lat1 = Latitude * Math.PI / 180;
             var lon1 = Longitude * Math.PI / 180;
-
             var lat2 = Math.Asin(Math.Sin(lat1) * Math.Cos(distance / R) +
                  Math.Cos(lat1) * Math.Sin(distance / R) * Math.Cos(brng));
             var lon2 = lon1 + Math.Atan2(Math.Sin(brng) * Math.Sin(distance / R) * Math.Cos(lat1),

@@ -4,9 +4,9 @@ namespace AircraftTrajectories.Models.Trajectory
 {
     public class Aircraft
     {
-        public String EngineId { get; protected set; }
-        public String EngineMount { get; protected set; }
-        public String Model { get; protected set; }
+        public string EngineId { get; protected set; }
+        public string EngineMount { get; protected set; }
+        public string Model { get; protected set; }
 
         /// <summary>
         /// Constructs an aircraft model with given engine and engine mounting type
@@ -19,6 +19,5 @@ namespace AircraftTrajectories.Models.Trajectory
             EngineMount = engineMount;
             Model = "B738.dae";
         }
-
     }
 }

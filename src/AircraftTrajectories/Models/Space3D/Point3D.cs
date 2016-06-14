@@ -9,6 +9,13 @@ namespace AircraftTrajectories.Models.Space3D
         public double Y { get; protected set; }
         public double Z { get; protected set; }
 
+        /// <summary>
+        /// Construct a new Point3D
+        /// </summary>
+        /// <param name="x">The x coordinate</param>
+        /// <param name="y">The y coordinate</param>
+        /// <param name="z">The z coordinate</param>
+        /// <param name="coordinateUnits"></param>
         public Point3D(double x, double y, double z, CoordinateUnit coordinateUnits)
         {
             X = x;
@@ -20,7 +27,7 @@ namespace AircraftTrajectories.Models.Space3D
         /// <summary>
         /// Converts the coordinates of a 3D Point into the chosen unit
         /// </summary>
-        /// <param name="targetUnit"></param>
+        /// <param name="targetUnit">The units to which this point needs to be converted</param>
         /// <returns></returns>
         public Point3D ConvertTo(CoordinateUnit targetUnit)
         {
@@ -31,7 +38,7 @@ namespace AircraftTrajectories.Models.Space3D
         /// <summary>
         /// Calculates the distance between two 3D points using Pythagoras
         /// </summary>
-        /// <param name="other"></param>
+        /// <param name="other">The point to which the distance needs to be calculated</param>
         /// <returns></returns>
         public double DistanceTo(Point3D other)
         {
@@ -41,7 +48,7 @@ namespace AircraftTrajectories.Models.Space3D
         /// <summary>
         /// Calculates the heading to the given Point3D, based on metric coordinates
         /// </summary>
-        /// <param name="other"></param>
+        /// <param name="other">The point to which the heading needs to be calculated</param>
         /// <returns></returns>
         public double HeadingTo(Point3D other)
         {
