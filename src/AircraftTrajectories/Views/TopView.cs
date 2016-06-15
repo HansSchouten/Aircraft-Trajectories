@@ -7,12 +7,10 @@ using AircraftTrajectories.Models.Visualisation.KML.AnimationSections;
 using AircraftTrajectories.Models.Visualisation.KML.AnimationSections.Cameras;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Windows.Forms;
+using System.Linq;
+using MathNet.Numerics.Interpolation;
 
 namespace AircraftTrajectories.Views
 {
@@ -29,6 +27,64 @@ namespace AircraftTrajectories.Views
 
         private void TopView_Load(object sender, EventArgs e)
         {
+            string rawTrackData = File.ReadAllText(Globals.currentDirectory + "inbound.txt");
+            var _trackData = rawTrackData
+                .Split('\n')
+                .Select(q =>
+                    q.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
+                     .Select(Convert.ToString)
+                     .ToArray()
+                )
+                .ToArray();
+
+            string flight_id = "";
+            var _tData = new List<double>();
+            var _xData = new List<double>();
+            var _yData = new List<double>();
+            var _zData = new List<double>();
+            var trajectories = new List<Trajectory>();
+            double xMin = int.MaxValue, yMin = int.MaxValue, xMax = int.MinValue, yMax = int.MinValue;
+            double xMinT = int.MaxValue, yMinT = int.MaxValue, xMaxT = int.MinValue, yMaxT = int.MinValue;
+            for (int i = 0; i < _trackData.Length; i++)
+            {
+                if (_trackData[i][0] != flight_id && i > 0)
+                {
+                    var xSpline = CubicSpline.InterpolateNatural(_tData, _xData);
+                    var ySpline = CubicSpline.InterpolateNatural(_tData, _yData);
+                    var zSpline = CubicSpline.InterpolateNatural(_tData, _zData);
+                    trajectories.Add(new Trajectory(xSpline, ySpline, zSpline, null, null));
+                    
+                    _tData = new List<double>();
+                    _xData = new List<double>();
+                    _yData = new List<double>();
+                    _zData = new List<double>();
+                    MessageBox.Show(xMinT + "," + yMinT + " - " + xMaxT + "," + yMaxT);
+                    xMinT = int.MaxValue;
+                    yMinT = int.MaxValue;
+                    xMaxT = int.MinValue;
+                    yMaxT = int.MinValue;
+                }
+                flight_id = _trackData[i][0];
+
+                _tData.Add(i);
+                double x = Convert.ToDouble(_trackData[i][4]);
+                double y = Convert.ToDouble(_trackData[i][5]);
+                double z = Convert.ToDouble(_trackData[i][6]) * 0.3040 * 100;
+                _xData.Add(x);
+                _yData.Add(y);
+                _zData.Add(z);
+                xMin = Math.Min(xMin, x);
+                xMax = Math.Max(xMax, x);
+                yMin = Math.Min(yMin, y);
+                yMax = Math.Max(yMax, y);
+                xMinT = Math.Min(xMinT, x);
+                xMaxT = Math.Max(xMaxT, x);
+                yMinT = Math.Min(yMinT, y);
+                yMaxT = Math.Max(yMaxT, y);
+            }
+            MessageBox.Show(xMin + "," + yMin + " - " + xMax + "," + yMax);
+            return;
+
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
             trajectory = reader.createTrajectoryFromFile(Globals.currentDirectory + "track_schiphol.dat");
 
