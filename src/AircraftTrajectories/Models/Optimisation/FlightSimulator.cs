@@ -168,7 +168,9 @@ namespace AircraftTrajectories.Models.Optimisation
             }
             */
 
-            fuel += _aircraft.FuelFLow(currentThrust, _speed, _height);
+            double consumedFuel = _aircraft.FuelFLow(currentThrust, _speed, _height);
+            _aircraft.Mass -= consumedFuel;
+            fuel += consumedFuel;
         }
 
         protected void updateAngle(double thrust, double drag)

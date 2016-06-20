@@ -12,6 +12,7 @@ namespace AircraftTrajectories.Models.Optimisation
 
         public double Mass {
             get { return 350000; }
+            set { Mass = value;  }
         }
         public double VClean
         {
