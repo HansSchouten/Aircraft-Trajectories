@@ -19,6 +19,14 @@ namespace AircraftTrajectories.Models.TemporalGrid
         /// </summary>
         public Point3D LowerLeftCorner { get; set; }
         /// <summary>
+        /// The geo coordinate of the reference point
+        /// </summary>
+        public GeoPoint3D ReferenceGeoPoint { get; set; }
+        /// <summary>
+        /// The x,y coordinate of the reference point
+        /// </summary>
+        public Point3D ReferencePoint { get; set; }
+        /// <summary>
         /// The distance between 2 subsequent cells of the grid
         /// </summary>
         public int GridSize { get; set; }

@@ -27,6 +27,7 @@ namespace AircraftTrajectories.Views
 
         private void TopView_Load(object sender, EventArgs e)
         {
+            // Parse the file containing multiple trajectories
             string rawTrackData = File.ReadAllText(Globals.currentDirectory + "inbound.txt");
             var _trackData = rawTrackData
                 .Split('\n')
@@ -37,6 +38,7 @@ namespace AircraftTrajectories.Views
                 )
                 .ToArray();
 
+            // Define variables
             string flight_id = "";
             var _tData = new List<double>();
             var _xData = new List<double>();
@@ -45,20 +47,26 @@ namespace AircraftTrajectories.Views
             var trajectories = new List<Trajectory>();
             double xMin = int.MaxValue, yMin = int.MaxValue, xMax = int.MinValue, yMax = int.MinValue;
             double xMinT = int.MaxValue, yMinT = int.MaxValue, xMaxT = int.MinValue, yMaxT = int.MinValue;
+
+            // Loop through the positions of all trajectories
             for (int i = 0; i < _trackData.Length; i++)
             {
+                // Switch to the next trajectory
                 if (_trackData[i][0] != flight_id && i > 0)
                 {
                     var xSpline = CubicSpline.InterpolateNatural(_tData, _xData);
                     var ySpline = CubicSpline.InterpolateNatural(_tData, _yData);
                     var zSpline = CubicSpline.InterpolateNatural(_tData, _zData);
-                    trajectories.Add(new Trajectory(xSpline, ySpline, zSpline, null, null));
+                    Aircraft aircraft = new Aircraft("GP7270", "wing");
+                    Trajectory trajectory = new Trajectory(xSpline, ySpline, zSpline, null, null, aircraft);
+                    trajectory.Duration = _tData.Count;
+                    trajectories.Add(trajectory);
                     
-                    _tData = new List<double>();
+                    // Reset for next iteration
                     _xData = new List<double>();
                     _yData = new List<double>();
                     _zData = new List<double>();
-                    MessageBox.Show(xMinT + "," + yMinT + " - " + xMaxT + "," + yMaxT);
+                    _tData = new List<double>();
                     xMinT = int.MaxValue;
                     yMinT = int.MaxValue;
                     xMaxT = int.MinValue;
@@ -66,13 +74,20 @@ namespace AircraftTrajectories.Views
                 }
                 flight_id = _trackData[i][0];
 
-                _tData.Add(i);
+
+                // Parse the next position of the current trajectory
+                //DateTime t = DateTime.Parse(_trackData[i][14]);
                 double x = Convert.ToDouble(_trackData[i][4]);
                 double y = Convert.ToDouble(_trackData[i][5]);
                 double z = Convert.ToDouble(_trackData[i][6]) * 0.3040 * 100;
+                
                 _xData.Add(x);
                 _yData.Add(y);
                 _zData.Add(z);
+                _tData.Add(_tData.Count);
+
+
+                // Update global and trajectory corner coordinates
                 xMin = Math.Min(xMin, x);
                 xMax = Math.Max(xMax, x);
                 yMin = Math.Min(yMin, y);
@@ -82,8 +97,46 @@ namespace AircraftTrajectories.Views
                 yMinT = Math.Min(yMinT, y);
                 yMaxT = Math.Max(yMaxT, y);
             }
-            MessageBox.Show(xMin + "," + yMin + " - " + xMax + "," + yMax);
+
+            TemporalGrid temporalGrid = new TemporalGrid();
+            temporalGrid.LowerLeftCorner = new Point3D(xMin, yMin, 0, CoordinateUnit.metric);
+            temporalGrid.ReferencePoint = new Point3D(0, 0, 0, CoordinateUnit.metric);
+            temporalGrid.ReferenceGeoPoint = new GeoPoint3D(4.7518, 52.309266, 0);
+            temporalGrid.GridSize = 125;
+            int counter = 0;
+            foreach (Trajectory trajectory in trajectories)
+            {
+                counter++;
+                Console.WriteLine(counter);
+                if (counter > 5) {
+                    break;
+                }
+                var INM = new IntegratedNoiseModel(trajectory, trajectory.Aircraft, false);
+                INM.StartCalculation(INMCompleted);
+
+                while (!completed) { }
+                completed = false;
+
+                Grid grid = INM.TemporalGrid.GetGrid(0);
+                temporalGrid.AddGrid(grid);
+            }
+
+
+            var camera = new TopViewKMLAnimatorCamera(aircraft, trajectory, new GeoPoint3D(4.7518, 52.309266, 15000));
+            var sections = new List<KMLAnimatorSectionInterface>() {
+                new ContourKMLAnimator(temporalGrid, trajectory, new List<int>() { })
+            };
+            var animator = new KMLAnimator(sections, camera);
+            animator.AnimationToFile(temporalGrid.GetNumberOfGrids(), Globals.currentDirectory + "topview_fullpath.kml");
+
+
             return;
+
+
+
+
+
+
 
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
             trajectory = reader.createTrajectoryFromFile(Globals.currentDirectory + "track_schiphol.dat");
@@ -93,6 +146,16 @@ namespace AircraftTrajectories.Views
             noiseModel.GridName = "schiphol_grid2D";
             noiseModel.StartCalculation(calculationCompleted, null);
         }
+
+        bool completed = false;
+        private void INMCompleted()
+        {
+            completed = true;
+        }
+
+
+
+
 
         private void calculationCompleted()
         {

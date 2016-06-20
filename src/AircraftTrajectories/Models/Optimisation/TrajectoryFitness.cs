@@ -67,7 +67,6 @@ namespace AircraftTrajectories.Models.Optimisation
 
             int randomNumber = RandomizationProvider.Current.GetInt(0, 10000000);
             //Console.WriteLine(randomNumber);
-            noiseModel.FileSuffix = randomNumber.ToString();
 
             //Console.WriteLine("INM started");
             noiseModel.RunINMFullTrajectory();
