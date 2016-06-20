@@ -132,8 +132,13 @@
     <Compile Include="Models\Visualisation\KML\KMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\KMLAnimatorSectionInterface.cs" />
     <Compile Include="Models\Visualisation\LegendCreator.cs" />
+    <Compile Include="Presenters\OptimisationPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\MDIContainerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Optimisation\IOptimisationForm.cs" />
     <Compile Include="Views\Optimisation\OptimisationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -228,6 +233,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\MDIContainerForm.resx">
+      <DependentUpon>MDIContainerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Optimisation\OptimisationForm.resx">
       <DependentUpon>OptimisationForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -288,9 +296,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Presenters\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
