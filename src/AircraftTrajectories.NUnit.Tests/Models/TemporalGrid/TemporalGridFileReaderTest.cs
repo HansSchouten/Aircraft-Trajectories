@@ -20,10 +20,10 @@ namespace AircraftTrajectories.NUnit.Tests.Models.TemporalGrid
         }
 
         [Test]
-        public void TemporalGridReaderGridSizeTest()
+        public void TemporalGridReaderCellSizeTest()
         {
             TemporalGrid temp = new TemporalGridFileReader().createTemporalGridFromFile("noise.out");
-            Assert.AreEqual(125, temp.GridSize);
+            Assert.AreEqual(125, temp.GetGrid(0).CellSize);
         }
 
         [Test]
@@ -38,10 +38,10 @@ namespace AircraftTrajectories.NUnit.Tests.Models.TemporalGrid
         {
             TemporalGrid temp = new TemporalGridFileReader().createTemporalGridFromFile("noise.out");
             Point res = new Point();
-            res.X = 0;
-            res.Y = 0;
+            res.X = 53;
+            res.Y = 21;
 
-            Assert.AreEqual(res, temp.CoordinateToGridIndex(14, 65));
+            Assert.AreEqual(res, temp.GetGrid(0).CoordinateToGridIndex(110658, 478103));
         }
 
 

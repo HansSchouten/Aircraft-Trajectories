@@ -17,10 +17,6 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         protected Trajectory _trajectory;
         protected Aircraft _aircraft;
         protected bool _timeSteps;
-        protected int _minX;
-        protected int _minY;
-        protected int _maxX;
-        protected int _maxY;
         public TemporalGrid TemporalGrid { get; protected set; }
         public string FileSuffix = "";
         public string GridName = "schiphol_grid2D";
@@ -99,7 +95,6 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
 
                 progress = (t / (double)_trajectory.Duration) * 100;
                 _backgroundWorker.ReportProgress((int) progress);
-                Console.WriteLine(progress);
             }
             progress = 100;
             _backgroundWorker.ReportProgress(100);
@@ -148,9 +143,8 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         /// </summary>
         protected void CreateInputFiles()
         {
-            _minX = int.MaxValue; _maxX = int.MinValue; _minY = int.MaxValue; _maxY = int.MinValue;
-            using (System.IO.StreamWriter file =
-                    new System.IO.StreamWriter(Globals.currentDirectory + "current_position" + FileSuffix + ".dat", false))
+            using (StreamWriter file =
+                    new StreamWriter(Globals.currentDirectory + "current_position" + FileSuffix + ".dat", false))
             {
                 file.WriteLine("Sys");
                 file.WriteLine("====================================================================================");
@@ -159,13 +153,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 file.WriteLine("====================================================================================");
                 for (int t = 0; t < _trajectory.Duration; t = t+20)
                 {
-                    int x = (int) _trajectory.X(t);
-                    int y = (int) _trajectory.Y(t);
-                    _minX = Math.Min(_minX, x);
-                    _maxX = Math.Max(_maxX, x);
-                    _minY = Math.Min(_minY, y);
-                    _maxY = Math.Max(_maxY, y);
-                    file.WriteLine(x + "      " + y + "     " + _trajectory.Z(t) + "     " + _trajectory.Airspeed(t) + "       " + _trajectory.Thrust(t) + "        2");
+                    file.WriteLine(_trajectory.X(t) + "      " + _trajectory.Y(t)  + "     " + _trajectory.Z(t) + "     " + _trajectory.Airspeed(t) + "       " + _trajectory.Thrust(t) + "        2");
                 }
                 file.WriteLine();
                 file.WriteLine("nois_id / engine mount");
@@ -173,17 +161,13 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 file.WriteLine(_aircraft.EngineId);
                 file.WriteLine(_aircraft.EngineMount);
             }
-            _minX -= TrajectoryBound;
-            _maxX += TrajectoryBound;
-            _minY -= TrajectoryBound;
-            _maxY += TrajectoryBound;
 
-            using (System.IO.StreamWriter file =
-                    new System.IO.StreamWriter(Globals.currentDirectory + "current_grid.dat", false))
+            using (StreamWriter file =
+                    new StreamWriter(Globals.currentDirectory + "current_grid.dat", false))
             {
                 file.WriteLine("     x_min     x_max      x_sz     y_min     y_max      y_sz");
                 file.WriteLine("====================================================================================");
-                file.WriteLine(_minX + "      " + _maxX + "     125     " + _minY + "      " + _maxY + "       125");
+                file.WriteLine((_trajectory.LowerLeftPoint.X - TrajectoryBound) + "      " + (_trajectory.UpperRightPoint.X + TrajectoryBound) + "     125     " + (_trajectory.LowerLeftPoint.Y - TrajectoryBound) + "      " + (_trajectory.UpperRightPoint.X + TrajectoryBound) + "       125");
             }
         }
 
@@ -257,10 +241,8 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 column.Add(noiseData[i][4]);
             }
             noiseDataGrid[columnIndex] = column.ToArray();
-
-            var grid = new Grid(noiseDataGrid);
-            grid.LowerLeftCorner = new Point3D(_minX, _minY, 0, CoordinateUnit.metric);
-            return grid;
+            
+            return new Grid(noiseDataGrid, new Point3D(noiseData[0][0], noiseData[0][1]));
         }
 
     }

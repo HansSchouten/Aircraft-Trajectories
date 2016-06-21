@@ -12,8 +12,12 @@ namespace AircraftTrajectories.Models.Trajectory
         protected CubicSpline _zSpline;
         protected CubicSpline _longitudeSpline;
         protected CubicSpline _latitudeSpline;
+
         public int Duration { get; set; }
         public Aircraft Aircraft { get; set; }
+        public Point3D LowerLeftPoint { get; set; }
+        public Point3D UpperRightPoint { get; set; }
+        public ReferencePoint ReferencePoint { get; set; }
 
         /// <summary>
         /// Constructs a trajectory based on the coordinates of a given spline 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Forms;
 
 namespace AircraftTrajectories.Models.TemporalGrid
 {
@@ -54,7 +53,7 @@ namespace AircraftTrajectories.Models.TemporalGrid
                     newData[r][c] = calculate(memoryGrid.Data[r][c], input.Data[r][c]);
                 }
             }
-            Grid newGrid = new Grid(newData);
+            Grid newGrid = new Grid(newData, input.LowerLeftCorner);
             memoryGrid = newGrid;
             return newGrid;
         }

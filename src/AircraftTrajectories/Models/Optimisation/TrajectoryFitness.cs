@@ -39,7 +39,7 @@ namespace AircraftTrajectories.Models.Optimisation
 
 
 
-            var grid = f.LAMaxGrid;
+            var grid = f.NoiseMaxGrid;
             //Console.WriteLine("calculated:"+grid.Data[159][159]);
             double[][] noiseDataGrid = grid.Data;
             var c = new Models.ColorMap();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AircraftTrajectories.Models.Space3D;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -79,7 +80,8 @@ namespace AircraftTrajectories.Models.TemporalGrid
             }
             genericDataGrid[columnIndex] = column.ToArray();
 
-            return new Grid(genericDataGrid);
+            Point3D lowerLeftCorner = new Point3D(genericData[0][0], genericData[0][1]);
+            return new Grid(genericDataGrid, lowerLeftCorner);
         }
 
     }

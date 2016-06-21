@@ -10,7 +10,7 @@ namespace AircraftTrajectories.Models.Space3D
         public double Latitude { get; set; }
         public double Z { get; set; }
 
-        public GeoPoint3D(double longitude, double latitude, double z)
+        public GeoPoint3D(double longitude, double latitude, double z = 0)
         {
             Longitude = longitude;
             Latitude = latitude;

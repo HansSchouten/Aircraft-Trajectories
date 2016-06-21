@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Linq;
-using MathNet.Numerics.Interpolation;
 
 namespace AircraftTrajectories.Views
 {
@@ -20,10 +19,6 @@ namespace AircraftTrajectories.Views
         {
             InitializeComponent();
         }
-
-        Aircraft aircraft;
-        Trajectory trajectory;
-        IntegratedNoiseModel noiseModel;
 
         private void TopView_Load(object sender, EventArgs e)
         {
@@ -38,119 +33,79 @@ namespace AircraftTrajectories.Views
                 )
                 .ToArray();
 
+
             // Define variables
             string flight_id = "";
-            var _tData = new List<double>();
-            var _xData = new List<double>();
-            var _yData = new List<double>();
-            var _zData = new List<double>();
             var trajectories = new List<Trajectory>();
-            double xMin = int.MaxValue, yMin = int.MaxValue, xMax = int.MinValue, yMax = int.MinValue;
-            double xMinT = int.MaxValue, yMinT = int.MaxValue, xMaxT = int.MinValue, yMaxT = int.MinValue;
+            ReferencePoint referencePoint = new ReferencePoint(new GeoPoint3D(4.7066753, 52.3297923));
+            TrajectoryGenerator trajectoryGenerator = new TrajectoryGenerator(new Aircraft("GP7270", "wing"), referencePoint);
+
 
             // Loop through the positions of all trajectories
             for (int i = 0; i < _trackData.Length; i++)
             {
                 // Switch to the next trajectory
-                if (_trackData[i][0] != flight_id && i > 0)
+                if ( i == _trackData.Length-1 || (_trackData[i][0] != flight_id && i > 0) )
                 {
-                    var xSpline = CubicSpline.InterpolateNatural(_tData, _xData);
-                    var ySpline = CubicSpline.InterpolateNatural(_tData, _yData);
-                    var zSpline = CubicSpline.InterpolateNatural(_tData, _zData);
-                    Aircraft aircraft = new Aircraft("GP7270", "wing");
-                    Trajectory trajectory = new Trajectory(xSpline, ySpline, zSpline, null, null, aircraft);
-                    trajectory.Duration = _tData.Count;
-                    trajectories.Add(trajectory);
-                    
-                    // Reset for next iteration
-                    _xData = new List<double>();
-                    _yData = new List<double>();
-                    _zData = new List<double>();
-                    _tData = new List<double>();
-                    xMinT = int.MaxValue;
-                    yMinT = int.MaxValue;
-                    xMaxT = int.MinValue;
-                    yMaxT = int.MinValue;
+                    trajectories.Add(trajectoryGenerator.GenerateTrajectory());
+
+                    // Prepare next trajectory
+                    var aircraft = new Aircraft("GP7270", "wing");
+                    trajectoryGenerator = new TrajectoryGenerator(aircraft, referencePoint);
                 }
+                
+                // Prevent failing on empty lines
+                if (_trackData[i].Count() == 0) { continue; }
                 flight_id = _trackData[i][0];
-
-
+                
                 // Parse the next position of the current trajectory
                 //DateTime t = DateTime.Parse(_trackData[i][14]);
-                double x = Convert.ToDouble(_trackData[i][4]);
-                double y = Convert.ToDouble(_trackData[i][5]);
-                double z = Convert.ToDouble(_trackData[i][6]) * 0.3040 * 100;
-                
-                _xData.Add(x);
-                _yData.Add(y);
-                _zData.Add(z);
-                _tData.Add(_tData.Count);
-
-
-                // Update global and trajectory corner coordinates
-                xMin = Math.Min(xMin, x);
-                xMax = Math.Max(xMax, x);
-                yMin = Math.Min(yMin, y);
-                yMax = Math.Max(yMax, y);
-                xMinT = Math.Min(xMinT, x);
-                xMaxT = Math.Max(xMaxT, x);
-                yMinT = Math.Min(yMinT, y);
-                yMaxT = Math.Max(yMaxT, y);
+                double x = 0;
+                double.TryParse(_trackData[i][4], out x);
+                double y = 0;
+                double.TryParse(_trackData[i][5], out y);
+                double z = 0;
+                double.TryParse(_trackData[i][6], out z);
+                z = z * 0.3040 * 100;
+                trajectoryGenerator.AddDatapoint(x, y, z);
             }
 
+
+            // Calculate the noise for each trajectory
             TemporalGrid temporalGrid = new TemporalGrid();
-            temporalGrid.LowerLeftCorner = new Point3D(xMin, yMin, 0, CoordinateUnit.metric);
-            temporalGrid.ReferencePoint = new Point3D(0, 0, 0, CoordinateUnit.metric);
-            temporalGrid.ReferenceGeoPoint = new GeoPoint3D(4.7518, 52.309266, 0);
-            temporalGrid.GridSize = 125;
             int counter = 0;
             foreach (Trajectory trajectory in trajectories)
             {
                 counter++;
                 Console.WriteLine(counter);
-                if (counter > 5) {
-                    break;
-                }
+                if (counter > 5) { break; }
+
                 var INM = new IntegratedNoiseModel(trajectory, trajectory.Aircraft, false);
                 INM.StartCalculation(INMCompleted);
 
-                while (!completed) { }
-                completed = false;
+                while (!inmCompleted) { }
+                inmCompleted = false;
 
                 Grid grid = INM.TemporalGrid.GetGrid(0);
+                Console.WriteLine(grid.LowerLeftCorner.X);
+                Console.WriteLine(grid.LowerLeftCorner.Y);
+                grid.ReferencePoint = referencePoint;
                 temporalGrid.AddGrid(grid);
             }
-
-
-            var camera = new TopViewKMLAnimatorCamera(aircraft, trajectory, new GeoPoint3D(4.7518, 52.309266, 15000));
+            
+            var camera = new TopViewKMLAnimatorCamera(new GeoPoint3D(4.7066753, 52.3297923, 15000));
             var sections = new List<KMLAnimatorSectionInterface>() {
-                new ContourKMLAnimator(temporalGrid, trajectory, new List<int>() { })
+                new ContourKMLAnimator(temporalGrid),
+                new MultipleGroundplotKMLAnimator(trajectories)
             };
             var animator = new KMLAnimator(sections, camera);
             animator.AnimationToFile(temporalGrid.GetNumberOfGrids(), Globals.currentDirectory + "topview_fullpath.kml");
-
-
-            return;
-
-
-
-
-
-
-
-            var reader = new TrajectoryFileReader(CoordinateUnit.metric);
-            trajectory = reader.createTrajectoryFromFile(Globals.currentDirectory + "track_schiphol.dat");
-
-            aircraft = new Aircraft("GP7270", "wing");
-            noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
-            noiseModel.GridName = "schiphol_grid2D";
-            noiseModel.StartCalculation(calculationCompleted, null);
         }
 
-        bool completed = false;
+        bool inmCompleted = false;
         private void INMCompleted()
         {
-            completed = true;
+            inmCompleted = true;
         }
 
 
@@ -159,6 +114,7 @@ namespace AircraftTrajectories.Views
 
         private void calculationCompleted()
         {
+            /*
             TemporalGrid temporalGrid = noiseModel.TemporalGrid;
             var convertor = new GridConverter(temporalGrid, GridTransformation.MAX);
             var LAMaxTemporalGrid = convertor.transform();
@@ -174,6 +130,7 @@ namespace AircraftTrajectories.Views
             };
             var animator = new KMLAnimator(sections, camera);
             animator.AnimationToFile(temporalGrid.GetNumberOfGrids(), Globals.currentDirectory + "topview_fullpath.kml");
+            */
         }
     }
 }

@@ -87,7 +87,7 @@ namespace AircraftTrajectories.Models.Optimisation
         {
             duration = 0;
             //Console.WriteLine("A: " + A + " B:" + B + " C:" + C);
-            NoisePowerDistance.Instance.LAMaxGrid = null;
+            NoisePowerDistance.Instance.NoiseMaxGrid = null;
             while (_vertical_state != VERTICAL_STATE.END)
             {
                 _xData.Add(_x);
@@ -102,13 +102,13 @@ namespace AircraftTrajectories.Models.Optimisation
                 duration++;
                 //Console.WriteLine("A: " + _angle + " H:" + _height + " V:" + _speed);
             }
-            LAMaxGrid = NoisePowerDistance.Instance.LAMaxGrid;
+            NoiseMaxGrid = NoisePowerDistance.Instance.NoiseMaxGrid;
             Log("X:"+_x+" Y:"+_y);
             //Console.WriteLine(duration + " " + fuel);
         }
 
 
-        public Grid LAMaxGrid;
+        public Grid NoiseMaxGrid;
         /// <summary>
         /// Update the noise values underneath the aircraft trajectory
         /// </summary>

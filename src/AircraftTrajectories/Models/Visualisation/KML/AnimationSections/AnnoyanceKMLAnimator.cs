@@ -40,8 +40,8 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             foreach (double[] row in _populationData)
             {
                 houseId++;
-                Point3D geoPoint = (new Point3D(row[0], row[1], 0, CoordinateUnit.metric)).ConvertTo(CoordinateUnit.geographic);
-                var coordinates = geoPoint.X + "," + geoPoint.Y + ",0";
+                GeoPoint3D geoPoint = _temporalGrid.GetGrid(0).GridCoordinate(row[0], row[1]);
+                var coordinates = geoPoint.Longitude + "," + geoPoint.Latitude + ",0";
                 setupString += @"
 <Placemark>
 	<Style>
@@ -91,7 +91,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             foreach (double[] row in _populationData)
             {
                 houseId++;
-                Point gridIndex = _temporalGrid.CoordinateToGridIndex(row[0], row[1]);
+                Point gridIndex = grid.CoordinateToGridIndex(row[0], row[1]);
                 double noiseAtHouse = grid.Data[gridIndex.X][gridIndex.Y];
                 bool awakens = randomBool(getChance(noiseAtHouse), houseId);
                 if (awakens)

@@ -83,8 +83,8 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Visualisation.KML.AnimationSec
             while (!completed) { }
 
             var population = new List<double[]> {
-                new double[3]{100, 200, 2.5},
-                new double[3]{110, 210, 3}
+                new double[3]{ 110658, 478103, 2.5},
+                new double[3]{ 110700, 478050, 3}
             };
 
             var animator = new AnnoyanceKMLAnimator(noiseModel.TemporalGrid, population);
@@ -115,8 +115,8 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Visualisation.KML.AnimationSec
             while (!completed) { }
 
             var population = new List<double[]> {
-                new double[3]{100, 200, 2.5},
-                new double[3]{110, 210, 3}
+                new double[3]{ 110658, 478103, 2.5},
+                new double[3]{ 110700, 478050, 3}
             };
 
             var animator = new AnnoyanceKMLAnimator(noiseModel.TemporalGrid, population);

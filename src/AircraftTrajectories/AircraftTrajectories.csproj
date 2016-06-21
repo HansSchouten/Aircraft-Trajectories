@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -109,6 +110,8 @@
     <Compile Include="Models\IntegratedNoiseModel\IntegratedNoiseModel.cs" />
     <Compile Include="Models\Space3D\GeographicToMetric.cs" />
     <Compile Include="Models\Space3D\MetricToGeographic.cs" />
+    <Compile Include="Models\Space3D\ReferencePointRD.cs" />
+    <Compile Include="Models\Space3D\ReferencePoint.cs" />
     <Compile Include="Models\TemporalGrid\Contours\Coordinate.cs" />
     <Compile Include="Models\TemporalGrid\Contours\Contour.cs" />
     <Compile Include="Models\TemporalGrid\Contours\ContourDirection.cs" />
@@ -121,6 +124,7 @@
     <Compile Include="Models\Trajectory\Aircraft.cs" />
     <Compile Include="Models\Trajectory\Trajectory.cs" />
     <Compile Include="Models\Trajectory\TrajectoryFileReader.cs" />
+    <Compile Include="Models\Trajectory\TrajectoryGenerator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\AircraftKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\AirplotKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\AnnoyanceKMLAnimator.cs" />
@@ -129,6 +133,7 @@
     <Compile Include="Models\Visualisation\KML\AnimationSections\Cameras\TopViewKMLAnimatorCamera.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\ContourKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\GroundplotKMLAnimator.cs" />
+    <Compile Include="Models\Visualisation\KML\AnimationSections\MultipleGroundplotKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\KMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\KMLAnimatorSectionInterface.cs" />
     <Compile Include="Models\Visualisation\LegendCreator.cs" />
