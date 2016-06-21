@@ -52,6 +52,7 @@ namespace AircraftTrajectories.Views
 
             var camera = new FollowKMLAnimatorCamera(aircraft, trajectory);
             var sections = new List<KMLAnimatorSectionInterface>() {
+                new LegendKMLAnimator(),
                 new AircraftKMLAnimator(aircraft, trajectory),
                 new AirplotKMLAnimator(trajectory),
                 new GroundplotKMLAnimator(trajectory),
