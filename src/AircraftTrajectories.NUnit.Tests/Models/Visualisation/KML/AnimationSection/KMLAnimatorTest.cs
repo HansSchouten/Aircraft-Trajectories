@@ -44,8 +44,6 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Visualisation.KML.AnimationSec
             while (!INMCompleted) { }
 
             TemporalGrid temporalGrid = noiseModel.TemporalGrid;
-            temporalGrid.LowerLeftCorner = new Point3D(104062, 475470, 0, CoordinateUnit.metric);
-            temporalGrid.GridSize = 125;
 
             var population = new List<double[]> {
                 new double[3]{104064, 475499, 2.5},

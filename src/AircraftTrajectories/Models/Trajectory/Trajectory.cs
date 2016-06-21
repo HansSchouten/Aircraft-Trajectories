@@ -12,7 +12,12 @@ namespace AircraftTrajectories.Models.Trajectory
         protected CubicSpline _zSpline;
         protected CubicSpline _longitudeSpline;
         protected CubicSpline _latitudeSpline;
+
         public int Duration { get; set; }
+        public Aircraft Aircraft { get; set; }
+        public Point3D LowerLeftPoint { get; set; }
+        public Point3D UpperRightPoint { get; set; }
+        public ReferencePoint ReferencePoint { get; set; }
 
         /// <summary>
         /// Constructs a trajectory based on the coordinates of a given spline 
@@ -22,13 +27,14 @@ namespace AircraftTrajectories.Models.Trajectory
         /// <param name="zSpline"></param>
         /// <param name="longitudeSpline"></param>
         /// <param name="latitudeSpline"></param>
-        public Trajectory(CubicSpline xSpline, CubicSpline ySpline, CubicSpline zSpline, CubicSpline longitudeSpline, CubicSpline latitudeSpline)
+        public Trajectory(CubicSpline xSpline, CubicSpline ySpline, CubicSpline zSpline, CubicSpline longitudeSpline, CubicSpline latitudeSpline, Aircraft aircraft = null)
         {
             _xSpline = xSpline;
             _ySpline = ySpline;
             _zSpline = zSpline;
             _longitudeSpline = longitudeSpline;
             _latitudeSpline = latitudeSpline;
+            Aircraft = aircraft;
         }
 
         /// <summary>
@@ -102,13 +108,23 @@ namespace AircraftTrajectories.Models.Trajectory
         }
 
         /// <summary>
-        /// Returns the airspeed
+        /// Returns the airspeed [m/s]
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
         public double Airspeed(double t)
         {
             return (200 * 0.514);
+        }
+
+        /// <summary>
+        /// Returns the current delivered thrust [N]
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public double Thrust(double t)
+        {
+            return 50000;
         }
 
         /// <summary>

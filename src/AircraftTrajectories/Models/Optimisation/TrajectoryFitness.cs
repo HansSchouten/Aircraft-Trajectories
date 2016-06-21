@@ -35,10 +35,8 @@ namespace AircraftTrajectories.Models.Optimisation
                 var time = DateTime.Now;
                 f.Simulate();
 
-
-
                 /*
-                var grid = f.LAMaxGrid;
+                var grid = f.NoiseMaxGrid;
                 //Console.WriteLine("calculated:"+grid.Data[159][159]);
                 double[][] noiseDataGrid = grid.Data;
                 var c = new Models.ColorMap();
@@ -56,30 +54,30 @@ namespace AircraftTrajectories.Models.Optimisation
                 l.UnlockBits();
                 b.Save(@"C:\Users\hanss\Desktop\AT.png", ImageFormat.Png);
 
+				
+				
+				
+				
+            var trajectory = f.createTrajectory();
+            var INMaircraft = new Aircraft("GP7270", "wing");
+            var noiseModel = new IntegratedNoiseModel(trajectory, INMaircraft, true);
+            noiseModel.GridName = "optGrid2D";
 
+            int randomNumber = RandomizationProvider.Current.GetInt(0, 10000000);
+            //Console.WriteLine(randomNumber);
 
-            
-                var trajectory = f.createTrajectory();
-                var INMaircraft = new Aircraft("GP7270", "wing");
-                var noiseModel = new IntegratedNoiseModel(trajectory, INMaircraft, true);
-                noiseModel.GridName = "optGrid2D";
+            //Console.WriteLine("INM started");
+            noiseModel.RunINMFullTrajectory();
+            //Console.WriteLine("INM completed");
 
-                int randomNumber = RandomizationProvider.Current.GetInt(0, 10000000);
-                //Console.WriteLine(randomNumber);
-                noiseModel.FileSuffix = randomNumber.ToString();
-
-                //Console.WriteLine("INM started");
-                noiseModel.RunINMFullTrajectory();
-                //Console.WriteLine("INM completed");
-                */
-
-
-                /*
-                TemporalGrid temporalGrid = noiseModel.TemporalGrid;
-                GridConverter converter = new GridConverter(temporalGrid, GridTransformation.MAX);
-                Grid last = converter.transform().GetGrid(temporalGrid.GetNumberOfGrids() - 1);
-                double sum = 0;
-                for (int c = 0; c < last.Data.Length; c++)
+            /*
+            TemporalGrid temporalGrid = noiseModel.TemporalGrid;
+            GridConverter converter = new GridConverter(temporalGrid, GridTransformation.MAX);
+            Grid last = converter.transform().GetGrid(temporalGrid.GetNumberOfGrids() - 1);
+            double sum = 0;
+            for (int c = 0; c < last.Data.Length; c++)
+            {
+                for (int r = 0; r < last.Data[0].Length; r++)
                 {
                     for (int r = 0; r < last.Data[0].Length; r++)
                     {

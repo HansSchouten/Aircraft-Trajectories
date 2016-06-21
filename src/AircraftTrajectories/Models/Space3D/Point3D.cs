@@ -9,7 +9,7 @@ namespace AircraftTrajectories.Models.Space3D
         public double Y { get; protected set; }
         public double Z { get; protected set; }
 
-        public Point3D(double x, double y, double z, CoordinateUnit coordinateUnits)
+        public Point3D(double x, double y, double z = 0, CoordinateUnit coordinateUnits = CoordinateUnit.metric)
         {
             X = x;
             Y = y;

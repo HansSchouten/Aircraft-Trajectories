@@ -18,3 +18,4 @@
 /src/AircraftTrajectories.NUnit.Tests/bin/
 
 /src/AircraftTrajectories.NUnit.Tests/obj/
+/src/AircraftTrajectories/bin/Debug/noise.out

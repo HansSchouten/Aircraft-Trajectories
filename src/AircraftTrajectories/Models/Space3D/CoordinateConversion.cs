@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace AircraftTrajectories.Models.Space3D
 {
     public enum CoordinateUnit { imperial, metric, geographic };
@@ -80,10 +79,10 @@ namespace AircraftTrajectories.Models.Space3D
                     break;
 
                 case CoordinateUnit.geographic:
-                    var converter = new MetricToGeographic();
+                    var converter = new MetricToGeographic(new ReferencePointRD());
                     var geoPoint = converter.ConvertToLongLat(point.X, point.Y);
-                    newX = geoPoint.X;
-                    newY = geoPoint.Y;
+                    newX = geoPoint.Longitude;
+                    newY = geoPoint.Latitude;
                     break;
             }
 

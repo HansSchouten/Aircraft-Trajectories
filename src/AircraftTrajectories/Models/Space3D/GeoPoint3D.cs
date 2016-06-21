@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Forms;
 
 namespace AircraftTrajectories.Models.Space3D
 {
@@ -7,11 +6,11 @@ namespace AircraftTrajectories.Models.Space3D
     public class GeoPoint3D
     {
         public CoordinateUnit CoordinateUnits { get; protected set; }
-        public double Longitude { get; protected set; }
-        public double Latitude { get; protected set; }
-        public double Z { get; protected set; }
+        public double Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Z { get; set; }
 
-        public GeoPoint3D(double longitude, double latitude, double z)
+        public GeoPoint3D(double longitude, double latitude, double z = 0)
         {
             Longitude = longitude;
             Latitude = latitude;

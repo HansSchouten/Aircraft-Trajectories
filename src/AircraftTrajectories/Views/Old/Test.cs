@@ -45,13 +45,14 @@ namespace AircraftTrajectories.Views
             legend.OutputLegendTitle();
 
             TemporalGrid temporalGrid = noiseModel.TemporalGrid;
-            temporalGrid.LowerLeftCorner = new Point3D(104062, 475470, 0, CoordinateUnit.metric);
-            temporalGrid.GridSize = 125;
+            //temporalGrid.LowerLeftCorner = new Point3D(104062, 475470, 0, CoordinateUnit.metric);
+            //temporalGrid.GridSize = 125;
 
             var population = new PopulationData(Globals.currentDirectory + "population.dat");
 
             var camera = new FollowKMLAnimatorCamera(aircraft, trajectory);
             var sections = new List<KMLAnimatorSectionInterface>() {
+                new LegendKMLAnimator(),
                 new AircraftKMLAnimator(aircraft, trajectory),
                 new AirplotKMLAnimator(trajectory),
                 new GroundplotKMLAnimator(trajectory),

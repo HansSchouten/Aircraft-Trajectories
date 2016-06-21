@@ -4,7 +4,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 
-namespace AircraftTrajectories.NUnit.Tests.Models.Optimalisation
+namespace AircraftTrajectories.NUnit.Tests.Models.Optimisation
 {
     [TestFixture]
     class FlightSimulatorTest
@@ -41,7 +41,7 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Optimalisation
         public void FlightSimulatorFlyStraightTest()
         {
             var aircraft = new Boeing747_400();
-            var settings = new List<double>() { 1, 1, 1 } ;
+            var settings = new List<double>() { 1, 1, 1 };
             FlightSimulator sim = new FlightSimulator(aircraft, new Point3D(18000, 0, 0, CoordinateUnit.metric), 1, settings);
             sim.Simulate();
             

@@ -10,6 +10,9 @@ namespace AircraftTrajectories.Models.Optimisation
     public enum VERTICAL_STATE { TAKEOFF, CLIMB, FREECLIMB, END }
     public enum HORIZONTAL_STATE { STRAIGHT, TURN }
 
+    /// <summary>
+    /// Class that simulates a flight, given an aircraft, an end position and a set of control parameters
+    /// </summary>
     public class FlightSimulator
     {
         protected void Log(string message)
@@ -48,6 +51,13 @@ namespace AircraftTrajectories.Models.Optimisation
         public int duration;
         public double fuel;
 
+        /// <summary>
+        /// Create a new FlightSimulator object
+        /// </summary>
+        /// <param name="aircraft">The aircraft that will be used in the simulation</param>
+        /// <param name="endPoint">The position the aircraft will fly towards</param>
+        /// <param name="numberOfSegments">The number of segments used in the simulation. The simulation starts and ends with a straight segment, so the number of segments should be odd.</param>
+        /// <param name="settings">The control parameters, which are a list of doubles between 0 and 1. The number of controls needed for any number of segments can be calculated by calling TrajectoryChromosome.ChromosomeLength().</param>
         public FlightSimulator(ISimulatorModel aircraft, Point3D endPoint, int numberOfSegments, List<double> settings)
         {
             _settings = settings;
@@ -55,8 +65,8 @@ namespace AircraftTrajectories.Models.Optimisation
             _vertical_state = VERTICAL_STATE.TAKEOFF;
             _aircraft = aircraft;
             _speed = 160;
-            _x = 10000;
-            _y = 15000;
+            _x = 0;
+            _y = 0;
             _heading = Math.PI / 2;
 
             _endPoint = endPoint;
@@ -70,11 +80,14 @@ namespace AircraftTrajectories.Models.Optimisation
 
         }
 
+        /// <summary>
+        /// Start the simulation process
+        /// </summary>
         public void Simulate()
         {
             duration = 0;
             //Console.WriteLine("A: " + A + " B:" + B + " C:" + C);
-            NoisePowerDistance.Instance.LAMaxGrid = null;
+            NoisePowerDistance.Instance.NoiseMaxGrid = null;
             while (_vertical_state != VERTICAL_STATE.END)
             {
                 _xData.Add(_x);
@@ -89,13 +102,16 @@ namespace AircraftTrajectories.Models.Optimisation
                 duration++;
                 //Console.WriteLine("A: " + _angle + " H:" + _height + " V:" + _speed);
             }
-            LAMaxGrid = NoisePowerDistance.Instance.LAMaxGrid;
+            NoiseMaxGrid = NoisePowerDistance.Instance.NoiseMaxGrid;
             Log("X:"+_x+" Y:"+_y);
             //Console.WriteLine(duration + " " + fuel);
         }
 
 
-        public Grid LAMaxGrid;
+        public Grid NoiseMaxGrid;
+        /// <summary>
+        /// Update the noise values underneath the aircraft trajectory
+        /// </summary>
         public void updateNoise()
         {
             if (duration % 10 != 0) { return; }
@@ -128,6 +144,10 @@ namespace AircraftTrajectories.Models.Optimisation
             */
         }
 
+        /// <summary>
+        /// Convert the simulation into a trajectory object
+        /// </summary>
+        /// <returns>A trajectory object representing the simulation</returns>
         public Trajectory createTrajectory()
         {
             var xSpline = CubicSpline.InterpolateNatural(_tData, _xData);
@@ -140,11 +160,19 @@ namespace AircraftTrajectories.Models.Optimisation
             return trajectory;
         }
 
+        /// <summary>
+        /// Return the setting at the given position for the segment we are currently in
+        /// </summary>
+        /// <param name="offset">The index at which we want to get the control parameter</param>
+        /// <returns>The requested control parameter</returns>
         protected double Setting(int offset)
         {
             return _settings[TrajectoryChromosome.SegmentSettingIndex(_segmentIndex, offset)];
         }
 
+        /// <summary>
+        /// Update the position of the aircraft for 1sec
+        /// </summary>
         protected void updatePosition()
         {
             double currentThrust = CurrentThrust();
@@ -172,7 +200,12 @@ namespace AircraftTrajectories.Models.Optimisation
             _aircraft.Mass -= consumedFuel;
             fuel += consumedFuel;
         }
-
+        
+        /// <summary>
+        /// Update the flight path angle of the aircraft
+        /// </summary>
+        /// <param name="thrust">the current thrust for all engines combined</param>
+        /// <param name="drag">the current drag</param>
         protected void updateAngle(double thrust, double drag)
         {
             double maxAngle = MaxAngle(thrust, drag);
@@ -184,6 +217,9 @@ namespace AircraftTrajectories.Models.Optimisation
             }
         }
 
+        /// <summary>
+        /// Update the bank angle of the aircraft
+        /// </summary>
         public void UpdateBankAngle()
         {
             _bankAngle = 0;
@@ -196,6 +232,11 @@ namespace AircraftTrajectories.Models.Optimisation
             }
         }
 
+        /// <summary>
+        /// Update the speed of the aircraft
+        /// </summary>
+        /// <param name="thrust">the current thrust for all engines combined</param>
+        /// <param name="drag">the current drag</param>
         protected void updateSpeed(double thrust, double drag)
         {
             if (_vertical_state == VERTICAL_STATE.FREECLIMB) {
@@ -204,6 +245,9 @@ namespace AircraftTrajectories.Models.Optimisation
             }
         }
 
+        /// <summary>
+        /// Switch to a different vertical state if needed
+        /// </summary>
         protected void updateVerticalState()
         {
             switch (_vertical_state)
@@ -237,6 +281,9 @@ namespace AircraftTrajectories.Models.Optimisation
             }
         }
 
+        /// <summary>
+        /// Switch to the next segment if needed
+        /// </summary>
         protected void updateHorizontalState()
         {
             if (_vertical_state == VERTICAL_STATE.FREECLIMB) {
@@ -255,6 +302,9 @@ namespace AircraftTrajectories.Models.Optimisation
             }
         }
 
+        /// <summary>
+        /// Check whether we reached the end of a straight segment
+        /// </summary>
         protected void CheckStraightEnd()
         {
             var currentPoint = new Point3D(_x, _y, 0, CoordinateUnit.metric);
@@ -289,6 +339,9 @@ namespace AircraftTrajectories.Models.Optimisation
             }
         }
 
+        /// <summary>
+        /// Check whether we reached the end of a turn
+        /// </summary>
         public void CheckEndOfTurn()
         {
             bool switchHorizontalState = false;
@@ -356,16 +409,33 @@ namespace AircraftTrajectories.Models.Optimisation
             return Math.Abs(distance);
         }
 
+        /// <summary>
+        /// Interpolate a value with the given factor between the given lower and upper bound
+        /// </summary>
+        /// <param name="min">the lower bound of the interpolation</param>
+        /// <param name="max">the upper bound of the interpolation</param>
+        /// <param name="factor">the factor in between the lower and upper bound</param>
+        /// <returns></returns>
         protected double Interpolate(double min, double max, double factor)
         {
             return (max - min) * factor + min;
         }
 
+        /// <summary>
+        /// Calculate the maximum flight path angle at which the aircraft remains at the current speed
+        /// </summary>
+        /// <param name="thrust">the current thrust for all engines combined</param>
+        /// <param name="drag">the current drag</param>
+        /// <returns></returns>
         protected double MaxAngle(double thrust, double drag)
         {
             return Math.Asin((thrust - drag) / (_aircraft.Mass * 9.81));
         }
 
+        /// <summary>
+        /// Calculate the current thrust of the aircraft based on the thrust setting for the current segment
+        /// </summary>
+        /// <returns></returns>
         public double CurrentThrust()
         {
             switch (_vertical_state)

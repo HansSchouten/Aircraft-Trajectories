@@ -2,7 +2,7 @@
 using AircraftTrajectories.Models.Optimisation;
 using NUnit.Framework;
 
-namespace AircraftTrajectories.NUnit.Tests.Models.Optimalisation
+namespace AircraftTrajectories.NUnit.Tests.Models.Optimisation
 {
     [TestFixture]
     class ISATest

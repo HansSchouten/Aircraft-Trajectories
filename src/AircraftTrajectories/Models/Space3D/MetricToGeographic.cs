@@ -4,20 +4,26 @@ namespace AircraftTrajectories.Models.Space3D
 {
     public class MetricToGeographic
     {
+        public ReferencePoint ReferencePoint { get; set; }
+
+        public MetricToGeographic(ReferencePoint referencePoint)
+        {
+            ReferencePoint = referencePoint;
+        }
+
         /// <summary>
         /// Converts two values from meters to Geographic units 
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public Point3D ConvertToLongLat(double x, double y)
+        public GeoPoint3D ConvertToLongLat(double x, double y)
         {
-            // The city "Amsterfoort" is used as reference "Rijksdriehoek" coordinate.
-            int referenceRdX = 155000;
-            int referenceRdY = 463000;
+            double referenceRdX = ReferencePoint.Point.X;
+            double referenceRdY = ReferencePoint.Point.Y;
 
-            double dX = (double)(x - referenceRdX) * (double)(Math.Pow(10, -5));
-            double dY = (double)(y - referenceRdY) * (double)(Math.Pow(10, -5));
+            double dX = (x - referenceRdX) * (Math.Pow(10, -5));
+            double dY = (y - referenceRdY) * (Math.Pow(10, -5));
 
             double sumN =
                 (3235.65389 * dY) +
@@ -44,15 +50,14 @@ namespace AircraftTrajectories.Models.Space3D
                 (0.00022 * Math.Pow(dY, 2)) +
                 (-0.00022 * Math.Pow(dX, 2)) +
                 (0.00026 * Math.Pow(dX, 5));
+            
+            double referenceWgs84X = ReferencePoint.GeoPoint.Longitude;
+            double referenceWgs84Y = ReferencePoint.GeoPoint.Latitude;
 
-            // The city "Amsterfoort" is used as reference "WGS84" coordinate.
-            double referenceWgs84X = 52.15517;
-            double referenceWgs84Y = 5.387206;
+            float longitude = (float)(referenceWgs84X + (sumN / 3600));
+            float latitude = (float)(referenceWgs84Y + (sumE / 3600));
 
-            float latitude = (float)(referenceWgs84X + (sumN / 3600));
-            float longitude = (float)(referenceWgs84Y + (sumE / 3600));
-
-            return new Point3D(longitude, latitude, 0, CoordinateUnit.geographic);
+            return new GeoPoint3D(longitude, latitude, 0);
         }
     }
 }

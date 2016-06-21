@@ -7,10 +7,10 @@ using System.ComponentModel;
 
 namespace AircraftTrajectories.Models.IntegratedNoiseModel
 {
-    using AircraftTrajectories.Models.Trajectory;
-    using AircraftTrajectories.Models.TemporalGrid;
+    using Trajectory;
+    using TemporalGrid;
     using System.Collections.Generic;
-
+    using Space3D;
     public class IntegratedNoiseModel
     {
         
@@ -20,11 +20,10 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         public TemporalGrid TemporalGrid { get; protected set; }
         public string FileSuffix = "";
         public string GridName = "schiphol_grid2D";
+        public int TrajectoryBound { get; set; }
 
         protected BackgroundWorker _backgroundWorker;
         protected ProgressBar _progressBar;
-
-        public double Progress { get; protected set; }
 
 
         /// <summary>
@@ -32,8 +31,9 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         /// </summary>
         /// <param name="trajectory">The trajectory for which the aircraft noise will be calculated</param>
         /// <param name="aircraft"></param>
-        public IntegratedNoiseModel(Trajectory trajectory, Aircraft aircraft, bool timeSteps = false)
+        public IntegratedNoiseModel(Trajectory trajectory, Aircraft aircraft, bool timeSteps = true)
         {
+            TrajectoryBound = 2000;
             _trajectory = trajectory;
             _aircraft = aircraft;
             _timeSteps = timeSteps;
@@ -49,7 +49,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             _backgroundWorker = new BackgroundWorker();
             _backgroundWorker.WorkerSupportsCancellation = false;
             _backgroundWorker.WorkerReportsProgress = true;
-            if (_timeSteps)
+            if (_timeSteps == false)
             {
                 RunINMFullTrajectory();
                 calculationCompletedCallback();
@@ -84,7 +84,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             TemporalGrid = new TemporalGrid();
             TemporalGrid.Interval = 1;
 
-            Progress = 0;
+            double progress = 0;
             for (int t = 0; t <= _trajectory.Duration; t++)
             {
                 CreatePositionFile(t);
@@ -93,11 +93,10 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 Grid grid = NoiseDataToGrid(noiseData);
                 TemporalGrid.AddGrid(grid);
 
-                Progress = (t / (double)_trajectory.Duration) * 100;
-                _backgroundWorker.ReportProgress((int) Progress);
-                Console.WriteLine(Progress);
+                progress = (t / (double)_trajectory.Duration) * 100;
+                _backgroundWorker.ReportProgress((int) progress);
             }
-            Progress = 100;
+            progress = 100;
             _backgroundWorker.ReportProgress(100);
         }
 
@@ -107,7 +106,8 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             TemporalGrid = new TemporalGrid();
             TemporalGrid.Interval = 1;
 
-            CreateTrajectoryFile();
+            CreateInputFiles();
+            GridName = "current_grid";
             ExecuteINMTM();
             double[][] noiseData = ReadNoiseData();
             Grid grid = NoiseDataToGrid(noiseData);
@@ -137,28 +137,37 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 file.WriteLine(_aircraft.EngineMount);
             }
         }
+
         /// <summary>
         /// Creates the position file for the whole trajectory
         /// </summary>
-        protected void CreateTrajectoryFile()
+        protected void CreateInputFiles()
         {
-            using (System.IO.StreamWriter file =
-            new System.IO.StreamWriter(Globals.currentDirectory + "current_position"+ FileSuffix + ".dat", false))
+            using (StreamWriter file =
+                    new StreamWriter(Globals.currentDirectory + "current_position" + FileSuffix + ".dat", false))
             {
                 file.WriteLine("Sys");
                 file.WriteLine("====================================================================================");
                 file.WriteLine("met");
                 file.WriteLine("         x         y         h         V         T         m");
                 file.WriteLine("====================================================================================");
-                for (int t=0; t<_trajectory.Duration; t = t+20)
+                for (int t = 0; t < _trajectory.Duration; t = t+20)
                 {
-                    file.WriteLine(_trajectory.X(t) + "      " + _trajectory.Y(t) + "     " + _trajectory.Z(t) + "     400      50000        2");
+                    file.WriteLine(_trajectory.X(t) + "      " + _trajectory.Y(t)  + "     " + _trajectory.Z(t) + "     " + _trajectory.Airspeed(t) + "       " + _trajectory.Thrust(t) + "        2");
                 }
                 file.WriteLine();
                 file.WriteLine("nois_id / engine mount");
                 file.WriteLine("====================================================================================");
                 file.WriteLine(_aircraft.EngineId);
                 file.WriteLine(_aircraft.EngineMount);
+            }
+
+            using (StreamWriter file =
+                    new StreamWriter(Globals.currentDirectory + "current_grid.dat", false))
+            {
+                file.WriteLine("     x_min     x_max      x_sz     y_min     y_max      y_sz");
+                file.WriteLine("====================================================================================");
+                file.WriteLine((_trajectory.LowerLeftPoint.X - TrajectoryBound) + "      " + (_trajectory.UpperRightPoint.X + TrajectoryBound) + "     125     " + (_trajectory.LowerLeftPoint.Y - TrajectoryBound) + "      " + (_trajectory.UpperRightPoint.X + TrajectoryBound) + "       125");
             }
         }
 
@@ -232,8 +241,8 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 column.Add(noiseData[i][4]);
             }
             noiseDataGrid[columnIndex] = column.ToArray();
-
-            return new Grid(noiseDataGrid);
+            
+            return new Grid(noiseDataGrid, new Point3D(noiseData[0][0], noiseData[0][1]));
         }
 
     }
