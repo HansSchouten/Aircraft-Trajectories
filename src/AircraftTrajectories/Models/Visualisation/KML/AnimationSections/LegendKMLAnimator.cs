@@ -1,16 +1,11 @@
 ﻿
 namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
 {
-    using Trajectory;
 
     public class LegendKMLAnimator : KMLAnimatorSectionInterface
     {
-        protected string _plotgroundCoordinates = "";
-        protected Trajectory _trajectory;
 
-        public LegendKMLAnimator()
-        {
-        }
+        public LegendKMLAnimator() { }
 
         /// <summary>
         ///  Return a string in KML format containing all pre animation definitions 
