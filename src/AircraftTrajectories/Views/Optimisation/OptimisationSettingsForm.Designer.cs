@@ -309,13 +309,14 @@
             // 
             this.comboBox1.AutoCompleteCustomSource.AddRange(new string[] {
             "Boeing 747-400"});
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.Enabled = false;
             this.comboBox1.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.comboBox1.Location = new System.Drawing.Point(200, 68);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(159, 31);
             this.comboBox1.TabIndex = 76;
+            this.comboBox1.Text = "Boeing 747-400";
             // 
             // txtTakeoffHeading
             // 

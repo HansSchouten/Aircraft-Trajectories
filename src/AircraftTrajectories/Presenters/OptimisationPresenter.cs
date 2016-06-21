@@ -57,7 +57,8 @@ namespace AircraftTrajectories.Presenters
             catch (ThreadAbortException)
             {
                 // ignore it
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }

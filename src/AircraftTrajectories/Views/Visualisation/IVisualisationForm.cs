@@ -1,11 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace AircraftTrajectories.Views.Visualisation
 {
     public interface IVisualisationForm
     {
+        event EventHandler CalculateNoise;
+        event EventHandler PrepareVisualisation;
+        
+        string NoiseFile { get; }
+        string TrajectoryFile { get; }
+        bool OneTrajectory { get; }
+        bool ExternalNoise { get; }
     }
 }

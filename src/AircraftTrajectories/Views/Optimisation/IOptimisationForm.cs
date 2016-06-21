@@ -7,9 +7,7 @@ namespace AircraftTrajectories.Views.Optimisation
     {
         event EventHandler RunOptimisation;
         event EventHandler CancelOptimisation;
-
-        // 
-        // Takeoff
+        
         // Genetic Algorithm
         int PopulationSize { get; }
         int NumberOfGenerations { get; }
