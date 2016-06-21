@@ -44,7 +44,7 @@ namespace AircraftTrajectories.NUnit.Tests.Models.Optimisation
             var settings = new List<double>() { 1, 1, 1 };
             FlightSimulator sim = new FlightSimulator(aircraft, new Point3D(18000, 0, 0, CoordinateUnit.metric), 1, settings);
             sim.Simulate();
-            
+
             Assert.AreEqual(18000, sim._x, 150);
             Assert.AreEqual(0, sim._y, 0.001);
         }

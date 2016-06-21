@@ -10,9 +10,10 @@ namespace AircraftTrajectories.Models.Optimisation
         public const double ReferenceArea = 541.16;
         public FLAP_SETTINGS FlapSetting = FLAP_SETTINGS.FLAPS10;
 
+        public double _mass = 350000;
         public double Mass {
-            get { return 350000; }
-            set { Mass = value;  }
+            get { return _mass; }
+            set { _mass = value;  }
         }
         public double VClean
         {
