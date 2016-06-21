@@ -1,4 +1,5 @@
 ﻿using AircraftTrajectories.Views.Optimisation;
+using AircraftTrajectories.Views.Visualisation;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -24,9 +25,18 @@ namespace AircraftTrajectories.Views
 
         private void btnOptimise_Click(object sender, EventArgs e)
         {
-            new Optimisation.OptimisationForm().Show();
-            this.Close();
+            new OptimisationForm().Show();
+            Close();
         }
+
+        private void btnVisualise_Click(object sender, EventArgs e)
+        {
+            new VisualisationForm().Show();
+            Close();
+        }
+
+
+
 
         private void pbClose_MouseEnter(object sender, EventArgs e)
         {
@@ -36,11 +46,6 @@ namespace AircraftTrajectories.Views
         private void pbClose_MouseLeave(object sender, EventArgs e)
         {
             pbClose.Image = Properties.Resources.close;
-        }
-
-        private void btnVisualise_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void pbClose_Click(object sender, EventArgs e)
