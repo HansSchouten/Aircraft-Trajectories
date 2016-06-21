@@ -30,7 +30,7 @@ namespace AircraftTrajectories.Views
             var mutation = new ReverseSequenceMutation();
             var fitness = new TrajectoryFitness();
             var chromosome = new TrajectoryChromosome(TrajectoryChromosome.ChromosomeLength(3), 3);
-            var population = new Population(2, 2, chromosome);
+            var population = new Population(35, 40, chromosome);
             //72 (6)
             //67 (2)
             //49 (3)
@@ -40,7 +40,7 @@ namespace AircraftTrajectories.Views
             executor.MinThreads = 1;
             executor.MaxThreads = 1;
             ga.TaskExecutor = executor;
-            ga.Termination = new GenerationNumberTermination(1);
+            ga.Termination = new GenerationNumberTermination(10);
 
             Console.WriteLine("GA running...");
             var t = DateTime.Now;
@@ -49,7 +49,6 @@ namespace AircraftTrajectories.Views
 
             Console.WriteLine("Best solution found has {0} fitness.", int.MaxValue - ga.BestChromosome.Fitness);
             Console.WriteLine(ga.BestChromosome.GetGene(0).Value + " " + ga.BestChromosome.GetGene(1).Value + " " + ga.BestChromosome.GetGene(2).Value);
-           
         }
     }
 }

@@ -93,7 +93,7 @@ namespace AircraftTrajectories.Models.Optimisation
                 return instance;
             }
         }
-        
+
         public Grid NoiseMaxGrid;        
         public void CalculateNoise(Point3D aircraftPosition, double thrust)
         {

@@ -7,7 +7,7 @@ namespace AircraftTrajectories.NUnit.Tests
     internal static class Globals
     {
         public static string testdataDirectory = Uri.UnescapeDataString(Path.GetDirectoryName(
-               (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath
+                (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath
             ) + "/../../Testdata/");
 
         public static string currentDirectory = Uri.UnescapeDataString(Path.GetDirectoryName(

@@ -9,7 +9,7 @@
         double MinimumTurnRadius(double TAS);
 
         double VClean { get; }
-        double Mass { get; }
+        double Mass { get; set; }
         double VMax { get; }
     }
 }

@@ -17,7 +17,7 @@ namespace AircraftTrajectories.Models.Optimisation
     {
         protected void Log(string message)
         {
-            Console.WriteLine(message);
+            //Console.WriteLine(message);
         }
 
         protected const int MAX_SEGMENT_LENGTH = 15000;
@@ -196,7 +196,9 @@ namespace AircraftTrajectories.Models.Optimisation
             }
             */
 
-            fuel += _aircraft.FuelFLow(currentThrust, _speed, _height);
+            double consumedFuel = _aircraft.FuelFLow(currentThrust, _speed, _height);
+            _aircraft.Mass -= consumedFuel;
+            fuel += consumedFuel;
         }
         
         /// <summary>
