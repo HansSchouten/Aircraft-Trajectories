@@ -3,7 +3,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
 {
     using Trajectory;
     using Space3D;
-
+    using System;
     public class AircraftKMLAnimator : KMLAnimatorSectionInterface
     {
         protected Aircraft _aircraft;
@@ -25,6 +25,16 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             GeoPoint3D startingPoint = _trajectory.GeoPoint(0);
 
             return @"
+<Style id=""pushpin"">
+    <IconStyle>
+        <scale>0</scale>
+    </IconStyle>
+    <LabelStyle>
+        <color>FFFFFFFF</color>
+        <scale>0.45</scale>
+    </LabelStyle>
+</Style >
+
 <Placemark>
 	<name>Aircraft model</name>
 	<visibility>1</visibility>
@@ -50,7 +60,21 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
 		</Link>
 	</Model>
 </Placemark>
-            ";
+
+<Placemark id='pin'>
+		<name>" + _aircraft.Model.ToString().Remove(_aircraft.Model.ToString().Length - 4) + @"</name>
+        <styleUrl>#pushpin</styleUrl>
+        <altitudeMode>absolute</altitudeMode>
+		<MultiGeometry>
+			<Point id='aircraftpin'>
+                <altitudeMode>absolute</altitudeMode>
+				<coordinates>4.73729753494263,52.2891273498535,10.668</coordinates>
+			</Point>		
+			<Polygon>
+			</Polygon>
+		</MultiGeometry>
+	</Placemark>
+                    ";
         }
 
         /// <summary>
@@ -60,7 +84,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
         /// <returns></returns>
         public string KMLAnimationStep(int t)
         {
-            GeoPoint3D animationPoint = _trajectory.GeoPoint(t).MoveInDirection(70, (_trajectory.Heading(t)+210)%360);
+            GeoPoint3D animationPoint = _trajectory.GeoPoint(t).MoveInDirection(70, (_trajectory.Heading(t) + 210) % 360);
 
             return @"
             <Location targetId='model_location'>
@@ -73,7 +97,16 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
                 <tilt>" + _trajectory.Tilt(t) + @"</tilt>
                 <roll>" + _trajectory.BankAngle(t) + @"</roll>
             </Orientation>
-            ";
+            <Placemark targetId='pin'>
+            <name>" + _aircraft.Model.ToString().Remove(_aircraft.Model.ToString().Length - 4) + @" " + Math.Round(animationPoint.Z, 3) +
+            @"</name>
+            </Placemark>
+            <Point targetId='aircraftpin'>
+            <coordinates>" + animationPoint.Longitude + @","
+            + animationPoint.Latitude + @","
+            + (animationPoint.Z + 50) + @"</coordinates>
+            </Point>
+                      ";
         }
 
         /// <summary>
