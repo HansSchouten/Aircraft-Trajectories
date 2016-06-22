@@ -1,5 +1,6 @@
 ﻿using AircraftTrajectories.Models.Space3D;
 using MathNet.Numerics.Interpolation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -43,6 +44,7 @@ namespace AircraftTrajectories.Models.Trajectory
             _zData.Add(z);
             _tData.Add(t);
             var geoPoint = _converter.ConvertToLongLat(x, y);
+
             _longData.Add(geoPoint.Longitude);
             _latData.Add(geoPoint.Latitude);
         }

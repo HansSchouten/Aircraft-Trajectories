@@ -10,7 +10,6 @@ using AircraftTrajectories.Views.Visualisation;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Windows.Forms;
 
 namespace AircraftTrajectories.Presenters
 {
@@ -39,6 +38,7 @@ namespace AircraftTrajectories.Presenters
         }
 
         Trajectory trajectory;
+        List<Trajectory> trajectories;
         IntegratedNoiseModel noiseModel;
         TemporalGrid temporalGrid;
 
@@ -48,9 +48,15 @@ namespace AircraftTrajectories.Presenters
         {
             startTime = DateTime.Now;
 
-            if (_view.OneTrajectory && !_view.ExternalNoise)
+            if (!_view.ExternalNoise)
             {
-                thread = new Thread(OneTrajectoryINM);
+                if (_view.OneTrajectory)
+                {
+                    thread = new Thread(OneTrajectoryINM);
+                } else
+                {
+                    thread = new Thread(MultipleTrajectoriesINM);
+                }
                 thread.Start();
             }
         }
@@ -70,6 +76,35 @@ namespace AircraftTrajectories.Presenters
             _view.Invoke(delegate { _view.NoiseCalculationCompleted(); });
         }
 
+        protected void MultipleTrajectoriesINM()
+        {
+            ReferencePoint referencePoint = new ReferencePoint(new GeoPoint3D(4.7066753, 52.3297923));
+
+            var reader = new TrajectoriesFileReader();
+            trajectories = reader.CreateFromFile(_view.TrajectoryFile, referencePoint);
+
+            // Calculate the noise for each trajectory
+            temporalGrid = new TemporalGrid();
+            int counter = 0;
+            foreach (Trajectory trajectory in trajectories)
+            {
+                counter++;
+                double percentage = (double) counter / trajectories.Count * 100.0;
+                ProgressChanged(percentage);
+                Console.WriteLine(counter);
+                if (counter > 6) { break; }
+
+                var INM = new IntegratedNoiseModel(trajectory, trajectory.Aircraft, false);
+                INM.RunINMFullTrajectory();
+
+                Grid grid = INM.TemporalGrid.GetGrid(0);
+                grid.ReferencePoint = referencePoint;
+                temporalGrid.AddGrid(grid);
+            }
+
+            _view.Invoke(delegate { _view.NoiseCalculationCompleted(); });
+        }
+
         #endregion
 
 
@@ -84,8 +119,12 @@ namespace AircraftTrajectories.Presenters
             if (_view.OneTrajectory)
             {
                 thread = new Thread(OneTrajectoryVisualisation);
-                thread.Start();
             }
+            else
+            {
+                thread = new Thread(MultipleTrajectoryVisualisation);
+            }
+            thread.Start();
         }
 
         protected void OneTrajectoryVisualisation()
@@ -111,17 +150,31 @@ namespace AircraftTrajectories.Presenters
             _view.Invoke(delegate { _view.PreparationCalculationCompleted(); });
         }
 
+        protected void MultipleTrajectoryVisualisation()
+        {
+            var camera = new TopViewKMLAnimatorCamera(new GeoPoint3D(4.7066753, 52.3297923, 22000));
+            var sections = new List<KMLAnimatorSectionInterface>() {
+                new ContourKMLAnimator(temporalGrid),
+                new MultipleGroundplotKMLAnimator(trajectories)
+            };
+            var animator = new KMLAnimator(sections, camera);
+            animator.Duration = 0;
+            animator.AnimationToFile(temporalGrid.GetNumberOfGrids(), Globals.webrootDirectory + "visualisation.kml");
+
+            _view.Invoke(delegate { _view.PreparationCalculationCompleted(); });
+        }
+
         #endregion
 
 
 
 
 
-        protected void ProgressChanged(int progress)
+        protected void ProgressChanged(double progress)
         {
             _view.Invoke(delegate
             {
-                double factor = (double) progress / 100;
+                double factor = progress / 100;
                 double secElapsed = DateTime.Now.Subtract(startTime).TotalSeconds;
 
                 _view.Percentage = (int)(factor * 100);

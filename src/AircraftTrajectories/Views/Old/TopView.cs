@@ -78,13 +78,10 @@ namespace AircraftTrajectories.Views
             {
                 counter++;
                 Console.WriteLine(counter);
-                if (counter > 5) { break; }
+                if (counter > 15) { break; }
 
                 var INM = new IntegratedNoiseModel(trajectory, trajectory.Aircraft, false);
-                INM.StartCalculation(INMCompleted, progressChanged);
-
-                while (!inmCompleted) { }
-                inmCompleted = false;
+                INM.RunINMFullTrajectory();
 
                 Grid grid = INM.TemporalGrid.GetGrid(0);
                 Console.WriteLine(grid.LowerLeftCorner.X);
@@ -93,26 +90,16 @@ namespace AircraftTrajectories.Views
                 temporalGrid.AddGrid(grid);
             }
             
-            var camera = new TopViewKMLAnimatorCamera(new GeoPoint3D(4.7066753, 52.3297923, 15000));
+            var camera = new TopViewKMLAnimatorCamera(new GeoPoint3D(4.7066753, 52.3297923, 22000));
             var sections = new List<KMLAnimatorSectionInterface>() {
                 new ContourKMLAnimator(temporalGrid),
                 new MultipleGroundplotKMLAnimator(trajectories)
             };
             var animator = new KMLAnimator(sections, camera);
+            animator.Duration = 0;
             animator.AnimationToFile(temporalGrid.GetNumberOfGrids(), Globals.currentDirectory + "topview_fullpath.kml");
         }
-
-        bool inmCompleted = false;
-        private void INMCompleted()
-        {
-            inmCompleted = true;
-        }
-
-        private void progressChanged(int percentage)
-        {
-
-        }
-
+        
 
 
 

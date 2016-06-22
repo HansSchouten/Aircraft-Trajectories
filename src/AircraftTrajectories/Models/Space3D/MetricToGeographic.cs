@@ -51,8 +51,8 @@ namespace AircraftTrajectories.Models.Space3D
                 (-0.00022 * Math.Pow(dX, 2)) +
                 (0.00026 * Math.Pow(dX, 5));
 
-            double referenceWgs84X = ReferencePoint.GeoPoint.Longitude;
-            double referenceWgs84Y = ReferencePoint.GeoPoint.Latitude;
+            double referenceWgs84X = ReferencePoint.GeoPoint.Latitude;
+            double referenceWgs84Y = ReferencePoint.GeoPoint.Longitude;
 
             float latitude = (float)(referenceWgs84X + (sumN / 3600));
             float longitude = (float)(referenceWgs84Y + (sumE / 3600));

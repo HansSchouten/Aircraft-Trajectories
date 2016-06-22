@@ -43,7 +43,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         /// </summary>
         /// <param name="calculationCompletedCallback"></param>
         /// <param name="progressChangedCallback"></param>
-        public void StartCalculation(Action calculationCompletedCallback, Action<int> progressChangedCallback)
+        public void StartCalculation(Action calculationCompletedCallback)
         {
             _backgroundWorker = new BackgroundWorker();
             _backgroundWorker.WorkerSupportsCancellation = false;
@@ -55,10 +55,6 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             } else
             {
                 _backgroundWorker.DoWork += BackgroundWorker_DoWork;
-                _backgroundWorker.ProgressChanged += delegate (object sender, ProgressChangedEventArgs e)
-                {
-                    progressChangedCallback(e.ProgressPercentage);
-                };
                 _backgroundWorker.RunWorkerCompleted += delegate (object sender, RunWorkerCompletedEventArgs e)
                 {
                     calculationCompletedCallback();
@@ -94,7 +90,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             _backgroundWorker.ReportProgress(100);
         }
 
-        public void StartCalculation(Action<int> progressChangedCallback)
+        public void StartCalculation(Action<double> progressChangedCallback)
         {
             TemporalGrid = new TemporalGrid();
             TemporalGrid.Interval = 1;
@@ -109,10 +105,10 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 TemporalGrid.AddGrid(grid);
 
                 progress = (t / (double)_trajectory.Duration) * 100;
-                progressChangedCallback((int) progress);
+                progressChangedCallback(progress);
             }
             progress = 100;
-            progressChangedCallback((int) progress);
+            progressChangedCallback(progress);
         }
 
 

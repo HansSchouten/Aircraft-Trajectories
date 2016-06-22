@@ -109,7 +109,8 @@ namespace AircraftTrajectories.Views.Visualisation
 
         protected void VisualisationForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            new StartupForm().Show();
+            Application.Exit();
+            //new StartupForm().Show();
         }
 
 

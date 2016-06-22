@@ -66,24 +66,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             }
 
             return @"
-        </Change>
-    </Update>
-</gx:AnimatedUpdate>
-<gx:AnimatedUpdate>
-    <Update>
-        <Change>
             <LineString targetId='multipleplotground'>
                 <coordinates>
                 " + plotgroundCoordinates + @"
                 </coordinates>
             </LineString>
-        </Change>
-    </Update>
-</gx:AnimatedUpdate>
-<gx:AnimatedUpdate>
-    <gx:duration>1.0</gx:duration>
-    <Update>
-        <Change>
             ";
         }
 

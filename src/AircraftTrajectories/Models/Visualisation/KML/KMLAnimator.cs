@@ -10,6 +10,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML
     {
         protected List<KMLAnimatorSectionInterface> _animators;
         protected KMLAnimatorCameraInterface _camera;
+        public int Duration = 1;
 
         /// <summary>
         /// Construct a KMLAnimator object
@@ -44,7 +45,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML
             {
                 builder.Append(@"
 <gx:AnimatedUpdate>
-    <gx:duration>1.0</gx:duration>
+    <gx:duration>" + Duration + @"</gx:duration>
     <Update>
         <Change>");
                 foreach (KMLAnimatorSectionInterface kmlAnimator in _animators)

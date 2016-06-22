@@ -35,16 +35,8 @@ namespace AircraftTrajectories.Views
 
             aircraft = new Aircraft("GP7270", "wing");
             noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
-            noiseModel.StartCalculation(calculationCompleted, progressChanged);
-        }
+            noiseModel.StartCalculation(progressChanged);
 
-        private void progressChanged(int percentage)
-        {
-
-        }
-
-        private void calculationCompleted()
-        {
             var legend = new LegendCreator();
             legend.OutputLegendImage();
             legend.OutputLegendTitle();
@@ -72,6 +64,11 @@ namespace AircraftTrajectories.Views
             this.Hide();
             googleEarthForm.Closed += (s, args) => this.Close();
             googleEarthForm.Show();
+        }
+
+        protected void progressChanged(double newProgress)
+        {
+
         }
     }
 }
