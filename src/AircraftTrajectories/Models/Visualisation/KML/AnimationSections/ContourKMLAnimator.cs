@@ -40,7 +40,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             Color c2 = Color.FromArgb(150, 20, 53, 255);
             Color[] colors = interpolateColors(c1, c2, NumberOfContours);
 
-            string contourSetup = "";
+            string contourSetup = @"
+<Folder> 
+ <open>0</open>
+ <name>Contours</name>
+            ";
             for (int i = 1; i <= NumberOfContours; i++)
             {
                 var c = colors[i - 1];
@@ -85,6 +89,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
 </Placemark>
                 ";
             }
+            contourSetup += "</Folder>";
             return contourSetup;
         }
 

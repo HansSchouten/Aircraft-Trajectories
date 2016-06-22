@@ -36,6 +36,12 @@ namespace AircraftTrajectories.Views.Visualisation
 
         public void CalculateNoiseClick()
         {
+            /*
+            //DEBUG
+            GoogleEarthForm.BringToFront();
+            GoogleEarthForm.Visualise("visualisation.kml");
+            return;
+            */
             RunForm.Message = "Calculating noise";
             RunForm.CancelCallback = CancelNoiseClick;
             RunForm.BringToFront();
@@ -71,6 +77,7 @@ namespace AircraftTrajectories.Views.Visualisation
         public void PreparationCalculationCompleted()
         {
             GoogleEarthForm.BringToFront();
+            GoogleEarthForm.Visualise("visualisation.kml");
         }
 
 

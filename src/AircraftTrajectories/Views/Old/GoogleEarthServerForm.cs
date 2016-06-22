@@ -43,7 +43,7 @@ namespace AircraftTrajectories.Views
             this.kmlTreeView.SetBrowserInstance(this.geWebBrowser);
 
             //this.geWebBrowser.FetchKml("http://localhost:8080/B733_Fuel_Animation.kml");
-            this.geWebBrowser.FetchKml("http://localhost:8080/animation.kml");
+            this.geWebBrowser.FetchKml("http://localhost:8080/visualisation.kml");
             //this.geWebBrowser.FetchKml("http://localhost:8080/CRW_5km_Product_Suite.kmz");
         }
 
