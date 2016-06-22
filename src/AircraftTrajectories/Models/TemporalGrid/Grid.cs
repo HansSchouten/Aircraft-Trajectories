@@ -102,8 +102,8 @@ namespace AircraftTrajectories.Models.TemporalGrid
         /// <returns></returns>
         public Point CoordinateToGridIndex(double x, double y)
         {
-            int gridX = (int)Math.Round((decimal)(x - LowerLeftCorner.X) / CellSize);
-            int gridY = (int)Math.Round((decimal)(y - LowerLeftCorner.Y) / CellSize);
+            int gridX = (int)Math.Floor((decimal)(x - LowerLeftCorner.X) / CellSize);
+            int gridY = (int)Math.Floor((decimal)(y - LowerLeftCorner.Y) / CellSize);
             return new Point(gridX, gridY);
         }
     }
