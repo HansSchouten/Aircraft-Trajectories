@@ -63,7 +63,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
     </IconStyle>
     <LabelStyle>
         <color>FFFFFFFF</color>
-        <scale>0.35</scale>
+        <scale>0.40</scale>
     </LabelStyle>
 </Style>
 <Placemark id='contour_placemark" + i + @"'>
