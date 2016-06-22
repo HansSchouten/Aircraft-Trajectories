@@ -231,6 +231,15 @@
       <DependentUpon>StartupForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Visualisation\IVisualisationForm.cs" />
+    <Compile Include="Views\Visualisation\VisualisationCalculateNoiseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Visualisation\VisualisationRunForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Visualisation\VisualisationRunForm.Designer.cs">
+      <DependentUpon>VisualisationRunForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Visualisation\VisualisationSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -297,6 +306,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\StartupForm.resx">
       <DependentUpon>StartupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Visualisation\VisualisationCalculateNoiseForm.resx">
+      <DependentUpon>VisualisationCalculateNoiseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Visualisation\VisualisationRunForm.resx">
+      <DependentUpon>VisualisationRunForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Visualisation\VisualisationSettingsForm.resx">
       <DependentUpon>VisualisationSettingsForm.cs</DependentUpon>

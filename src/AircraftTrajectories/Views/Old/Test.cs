@@ -35,7 +35,12 @@ namespace AircraftTrajectories.Views
 
             aircraft = new Aircraft("GP7270", "wing");
             noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
-            noiseModel.StartCalculation(calculationCompleted, pbAnimation);
+            noiseModel.StartCalculation(calculationCompleted, progressChanged);
+        }
+
+        private void progressChanged(int percentage)
+        {
+
         }
 
         private void calculationCompleted()

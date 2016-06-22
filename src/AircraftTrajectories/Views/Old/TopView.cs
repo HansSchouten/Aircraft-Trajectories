@@ -81,7 +81,7 @@ namespace AircraftTrajectories.Views
                 if (counter > 5) { break; }
 
                 var INM = new IntegratedNoiseModel(trajectory, trajectory.Aircraft, false);
-                INM.StartCalculation(INMCompleted);
+                INM.StartCalculation(INMCompleted, progressChanged);
 
                 while (!inmCompleted) { }
                 inmCompleted = false;
@@ -106,6 +106,11 @@ namespace AircraftTrajectories.Views
         private void INMCompleted()
         {
             inmCompleted = true;
+        }
+
+        private void progressChanged(int percentage)
+        {
+
         }
 
 

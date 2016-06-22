@@ -69,7 +69,7 @@ namespace AircraftTrajectories.Views.Optimisation
         protected void OptimisationForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             CancelOptimisation(this, EventArgs.Empty);
-            Application.Exit();
+            new StartupForm().Show();
         }
 
         #endregion

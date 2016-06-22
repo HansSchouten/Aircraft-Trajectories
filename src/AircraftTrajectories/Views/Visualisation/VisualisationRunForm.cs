@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace AircraftTrajectories.Views.Visualisation
@@ -14,6 +8,19 @@ namespace AircraftTrajectories.Views.Visualisation
         public VisualisationRunForm()
         {
             InitializeComponent();
+        }
+        
+        public string Message { get; set; }
+        
+        protected void VisualisationRunForm_Load(object sender, EventArgs e)
+        {
+            FormBorderStyle = FormBorderStyle.None;
+            WindowState = FormWindowState.Maximized;
+            ControlBox = false;
+        }
+
+        protected virtual void btnCancel_Click(object sender, EventArgs e)
+        {
         }
     }
 }

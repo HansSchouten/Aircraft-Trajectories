@@ -23,7 +23,6 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         public int TrajectoryBound { get; set; }
 
         protected BackgroundWorker _backgroundWorker;
-        protected ProgressBar _progressBar;
 
 
         /// <summary>
@@ -38,13 +37,13 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             _aircraft = aircraft;
             _timeSteps = timeSteps;
         }
-        
+
         /// <summary>
         /// Starts the noise calculation while keeping track of the progress
         /// </summary>
         /// <param name="calculationCompletedCallback"></param>
-        /// <param name="progressBar"></param>
-        public void StartCalculation(Action calculationCompletedCallback, ProgressBar progressBar = null)
+        /// <param name="progressChangedCallback"></param>
+        public void StartCalculation(Action calculationCompletedCallback, Action<int> progressChangedCallback)
         {
             _backgroundWorker = new BackgroundWorker();
             _backgroundWorker.WorkerSupportsCancellation = false;
@@ -58,20 +57,15 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 _backgroundWorker.DoWork += BackgroundWorker_DoWork;
                 _backgroundWorker.ProgressChanged += delegate (object sender, ProgressChangedEventArgs e)
                 {
-                    if (_progressBar != null)
-                    {
-                        _progressBar.Value = e.ProgressPercentage;
-                    }
+                    progressChangedCallback(e.ProgressPercentage);
                 };
                 _backgroundWorker.RunWorkerCompleted += delegate (object sender, RunWorkerCompletedEventArgs e)
                 {
                     calculationCompletedCallback();
                 };
-
-                _progressBar = progressBar;
+                
                 _backgroundWorker.RunWorkerAsync();
             }
-
         }
 
         /// <summary>
@@ -98,6 +92,27 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             }
             progress = 100;
             _backgroundWorker.ReportProgress(100);
+        }
+
+        public void StartCalculation(Action<int> progressChangedCallback)
+        {
+            TemporalGrid = new TemporalGrid();
+            TemporalGrid.Interval = 1;
+
+            double progress = 0;
+            for (int t = 0; t <= _trajectory.Duration; t++)
+            {
+                CreatePositionFile(t);
+                ExecuteINMTM();
+                double[][] noiseData = ReadNoiseData();
+                Grid grid = NoiseDataToGrid(noiseData);
+                TemporalGrid.AddGrid(grid);
+
+                progress = (t / (double)_trajectory.Duration) * 100;
+                progressChangedCallback((int) progress);
+            }
+            progress = 100;
+            progressChangedCallback((int) progress);
         }
 
 

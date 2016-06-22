@@ -7,10 +7,13 @@ namespace AircraftTrajectories.Views.Visualisation
     public partial class VisualisationForm : MDIContainerForm, IVisualisationForm
     {
         public event EventHandler CalculateNoise;
+        public event EventHandler CancelNoiseCalculation;
         public event EventHandler PrepareVisualisation;
+        public event EventHandler CancelVisualisationPreparation;
 
         public VisualisationPresenter Presenter { get; protected set; }
         public VisualisationSettingsForm SettingsForm { get; protected set; }
+        public VisualisationRunForm RunForm { get; protected set; }
 
 
         /// <summary>
@@ -25,7 +28,20 @@ namespace AircraftTrajectories.Views.Visualisation
 
         public void CalculateNoiseClick()
         {
+            RunForm = new VisualisationCalculateNoiseForm();
+            RunForm.MdiParent = this;
+            RunForm.Show();
+            RunForm.BringToFront();
+
+            RunForm.lblPercentage.Text = RunForm.Message;
+            RunForm.lblTimeLeft.Text = "estimating time left";
+
             CalculateNoise(this, EventArgs.Empty);
+        }
+        public void CancelNoiseClick()
+        {
+            SettingsForm.BringToFront();
+            CancelNoiseCalculation(this, EventArgs.Empty);
         }
 
 
@@ -43,10 +59,13 @@ namespace AircraftTrajectories.Views.Visualisation
 
         protected void VisualisationForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Application.Exit();
+            new StartupForm().Show();
         }
 
+
         #endregion
+
+
 
         #region "ACCESS CONTROL ELEMENTS"
 
@@ -80,6 +99,28 @@ namespace AircraftTrajectories.Views.Visualisation
             {
                 return SettingsForm.radioExternal.Checked;
             }
+        }
+
+        public int Percentage
+        {
+            set
+            {
+                RunForm.lblPercentage.Text = RunForm.Message + " " + value + "%";
+            }
+        }
+
+        public int TimeLeft
+        {
+            set
+            {
+                string message = (value < 1) ? "completed in 1min" : value + "min remaining";
+                RunForm.lblTimeLeft.Text = message;
+            }
+        }
+
+        public void Invoke(MethodInvoker methodInvoker)
+        {
+            base.Invoke(methodInvoker);
         }
 
         #endregion
