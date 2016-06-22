@@ -230,6 +230,12 @@
     <Compile Include="Views\StartupForm.Designer.cs">
       <DependentUpon>StartupForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Visualisation\GoogleEarthForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Visualisation\GoogleEarthForm.Designer.cs">
+      <DependentUpon>GoogleEarthForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Visualisation\IVisualisationForm.cs" />
     <Compile Include="Views\Visualisation\VisualisationAnimatorForm.cs">
       <SubType>Form</SubType>
@@ -309,6 +315,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\StartupForm.resx">
       <DependentUpon>StartupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Visualisation\GoogleEarthForm.resx">
+      <DependentUpon>GoogleEarthForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Visualisation\VisualisationAnimatorForm.resx">
       <DependentUpon>VisualisationAnimatorForm.cs</DependentUpon>

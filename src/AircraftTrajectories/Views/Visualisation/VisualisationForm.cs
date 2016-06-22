@@ -15,6 +15,7 @@ namespace AircraftTrajectories.Views.Visualisation
         public VisualisationSettingsForm SettingsForm { get; protected set; }
         public VisualisationRunForm RunForm { get; protected set; }
         public VisualisationAnimatorForm AnimatorForm { get; protected set; }
+        public GoogleEarthForm GoogleEarthForm { get; protected set; }
 
 
         /// <summary>
@@ -27,6 +28,7 @@ namespace AircraftTrajectories.Views.Visualisation
             RunForm = new VisualisationRunForm();
             SettingsForm = new VisualisationSettingsForm();
             AnimatorForm = new VisualisationAnimatorForm();
+            GoogleEarthForm = new GoogleEarthForm();
         }
 
 
@@ -55,6 +57,7 @@ namespace AircraftTrajectories.Views.Visualisation
         public void PrepareVisualisationClick()
         {
             RunForm.Message = "Preparing visualisation";
+            RunForm.lblTimeLeft.Text = "";
             RunForm.CancelCallback = CancelPreparation;
             RunForm.BringToFront();
 
@@ -67,7 +70,7 @@ namespace AircraftTrajectories.Views.Visualisation
         }
         public void PreparationCalculationCompleted()
         {
-
+            GoogleEarthForm.BringToFront();
         }
 
 
@@ -89,6 +92,10 @@ namespace AircraftTrajectories.Views.Visualisation
             AnimatorForm.MdiParent = this;
             AnimatorForm.Show();
             AnimatorForm.BringToFront();
+
+            GoogleEarthForm.MdiParent = this;
+            GoogleEarthForm.Show();
+            GoogleEarthForm.BringToFront();
 
             SettingsForm.BringToFront();
         }

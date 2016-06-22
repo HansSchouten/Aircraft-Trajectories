@@ -20,5 +20,6 @@ namespace AircraftTrajectories.Views.Visualisation
 
         void Invoke(MethodInvoker methodInvoker);
         void NoiseCalculationCompleted();
+        void PreparationCalculationCompleted();
     }
 }
