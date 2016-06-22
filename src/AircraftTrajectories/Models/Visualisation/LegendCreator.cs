@@ -36,7 +36,7 @@ namespace AircraftTrajectories.Models.Visualisation
             // draw boundary values
             DrawText(bitmap, true);
 
-            bitmap.Save("gradientImage.png", ImageFormat.Png);
+            bitmap.Save(Globals.webrootDirectory + "gradientImage.png", ImageFormat.Png);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace AircraftTrajectories.Models.Visualisation
             // draw boundary values
             DrawText(bitmap, false);
 
-            bitmap.Save("titleImage.png", ImageFormat.Png);
+            bitmap.Save(Globals.webrootDirectory + "titleImage.png", ImageFormat.Png);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace AircraftTrajectories.Models.Visualisation
             if (gradient)
             {
                 RectangleF rectmin = new RectangleF(57, 300, 58, 50);
-                RectangleF rectmax = new RectangleF(57, -5, 58, 50);
+                RectangleF rectmax = new RectangleF(57, 5, 58, 50);
 
                 RectangleF rect2 = new RectangleF(57, 71, 48, 50);
                 RectangleF rect3 = new RectangleF(57, 148, 48, 50);

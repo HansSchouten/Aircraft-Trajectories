@@ -106,7 +106,7 @@ namespace AircraftTrajectories.Presenters
             };
             var camera = new FollowKMLAnimatorCamera(trajectory.Aircraft, trajectory);
             var animator = new KMLAnimator(sections, camera);
-            animator.AnimationToFile(trajectory.Duration, Globals.currentDirectory + "visualisation.kml");
+            animator.AnimationToFile(trajectory.Duration, Globals.webrootDirectory + "visualisation.kml");
 
             _view.Invoke(delegate { _view.PreparationCalculationCompleted(); });
         }

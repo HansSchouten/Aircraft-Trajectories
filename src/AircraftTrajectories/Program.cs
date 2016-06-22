@@ -11,6 +11,9 @@ namespace AircraftTrajectories
         public static string currentDirectory = Uri.UnescapeDataString(Path.GetDirectoryName(
                 (new Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath
             ) + @"\");
+        public static string webrootDirectory = Uri.UnescapeDataString(Path.GetDirectoryName(
+                (new Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath
+            ) + @"\webroot\");
     }
 
     static class Program
