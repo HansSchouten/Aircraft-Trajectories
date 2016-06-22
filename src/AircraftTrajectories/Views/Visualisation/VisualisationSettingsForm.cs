@@ -37,15 +37,17 @@ namespace AircraftTrajectories.Views.Visualisation
 
         private void radioExternal_CheckedChanged(object sender, EventArgs e)
         {
-            txtNoiseFile.Enabled = true;
-            btnBrowseNoise.Enabled = true;
+            panelExternalNoiseFile.Visible = true;
         }
 
         private void radioINM_CheckedChanged(object sender, EventArgs e)
         {
-            txtNoiseFile.Text = "";
-            txtNoiseFile.Enabled = false;
-            btnBrowseNoise.Enabled = false;
+            panelExternalNoiseFile.Visible = false;
+        }
+
+        private void radioCoordinateCustom_CheckedChanged(object sender, EventArgs e)
+        {
+            panelCoordinateReference.Visible = radioCoordinateCustom.Checked;
         }
 
         private void btnPrepare_Click(object sender, EventArgs e)

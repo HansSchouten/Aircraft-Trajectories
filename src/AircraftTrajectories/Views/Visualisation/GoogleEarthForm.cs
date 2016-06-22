@@ -67,8 +67,8 @@ namespace AircraftTrajectories.Views.Visualisation
 
             splitTreeBrowser.Panel1Collapsed = true;
             splitTreeBrowser.Panel1.Hide();
-            splitBrowserTextbox.Panel2Collapsed = true;
-            splitBrowserTextbox.Panel2.Hide();
+            //splitBrowserTextbox.Panel2Collapsed = true;
+            //splitBrowserTextbox.Panel2.Hide();
         }
 
         public void Visualise(string kml)

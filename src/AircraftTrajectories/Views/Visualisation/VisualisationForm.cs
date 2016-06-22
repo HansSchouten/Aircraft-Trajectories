@@ -1,4 +1,5 @@
-﻿using AircraftTrajectories.Presenters;
+﻿using AircraftTrajectories.Models.Space3D;
+using AircraftTrajectories.Presenters;
 using System;
 using System.Windows.Forms;
 
@@ -42,6 +43,7 @@ namespace AircraftTrajectories.Views.Visualisation
             GoogleEarthForm.Visualise("visualisation.kml");
             return;
             */
+
             RunForm.Message = "Calculating noise";
             RunForm.CancelCallback = CancelNoiseClick;
             RunForm.BringToFront();
@@ -120,6 +122,30 @@ namespace AircraftTrajectories.Views.Visualisation
 
         #region "ACCESS CONTROL ELEMENTS"
 
+        public bool OneTrajectory
+        {
+            get
+            {
+                return SettingsForm.radioSingle.Checked;
+            }
+        }
+
+        public bool ExternalNoise
+        {
+            get
+            {
+                return SettingsForm.radioExternal.Checked;
+            }
+        }
+
+        public bool CustomReference
+        {
+            get
+            {
+                return SettingsForm.radioCoordinateCustom.Checked;
+            }
+        }
+
         public string TrajectoryFile
         {
             get
@@ -136,21 +162,63 @@ namespace AircraftTrajectories.Views.Visualisation
             }
         }
 
-        public bool OneTrajectory
+        public string MapFile
         {
             get
             {
-                return SettingsForm.radioSingle.Checked;
+                return AnimatorForm.txtCustomMapFile.Text;
             }
         }
 
-        public bool ExternalNoise
+        public GeoPoint3D GeoReference
         {
             get
             {
-                return SettingsForm.radioExternal.Checked;
+                return new GeoPoint3D(double.Parse(SettingsForm.txtReferenceLongitude.Text), double.Parse(SettingsForm.txtReferenceLatitude.Text));
             }
         }
+
+        public Point3D MetricReference
+        {
+            get
+            {
+                return new Point3D(double.Parse(SettingsForm.txtReferenceX.Text), double.Parse(SettingsForm.txtReferenceY.Text));
+            }
+        }
+
+        public GeoPoint3D MapUpperRight
+        {
+            get
+            {
+                return new GeoPoint3D(double.Parse(AnimatorForm.txtUpperRightLongitude.Text), double.Parse(AnimatorForm.txtUpperRightLatitude.Text));
+            }
+        }
+
+        public GeoPoint3D MapBottomLeft
+        {
+            get
+            {
+                return new GeoPoint3D(double.Parse(AnimatorForm.txtBottomLeftLongitude.Text), double.Parse(AnimatorForm.txtBottomLeftLatitude.Text));
+            }
+        }
+
+        public int NumberOfContours
+        {
+            get
+            {
+                return int.Parse(AnimatorForm.txtNumberOfContours.Text);
+            }
+        }
+
+        public int ContourStartValue
+        {
+            get
+            {
+                return int.Parse(AnimatorForm.txtContourStartValue.Text);
+            }
+        }
+
+
 
         public int Percentage
         {
@@ -168,6 +236,8 @@ namespace AircraftTrajectories.Views.Visualisation
                 RunForm.lblTimeLeft.Text = message;
             }
         }
+
+
 
         public void Invoke(MethodInvoker methodInvoker)
         {

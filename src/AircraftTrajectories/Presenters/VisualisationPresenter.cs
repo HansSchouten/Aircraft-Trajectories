@@ -41,12 +41,18 @@ namespace AircraftTrajectories.Presenters
         List<Trajectory> trajectories;
         IntegratedNoiseModel noiseModel;
         TemporalGrid temporalGrid;
+        ReferencePoint referencePoint;
 
         #region "Calculate Noise"
 
         public void CalculateNoise()
         {
             startTime = DateTime.Now;
+            referencePoint = new ReferencePointRD();
+            if (_view.CustomReference)
+            {
+                referencePoint = new ReferencePoint(_view.GeoReference, _view.MetricReference);
+            }
 
             if (!_view.ExternalNoise)
             {
@@ -78,8 +84,6 @@ namespace AircraftTrajectories.Presenters
 
         protected void MultipleTrajectoriesINM()
         {
-            ReferencePoint referencePoint = new ReferencePoint(new GeoPoint3D(4.7066753, 52.3297923));
-
             var reader = new TrajectoriesFileReader();
             trajectories = reader.CreateFromFile(_view.TrajectoryFile, referencePoint);
 
@@ -152,11 +156,21 @@ namespace AircraftTrajectories.Presenters
 
         protected void MultipleTrajectoryVisualisation()
         {
-            var camera = new TopViewKMLAnimatorCamera(new GeoPoint3D(4.7066753, 52.3297923, 22000));
+            var camera = new TopViewKMLAnimatorCamera(new GeoPoint3D(referencePoint.GeoPoint.Longitude, referencePoint.GeoPoint.Latitude, 22000));
+            var contourAnimator = new ContourKMLAnimator(temporalGrid);
+            if (_view.MapFile != "")
+            {
+                contourAnimator.AltitudeOffset = true;
+            }
             var sections = new List<KMLAnimatorSectionInterface>() {
-                new ContourKMLAnimator(temporalGrid),
-                new MultipleGroundplotKMLAnimator(trajectories)
+                contourAnimator//,
+                //new MultipleGroundplotKMLAnimator(trajectories)
             };
+            if (_view.MapFile != "")
+            {
+                sections.Add(new CustomMapKMLAnimator(_view.MapFile, _view.MapBottomLeft, _view.MapUpperRight));
+            }
+
             var animator = new KMLAnimator(sections, camera);
             animator.Duration = 0;
             animator.AnimationToFile(temporalGrid.GetNumberOfGrids(), Globals.webrootDirectory + "visualisation.kml");

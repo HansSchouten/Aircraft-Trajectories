@@ -18,6 +18,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         protected Aircraft _aircraft;
         protected bool _timeSteps;
         public TemporalGrid TemporalGrid { get; protected set; }
+        public ReferencePoint ReferencePoint { get; set; }
         public string FileSuffix = "";
         public string GridName = "schiphol_grid2D";
         public int TrajectoryBound { get; set; }
@@ -32,6 +33,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         /// <param name="aircraft"></param>
         public IntegratedNoiseModel(Trajectory trajectory, Aircraft aircraft, bool timeSteps = true)
         {
+            ReferencePoint = new ReferencePointRD();
             TrajectoryBound = 2000;
             _trajectory = trajectory;
             _aircraft = aircraft;
@@ -122,6 +124,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             ExecuteINMTM();
             double[][] noiseData = ReadNoiseData();
             Grid grid = NoiseDataToGrid(noiseData);
+            grid.ReferencePoint = ReferencePoint;
             TemporalGrid.AddGrid(grid);
         }
 
@@ -253,7 +256,9 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             }
             noiseDataGrid[columnIndex] = column.ToArray();
             
-            return new Grid(noiseDataGrid, new Point3D(noiseData[0][0], noiseData[0][1]));
+            Grid grid = new Grid(noiseDataGrid, new Point3D(noiseData[0][0], noiseData[0][1]));
+            grid.ReferencePoint = ReferencePoint;
+            return grid;
         }
 
     }

@@ -14,6 +14,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
         protected TemporalGrid _temporalGrid;
         protected Trajectory _trajectory;
         protected List<int> _labeledContours;
+        public bool AltitudeOffset = false;
         public int NumberOfContours { get; set; }
         public int FirstContourValue { get; set; }
         public int ContourValueStep { get; set; }
@@ -25,7 +26,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             _labeledContours = labeledContours;
             
             NumberOfContours = 40;
-            FirstContourValue = 30;
+            FirstContourValue = 35;
             ContourValueStep = 1;
         }
 
@@ -36,8 +37,8 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
         /// <returns></returns>
         public string KMLSetup()
         {
-            Color c1 = Color.FromArgb(0, 100, 237, 75);
-            Color c2 = Color.FromArgb(150, 20, 53, 255);
+            Color c1 = Color.FromArgb(0, 20, 240, 0);
+            Color c2 = Color.FromArgb(150, 20, 0, 255);
             Color[] colors = interpolateColors(c1, c2, NumberOfContours);
 
             string contourSetup = @"
@@ -53,6 +54,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
                 {
                     color = string.Format("{0:X2}{1:X2}{2:X2}{3:X2}", Math.Min(255, c.A + 150), c.R, c.G, c.B);
                 }
+                string altitudeMode = (AltitudeOffset) ? "<altitudeMode>absolute</altitudeMode>" : "";
                 contourSetup += @"
 <Style id='contour_style" + i + @"'>
     <LineStyle>
@@ -75,10 +77,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
     <styleUrl>#contour_style" + i + @"</styleUrl>
     <MultiGeometry>
         <Polygon>
+            " + altitudeMode + @"
             <tessellate>1</tessellate>
             <outerBoundaryIs>
                 <LinearRing id='contour" + i + @"'>
-                <coordinates></coordinates>
+                    <coordinates></coordinates>
                 </LinearRing>
             </outerBoundaryIs>
         </Polygon>
@@ -125,7 +128,12 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
                 foreach (ContourPoint p in contour.Points)
                 {
                     contourPoint = grid.GridCoordinate(p.Location.X, p.Location.Y);
-                    coordinateString += contourPoint.Longitude + "," + contourPoint.Latitude + ",0\n";
+                    coordinateString += contourPoint.Longitude + "," + contourPoint.Latitude + ",";
+                    if (AltitudeOffset) {
+                        coordinateString += "100\n";
+                    } else {
+                        coordinateString += "0\n";
+                    }
                 }
                 updateStep += plotUpdate("LinearRing", coordinateString, "contour" + contourId);
 
