@@ -14,6 +14,7 @@ namespace AircraftTrajectories.Views.Visualisation
         public VisualisationPresenter Presenter { get; protected set; }
         public VisualisationSettingsForm SettingsForm { get; protected set; }
         public VisualisationRunForm RunForm { get; protected set; }
+        public VisualisationAnimatorForm AnimatorForm { get; protected set; }
 
 
         /// <summary>
@@ -23,18 +24,19 @@ namespace AircraftTrajectories.Views.Visualisation
         {
             InitializeComponent();
             Presenter = new VisualisationPresenter(this);
+            RunForm = new VisualisationRunForm();
             SettingsForm = new VisualisationSettingsForm();
+            AnimatorForm = new VisualisationAnimatorForm();
         }
+
+
+
 
         public void CalculateNoiseClick()
         {
-            RunForm = new VisualisationCalculateNoiseForm();
-            RunForm.MdiParent = this;
-            RunForm.Show();
+            RunForm.Message = "Calculating noise";
+            RunForm.CancelCallback = CancelNoiseClick;
             RunForm.BringToFront();
-
-            RunForm.lblPercentage.Text = RunForm.Message;
-            RunForm.lblTimeLeft.Text = "estimating time left";
 
             CalculateNoise(this, EventArgs.Empty);
         }
@@ -42,6 +44,30 @@ namespace AircraftTrajectories.Views.Visualisation
         {
             SettingsForm.BringToFront();
             CancelNoiseCalculation(this, EventArgs.Empty);
+        }
+        public void NoiseCalculationCompleted()
+        {
+            AnimatorForm.BringToFront();
+        }
+
+
+
+        public void PrepareVisualisationClick()
+        {
+            RunForm.Message = "Preparing visualisation";
+            RunForm.CancelCallback = CancelPreparation;
+            RunForm.BringToFront();
+
+            PrepareVisualisation(this, EventArgs.Empty);
+        }
+        public void CancelPreparation()
+        {
+            AnimatorForm.BringToFront();
+            CancelVisualisationPreparation(this, EventArgs.Empty);
+        }
+        public void PreparationCalculationCompleted()
+        {
+
         }
 
 
@@ -52,8 +78,18 @@ namespace AircraftTrajectories.Views.Visualisation
         {
             base.MDIContainerForm_Load();
 
+            RunForm.MdiParent = this;
+            RunForm.Show();
+            RunForm.BringToFront();
+
             SettingsForm.MdiParent = this;
             SettingsForm.Show();
+            SettingsForm.BringToFront();
+
+            AnimatorForm.MdiParent = this;
+            AnimatorForm.Show();
+            AnimatorForm.BringToFront();
+
             SettingsForm.BringToFront();
         }
 
@@ -113,7 +149,7 @@ namespace AircraftTrajectories.Views.Visualisation
         {
             set
             {
-                string message = (value < 1) ? "completed in 1min" : value + "min remaining";
+                string message = (value <= 1) ? "completed in 1min" : value + "min remaining";
                 RunForm.lblTimeLeft.Text = message;
             }
         }

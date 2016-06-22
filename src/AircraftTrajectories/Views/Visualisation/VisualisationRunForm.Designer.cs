@@ -85,6 +85,7 @@
             this.lblPercentage.Name = "lblPercentage";
             this.lblPercentage.Size = new System.Drawing.Size(842, 52);
             this.lblPercentage.TabIndex = 107;
+            this.lblPercentage.Text = "Calculating";
             this.lblPercentage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // VisualisationRunForm
@@ -100,7 +101,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "VisualisationRunForm";
-            this.Text = "VisualisationRunForm";
             this.Load += new System.EventHandler(this.VisualisationRunForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

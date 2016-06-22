@@ -31,6 +31,9 @@ namespace AircraftTrajectories.Presenters
             }
         }
 
+        Trajectory trajectory;
+        IntegratedNoiseModel noiseModel;
+
 
         #region "Calculate Noise"
 
@@ -44,19 +47,18 @@ namespace AircraftTrajectories.Presenters
                 thread.Start();
             }
         }
-
-        IntegratedNoiseModel noiseModel;
+        
         protected void OneTrajectoryINM()
         {
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
-            var trajectory = reader.createTrajectoryFromFile(_view.TrajectoryFile);
+            trajectory = reader.createTrajectoryFromFile(_view.TrajectoryFile);
 
             var aircraft = new Aircraft("GP7270", "wing");
             noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
 
             noiseModel.StartCalculation(ProgressChanged);
 
-            TemporalGrid temporalGrid = noiseModel.TemporalGrid;
+            _view.Invoke(delegate { _view.NoiseCalculationCompleted(); });
         }
 
         #endregion

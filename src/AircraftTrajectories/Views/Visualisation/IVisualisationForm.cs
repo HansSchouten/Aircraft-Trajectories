@@ -19,5 +19,6 @@ namespace AircraftTrajectories.Views.Visualisation
         int TimeLeft { set; }
 
         void Invoke(MethodInvoker methodInvoker);
+        void NoiseCalculationCompleted();
     }
 }

@@ -9,9 +9,31 @@ namespace AircraftTrajectories.Views.Visualisation
         {
             InitializeComponent();
         }
-        
-        public string Message { get; set; }
-        
+
+        protected string _message;
+        public string Message
+        {
+            get
+            {
+                return _message;
+            }
+            set
+            {
+                _message = value;
+                lblPercentage.Text = _message;
+            }
+        }
+
+        public Action CancelCallback { get; set; }
+
+        public string CancelButtonText
+        {
+            set
+            {
+                btnCancel.Text = value;
+            }
+        }
+
         protected void VisualisationRunForm_Load(object sender, EventArgs e)
         {
             FormBorderStyle = FormBorderStyle.None;
@@ -19,8 +41,9 @@ namespace AircraftTrajectories.Views.Visualisation
             ControlBox = false;
         }
 
-        protected virtual void btnCancel_Click(object sender, EventArgs e)
+        protected void btnCancel_Click(object sender, EventArgs e)
         {
+            CancelCallback();
         }
     }
 }
