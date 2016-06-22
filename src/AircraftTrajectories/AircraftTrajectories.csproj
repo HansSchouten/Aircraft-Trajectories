@@ -103,6 +103,7 @@
     <Compile Include="Models\Optimisation\ISimulatorModel.cs" />
     <Compile Include="Models\Optimisation\TrajectoryChromosome.cs" />
     <Compile Include="Models\Optimisation\TrajectoryFitness.cs" />
+    <Compile Include="Models\Population\Heatmap.cs" />
     <Compile Include="Models\Population\PopulationData.cs" />
     <Compile Include="Models\Space3D\GeoPoint3D.cs" />
     <Compile Include="Models\Space3D\Point3D.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Models\Visualisation\KML\AnimationSections\Cameras\TopViewKMLAnimatorCamera.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\ContourKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\GroundplotKMLAnimator.cs" />
+    <Compile Include="Models\Visualisation\KML\AnimationSections\HeatmapKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\LegendKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\MultipleGroundplotKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\KMLAnimator.cs" />
@@ -146,6 +148,12 @@
     <Compile Include="Views\GETraceListener.cs" />
     <Compile Include="Views\MDIContainerForm.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Old\TestHeatmap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Old\TestHeatmap.Designer.cs">
+      <DependentUpon>TestHeatmap.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Optimisation\IOptimisationForm.cs" />
     <Compile Include="Views\Optimisation\OptimisationForm.cs">
@@ -275,6 +283,9 @@
     </Compile>
     <EmbeddedResource Include="Views\MDIContainerForm.resx">
       <DependentUpon>MDIContainerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Old\TestHeatmap.resx">
+      <DependentUpon>TestHeatmap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Optimisation\OptimisationForm.resx">
       <DependentUpon>OptimisationForm.cs</DependentUpon>
