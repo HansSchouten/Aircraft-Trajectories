@@ -21,6 +21,7 @@ namespace AircraftTrajectories.Models.Optimisation
         public FlightSimulator FlightSimulator { get; set; }
         public static ReferencePoint referencePoint { get; set; }
         public static GeoPoint3D endPoint { get; set; }
+        public static bool OptimiseFuel = false;
 
         public double Evaluate(IChromosome chromosome)
         {
@@ -83,22 +84,23 @@ namespace AircraftTrajectories.Models.Optimisation
             //Console.WriteLine("INM started");
             noiseModel.RunINMFullTrajectory();
             //Console.WriteLine("INM completed");
+            */
 
-            /*
+                /*
             TemporalGrid temporalGrid = noiseModel.TemporalGrid;
             GridConverter converter = new GridConverter(temporalGrid, GridTransformation.MAX);
             Grid last = converter.transform().GetGrid(temporalGrid.GetNumberOfGrids() - 1);
+            */
+
+            Grid noiseMax = FlightSimulator.NoiseMaxGrid;
             double sum = 0;
-            for (int c = 0; c < last.Data.Length; c++)
+            for (int c = 0; c < noiseMax.Data.Length; c++)
             {
-                for (int r = 0; r < last.Data[0].Length; r++)
+                for (int r = 0; r < noiseMax.Data[0].Length; r++)
                 {
-                    for (int r = 0; r < last.Data[0].Length; r++)
-                    {
-                        sum += last.Data[c][r];
-                    }
+                    sum += noiseMax.Data[c][r];
                 }
-                */
+            }
 
 
                 /*
@@ -123,7 +125,13 @@ namespace AircraftTrajectories.Models.Optimisation
 
 
                 Console.WriteLine(DateTime.Now.Subtract(time).TotalMilliseconds);
-                return int.MaxValue - FlightSimulator.fuel;
+                if (OptimiseFuel)
+                {
+                    return int.MaxValue - FlightSimulator.fuel;
+                } else
+                {
+                    return int.MaxValue - sum;
+                }
             } catch (Exception ex)
             {
                 Console.WriteLine("Evaluation exception");

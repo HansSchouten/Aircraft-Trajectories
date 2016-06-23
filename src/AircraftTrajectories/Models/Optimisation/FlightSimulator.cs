@@ -53,6 +53,7 @@ namespace AircraftTrajectories.Models.Optimisation
 
         public int duration;
         public double fuel;
+        public double distance;
 
         /// <summary>
         /// Create a new FlightSimulator object
@@ -200,8 +201,11 @@ namespace AircraftTrajectories.Models.Optimisation
             _height += _speed * 1.6878099 * Math.Sin(_angle);
             _heading += (9.81 / _speed * 0.514444444 * Math.Tan(_bankAngle));
             _heading = (_heading + (2*Math.PI)) % (2 * Math.PI);
-            _x += _speed * 0.514444444 * Math.Cos(_angle) * Math.Sin(_heading);
-            _y += _speed * 0.514444444 * Math.Cos(_angle) * Math.Cos(_heading);
+            double dX = _speed * 0.514444444 * Math.Cos(_angle) * Math.Sin(_heading);
+            _x += dX;
+            double dY = _speed * 0.514444444 * Math.Cos(_angle) * Math.Cos(_heading);
+            _y += dY;
+            distance += dX + dY;
             //Console.WriteLine(_x + " " + _y + " " + _heading);
 
             /*

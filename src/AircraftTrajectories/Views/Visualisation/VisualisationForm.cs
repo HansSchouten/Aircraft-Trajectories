@@ -164,8 +164,7 @@ namespace AircraftTrajectories.Views.Visualisation
 
         protected void VisualisationForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            GoogleEarthForm.geWebBrowser.KillPlugin();
-            GoogleEarthForm.geWebBrowser.DocumentText = "";
+            GoogleEarthForm.Dispose();
             Application.Exit();
         }
         

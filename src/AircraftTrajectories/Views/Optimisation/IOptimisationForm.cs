@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AircraftTrajectories.Models.Optimisation;
+using System;
 using System.Windows.Forms;
 
 namespace AircraftTrajectories.Views.Optimisation
@@ -19,11 +20,12 @@ namespace AircraftTrajectories.Views.Optimisation
         double StartLongitude { get; }
         double EndLatitude { get; }
         double EndLongitude { get; }
+        bool MinimiseNoise { get; }
 
         int Percentage { set; }
         int TimeLeft { set; }
 
         void Invoke(MethodInvoker methodInvoker);
-        void OptimisationCompleted();
+        void OptimisationCompleted(FlightSimulator sim);
     }
 }

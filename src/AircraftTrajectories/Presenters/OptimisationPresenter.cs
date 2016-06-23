@@ -44,11 +44,13 @@ namespace AircraftTrajectories.Presenters
             {
                 TrajectoryFitness.referencePoint = new ReferencePoint(new GeoPoint3D(_view.StartLongitude, _view.StartLatitude), new Point3D(0, 0));
                 TrajectoryFitness.endPoint = new GeoPoint3D(_view.EndLongitude, _view.EndLatitude);
+                TrajectoryFitness.OptimiseFuel = !_view.MinimiseNoise;
+
                 var selection = new EliteSelection();
                 var crossover = new OrderedCrossover();
                 var mutation = new ReverseSequenceMutation();
                 var fitness = new TrajectoryFitness();
-                var chromosome = new TrajectoryChromosome(TrajectoryChromosome.ChromosomeLength(3), 3);
+                var chromosome = new TrajectoryChromosome(TrajectoryChromosome.ChromosomeLength(_view.NumberOfSegments), _view.NumberOfSegments);
                 var population = new Population(_view.PopulationSize, _view.PopulationSize, chromosome);
                 ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
                 var executor = new SmartThreadPoolTaskExecutor();
@@ -80,9 +82,12 @@ namespace AircraftTrajectories.Presenters
 
         protected void OptimisationCompleted(object sender, EventArgs e)
         {
+            var best = ga.BestChromosome;
+            TrajectoryFitness fitness = new TrajectoryFitness();
+            fitness.Evaluate(best);
             _view.Invoke(delegate
             {
-                _view.OptimisationCompleted();
+                _view.OptimisationCompleted(fitness.FlightSimulator);
             });
         }
 

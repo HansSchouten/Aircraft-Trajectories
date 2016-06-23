@@ -63,6 +63,8 @@
             this.txtTakeoffLatitude = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.rbNoise = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // label25
@@ -429,6 +431,30 @@
             this.label1.TabIndex = 74;
             this.label1.Text = "Latitude";
             // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.radioButton1.Location = new System.Drawing.Point(531, 436);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(125, 25);
+            this.radioButton1.TabIndex = 110;
+            this.radioButton1.Text = "Minimise fuel";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // rbNoise
+            // 
+            this.rbNoise.AutoSize = true;
+            this.rbNoise.Checked = true;
+            this.rbNoise.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.rbNoise.Location = new System.Drawing.Point(745, 436);
+            this.rbNoise.Name = "rbNoise";
+            this.rbNoise.Size = new System.Drawing.Size(136, 25);
+            this.rbNoise.TabIndex = 111;
+            this.rbNoise.TabStop = true;
+            this.rbNoise.Text = "Minimise noise";
+            this.rbNoise.UseVisualStyleBackColor = true;
+            // 
             // OptimisationSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -436,6 +462,8 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1152, 508);
             this.ControlBox = false;
+            this.Controls.Add(this.rbNoise);
+            this.Controls.Add(this.radioButton1);
             this.Controls.Add(this.label25);
             this.Controls.Add(this.txtNumberOfGenerations);
             this.Controls.Add(this.txtPopulationSize);
@@ -517,5 +545,7 @@
         public System.Windows.Forms.TextBox txtTakeoffLatitude;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RadioButton radioButton1;
+        public System.Windows.Forms.RadioButton rbNoise;
     }
 }

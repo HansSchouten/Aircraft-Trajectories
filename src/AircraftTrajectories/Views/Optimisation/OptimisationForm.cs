@@ -1,4 +1,5 @@
-﻿using AircraftTrajectories.Presenters;
+﻿using AircraftTrajectories.Models.Optimisation;
+using AircraftTrajectories.Presenters;
 using System;
 using System.Windows.Forms;
 
@@ -41,8 +42,11 @@ namespace AircraftTrajectories.Views.Optimisation
             RunOptimisation(this, EventArgs.Empty);
         }
 
-        public void OptimisationCompleted()
+        public void OptimisationCompleted(FlightSimulator sim)
         {
+            CompletedForm.lblDuration.Text = sim.duration.ToString() + " sec";
+            CompletedForm.lblFuel.Text = Math.Round(sim.fuel,2).ToString() + " kg";
+            CompletedForm.lblDistance.Text = Math.Round(sim.distance/1000,2).ToString() + " km";
             CompletedForm.BringToFront();
         }
 
@@ -122,6 +126,14 @@ namespace AircraftTrajectories.Views.Optimisation
             {
                 string message = (value < 1) ? "completed in 1min" : value + "min remaining";
                 RunForm.lblTimeLeft.Text = message;
+            }
+        }
+
+        public bool MinimiseNoise
+        {
+            get
+            {
+                return SettingsForm.rbNoise.Checked;
             }
         }
 

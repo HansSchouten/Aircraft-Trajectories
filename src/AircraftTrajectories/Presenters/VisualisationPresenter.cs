@@ -102,7 +102,7 @@ namespace AircraftTrajectories.Presenters
                 double percentage = (double) counter / trajectories.Count * 100.0;
                 ProgressChanged(percentage);
                 Console.WriteLine(counter);
-                if (counter > 6) { break; }
+                //if (counter > 6) { break; }
 
                 var INM = new IntegratedNoiseModel(trajectory, trajectory.Aircraft, false);
                 INM.NoiseMetric = _view.NoiseMetric;
