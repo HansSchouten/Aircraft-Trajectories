@@ -15,6 +15,7 @@ namespace AircraftTrajectories.Views.Visualisation
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             ControlBox = false;
+            selectNoiseMetric.SelectedIndex = 1;
         }
 
         private void btnBrowseTrajectory_Click(object sender, EventArgs e)
@@ -53,6 +54,12 @@ namespace AircraftTrajectories.Views.Visualisation
         private void btnPrepare_Click(object sender, EventArgs e)
         {
             ((VisualisationForm)this.MdiParent).CalculateNoiseClick();
+        }
+
+        public int NoiseMetric;
+        private void selectNoiseMetric_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            NoiseMetric = selectNoiseMetric.SelectedIndex;
         }
     }
 }

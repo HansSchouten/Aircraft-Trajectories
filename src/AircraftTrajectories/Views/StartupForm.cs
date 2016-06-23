@@ -16,7 +16,7 @@ namespace AircraftTrajectories.Views
         {
             InitializeComponent();
             OptimisationForm = new OptimisationForm(this);
-            VisualisationForm = new VisualisationForm();
+            VisualisationForm = new VisualisationForm(this);
         }
 
         private void Form_Paint(object sender, PaintEventArgs e)
@@ -39,13 +39,13 @@ namespace AircraftTrajectories.Views
         private void btnOptimise_Click(object sender, EventArgs e)
         {
             OptimisationForm.Show();
-            Close();
+            this.Hide();
         }
 
         private void btnVisualise_Click(object sender, EventArgs e)
         {
             VisualisationForm.Show();
-            Close();
+            this.Hide();
         }
 
 

@@ -32,7 +32,8 @@
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.aeroVisionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemGoBack = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitemScreenshot = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -42,7 +43,8 @@
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aeroVisionToolStripMenuItem,
-            this.settingsToolStripMenuItem});
+            this.menuItemGoBack,
+            this.menuitemScreenshot});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Padding = new System.Windows.Forms.Padding(5, 5, 0, 5);
@@ -64,18 +66,26 @@
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(113, 28);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
-            // settingsToolStripMenuItem
+            // menuItemGoBack
             // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(117, 27);
-            this.settingsToolStripMenuItem.Text = "Visualisation";
+            this.menuItemGoBack.Name = "menuItemGoBack";
+            this.menuItemGoBack.Size = new System.Drawing.Size(84, 27);
+            this.menuItemGoBack.Text = "Go back";
+            this.menuItemGoBack.Click += new System.EventHandler(this.menuItemGoBack_Click);
+            // 
+            // menuitemScreenshot
+            // 
+            this.menuitemScreenshot.Name = "menuitemScreenshot";
+            this.menuitemScreenshot.Size = new System.Drawing.Size(106, 27);
+            this.menuitemScreenshot.Text = "Screenshot";
+            this.menuitemScreenshot.Click += new System.EventHandler(this.menuitemScreenshot_Click);
             // 
             // VisualisationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1165, 586);
+            this.ClientSize = new System.Drawing.Size(1165, 603);
             this.Controls.Add(this.menuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -99,6 +109,7 @@
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem aeroVisionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuItemGoBack;
+        private System.Windows.Forms.ToolStripMenuItem menuitemScreenshot;
     }
 }

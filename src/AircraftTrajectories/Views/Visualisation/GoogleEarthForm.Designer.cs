@@ -53,6 +53,7 @@
             this.splitTreeBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitTreeBrowser.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitTreeBrowser.Location = new System.Drawing.Point(0, 0);
+            this.splitTreeBrowser.Margin = new System.Windows.Forms.Padding(4);
             this.splitTreeBrowser.Name = "splitTreeBrowser";
             // 
             // splitTreeBrowser.Panel1
@@ -62,8 +63,9 @@
             // splitTreeBrowser.Panel2
             // 
             this.splitTreeBrowser.Panel2.Controls.Add(this.splitBrowserTextbox);
-            this.splitTreeBrowser.Size = new System.Drawing.Size(858, 521);
+            this.splitTreeBrowser.Size = new System.Drawing.Size(1144, 641);
             this.splitTreeBrowser.SplitterDistance = 220;
+            this.splitTreeBrowser.SplitterWidth = 5;
             this.splitTreeBrowser.TabIndex = 1;
             // 
             // kmlTreeView
@@ -71,9 +73,10 @@
             this.kmlTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kmlTreeView.ImageKey = "ge";
             this.kmlTreeView.Location = new System.Drawing.Point(0, 0);
+            this.kmlTreeView.Margin = new System.Windows.Forms.Padding(4);
             this.kmlTreeView.Name = "kmlTreeView";
             this.kmlTreeView.SelectedImageIndex = 0;
-            this.kmlTreeView.Size = new System.Drawing.Size(220, 521);
+            this.kmlTreeView.Size = new System.Drawing.Size(220, 641);
             this.kmlTreeView.TabIndex = 0;
             // 
             // splitBrowserTextbox
@@ -81,6 +84,7 @@
             this.splitBrowserTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitBrowserTextbox.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.splitBrowserTextbox.Location = new System.Drawing.Point(0, 0);
+            this.splitBrowserTextbox.Margin = new System.Windows.Forms.Padding(4);
             this.splitBrowserTextbox.Name = "splitBrowserTextbox";
             this.splitBrowserTextbox.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -91,8 +95,9 @@
             // splitBrowserTextbox.Panel2
             // 
             this.splitBrowserTextbox.Panel2.Controls.Add(this.richTextBox);
-            this.splitBrowserTextbox.Size = new System.Drawing.Size(634, 521);
-            this.splitBrowserTextbox.SplitterDistance = 331;
+            this.splitBrowserTextbox.Size = new System.Drawing.Size(919, 641);
+            this.splitBrowserTextbox.SplitterDistance = 449;
+            this.splitBrowserTextbox.SplitterWidth = 5;
             this.splitBrowserTextbox.TabIndex = 0;
             // 
             // geWebBrowser
@@ -101,31 +106,36 @@
             this.geWebBrowser.ImageryBase = FC.GEPluginCtrls.ImageryBase.Earth;
             this.geWebBrowser.IsWebBrowserContextMenuEnabled = false;
             this.geWebBrowser.Location = new System.Drawing.Point(0, 0);
-            this.geWebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.geWebBrowser.Margin = new System.Windows.Forms.Padding(4);
+            this.geWebBrowser.MinimumSize = new System.Drawing.Size(27, 25);
             this.geWebBrowser.Name = "geWebBrowser";
             this.geWebBrowser.RedirectLinksToSystemBrowser = false;
             this.geWebBrowser.ScrollBarsEnabled = false;
-            this.geWebBrowser.Size = new System.Drawing.Size(634, 331);
+            this.geWebBrowser.Size = new System.Drawing.Size(919, 449);
             this.geWebBrowser.TabIndex = 0;
             this.geWebBrowser.WebBrowserShortcutsEnabled = false;
+            this.geWebBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.geWebBrowser_DocumentCompleted);
             // 
             // richTextBox
             // 
             this.richTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.richTextBox.Name = "richTextBox";
-            this.richTextBox.Size = new System.Drawing.Size(634, 186);
+            this.richTextBox.Size = new System.Drawing.Size(919, 187);
             this.richTextBox.TabIndex = 0;
             this.richTextBox.Text = "";
             // 
             // statusStrip1
             // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.statusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 499);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 614);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(858, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(1144, 27);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             this.statusStrip1.Visible = false;
@@ -133,23 +143,24 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(42, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(52, 22);
             this.toolStripStatusLabel1.Text = "Status:";
             // 
             // statusLabel
             // 
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(26, 17);
+            this.statusLabel.Size = new System.Drawing.Size(34, 22);
             this.statusLabel.Text = "idle";
             // 
             // GoogleEarthForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(858, 521);
+            this.ClientSize = new System.Drawing.Size(1144, 641);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.splitTreeBrowser);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "GoogleEarthForm";
             this.Load += new System.EventHandler(this.GoogleEarthForm_Load);
             this.splitTreeBrowser.Panel1.ResumeLayout(false);
@@ -172,7 +183,7 @@
         private System.Windows.Forms.SplitContainer splitTreeBrowser;
         private FC.GEPluginCtrls.KmlTreeView kmlTreeView;
         private System.Windows.Forms.SplitContainer splitBrowserTextbox;
-        private FC.GEPluginCtrls.GEWebBrowser geWebBrowser;
+        public FC.GEPluginCtrls.GEWebBrowser geWebBrowser;
         private System.Windows.Forms.RichTextBox richTextBox;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;

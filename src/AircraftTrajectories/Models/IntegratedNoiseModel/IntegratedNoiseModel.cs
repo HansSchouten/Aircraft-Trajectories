@@ -22,6 +22,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         public string FileSuffix = "";
         public string GridName = "schiphol_grid2D";
         public int TrajectoryBound { get; set; }
+        public int NoiseMetric { get; set; }
 
         protected BackgroundWorker _backgroundWorker;
 
@@ -33,6 +34,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         /// <param name="aircraft"></param>
         public IntegratedNoiseModel(Trajectory trajectory, Aircraft aircraft, bool timeSteps = true)
         {
+            NoiseMetric = 0;
             ReferencePoint = new ReferencePointRD();
             TrajectoryBound = 2000;
             _trajectory = trajectory;
@@ -252,7 +254,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                     columnIndex++;
                 }
                 
-                column.Add(noiseData[i][4]);
+                column.Add(noiseData[i][3 + NoiseMetric]);
             }
             noiseDataGrid[columnIndex] = column.ToArray();
             

@@ -2,6 +2,7 @@
 using AircraftTrajectories.Models.Trajectory;
 using AircraftTrajectories.Presenters;
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace AircraftTrajectories.Views.Visualisation
@@ -19,14 +20,16 @@ namespace AircraftTrajectories.Views.Visualisation
         public VisualisationRunForm RunForm { get; protected set; }
         public VisualisationAnimatorForm AnimatorForm { get; protected set; }
         public GoogleEarthForm GoogleEarthForm { get; protected set; }
+        public StartupForm StartupForm;
 
 
         /// <summary>
         /// Construct the VisualisationForm
         /// </summary>
-        public VisualisationForm()
+        public VisualisationForm(StartupForm startupForm)
         {
             InitializeComponent();
+            StartupForm = startupForm;
         }
 
 
@@ -85,6 +88,46 @@ namespace AircraftTrajectories.Views.Visualisation
             GoogleEarthForm.Visualise("visualisation.kml");
         }
 
+        private void menuItemGoBack_Click(object sender, EventArgs e)
+        {
+            Form activeChild = this.ActiveMdiChild;
+            if (activeChild == SettingsForm)
+            {
+                StartupForm.Show();
+                this.Hide();
+            } else if(activeChild == RunForm && RunForm.lblPercentage.Text.Contains("noise"))
+            {
+                CancelNoiseClick();
+            }
+            else if (activeChild == RunForm && RunForm.lblPercentage.Text.Contains("preparing"))
+            {
+                CancelPreparation();
+            }
+            else if (activeChild == AnimatorForm)
+            {
+                SettingsForm.BringToFront();
+            }
+            else if (activeChild == GoogleEarthForm)
+            {
+                try
+                {
+                    GoogleEarthForm.Dispose();
+                } catch(Exception ex)
+                {
+                }
+                GoogleEarthForm = new GoogleEarthForm();
+                GoogleEarthForm.MdiParent = this;
+                GoogleEarthForm.Show();
+
+                this.WindowState = FormWindowState.Normal;
+                AnimatorForm.BringToFront();
+            }
+        }
+        private void menuitemScreenshot_Click(object sender, EventArgs e)
+        {
+            Bitmap bmp = GoogleEarthForm.geWebBrowser.ScreenGrab();
+            bmp.Save("screenshot.png");
+        }
 
 
         #region "EVENTS"
@@ -121,11 +164,11 @@ namespace AircraftTrajectories.Views.Visualisation
 
         protected void VisualisationForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            GoogleEarthForm.geWebBrowser.KillPlugin();
+            GoogleEarthForm.geWebBrowser.DocumentText = "";
             Application.Exit();
-            //new StartupForm().Show();
         }
-
-
+        
         #endregion
 
 
@@ -244,6 +287,13 @@ namespace AircraftTrajectories.Views.Visualisation
             }
         }
 
+        public int NoiseMetric
+        {
+            get
+            {
+                return SettingsForm.NoiseMetric;
+            }
+        }
 
 
         public int Percentage
@@ -271,5 +321,6 @@ namespace AircraftTrajectories.Views.Visualisation
         }
 
         #endregion
+
     }
 }

@@ -80,6 +80,7 @@ namespace AircraftTrajectories.Presenters
             var aircraft = new Aircraft("GP7270", "wing");
             trajectory.Aircraft = aircraft;
             noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
+            noiseModel.NoiseMetric = _view.NoiseMetric;
 
             noiseModel.StartCalculation(ProgressChanged);
             temporalGrid = noiseModel.TemporalGrid;
@@ -104,6 +105,7 @@ namespace AircraftTrajectories.Presenters
                 if (counter > 6) { break; }
 
                 var INM = new IntegratedNoiseModel(trajectory, trajectory.Aircraft, false);
+                INM.NoiseMetric = _view.NoiseMetric;
                 INM.RunINMFullTrajectory();
 
                 Grid grid = INM.TemporalGrid.GetGrid(0);

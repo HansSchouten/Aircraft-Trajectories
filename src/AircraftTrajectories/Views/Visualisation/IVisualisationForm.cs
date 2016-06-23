@@ -28,6 +28,7 @@ namespace AircraftTrajectories.Views.Visualisation
         int ContourStartValue { get; }
         Trajectory Trajectory { get; set; }
         string ValueConversion { get; }
+        int NoiseMetric { get; }
 
         int Percentage { set; }
         int TimeLeft { set; }

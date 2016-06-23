@@ -12,15 +12,15 @@ namespace AircraftTrajectories.Views.Visualisation
     public partial class GoogleEarthForm : Form
     {
         private dynamic ge = null;
-        private GEServer server = null;
+        public GEServer server = null;
 
         public GoogleEarthForm()
         {
             InitializeComponent();
 
-            GETraceListener trace = new GETraceListener(richTextBox);
+            //GETraceListener trace = new GETraceListener(richTextBox);
             richTextBox.LinkClicked += (o, e) => { Process.Start(e.LinkText); };
-            Debug.Listeners.Add(trace);
+            //Debug.Listeners.Add(trace);
 
             server = new GEServer(System.Net.IPAddress.Loopback, 8080, "webroot");
             server.Start();
@@ -33,6 +33,7 @@ namespace AircraftTrajectories.Views.Visualisation
             {
                 Debug.WriteLine(ea.Message + ": " + ea.Data, "Script-Error");
             };
+
         }
 
         void geWebBrowser_PluginReady(object sender, GEEventArgs e)
@@ -42,7 +43,11 @@ namespace AircraftTrajectories.Views.Visualisation
             //this.geStatusStrip1.SetBrowserInstance(this.geWebBrowser);
             this.kmlTreeView.SetBrowserInstance(this.geWebBrowser);
             
-            //this.geWebBrowser.FetchKml("http://localhost:8080/visualisation.kml");        //DEBUG
+            if (wait)
+            {
+                this.geWebBrowser.FetchKml("http://localhost:8080/visualisation.kml");        //DEBUG
+                wait = false;
+            }
 
             statusLabel.Text = "Loading KML..";
         }
@@ -67,14 +72,27 @@ namespace AircraftTrajectories.Views.Visualisation
 
             splitTreeBrowser.Panel1Collapsed = true;
             splitTreeBrowser.Panel1.Hide();
-            //splitBrowserTextbox.Panel2Collapsed = true;
-            //splitBrowserTextbox.Panel2.Hide();
+            splitBrowserTextbox.Panel2Collapsed = true;
+            splitBrowserTextbox.Panel2.Hide();
         }
 
+        public bool wait = false;
         public void Visualise(string kml)
-        {
+        {;
             this.MdiParent.WindowState = FormWindowState.Maximized;
-            this.geWebBrowser.FetchKml("http://localhost:8080/"+kml);       //DEBUG
+            //kmlTreeView.Nodes.Clear();
+            if (geWebBrowser.PluginIsReady)
+            {
+                this.geWebBrowser.FetchKml("http://localhost:8080/" + kml);       //DEBUG
+            } else
+            {
+                wait = true;
+            }
+        }
+
+        private void geWebBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+
         }
     }
 }
