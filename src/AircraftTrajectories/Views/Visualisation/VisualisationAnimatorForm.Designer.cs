@@ -58,6 +58,7 @@
             this.label18 = new System.Windows.Forms.Label();
             this.txtUpperRightLatitude = new System.Windows.Forms.TextBox();
             this.txtUpperRightLongitude = new System.Windows.Forms.TextBox();
+            this.cbHeatmap = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnPrepare
@@ -93,7 +94,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI Light", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.label2.Location = new System.Drawing.Point(13, 213);
+            this.label2.Location = new System.Drawing.Point(13, 245);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(117, 41);
             this.label2.TabIndex = 149;
@@ -148,7 +149,7 @@
             this.selectCameraType.Items.AddRange(new object[] {
             "Topview",
             "Follow aircraft"});
-            this.selectCameraType.Location = new System.Drawing.Point(248, 264);
+            this.selectCameraType.Location = new System.Drawing.Point(248, 296);
             this.selectCameraType.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.selectCameraType.Name = "selectCameraType";
             this.selectCameraType.Size = new System.Drawing.Size(159, 31);
@@ -158,7 +159,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.label4.Location = new System.Drawing.Point(16, 267);
+            this.label4.Location = new System.Drawing.Point(16, 299);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(107, 23);
             this.label4.TabIndex = 154;
@@ -178,6 +179,7 @@
             this.selectValueConversion.Name = "selectValueConversion";
             this.selectValueConversion.Size = new System.Drawing.Size(159, 31);
             this.selectValueConversion.TabIndex = 157;
+            this.selectValueConversion.SelectedIndexChanged += new System.EventHandler(this.selectValueConversion_SelectedIndexChanged);
             // 
             // label5
             // 
@@ -223,6 +225,7 @@
             this.txtCustomMapFile.Name = "txtCustomMapFile";
             this.txtCustomMapFile.Size = new System.Drawing.Size(318, 30);
             this.txtCustomMapFile.TabIndex = 160;
+            this.txtCustomMapFile.Text = "eham.jpg";
             // 
             // label7
             // 
@@ -362,7 +365,7 @@
             this.txtUpperRightLatitude.Name = "txtUpperRightLatitude";
             this.txtUpperRightLatitude.Size = new System.Drawing.Size(159, 30);
             this.txtUpperRightLatitude.TabIndex = 184;
-            this.txtUpperRightLatitude.Text = "52.4803652";
+            this.txtUpperRightLatitude.Text = "52.485";
             // 
             // txtUpperRightLongitude
             // 
@@ -374,12 +377,24 @@
             this.txtUpperRightLongitude.TabIndex = 185;
             this.txtUpperRightLongitude.Text = "5.0171003";
             // 
+            // cbHeatmap
+            // 
+            this.cbHeatmap.AutoSize = true;
+            this.cbHeatmap.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.cbHeatmap.Location = new System.Drawing.Point(629, 436);
+            this.cbHeatmap.Name = "cbHeatmap";
+            this.cbHeatmap.Size = new System.Drawing.Size(226, 25);
+            this.cbHeatmap.TabIndex = 189;
+            this.cbHeatmap.Text = "Visualise population density";
+            this.cbHeatmap.UseVisualStyleBackColor = true;
+            // 
             // VisualisationAnimatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1152, 498);
+            this.Controls.Add(this.cbHeatmap);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label12);
@@ -450,5 +465,6 @@
         private System.Windows.Forms.Label label18;
         public System.Windows.Forms.TextBox txtUpperRightLatitude;
         public System.Windows.Forms.TextBox txtUpperRightLongitude;
+        public System.Windows.Forms.CheckBox cbHeatmap;
     }
 }

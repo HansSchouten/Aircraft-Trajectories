@@ -156,6 +156,14 @@ namespace AircraftTrajectories.Views.Visualisation
             }
         }
 
+        public bool Heatmap
+        {
+            get
+            {
+                return AnimatorForm.cbHeatmap.Checked;
+            }
+        }
+
         public string TrajectoryFile
         {
             get
@@ -177,6 +185,14 @@ namespace AircraftTrajectories.Views.Visualisation
             get
             {
                 return AnimatorForm.txtCustomMapFile.Text;
+            }
+        }
+
+        public string ValueConversion
+        {
+            get
+            {
+                return AnimatorForm.ValueConversion;
             }
         }
 

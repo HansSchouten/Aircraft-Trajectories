@@ -130,7 +130,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
                     contourPoint = grid.GridCoordinate(p.Location.X, p.Location.Y);
                     coordinateString += contourPoint.Longitude + "," + contourPoint.Latitude + ",";
                     if (AltitudeOffset) {
-                        coordinateString += "100\n";
+                        coordinateString += "50\n";
                     } else {
                         coordinateString += "0\n";
                     }
@@ -164,7 +164,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
                     updateStep += plotUpdate("Point", labelPoint.Longitude + "," + labelPoint.Latitude + ",0", "contourPoint" + contourId);
                 }
             }
-            /*
+
             for (int i = 1; i <= NumberOfContours; i++)
             {
                 if (!visibleContours.Contains(i))
@@ -172,7 +172,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
                     updateStep += plotUpdate("LinearRing", _trajectory.Longitude(t) + "," + _trajectory.Latitude(t) + ",0", "contour" + i);
                 }
             }
-            */
+
             return updateStep;
         }
 

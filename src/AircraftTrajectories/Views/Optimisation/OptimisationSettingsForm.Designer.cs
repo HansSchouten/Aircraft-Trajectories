@@ -252,7 +252,7 @@
             this.txtEndLongitude.Name = "txtEndLongitude";
             this.txtEndLongitude.Size = new System.Drawing.Size(159, 30);
             this.txtEndLongitude.TabIndex = 91;
-            this.txtEndLongitude.Text = "4.15";
+            this.txtEndLongitude.Text = "4.90";
             // 
             // txtEndLatitude
             // 
@@ -397,7 +397,7 @@
             this.txtTakeoffLongitude.Name = "txtTakeoffLongitude";
             this.txtTakeoffLongitude.Size = new System.Drawing.Size(159, 30);
             this.txtTakeoffLongitude.TabIndex = 79;
-            this.txtTakeoffLongitude.Text = "4.1";
+            this.txtTakeoffLongitude.Text = "4.7792633";
             // 
             // txtTakeoffLatitude
             // 
@@ -407,7 +407,7 @@
             this.txtTakeoffLatitude.Name = "txtTakeoffLatitude";
             this.txtTakeoffLatitude.Size = new System.Drawing.Size(159, 30);
             this.txtTakeoffLatitude.TabIndex = 78;
-            this.txtTakeoffLatitude.Text = "52.3";
+            this.txtTakeoffLatitude.Text = "52.3178633";
             // 
             // label2
             // 

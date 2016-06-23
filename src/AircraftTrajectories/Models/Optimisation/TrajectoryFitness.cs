@@ -9,6 +9,7 @@ namespace AircraftTrajectories.Models.Optimisation
 {
     using GeneticSharp.Domain.Randomizations;
     using IntegratedNoiseModel;
+    using System.Device.Location;
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.IO;
@@ -19,6 +20,7 @@ namespace AircraftTrajectories.Models.Optimisation
     {
         public FlightSimulator FlightSimulator { get; set; }
         public static ReferencePoint referencePoint { get; set; }
+        public static GeoPoint3D endPoint { get; set; }
 
         public double Evaluate(IChromosome chromosome)
         {
@@ -33,7 +35,16 @@ namespace AircraftTrajectories.Models.Optimisation
                     settings.Add((double)chromosome.GetGene(i).Value);
                 }
 
-                FlightSimulator = new FlightSimulator(aircraft, referencePoint.Point, trajectoryChromosome.NumberOfSegments, settings);
+                var startPoint = referencePoint.GeoPoint;
+                var start = new GeoCoordinate(startPoint.Latitude, startPoint.Longitude);
+                var endDLong = new GeoCoordinate(startPoint.Latitude, endPoint.Longitude);
+                double xDistance = start.GetDistanceTo(endDLong);
+                if (start.Longitude > endPoint.Longitude) xDistance = -xDistance;
+                var endDLat = new GeoCoordinate(endPoint.Latitude, startPoint.Longitude);
+                double yDistance = start.GetDistanceTo(endDLat);
+                if (start.Latitude > endPoint.Latitude) yDistance = -yDistance;
+
+                FlightSimulator = new FlightSimulator(aircraft, new Point3D(xDistance, yDistance), trajectoryChromosome.NumberOfSegments, settings);
                 var time = DateTime.Now;
                 FlightSimulator.referencePoint = referencePoint;
                 FlightSimulator.Simulate();

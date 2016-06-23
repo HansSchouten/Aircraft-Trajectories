@@ -18,6 +18,7 @@ namespace AircraftTrajectories.Views.Visualisation
         bool OneTrajectory { get; }
         bool ExternalNoise { get; }
         bool CustomReference { get; }
+        bool Heatmap { get; }
         GeoPoint3D GeoReference { get; }
         Point3D MetricReference { get; }
         string MapFile { get; }
@@ -26,6 +27,7 @@ namespace AircraftTrajectories.Views.Visualisation
         int NumberOfContours { get; }
         int ContourStartValue { get; }
         Trajectory Trajectory { get; set; }
+        string ValueConversion { get; }
 
         int Percentage { set; }
         int TimeLeft { set; }

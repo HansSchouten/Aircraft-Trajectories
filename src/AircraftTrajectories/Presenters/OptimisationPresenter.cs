@@ -42,7 +42,8 @@ namespace AircraftTrajectories.Presenters
         {
             try
             {
-                TrajectoryFitness.referencePoint = new ReferencePoint(new GeoPoint3D(_view.StartLongitude, _view.StartLatitude), new Point3D(30000, 30000));
+                TrajectoryFitness.referencePoint = new ReferencePoint(new GeoPoint3D(_view.StartLongitude, _view.StartLatitude), new Point3D(0, 0));
+                TrajectoryFitness.endPoint = new GeoPoint3D(_view.EndLongitude, _view.EndLatitude);
                 var selection = new EliteSelection();
                 var crossover = new OrderedCrossover();
                 var mutation = new ReverseSequenceMutation();

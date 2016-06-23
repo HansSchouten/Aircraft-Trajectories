@@ -157,35 +157,38 @@ namespace AircraftTrajectories.Models.Trajectory
         /// <returns></returns>
         public double BankAngle(int t)
         {
-            return 0;
+            try {
+                if (t < 5)
+                {
+                    return 0;
+                }
 
-            if(t < 5)
+                //source: http://www.regentsprep.org/regents/math/geometry/gcg6/RCir.htm
+                GeoPoint3D point1 = GeoPoint(t - 5);
+                GeoPoint3D point2 = GeoPoint(t);
+                GeoPoint3D point3 = GeoPoint(t + 5);
+
+                double m_r = (point2.Longitude - point1.Longitude) / (point2.Latitude - point1.Latitude);
+                double m_t = (point3.Longitude - point2.Longitude) / (point3.Latitude - point2.Latitude);
+                double x_c = (m_r * m_t * (point3.Longitude - point1.Longitude) + m_r * (point2.Latitude + point3.Latitude) - m_t * (point1.Latitude + point2.Latitude)) / (2 * (m_r - m_t));
+                double y_c = -(1 / m_r) * (x_c - ((point1.Latitude + point2.Latitude) / 2)) + ((point1.Longitude + point2.Longitude) / 2);
+
+                if (double.IsInfinity(x_c))
+                {
+                    return 0;
+                }
+
+                GeoCoordinate c1 = new GeoCoordinate(point1.Latitude, point1.Longitude);
+                GeoCoordinate centroid = new GeoCoordinate(x_c, y_c);
+                double radius = c1.GetDistanceTo(centroid);
+
+                double TAS = Airspeed(t);
+                double g = 9.81;
+                return Math.Atan(((TAS * TAS) / radius) / g) * (180 / Math.PI);
+            } catch (Exception ex)
             {
                 return 0;
             }
-
-            //source: http://www.regentsprep.org/regents/math/geometry/gcg6/RCir.htm
-            GeoPoint3D point1 = GeoPoint(t - 1);
-            GeoPoint3D point2 = GeoPoint(t);
-            GeoPoint3D point3 = GeoPoint(t + 1);
-
-            double m_r = (point2.Longitude - point1.Longitude) / (point2.Latitude - point1.Latitude);
-            double m_t = (point3.Longitude - point2.Longitude) / (point3.Latitude - point2.Latitude);
-            double x_c = (m_r * m_t * (point3.Longitude - point1.Longitude) + m_r * (point2.Latitude + point3.Latitude) - m_t * (point1.Latitude + point2.Latitude)) / (2 * (m_r - m_t));
-            double y_c = -(1 / m_r) * (x_c - ((point1.Latitude + point2.Latitude) / 2)) + ((point1.Longitude + point2.Longitude) / 2);
-
-            if (double.IsInfinity(x_c))
-            {
-                return 0;
-            }
-
-            GeoCoordinate c1 = new GeoCoordinate(point1.Latitude, point1.Longitude);
-            GeoCoordinate centroid = new GeoCoordinate(x_c, y_c);
-            double radius = c1.GetDistanceTo(centroid);
-
-            double TAS = Airspeed(t);
-            double g = 9.81;
-            return Math.Atan(((TAS * TAS) / radius) / g) * (180 / Math.PI);
         }
     }
 }

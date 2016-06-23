@@ -23,5 +23,11 @@ namespace AircraftTrajectories.Views.Visualisation
         {
             ((VisualisationForm)this.MdiParent).PrepareVisualisationClick();
         }
+
+        public string ValueConversion = "";
+        private void selectValueConversion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ValueConversion = selectValueConversion.Text;
+        }
     }
 }

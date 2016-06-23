@@ -20,6 +20,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
         {
             return @"
 <GroundOverlay>
+    <altitudeMode>RelativeToGround</altitudeMode>
     <name>Custom map</name>
     <Icon>
         <href>" + _mapFile + @"</href>

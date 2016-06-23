@@ -25,7 +25,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
 	<LineStyle>
 		<color>30F0BE14</color>
 		<gx:physicalWidth>100</gx:physicalWidth>
-		<gx:outerColor>25FFFFFF</gx:outerColor>
+		<gx:outerColor>99FF4444</gx:outerColor>
 		<gx:outerWidth>0.95</gx:outerWidth>
 	</LineStyle>
 </Style>

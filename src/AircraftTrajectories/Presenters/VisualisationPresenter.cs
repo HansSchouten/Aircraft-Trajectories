@@ -1,4 +1,5 @@
 ﻿using AircraftTrajectories.Models.IntegratedNoiseModel;
+using AircraftTrajectories.Models.Population;
 using AircraftTrajectories.Models.Space3D;
 using AircraftTrajectories.Models.TemporalGrid;
 using AircraftTrajectories.Models.Trajectory;
@@ -142,20 +143,34 @@ namespace AircraftTrajectories.Presenters
 
         protected void OneTrajectoryVisualisation()
         {
+            var localTemporalGrid = temporalGrid;
+            if (_view.ValueConversion == "Max")
+            {
+                var g = new GridConverter(temporalGrid, GridTransformation.MAX);
+                localTemporalGrid = g.transform();
+            }
+
             var legend = new LegendCreator();
             legend.OutputLegendImage();
             legend.OutputLegendTitle();
 
-            //var population = new PopulationData(Globals.currentDirectory + "population.dat");
-
+            var contourAnimator = new ContourKMLAnimator(localTemporalGrid, trajectory, new List<int>() { 65, 70, 75 });
+            contourAnimator.NumberOfContours = _view.NumberOfContours;
+            contourAnimator.FirstContourValue = _view.ContourStartValue;
             var sections = new List<KMLAnimatorSectionInterface>() {
                 new LegendKMLAnimator(),
                 new AircraftKMLAnimator(trajectory.Aircraft, trajectory),
                 new AirplotKMLAnimator(trajectory),
                 new GroundplotKMLAnimator(trajectory),
-                new ContourKMLAnimator(temporalGrid, trajectory, new List<int>() { 65, 70, 75 }),
+                contourAnimator
                 //new AnnoyanceKMLAnimator(temporalGrid, population.getPopulationData())
             };
+            if (_view.Heatmap)
+            {
+                var population = new PopulationData(Globals.currentDirectory + "population.dat");
+                var section = new HeatmapKMLAnimator(population);
+                sections.Add(section);
+            }
             var camera = new FollowKMLAnimatorCamera(trajectory.Aircraft, trajectory);
             var animator = new KMLAnimator(sections, camera);
             animator.AnimationToFile(trajectory.Duration, Globals.webrootDirectory + "visualisation.kml");
@@ -165,24 +180,44 @@ namespace AircraftTrajectories.Presenters
 
         protected void MultipleTrajectoryVisualisation()
         {
-            var camera = new TopViewKMLAnimatorCamera(new GeoPoint3D(referencePoint.GeoPoint.Longitude, referencePoint.GeoPoint.Latitude, 22000));
-            var contourAnimator = new ContourKMLAnimator(temporalGrid);
+            var localTemporalGrid = temporalGrid;
+            if (_view.ValueConversion == "Max")
+            {
+                var g = new GridConverter(temporalGrid, GridTransformation.MAX);
+                localTemporalGrid = g.transform();
+            }
+
+            var legend = new LegendCreator();
+            legend.OutputLegendImage();
+            legend.OutputLegendTitle();
+
+            var camera = new TopViewKMLAnimatorCamera(new GeoPoint3D(referencePoint.GeoPoint.Longitude, referencePoint.GeoPoint.Latitude, 15000));
+            var contourAnimator = new ContourKMLAnimator(localTemporalGrid);
+            contourAnimator.NumberOfContours = _view.NumberOfContours;
+            contourAnimator.FirstContourValue = _view.ContourStartValue;
             if (_view.MapFile != "")
             {
                 contourAnimator.AltitudeOffset = true;
             }
             var sections = new List<KMLAnimatorSectionInterface>() {
-                contourAnimator//,
-                //new MultipleGroundplotKMLAnimator(trajectories)
+                new LegendKMLAnimator(),
+                contourAnimator,
+                new MultipleGroundplotKMLAnimator(trajectories)
             };
             if (_view.MapFile != "")
             {
                 sections.Add(new CustomMapKMLAnimator(_view.MapFile, _view.MapBottomLeft, _view.MapUpperRight));
             }
+            if (_view.Heatmap)
+            {
+                var population = new PopulationData(Globals.currentDirectory + "population.dat");
+                var section = new HeatmapKMLAnimator(population);
+                sections.Add(section);
+            }
 
             var animator = new KMLAnimator(sections, camera);
             animator.Duration = 0;
-            animator.AnimationToFile(temporalGrid.GetNumberOfGrids(), Globals.webrootDirectory + "visualisation.kml");
+            animator.AnimationToFile(localTemporalGrid.GetNumberOfGrids(), Globals.webrootDirectory + "visualisation.kml");
 
             _view.Invoke(delegate { _view.PreparationCalculationCompleted(); });
         }
