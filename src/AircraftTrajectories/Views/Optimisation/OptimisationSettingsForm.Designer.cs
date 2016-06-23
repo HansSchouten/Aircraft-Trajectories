@@ -59,7 +59,7 @@
             this.txtTotalAircraftMass = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.txtStartLongitude = new System.Windows.Forms.TextBox();
+            this.txtTakeoffLongitude = new System.Windows.Forms.TextBox();
             this.txtTakeoffLatitude = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -84,7 +84,7 @@
             this.txtNumberOfGenerations.Name = "txtNumberOfGenerations";
             this.txtNumberOfGenerations.Size = new System.Drawing.Size(159, 30);
             this.txtNumberOfGenerations.TabIndex = 108;
-            this.txtNumberOfGenerations.Text = "100";
+            this.txtNumberOfGenerations.Text = "5";
             // 
             // txtPopulationSize
             // 
@@ -94,7 +94,7 @@
             this.txtPopulationSize.Name = "txtPopulationSize";
             this.txtPopulationSize.Size = new System.Drawing.Size(159, 30);
             this.txtPopulationSize.TabIndex = 107;
-            this.txtPopulationSize.Text = "70";
+            this.txtPopulationSize.Text = "5";
             // 
             // label28
             // 
@@ -389,15 +389,15 @@
             this.label7.TabIndex = 82;
             this.label7.Text = "Total aircraft mass";
             // 
-            // txtStartLongitude
+            // txtTakeoffLongitude
             // 
-            this.txtStartLongitude.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtStartLongitude.Location = new System.Drawing.Point(200, 287);
-            this.txtStartLongitude.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtStartLongitude.Name = "txtStartLongitude";
-            this.txtStartLongitude.Size = new System.Drawing.Size(159, 30);
-            this.txtStartLongitude.TabIndex = 79;
-            this.txtStartLongitude.Text = "4.1";
+            this.txtTakeoffLongitude.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtTakeoffLongitude.Location = new System.Drawing.Point(200, 287);
+            this.txtTakeoffLongitude.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtTakeoffLongitude.Name = "txtTakeoffLongitude";
+            this.txtTakeoffLongitude.Size = new System.Drawing.Size(159, 30);
+            this.txtTakeoffLongitude.TabIndex = 79;
+            this.txtTakeoffLongitude.Text = "4.1";
             // 
             // txtTakeoffLatitude
             // 
@@ -467,7 +467,7 @@
             this.Controls.Add(this.txtTotalAircraftMass);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.txtStartLongitude);
+            this.Controls.Add(this.txtTakeoffLongitude);
             this.Controls.Add(this.txtTakeoffLatitude);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -513,7 +513,7 @@
         public System.Windows.Forms.TextBox txtTotalAircraftMass;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label7;
-        public System.Windows.Forms.TextBox txtStartLongitude;
+        public System.Windows.Forms.TextBox txtTakeoffLongitude;
         public System.Windows.Forms.TextBox txtTakeoffLatitude;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;

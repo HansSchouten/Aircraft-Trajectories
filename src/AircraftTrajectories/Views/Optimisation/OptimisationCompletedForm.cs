@@ -16,5 +16,15 @@ namespace AircraftTrajectories.Views.Optimisation
             WindowState = FormWindowState.Maximized;
             ControlBox = false;
         }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            ((OptimisationForm)this.MdiParent).SaveTrajectoryClick();
+        }
+
+        private void btnVisualise_Click(object sender, EventArgs e)
+        {
+            ((OptimisationForm)this.MdiParent).VisualiseTrajectoryClick();
+        }
     }
 }

@@ -28,6 +28,7 @@ namespace AircraftTrajectories.Models.Optimisation
         protected HORIZONTAL_STATE _horizontal_state;
         protected Point3D _endPoint;
         protected int _numberOfSegments;
+        public ReferencePoint referencePoint;
 
         // State variables
         public double _x;
@@ -45,6 +46,8 @@ namespace AircraftTrajectories.Models.Optimisation
         protected List<double> _settings;
         protected List<double> _xData;
         protected List<double> _yData;
+        protected List<double> _latData;
+        protected List<double> _longData;
         protected List<double> _zData;
         protected List<double> _tData;
 
@@ -76,6 +79,8 @@ namespace AircraftTrajectories.Models.Optimisation
             _xData = new List<double>();
             _yData = new List<double>();
             _zData = new List<double>();
+            _latData = new List<double>();
+            _longData = new List<double>();
             _tData = new List<double>();
 
         }
@@ -85,15 +90,24 @@ namespace AircraftTrajectories.Models.Optimisation
         /// </summary>
         public void Simulate()
         {
+            var converter = new MetricToGeographic(referencePoint);
             duration = 0;
             //Console.WriteLine("A: " + A + " B:" + B + " C:" + C);
             NoisePowerDistance.Instance.NoiseMaxGrid = null;
+            int counter = 0;
             while (_vertical_state != VERTICAL_STATE.END)
             {
-                _xData.Add(_x);
-                _yData.Add(_y);
-                _zData.Add(_height * 0.3048);
-                _tData.Add(duration);
+                counter++;
+                if (counter % 10 == 0)
+                {
+                    var geoCoordinate = converter.ConvertToLongLat(_x, _y);
+                    _xData.Add(_x);
+                    _yData.Add(_y);
+                    _zData.Add(_height * 0.3048);
+                    _longData.Add(geoCoordinate.Longitude);
+                    _latData.Add(geoCoordinate.Latitude);
+                    _tData.Add(duration);
+                }
 
                 updateNoise();
                 updatePosition();
@@ -153,8 +167,10 @@ namespace AircraftTrajectories.Models.Optimisation
             var xSpline = CubicSpline.InterpolateNatural(_tData, _xData);
             var ySpline = CubicSpline.InterpolateNatural(_tData, _yData);
             var zSpline = CubicSpline.InterpolateNatural(_tData, _zData);
+            var longSpline = CubicSpline.InterpolateNatural(_tData, _longData);
+            var latSpline = CubicSpline.InterpolateNatural(_tData, _latData);
 
-            var trajectory = new Trajectory(xSpline, ySpline, zSpline, null, null);
+            var trajectory = new Trajectory(xSpline, ySpline, zSpline, longSpline, latSpline);
             trajectory.Duration = (int) _tData[_tData.Count - 1];
             
             return trajectory;

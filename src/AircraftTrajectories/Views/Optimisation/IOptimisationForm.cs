@@ -7,12 +7,16 @@ namespace AircraftTrajectories.Views.Optimisation
     {
         event EventHandler RunOptimisation;
         event EventHandler CancelOptimisation;
-        
+        event EventHandler SaveTrajectory;
+        event EventHandler VisualiseTrajectory;
+
         // Genetic Algorithm
         int PopulationSize { get; }
         int NumberOfGenerations { get; }
         // Trajectory
         int NumberOfSegments { get; }
+        double StartLatitude { get; }
+        double StartLongitude { get; }
         double EndLatitude { get; }
         double EndLongitude { get; }
 
@@ -20,5 +24,6 @@ namespace AircraftTrajectories.Views.Optimisation
         int TimeLeft { set; }
 
         void Invoke(MethodInvoker methodInvoker);
+        void OptimisationCompleted();
     }
 }

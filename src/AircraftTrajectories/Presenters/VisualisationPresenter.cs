@@ -27,6 +27,7 @@ namespace AircraftTrajectories.Presenters
             _view.CancelNoiseCalculation += delegate (object sender, EventArgs e) { Cancel(); };
             _view.PrepareVisualisation += delegate (object sender, EventArgs e) { PrepareVisualisation(); };
             _view.CancelVisualisationPreparation += delegate (object sender, EventArgs e) { Cancel(); };
+            _view.VisualiseTrajectoryEvent += delegate (object sender, EventArgs e) { VisualiseTrajectory(); };
         }
 
         protected void Cancel()
@@ -69,8 +70,11 @@ namespace AircraftTrajectories.Presenters
         
         protected void OneTrajectoryINM()
         {
-            var reader = new TrajectoryFileReader(CoordinateUnit.metric);
-            trajectory = reader.createTrajectoryFromFile(_view.TrajectoryFile);
+            if (_view.TrajectoryFile.Contains("."))
+            {
+                var reader = new TrajectoryFileReader(CoordinateUnit.metric);
+                trajectory = reader.createTrajectoryFromFile(_view.TrajectoryFile);
+            }
 
             var aircraft = new Aircraft("GP7270", "wing");
             trajectory.Aircraft = aircraft;
@@ -107,6 +111,11 @@ namespace AircraftTrajectories.Presenters
             }
 
             _view.Invoke(delegate { _view.NoiseCalculationCompleted(); });
+        }
+
+        public void VisualiseTrajectory()
+        {
+            trajectory = _view.Trajectory;
         }
 
         #endregion

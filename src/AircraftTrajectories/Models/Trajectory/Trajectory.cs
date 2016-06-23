@@ -157,7 +157,9 @@ namespace AircraftTrajectories.Models.Trajectory
         /// <returns></returns>
         public double BankAngle(int t)
         {
-            if(t < 1)
+            return 0;
+
+            if(t < 5)
             {
                 return 0;
             }

@@ -1,4 +1,5 @@
 ﻿using AircraftTrajectories.Models.Space3D;
+using AircraftTrajectories.Models.Trajectory;
 using System;
 using System.Windows.Forms;
 
@@ -10,6 +11,7 @@ namespace AircraftTrajectories.Views.Visualisation
         event EventHandler CancelNoiseCalculation;
         event EventHandler PrepareVisualisation;
         event EventHandler CancelVisualisationPreparation;
+        event EventHandler VisualiseTrajectoryEvent;
 
         string NoiseFile { get; }
         string TrajectoryFile { get; }
@@ -23,6 +25,7 @@ namespace AircraftTrajectories.Views.Visualisation
         GeoPoint3D MapUpperRight { get; }
         int NumberOfContours { get; }
         int ContourStartValue { get; }
+        Trajectory Trajectory { get; set; }
 
         int Percentage { set; }
         int TimeLeft { set; }

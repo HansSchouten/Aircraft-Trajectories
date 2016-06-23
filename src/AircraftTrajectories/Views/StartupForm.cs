@@ -1,4 +1,5 @@
-﻿using AircraftTrajectories.Views.Optimisation;
+﻿using AircraftTrajectories.Models.Trajectory;
+using AircraftTrajectories.Views.Optimisation;
 using AircraftTrajectories.Views.Visualisation;
 using System;
 using System.Drawing;
@@ -8,9 +9,14 @@ namespace AircraftTrajectories.Views
 {
     public partial class StartupForm : Form
     {
+        OptimisationForm OptimisationForm;
+        VisualisationForm VisualisationForm;
+
         public StartupForm()
         {
             InitializeComponent();
+            OptimisationForm = new OptimisationForm(this);
+            VisualisationForm = new VisualisationForm();
         }
 
         private void Form_Paint(object sender, PaintEventArgs e)
@@ -23,15 +29,22 @@ namespace AircraftTrajectories.Views
             e.Graphics.DrawRectangle(blackPen, x, y, width, height);
         }
 
+        public void Visualise(Trajectory trajectory)
+        {
+            //OptimisationForm.Hide();
+            VisualisationForm.Show();
+            VisualisationForm.VisualiseTrajectory(trajectory);
+        }
+
         private void btnOptimise_Click(object sender, EventArgs e)
         {
-            new OptimisationForm().Show();
+            OptimisationForm.Show();
             Close();
         }
 
         private void btnVisualise_Click(object sender, EventArgs e)
         {
-            new VisualisationForm().Show();
+            VisualisationForm.Show();
             Close();
         }
 

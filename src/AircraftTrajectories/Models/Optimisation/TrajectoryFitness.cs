@@ -17,6 +17,8 @@ namespace AircraftTrajectories.Models.Optimisation
 
     public class TrajectoryFitness : IFitness
     {
+        public FlightSimulator FlightSimulator { get; set; }
+        public static ReferencePoint referencePoint { get; set; }
 
         public double Evaluate(IChromosome chromosome)
         {
@@ -31,9 +33,10 @@ namespace AircraftTrajectories.Models.Optimisation
                     settings.Add((double)chromosome.GetGene(i).Value);
                 }
 
-                FlightSimulator f = new FlightSimulator(aircraft, new Point3D(30000, 30000, 0, CoordinateUnit.metric), trajectoryChromosome.NumberOfSegments, settings);
+                FlightSimulator = new FlightSimulator(aircraft, referencePoint.Point, trajectoryChromosome.NumberOfSegments, settings);
                 var time = DateTime.Now;
-                f.Simulate();
+                FlightSimulator.referencePoint = referencePoint;
+                FlightSimulator.Simulate();
 
                 /*
                 var grid = f.NoiseMaxGrid;
@@ -109,7 +112,7 @@ namespace AircraftTrajectories.Models.Optimisation
 
 
                 Console.WriteLine(DateTime.Now.Subtract(time).TotalMilliseconds);
-                return 0;// int.MaxValue - sum;
+                return int.MaxValue - FlightSimulator.fuel;
             } catch (Exception ex)
             {
                 Console.WriteLine("Evaluation exception");

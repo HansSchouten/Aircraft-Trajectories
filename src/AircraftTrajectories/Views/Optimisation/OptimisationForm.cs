@@ -8,6 +8,8 @@ namespace AircraftTrajectories.Views.Optimisation
     {
         public event EventHandler RunOptimisation;
         public event EventHandler CancelOptimisation;
+        public event EventHandler SaveTrajectory;
+        public event EventHandler VisualiseTrajectory;
 
         public OptimisationPresenter Presenter { get; protected set; }
         public OptimisationSettingsForm SettingsForm { get; protected set; }
@@ -18,10 +20,10 @@ namespace AircraftTrajectories.Views.Optimisation
         /// <summary>
         /// Construct the OptimisationForm
         /// </summary>
-        public OptimisationForm()
+        public OptimisationForm(StartupForm startupForm)
         {
             InitializeComponent();
-            Presenter = new OptimisationPresenter(this);
+            Presenter = new OptimisationPresenter(this, startupForm);
             SettingsForm = new OptimisationSettingsForm();
             RunForm = new OptimisationRunForm();
             CompletedForm = new OptimisationCompletedForm();
@@ -39,6 +41,11 @@ namespace AircraftTrajectories.Views.Optimisation
             RunOptimisation(this, EventArgs.Empty);
         }
 
+        public void OptimisationCompleted()
+        {
+            CompletedForm.BringToFront();
+        }
+
         /// <summary>
         /// Cancel the optimisation
         /// this method switches back to the OptimisationSettingsForm
@@ -48,7 +55,17 @@ namespace AircraftTrajectories.Views.Optimisation
             SettingsForm.BringToFront();
             CancelOptimisation(this, EventArgs.Empty);
         }
-        
+
+        public void SaveTrajectoryClick()
+        {
+            SaveTrajectory(this, EventArgs.Empty);
+        }
+
+        public void VisualiseTrajectoryClick()
+        {
+            VisualiseTrajectory(this, EventArgs.Empty);
+        }
+
 
         #region "EVENTS"
 
@@ -113,6 +130,22 @@ namespace AircraftTrajectories.Views.Optimisation
             get
             {
                 return int.Parse(SettingsForm.txtNumberOfSegments.Text);
+            }
+        }
+
+        public double StartLatitude
+        {
+            get
+            {
+                return double.Parse(SettingsForm.txtTakeoffLatitude.Text);
+            }
+        }
+
+        public double StartLongitude
+        {
+            get
+            {
+                return double.Parse(SettingsForm.txtTakeoffLongitude.Text);
             }
         }
 

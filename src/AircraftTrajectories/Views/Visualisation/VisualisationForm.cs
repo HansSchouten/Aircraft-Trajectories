@@ -1,4 +1,5 @@
 ﻿using AircraftTrajectories.Models.Space3D;
+using AircraftTrajectories.Models.Trajectory;
 using AircraftTrajectories.Presenters;
 using System;
 using System.Windows.Forms;
@@ -11,6 +12,7 @@ namespace AircraftTrajectories.Views.Visualisation
         public event EventHandler CancelNoiseCalculation;
         public event EventHandler PrepareVisualisation;
         public event EventHandler CancelVisualisationPreparation;
+        public event EventHandler VisualiseTrajectoryEvent;
 
         public VisualisationPresenter Presenter { get; protected set; }
         public VisualisationSettingsForm SettingsForm { get; protected set; }
@@ -25,11 +27,6 @@ namespace AircraftTrajectories.Views.Visualisation
         public VisualisationForm()
         {
             InitializeComponent();
-            Presenter = new VisualisationPresenter(this);
-            RunForm = new VisualisationRunForm();
-            SettingsForm = new VisualisationSettingsForm();
-            AnimatorForm = new VisualisationAnimatorForm();
-            GoogleEarthForm = new GoogleEarthForm();
         }
 
 
@@ -59,7 +56,13 @@ namespace AircraftTrajectories.Views.Visualisation
         {
             AnimatorForm.BringToFront();
         }
-
+        public Trajectory Trajectory { get; set; }
+        public void VisualiseTrajectory(Trajectory trajectory)
+        {
+            SettingsForm.txtTrajectoryFile.Text = "Optimisation result";
+            Trajectory = trajectory;
+            VisualiseTrajectoryEvent(this, EventArgs.Empty);
+        }
 
 
         public void PrepareVisualisationClick()
@@ -90,6 +93,13 @@ namespace AircraftTrajectories.Views.Visualisation
         {
             base.MDIContainerForm_Load();
 
+            Presenter = new VisualisationPresenter(this);
+            RunForm = new VisualisationRunForm();
+            SettingsForm = new VisualisationSettingsForm();
+            AnimatorForm = new VisualisationAnimatorForm();
+            GoogleEarthForm = new GoogleEarthForm();
+
+
             RunForm.MdiParent = this;
             RunForm.Show();
             RunForm.BringToFront();
@@ -101,7 +111,7 @@ namespace AircraftTrajectories.Views.Visualisation
             AnimatorForm.MdiParent = this;
             AnimatorForm.Show();
             AnimatorForm.BringToFront();
-
+            
             GoogleEarthForm.MdiParent = this;
             GoogleEarthForm.Show();
             GoogleEarthForm.BringToFront();
