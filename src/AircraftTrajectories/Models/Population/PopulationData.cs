@@ -42,10 +42,10 @@ namespace AircraftTrajectories.Models.Population
                 .ToArray();
 
             var inGridPoints = new List<int[]>();
-            int minX = 104062;
-            int maxX = 112658;
-            int minY = 475470;
-            int maxY = 485564;
+            int minX = 106062;
+            int maxX = 114958;
+            int minY = 476470;
+            int maxY = 488864;
             foreach (int[] row in populationData)
             {
                 if (row.Length < 3) { continue; }
