@@ -1,4 +1,5 @@
 ﻿using AircraftTrajectories.Models.Optimisation;
+using AircraftTrajectories.Models.Population;
 using AircraftTrajectories.Models.Space3D;
 using AircraftTrajectories.Views;
 using AircraftTrajectories.Views.Optimisation;
@@ -42,11 +43,13 @@ namespace AircraftTrajectories.Presenters
         {
             try
             {
-                TrajectoryFitness.ReferencePoint = new ReferencePoint(new GeoPoint3D(_view.StartLongitude, _view.StartLatitude), new Point3D(0, 0));
+                var referencePoint = new ReferencePoint(new GeoPoint3D(_view.StartLongitude, _view.StartLatitude), new Point3D(0, 0));
+                TrajectoryFitness.ReferencePoint = referencePoint;
                 TrajectoryFitness.GeoEndPoint = new GeoPoint3D(_view.EndLongitude, _view.EndLatitude);
                 TrajectoryFitness.OptimiseFuel = !_view.MinimiseNoise;
                 TrajectoryFitness.TakeoffHeading = _view.TakeoffHeading;
                 TrajectoryFitness.TakeoffSpeed = _view.TakeoffSpeed;
+                TrajectoryFitness.PopulationData = new PopulationData2("population.dat", referencePoint);
 
                 var selection = new EliteSelection();
                 var crossover = new OrderedCrossover();

@@ -31,6 +31,13 @@ namespace AircraftTrajectories.Views
         private void Test_Load(object sender, EventArgs e)
         {
             /*
+            var reference = new ReferencePointRD();
+            var data = new PopulationData2("population.dat", reference);
+
+            Grid populationGrid = Grid.CreateEmptyGrid(10, 10, new Point3D(), 125);
+            */
+
+            /*
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
             trajectory = reader.createTrajectoryFromFile(Globals.currentDirectory + "track_schiphol.dat");
 

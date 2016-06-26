@@ -38,11 +38,11 @@ namespace AircraftTrajectories.Models.TemporalGrid
         /// <param name="data"></param>
         public Grid(double[][] data, Point3D _lowerLeftCorner, bool calculateContours = true)
         {
-            ReferencePoint = new ReferencePointRD();
-            Converter = new MetricToGeographic(ReferencePoint);
             LowerLeftCorner = _lowerLeftCorner;
             CellSize = 125;
             Data = data;
+            Converter = new MetricToGeographic(ReferencePoint);
+            ReferencePoint = new ReferencePointRD();
 
             if (calculateContours)
             {
@@ -65,7 +65,7 @@ namespace AircraftTrajectories.Models.TemporalGrid
         /// <param name="height">the number of vertical cells</param>
         /// <param name="width">the number of horizontal cells</param>
         /// <returns></returns>
-        protected Grid CreateEmptyGrid(int height, int width, Point3D lowerLeftCorner, int cellSize = 125)
+        public static Grid CreateEmptyGrid(int height, int width, Point3D lowerLeftCorner, int cellSize = 125)
         {
             double[][] data = new double[width][];
             for (int x=0; x<width; x++)
@@ -89,9 +89,20 @@ namespace AircraftTrajectories.Models.TemporalGrid
         /// <param name="gridX"></param>
         /// <param name="gridY"></param>
         /// <returns></returns>
-        public GeoPoint3D GridCoordinate(double gridX, double gridY)
+        public GeoPoint3D GridGeoCoordinate(double gridX, double gridY)
         {
             return Converter.ConvertToLongLat(LowerLeftCorner.X + (gridX * CellSize), LowerLeftCorner.Y + (gridY * CellSize));
+        }
+
+        /// <summary>
+        /// Retuns a Point3D based on the entered x y index of the grid
+        /// </summary>
+        /// <param name="gridX"></param>
+        /// <param name="gridY"></param>
+        /// <returns></returns>
+        public Point3D GridCoordinate(double gridX, double gridY)
+        {
+            return new Point3D(LowerLeftCorner.X + (gridX * CellSize), LowerLeftCorner.Y + (gridY * CellSize));
         }
 
         /// <summary>

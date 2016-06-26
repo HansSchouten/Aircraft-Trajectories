@@ -4,6 +4,13 @@ namespace AircraftTrajectories.Models.Space3D
 {
     public class GeographicToMetric
     {
+        public ReferencePoint ReferencePoint { get; set; }
+
+        public GeographicToMetric(ReferencePoint referencePoint)
+        {
+            ReferencePoint = referencePoint;
+        }
+
         /// <summary>
         /// Converts from Geographic units to Meters
         /// </summary>
@@ -13,11 +20,11 @@ namespace AircraftTrajectories.Models.Space3D
         public Point3D ConvertToXY(double longitude, double latitude)
         {
             // The city "Amsterfoort" is used as reference "Rijksdriehoek" coordinate.
-            int referenceRdX = 0;// 155000;
-            int referenceRdY = 0;// 463000;
+            int referenceRdX = (int) ReferencePoint.Point.X;// 155000;
+            int referenceRdY = (int) ReferencePoint.Point.Y;// 463000;
             // The city "Amsterfoort" is used as reference "WGS84" coordinate.
-            double referenceWgs84Y = 2*latitude;// 52.15517;
-            double referenceWgs84X = 2*longitude;// 5.387206;
+            double referenceWgs84Y = ReferencePoint.GeoPoint.Latitude;// 52.15517;
+            double referenceWgs84X = ReferencePoint.GeoPoint.Longitude;// 5.387206;
 
             double RadiansPerDegree = Math.PI / 180;
             double Rad = (referenceWgs84Y - latitude) * RadiansPerDegree;

@@ -12,7 +12,7 @@ namespace AircraftTrajectories.Models.Optimisation
     using System.Drawing.Imaging;
     using TemporalGrid;
     using IntegratedNoiseModel;
-
+    using Population;
     public class TrajectoryFitness : IFitness
     {
         public FlightSimulator FlightSimulator { get; set; }
@@ -21,6 +21,7 @@ namespace AircraftTrajectories.Models.Optimisation
         public static bool OptimiseFuel = false;
         public static double TakeoffHeading;
         public static double TakeoffSpeed;
+        public static PopulationData2 PopulationData;
 
         public double Evaluate(IChromosome chromosome)
         {
@@ -52,7 +53,6 @@ namespace AircraftTrajectories.Models.Optimisation
 
                 var time = DateTime.Now;
                 FlightSimulator.Simulate();
-                Console.WriteLine(DateTime.Now.Subtract(time).TotalMilliseconds);
 
 
 
@@ -78,7 +78,7 @@ namespace AircraftTrajectories.Models.Optimisation
                 l.UnlockBits();
                 b.Save(@"noise.png", ImageFormat.Png);
 				*/
-				
+
                 /*
                 TemporalGrid temporalGrid = noiseModel.TemporalGrid;
                 GridConverter converter = new GridConverter(temporalGrid, GridTransformation.MAX);
@@ -88,21 +88,18 @@ namespace AircraftTrajectories.Models.Optimisation
 
 
 
-
-
-
-
-                /*                      INM                     */
+                /*                  POPULATION                  */
                 var trajectory = FlightSimulator.CreateTrajectory();
-                var INMaircraft = new Aircraft("GP7270", "wing");
-                var noiseModel = new IntegratedNoiseModel(trajectory, INMaircraft);
-                noiseModel.NoiseMetric = 0;
-                Console.WriteLine("INM started");
-                noiseModel.RunINMFullTrajectory();
-                Console.WriteLine("INM completed");
+                double boundary = 2000;
+                int width = (int) (trajectory.UpperRightPoint.X - trajectory.LowerLeftPoint.X + boundary + boundary) / 125;
+                int height = (int) (trajectory.UpperRightPoint.Y - trajectory.LowerLeftPoint.Y + boundary + boundary) / 125;
+                Point3D shiftedLeftPoint = new Point3D(trajectory.LowerLeftPoint.X - boundary, trajectory.LowerLeftPoint.Y - boundary);
+                Grid populationGrid = Grid.CreateEmptyGrid(height, width, shiftedLeftPoint, 125);
+                populationGrid.ReferencePoint = ReferencePoint;
 
-                //Console.WriteLine("INM:" + noiseModel.TemporalGrid.GetGrid(0).Data[160][160]);
-                var noiseDataGrid = noiseModel.TemporalGrid.GetGrid(0).Data;
+                PopulationData.FillGrid(populationGrid);
+
+                var noiseDataGrid = populationGrid.Data;
                 var color = new Models.ColorMap();
                 var cmap = color.Custom(noiseDataGrid);
                 var b = new Bitmap(noiseDataGrid.Length, noiseDataGrid[0].Length);
@@ -110,21 +107,62 @@ namespace AircraftTrajectories.Models.Optimisation
                 l.LockBits();
                 for (int x = 0; x < noiseDataGrid.Length - 1; x++)
                 {
-
                     for (int y = 0; y < noiseDataGrid[0].Length - 1; y++)
                     {
-                        l.SetPixel(x, y, Color.FromArgb(Math.Max(0,cmap[x, y, 0]), Math.Max(cmap[x, y, 1],0), Math.Max(cmap[x,y,2], 0)));
+                        int y_c = noiseDataGrid[0].Length - y - 1;
+                        l.SetPixel(x, y_c, Color.FromArgb(Math.Max(0, cmap[x, y, 0]), Math.Max(cmap[x, y, 1], 0), Math.Max(cmap[x, y, 2], 0)));
+                    }
+                }
+                l.UnlockBits();
+                b.Save("Population.png", ImageFormat.Png);
+
+
+
+
+
+
+                /*                      INM                     */
+                var INMaircraft = new Aircraft("GP7270", "wing");
+                var noiseModel = new IntegratedNoiseModel(trajectory, INMaircraft);
+                noiseModel.UsePopulationGrid(populationGrid, 100);
+                noiseModel.NoiseMetric = 0;
+                Console.WriteLine("INM started");
+                noiseModel.RunINMFullTrajectory();
+                Console.WriteLine("INM completed");
+
+                long awoken = 0;
+                List<double[]> PopulatedAreaNoise = noiseModel.PopulatedAreaNoise;
+                foreach (double[] pair in PopulatedAreaNoise)
+                {
+                    //Console.WriteLine(pair[0] + " " + pair[1]);
+                    if (pair[1] <= 50.5) { continue; }
+                    awoken += (int) (pair[0] * 0.01 * (0.0087 * Math.Pow(pair[1] - 50.5,1.79)) );
+                }
+                Console.WriteLine(awoken + " people woke up :(");
+
+                /*
+                //Console.WriteLine("INM:" + noiseModel.TemporalGrid.GetGrid(0).Data[160][160]);
+                noiseDataGrid = noiseModel.TemporalGrid.GetGrid(0).Data;
+                cmap = color.Custom(noiseDataGrid);
+                b = new Bitmap(noiseDataGrid.Length, noiseDataGrid[0].Length);
+                l = new LockBitmap(b);
+                l.LockBits();
+                for (int x = 0; x < noiseDataGrid.Length - 1; x++)
+                {
+                    for (int y = 0; y < noiseDataGrid[0].Length - 1; y++)
+                    {
+                        int y_c = noiseDataGrid[0].Length - y - 1;
+                        l.SetPixel(x, y_c, Color.FromArgb(Math.Max(0,cmap[x, y, 0]), Math.Max(cmap[x, y, 1],0), Math.Max(cmap[x,y,2], 0)));
                     }
                 }
                 l.UnlockBits();
                 b.Save("INM.png", ImageFormat.Png);
+                */
 
 
 
 
-
-
-
+                Console.WriteLine(DateTime.Now.Subtract(time).TotalMilliseconds + "msec");
 
 
 
@@ -134,6 +172,7 @@ namespace AircraftTrajectories.Models.Optimisation
                     return int.MaxValue - FlightSimulator.fuel;
                 } else
                 {
+                    /*
                     Grid noiseMax = noiseModel.TemporalGrid.GetGrid(0);
                     double sum = 0;
                     for (int c = 0; c < noiseMax.Data.Length; c++)
@@ -144,6 +183,8 @@ namespace AircraftTrajectories.Models.Optimisation
                         }
                     }
                     return int.MaxValue - sum;
+                    */
+                    return int.MaxValue - awoken;
                 }
             } catch (Exception ex)
             {

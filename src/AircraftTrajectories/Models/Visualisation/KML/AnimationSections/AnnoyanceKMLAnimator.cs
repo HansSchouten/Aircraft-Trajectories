@@ -40,7 +40,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             foreach (double[] row in _populationData)
             {
                 houseId++;
-                GeoPoint3D geoPoint = _temporalGrid.GetGrid(0).GridCoordinate(row[0], row[1]);
+                GeoPoint3D geoPoint = _temporalGrid.GetGrid(0).GridGeoCoordinate(row[0], row[1]);
                 var coordinates = geoPoint.Longitude + "," + geoPoint.Latitude + ",0";
                 setupString += @"
 <Placemark>

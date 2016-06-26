@@ -105,6 +105,7 @@
     <Compile Include="Models\Optimisation\TrajectoryFitness.cs" />
     <Compile Include="Models\Population\Heatmap.cs" />
     <Compile Include="Models\Population\PopulationData.cs" />
+    <Compile Include="Models\Population\PopulationData2.cs" />
     <Compile Include="Models\Space3D\GeoPoint3D.cs" />
     <Compile Include="Models\Space3D\Point3D.cs" />
     <Compile Include="Models\Space3D\CoordinateConversion.cs" />

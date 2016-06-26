@@ -45,7 +45,7 @@ namespace AircraftTrajectories.Models.Space3D
                     break;
 
                 case CoordinateUnit.geographic:
-                    var converter = new GeographicToMetric();
+                    var converter = new GeographicToMetric(new ReferencePointRD());
                     var metricPoint = converter.ConvertToXY(point.X, point.Y);
                     newX = metricPoint.X;
                     newY = metricPoint.Y;

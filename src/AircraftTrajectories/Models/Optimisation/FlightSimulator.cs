@@ -18,7 +18,7 @@ namespace AircraftTrajectories.Models.Optimisation
     {
         protected void Log(string message)
         {
-            Console.WriteLine(message);
+            //Console.WriteLine(message);
         }
 
         protected const int MAX_SEGMENT_LENGTH = 15000;

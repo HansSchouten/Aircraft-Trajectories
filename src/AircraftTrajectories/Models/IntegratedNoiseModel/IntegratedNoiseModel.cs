@@ -22,6 +22,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         public int TrajectoryBound { get; set; }
         public int NoiseMetric { get; set; }
         protected string _gridName;
+        public List<double[]> PopulatedAreaNoise { get; protected set; }
         public string GridName {
             get { return _gridName;  }
             set {
@@ -82,10 +83,17 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             CreateGridFile();
             ExecuteINMTM();
 
-            double[][] noiseData = ReadNoiseData();
-            Grid grid = NoiseDataToGrid(noiseData);
-            grid.ReferencePoint = ReferencePoint;
-            TemporalGrid.AddGrid(grid);
+            if (PopulatedAreaNoise != null)
+            {
+                ReadPopulatedAreaNoise();
+            }
+            else
+            {
+                double[][] noiseData = ReadNoiseData();
+                Grid grid = NoiseDataToGrid(noiseData);
+                grid.ReferencePoint = ReferencePoint;
+                TemporalGrid.AddGrid(grid);
+            }
         }
 
         /// <summary>
@@ -150,6 +158,32 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             }
         }
 
+        public void UsePopulationGrid(Grid grid, int threshold)
+        {
+            PopulatedAreaNoise = new List<double[]>();
+            GridName = "Grid3D";
+
+            using (StreamWriter file =
+                    new StreamWriter(Globals.currentDirectory + GridName + ".dat", false))
+            {
+                file.Write("                  x[m]                  y[m]                  z[m]\n");
+                file.Write("====================================================================================");
+                for (int r = 0; r < grid.Data.Length; r++)
+                {
+                    for (int c = 0; c < grid.Data[0].Length; c++)
+                    {
+                        double value = grid.Data[r][c];
+                        if (value > threshold)
+                        {
+                            var point = grid.GridCoordinate(r, c);
+                            PopulatedAreaNoise.Add(new double[] { value, 0 } );
+                            file.Write("\n" + point.X + "      " + point.Y + "     0");
+                        }
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Starts the execution process of the noise model
         /// </summary>
@@ -158,7 +192,6 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             Process process = new Process();
             process.StartInfo.FileName = Globals.currentDirectory + "INMTM_v3.exe";
             process.StartInfo.Arguments = "current_position"+ FileSuffix + ".dat " + GridName + ".dat";
-            Console.WriteLine(process.StartInfo.Arguments);
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardInput = true;
@@ -187,6 +220,15 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 )
                 .ToArray();
             return noiseData;
+        }
+
+        protected void ReadPopulatedAreaNoise()
+        {
+            double[][] noiseValues = ReadNoiseData();
+            for (int i = 0; i < noiseValues.Length-1; i++)
+            {
+                PopulatedAreaNoise[i][1] = noiseValues[i][3 + NoiseMetric];
+            }
         }
 
         /// <summary>

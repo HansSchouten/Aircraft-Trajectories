@@ -44,7 +44,7 @@ namespace AircraftTrajectories.NUnit.Tests.TemporalGrid
         public void t2_GridCoordinateXTest()
         {
             Grid grid = noiseModel.TemporalGrid.GetGrid(0);
-            GeoPoint3D point = grid.GridCoordinate(1.5, 4);
+            GeoPoint3D point = grid.GridGeoCoordinate(1.5, 4);
          
             Assert.AreEqual(52.2689, point.Latitude, 0.001);
         }
@@ -53,7 +53,7 @@ namespace AircraftTrajectories.NUnit.Tests.TemporalGrid
         public void t3_GridCoordinateYTest()
         {
             Grid grid = noiseModel.TemporalGrid.GetGrid(0);
-            GeoPoint3D point = grid.GridCoordinate(1.5, 4);
+            GeoPoint3D point = grid.GridGeoCoordinate(1.5, 4);
 
             Assert.AreEqual(4.6440, point.Longitude, 0.001);
         }
@@ -62,7 +62,7 @@ namespace AircraftTrajectories.NUnit.Tests.TemporalGrid
         public void t4_GridCoordinateZTest()
         {
             Grid grid = noiseModel.TemporalGrid.GetGrid(0);
-            GeoPoint3D point = grid.GridCoordinate(1.5, 4);
+            GeoPoint3D point = grid.GridGeoCoordinate(1.5, 4);
 
             Assert.AreEqual(0.0, Math.Round(point.Z, 1));
         }

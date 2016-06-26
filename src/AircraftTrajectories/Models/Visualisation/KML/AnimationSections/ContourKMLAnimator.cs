@@ -133,11 +133,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
 
                 // Plot Contour
                 var coordinateString = "";
-                GeoPoint3D firstContourPoint = grid.GridCoordinate(contour.Points[0].Location.X, contour.Points[0].Location.Y);
+                GeoPoint3D firstContourPoint = grid.GridGeoCoordinate(contour.Points[0].Location.X, contour.Points[0].Location.Y);
                 GeoPoint3D contourPoint = firstContourPoint;
                 foreach (ContourPoint p in contour.Points)
                 {
-                    contourPoint = grid.GridCoordinate(p.Location.X, p.Location.Y);
+                    contourPoint = grid.GridGeoCoordinate(p.Location.X, p.Location.Y);
                     coordinateString += contourPoint.Longitude + "," + contourPoint.Latitude + ",";
                     coordinateString += (AltitudeOffset) ? "50\n" : "0\n";
                 }
@@ -157,7 +157,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
                 double desiredHeading = (_trajectory.Heading(t) + 160) % 360;
                 foreach (ContourPoint p in contour.Points)
                 {
-                    contourPoint = grid.GridCoordinate(p.Location.X, p.Location.Y);
+                    contourPoint = grid.GridGeoCoordinate(p.Location.X, p.Location.Y);
                     double pointHeading = contourPoint.HeadingTo(_trajectory.GeoPoint(t));
                     if (pointHeading < desiredHeading && Math.Abs(pointHeading - desiredHeading) < smallestHeadingDeviation)
                     {
