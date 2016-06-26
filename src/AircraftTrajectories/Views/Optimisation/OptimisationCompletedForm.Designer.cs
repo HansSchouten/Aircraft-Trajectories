@@ -35,6 +35,8 @@
             this.btnVisualise = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.chartAltitude = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chartAltitude)).BeginInit();
             this.SuspendLayout();
             // 
@@ -96,9 +98,41 @@
             series2.Legend = "Legend1";
             series2.Name = "Altitude [m]";
             this.chartAltitude.Series.Add(series2);
-            this.chartAltitude.Size = new System.Drawing.Size(619, 316);
+            this.chartAltitude.Size = new System.Drawing.Size(636, 316);
             this.chartAltitude.TabIndex = 115;
             this.chartAltitude.Text = "chartAltitude";
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancel.ForeColor = System.Drawing.Color.White;
+            this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCancel.Location = new System.Drawing.Point(653, 71);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(186, 41);
+            this.btnCancel.TabIndex = 116;
+            this.btnCancel.Text = "Altitude";
+            this.btnCancel.UseVisualStyleBackColor = false;
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.Location = new System.Drawing.Point(653, 134);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(186, 41);
+            this.button1.TabIndex = 117;
+            this.button1.Text = "Groundpath";
+            this.button1.UseVisualStyleBackColor = false;
             // 
             // OptimisationCompletedForm
             // 
@@ -107,6 +141,8 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(864, 448);
             this.ControlBox = false;
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.chartAltitude);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.btnVisualise);
@@ -125,5 +161,7 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartAltitude;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button button1;
     }
 }
