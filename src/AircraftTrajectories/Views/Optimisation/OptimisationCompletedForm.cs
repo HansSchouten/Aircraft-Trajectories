@@ -1,10 +1,13 @@
-﻿using System;
+﻿using AircraftTrajectories.Models.Trajectory;
+using System;
 using System.Windows.Forms;
 
 namespace AircraftTrajectories.Views.Optimisation
 {
     public partial class OptimisationCompletedForm : Form
     {
+        public Trajectory trajectory;
+
         public OptimisationCompletedForm()
         {
             InitializeComponent();
@@ -25,6 +28,12 @@ namespace AircraftTrajectories.Views.Optimisation
         private void btnVisualise_Click(object sender, EventArgs e)
         {
             ((OptimisationForm)this.MdiParent).VisualiseTrajectoryClick();
+        }
+
+        public void RefreshGraph(Trajectory trajectory)
+        {
+            this.trajectory = trajectory;
+
         }
     }
 }

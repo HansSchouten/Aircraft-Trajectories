@@ -13,6 +13,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace AircraftTrajectories.Views
 {
@@ -24,18 +25,32 @@ namespace AircraftTrajectories.Views
             InitializeComponent();
         }
 
-        Aircraft aircraft;
-        Trajectory trajectory;
-        IntegratedNoiseModel noiseModel;
-
         private void Test_Load(object sender, EventArgs e)
         {
-            /*
-            var reference = new ReferencePointRD();
-            var data = new PopulationData2("population.dat", reference);
+            var aircraft = new Aircraft("GP7270", "wing");
+            var generator = new TrajectoryGenerator(aircraft, new ReferencePointRD());
+            var reader = new TrajectoryFileReader(CoordinateUnit.metric, generator);
+            var trajectory = reader.CreateTrajectoryFromFile(Globals.currentDirectory + "track_schiphol.dat");
+            
 
-            Grid populationGrid = Grid.CreateEmptyGrid(10, 10, new Point3D(), 125);
-            */
+            for (int t=0; t < trajectory.Duration; t++)
+            {
+                chartGroundPath.Series["Groundpath"].Points.AddXY(trajectory.Longitude(t), trajectory.Latitude(t));
+            }
+            AutoScaleChart(chartGroundPath);
+            chartGroundPath.ChartAreas[0].AxisY.LabelStyle.Format = "{0.00}";
+            chartGroundPath.ChartAreas[0].AxisX.LabelStyle.Format = "{0.00}";
+            chartGroundPath.Series["Groundpath"].ChartType = SeriesChartType.FastLine;
+
+
+
+
+            for (int t = 0; t < trajectory.Duration; t++)
+            {
+                chartAltitude.Series["Altitude [m]"].Points.AddXY(t, trajectory.Z(t));
+            }
+            chartAltitude.Series["Altitude [m]"].ChartType = SeriesChartType.FastLine;
+
 
             /*
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
@@ -78,6 +93,21 @@ namespace AircraftTrajectories.Views
         protected void progressChanged(double newProgress)
         {
 
+        }
+
+        protected void AutoScaleChart(Chart chart)
+        {
+            var points = chart.Series[0].Points;
+            var minY = points.Min(y => y.YValues[0]);
+            var maxY = points.Max(y => y.YValues[0]);
+            var minX = points.Min(x => x.XValue);
+            var maxX = points.Max(x => x.XValue);
+            var yBound = (maxY - minY) * 0.05;
+            var xBound = (maxX - minX) * 0.05;
+            chart.ChartAreas[0].AxisY.Minimum = minY - yBound;
+            chart.ChartAreas[0].AxisY.Maximum = maxY + yBound;
+            chart.ChartAreas[0].AxisX.Minimum = minX - xBound;
+            chart.ChartAreas[0].AxisX.Maximum = maxX + xBound;
         }
     }
 }

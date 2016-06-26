@@ -44,9 +44,9 @@ namespace AircraftTrajectories.Views.Optimisation
 
         public void OptimisationCompleted(FlightSimulator sim)
         {
-            CompletedForm.lblDuration.Text = sim.duration.ToString() + " sec";
-            CompletedForm.lblFuel.Text = Math.Round(sim.fuel,2).ToString() + " kg";
-            CompletedForm.lblDistance.Text = Math.Round(sim.distance/1000,2).ToString() + " km";
+            //CompletedForm.lblDuration.Text = sim.duration.ToString() + " sec";
+            //CompletedForm.lblFuel.Text = Math.Round(sim.fuel,2).ToString() + " kg";
+            //CompletedForm.lblDistance.Text = Math.Round(sim.distance/1000,2).ToString() + " km";
             CompletedForm.BringToFront();
         }
 
