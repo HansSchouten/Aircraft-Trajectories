@@ -76,7 +76,7 @@ namespace AircraftTrajectories.Models.Optimisation
                     }
                 }
                 l.UnlockBits();
-                b.Save(@"C:\Users\Hans Schouten\Desktop\noise.png", ImageFormat.Png);
+                b.Save(@"noise.png", ImageFormat.Png);
 				*/
 				
                 /*
@@ -117,7 +117,7 @@ namespace AircraftTrajectories.Models.Optimisation
                     }
                 }
                 l.UnlockBits();
-                b.Save(@"C:\Users\Hans Schouten\Desktop\INM.png", ImageFormat.Png);
+                b.Save("INM.png", ImageFormat.Png);
 
 
 
