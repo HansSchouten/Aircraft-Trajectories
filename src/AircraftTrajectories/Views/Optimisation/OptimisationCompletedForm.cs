@@ -35,14 +35,81 @@ namespace AircraftTrajectories.Views.Optimisation
         public void RefreshGraph(Trajectory trajectory)
         {
             this.trajectory = trajectory;
-            for (int t = 0; t < trajectory.Duration; t++)
-            {
-                chartAltitude.Series["Altitude [m]"].Points.AddXY(t, trajectory.Z(t));
-            }
-            chartAltitude.Series["Altitude [m]"].ChartType = SeriesChartType.FastLine;
+            btnAltitudeTime.PerformClick();
         }
 
-        protected void AutoScaleChart(Chart chart)
+        private void btnAltitudeTime_Click(object sender, EventArgs e)
+        {
+            ResetChart();
+            chart.Series.Add("Altitude");
+
+            for (int t = 0; t < trajectory.Duration; t++)
+            {
+                chart.Series["Altitude"].Points.AddXY(t, trajectory.Z(t));
+            }
+
+            chart.Series["Altitude"].ChartType = SeriesChartType.FastLine;
+            chart.ChartAreas[0].AxisX.LabelStyle.Format = "{0}sec";
+            chart.ChartAreas[0].AxisY.LabelStyle.Format = "{0}m";
+            chart.ChartAreas[0].AxisY.Minimum = 0;
+            chart.ChartAreas[0].AxisX.Minimum = 0;
+        }
+
+        private void btnAltitudeDistance_Click(object sender, EventArgs e)
+        {
+            ResetChart();
+            chart.Series.Add("Altitude");
+
+            double distance = 0;
+            double prevX = trajectory.X(0);
+            double prevY = trajectory.Y(0);
+            for (int t = 0; t < trajectory.Duration; t++)
+            {
+                double dX = trajectory.X(t) - prevX;
+                double dY = trajectory.Y(t) - prevY;
+                double dDistance = Math.Sqrt(dX * dX + dY * dY);
+                distance += dDistance;
+
+                chart.Series["Altitude"].Points.AddXY(distance/1000, trajectory.Z(t));
+                prevX = trajectory.X(t);
+                prevY = trajectory.Y(t);
+            }
+
+            chart.Series["Altitude"].ChartType = SeriesChartType.FastLine;
+            chart.ChartAreas[0].AxisX.LabelStyle.Format = "{0}km";
+            chart.ChartAreas[0].AxisY.LabelStyle.Format = "{0}m";
+            chart.ChartAreas[0].AxisY.Minimum = 0;
+            chart.ChartAreas[0].AxisX.Minimum = 0;
+        }
+
+        private void btnGroundpath_Click(object sender, EventArgs e)
+        {
+            ResetChart();
+            chart.Series.Add("Groundpath");
+
+            for (int t = 0; t < trajectory.Duration; t++)
+            {
+                chart.Series["Groundpath"].Points.AddXY(trajectory.Longitude(t), trajectory.Latitude(t));
+            }
+
+            AutoScaleChart();
+            chart.ChartAreas[0].AxisY.LabelStyle.Format = "{0.00}°N";
+            chart.ChartAreas[0].AxisX.LabelStyle.Format = "{0.00}°E";
+            chart.Series["Groundpath"].ChartType = SeriesChartType.FastLine;
+        }
+
+
+
+
+
+        protected void ResetChart()
+        {
+            chart.ChartAreas.Clear();
+            chart.ChartAreas.Add("");
+            chart.Series.Clear();
+        }
+
+        protected void AutoScaleChart()
         {
             var points = chart.Series[0].Points;
             var minY = points.Min(y => y.YValues[0]);
