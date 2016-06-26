@@ -43,7 +43,7 @@ namespace AircraftTrajectories.Models.Trajectory
         /// <returns></returns>
         public double X(double t)
         {
-            return _xSpline.Interpolate(t);
+            return Math.Round(_xSpline.Interpolate(t), 4);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace AircraftTrajectories.Models.Trajectory
         /// <returns></returns>
         public double Y(double t)
         {
-            return _ySpline.Interpolate(t);
+            return Math.Round(_ySpline.Interpolate(t), 4);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace AircraftTrajectories.Models.Trajectory
         /// <returns></returns>
         public double Z(double t)
         {
-            return _zSpline.Interpolate(t);
+            return Math.Round(_zSpline.Interpolate(t), 4);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace AircraftTrajectories.Models.Trajectory
         /// <returns></returns>
         public double Speed(double t)
         {
-            return _speedSpline.Interpolate(t);
+            return Math.Round(_speedSpline.Interpolate(t), 4);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace AircraftTrajectories.Models.Trajectory
         /// <returns></returns>
         public double Thrust(double t)
         {
-            return _thrustSpline.Interpolate(t);
+            return Math.Round(_thrustSpline.Interpolate(t), 4);
         }
 
         /// <summary>
