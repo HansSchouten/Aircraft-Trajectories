@@ -104,7 +104,7 @@ namespace AircraftTrajectories.Presenters
                 Console.WriteLine("INM "+counter+" started");
                 if (counter > 4) { break; }
 
-                var INM = new IntegratedNoiseModel(trajectory, trajectory.Aircraft, false);
+                var INM = new IntegratedNoiseModel(trajectory, trajectory.Aircraft);
                 INM.GridName = "schiphol_grid2D";
                 INM.NoiseMetric = _view.NoiseMetric;
                 INM.RunINMFullTrajectory();

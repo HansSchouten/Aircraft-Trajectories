@@ -158,6 +158,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             Process process = new Process();
             process.StartInfo.FileName = Globals.currentDirectory + "INMTM_v3.exe";
             process.StartInfo.Arguments = "current_position"+ FileSuffix + ".dat " + GridName + ".dat";
+            Console.WriteLine(process.StartInfo.Arguments);
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardInput = true;

@@ -80,7 +80,7 @@ namespace AircraftTrajectories.Views
                 Console.WriteLine(counter);
                 if (counter > 15) { break; }
 
-                var INM = new IntegratedNoiseModel(trajectory, trajectory.Aircraft, false);
+                var INM = new IntegratedNoiseModel(trajectory, trajectory.Aircraft);
                 INM.RunINMFullTrajectory();
 
                 Grid grid = INM.TemporalGrid.GetGrid(0);
