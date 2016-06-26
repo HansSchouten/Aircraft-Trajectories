@@ -15,10 +15,11 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
         protected Trajectory _trajectory;
         protected List<double> _highlightedContours;
         public bool AltitudeOffset = false;
-        public int NumberOfContours { get; set; }
-        public int FirstContourValue { get; set; }
-        public int ContourValueStep { get; set; }
-        public bool ShowOnlyHighlightedContours = false;
+        public double LowestContourValue { get; set; }
+        public double HighestContourValue { get; set; }
+        public double ContourValueStep { get; set; }
+        protected int _numberOfContours;
+        public bool ShowGradient = false;
 
 
         public ContourKMLAnimator(TemporalGrid temporalGrid, Trajectory trajectory = null, List<double> highlightedContours = null)
@@ -26,10 +27,15 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             _temporalGrid = temporalGrid;
             _trajectory = trajectory;
             _highlightedContours = highlightedContours;
-            
-            NumberOfContours = 40;
-            FirstContourValue = 35;
-            ContourValueStep = 1;
+        }
+
+        public void SetGradientSettings(double lowestValue, double highestValue, double step)
+        {
+            LowestContourValue = lowestValue;
+            HighestContourValue = highestValue;
+            ContourValueStep = step;
+            _numberOfContours = (int) ((HighestContourValue - LowestContourValue + 1) / ContourValueStep);
+            ShowGradient = true;
         }
 
         /// <summary>
@@ -41,18 +47,18 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
         {
             Color c1 = Color.FromArgb(0, 20, 240, 0);
             Color c2 = Color.FromArgb(150, 20, 0, 255);
-            Color[] colors = interpolateColors(c1, c2, NumberOfContours);
+            Color[] colors = interpolateColors(c1, c2, _numberOfContours);
 
             string contourSetup = @"
 <Folder> 
  <open>0</open>
  <name>Contours</name>
             ";
-            for (int i = 1; i <= NumberOfContours; i++)
+            for (int i = 1; i <= _numberOfContours; i++)
             {
                 var c = colors[i - 1];
                 var color = "00000000";
-                if (_highlightedContours != null && _highlightedContours.Contains(FirstContourValue + (i * ContourValueStep)))
+                if (_highlightedContours != null && _highlightedContours.Contains(LowestContourValue + (i * ContourValueStep)))
                 {
                     color = string.Format("{0:X2}{1:X2}{2:X2}{3:X2}", Math.Min(255, c.A + 150), c.R, c.G, c.B);
                 }
@@ -75,7 +81,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
     </LabelStyle>
 </Style>
 <Placemark id='contour_placemark" + i + @"'>
-    <name>" + (FirstContourValue + (i * ContourValueStep)) + @"dB</name>
+    <name>" + (LowestContourValue + (i * ContourValueStep)) + @"dB</name>
     <styleUrl>#contour_style" + i + @"</styleUrl>
     <MultiGeometry>
         <Polygon>
@@ -111,12 +117,12 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             foreach (Contour contour in grid.Contours)
             {
                 //if (!contour.IsClosed) { continue; }
-                if (ShowOnlyHighlightedContours && !_highlightedContours.Contains(contour.Value)) { continue; }
+                if (!ShowGradient && !_highlightedContours.Contains(contour.Value)) { continue; }
 
                 int contourId = -1;
-                for (int i = 0; i < NumberOfContours; i++)
+                for (int i = 0; i < _numberOfContours; i++)
                 {
-                    if (contour.Value == FirstContourValue + (i * ContourValueStep))
+                    if (contour.Value == LowestContourValue + (i * ContourValueStep))
                     {
                         contourId = i + 1;
                     }
@@ -160,7 +166,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
                         pointLatitude = contourPoint.Latitude;
                     }
                 }
-                if (_highlightedContours.Contains(FirstContourValue + (contourId * ContourValueStep)))
+                if (_highlightedContours.Contains(LowestContourValue + (contourId * ContourValueStep)))
                 {
                     var planeCoord = new GeoCoordinate(_trajectory.Latitude(t), _trajectory.Longitude(t));
                     var contourCoord = new GeoCoordinate(pointLatitude, pointLongitude);
@@ -170,7 +176,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
                 }
             }
 
-            for (int i = 1; i <= NumberOfContours; i++)
+            for (int i = 1; i <= _numberOfContours; i++)
             {
                 if (!visibleContours.Contains(i))
                 {

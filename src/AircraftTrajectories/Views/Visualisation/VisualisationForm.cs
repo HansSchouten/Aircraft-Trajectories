@@ -272,22 +272,6 @@ namespace AircraftTrajectories.Views.Visualisation
             }
         }
 
-        public int NumberOfContours
-        {
-            get
-            {
-                return int.Parse(AnimatorForm.txtHighestContourValue.Text);
-            }
-        }
-
-        public int ContourStartValue
-        {
-            get
-            {
-                return int.Parse(AnimatorForm.txtLowestContourValue.Text);
-            }
-        }
-
         public List<double> ContoursOfInterest
         {
             get
@@ -321,8 +305,46 @@ namespace AircraftTrajectories.Views.Visualisation
                 RunForm.lblTimeLeft.Text = message;
             }
         }
+        
+        public double LowestContourValue
+        {
+            get
+            {
+                return double.Parse(AnimatorForm.txtLowestContourValue.Text);
+            }
+        }
 
+        public double HighestContourValue
+        {
+            get
+            {
+                return double.Parse(AnimatorForm.txtHighestContourValue.Text);
+            }
+        }
 
+        public double ContourValueStep
+        {
+            get
+            {
+                return double.Parse(AnimatorForm.txtContourStep.Text);
+            }
+        }
+
+        public bool VisualiseGradient
+        {
+            get
+            {
+                return AnimatorForm.cbContourGradient.Checked;
+            }
+        }
+
+        public bool VisualiseContoursOfInterest
+        {
+            get
+            {
+                return AnimatorForm.cbHighlightedContours.Checked;
+            }
+        }
 
         public void Invoke(MethodInvoker methodInvoker)
         {

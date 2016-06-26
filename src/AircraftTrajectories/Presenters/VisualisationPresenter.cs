@@ -163,9 +163,11 @@ namespace AircraftTrajectories.Presenters
             legend.OutputLegendTitle();
 
             // Contour animator
-            var contourAnimator = new ContourKMLAnimator(localTemporalGrid, trajectory, new List<double>() { 65, 70, 75 });
-            contourAnimator.NumberOfContours = _view.NumberOfContours;
-            contourAnimator.FirstContourValue = _view.ContourStartValue;
+            List<double> contoursOfInterest = (_view.VisualiseContoursOfInterest) ? _view.ContoursOfInterest : null;
+            var contourAnimator = new ContourKMLAnimator(localTemporalGrid, trajectory, contoursOfInterest);
+            if (_view.VisualiseGradient) {
+                contourAnimator.SetGradientSettings(_view.LowestContourValue, _view.HighestContourValue, _view.ContourValueStep);
+            }
 
             // Create sections
             var sections = new List<KMLAnimatorSectionInterface>() {
@@ -208,12 +210,12 @@ namespace AircraftTrajectories.Presenters
             legend.OutputLegendTitle();
 
             // Contour animator
-            List<double> contoursOfInterest = _view.ContoursOfInterest;
-            contoursOfInterest = (contoursOfInterest.Count == 0) ? null : contoursOfInterest;
+            List<double> contoursOfInterest = (_view.VisualiseContoursOfInterest) ? _view.ContoursOfInterest : null;
             var contourAnimator = new ContourKMLAnimator(localTemporalGrid, null, contoursOfInterest);
-            contourAnimator.NumberOfContours = _view.NumberOfContours;
-            contourAnimator.FirstContourValue = _view.ContourStartValue;
-            //contourAnimator.ShowOnlyHighlightedContours = true;
+            if (_view.VisualiseGradient)
+            {
+                contourAnimator.SetGradientSettings(_view.LowestContourValue, _view.HighestContourValue, _view.ContourValueStep);
+            }
             contourAnimator.AltitudeOffset = (_view.MapFile != "");
 
             // Create sections

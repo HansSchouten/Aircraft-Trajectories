@@ -29,5 +29,15 @@ namespace AircraftTrajectories.Views.Visualisation
         {
             ValueConversion = selectValueConversion.Text;
         }
+
+        private void cbContourGradient_CheckedChanged(object sender, EventArgs e)
+        {
+            pnlContourGradient.Enabled = cbContourGradient.Checked;
+        }
+
+        private void cbHighlightedContours_CheckedChanged(object sender, EventArgs e)
+        {
+            pnlHighlightedContours.Enabled = cbHighlightedContours.Checked;
+        }
     }
 }
