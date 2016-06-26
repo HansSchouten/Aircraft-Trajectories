@@ -11,6 +11,9 @@ namespace AircraftTrajectories.Views.Optimisation
         event EventHandler SaveTrajectory;
         event EventHandler VisualiseTrajectory;
 
+        // Takeoff
+        double TakeoffHeading { get; }
+        double TakeoffSpeed { get; }
         // Genetic Algorithm
         int PopulationSize { get; }
         int NumberOfGenerations { get; }

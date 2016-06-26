@@ -16,7 +16,6 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         
         protected Trajectory _trajectory;
         protected Aircraft _aircraft;
-        protected bool _timeSteps;
         public TemporalGrid TemporalGrid { get; protected set; }
         public ReferencePoint ReferencePoint { get; set; }
         public string FileSuffix = "";
@@ -40,15 +39,14 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         /// </summary>
         /// <param name="trajectory">The trajectory for which the aircraft noise will be calculated</param>
         /// <param name="aircraft"></param>
-        public IntegratedNoiseModel(Trajectory trajectory, Aircraft aircraft, bool timeSteps = true)
+        public IntegratedNoiseModel(Trajectory trajectory, Aircraft aircraft)
         {
             _gridName = "Grid2D";
-            NoiseMetric = 0;
+            NoiseMetric = 1;
             ReferencePoint = new ReferencePointRD();
             TrajectoryBound = 2000;
             _trajectory = trajectory;
             _aircraft = aircraft;
-            _timeSteps = timeSteps;
         }
 
         public void StartCalculation(Action<double> progressChangedCallback)

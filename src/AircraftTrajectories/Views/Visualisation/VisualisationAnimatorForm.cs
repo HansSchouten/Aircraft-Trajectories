@@ -16,7 +16,7 @@ namespace AircraftTrajectories.Views.Visualisation
             WindowState = FormWindowState.Maximized;
             ControlBox = false;
             selectValueConversion.SelectedIndex = 0;
-            selectCameraType.SelectedIndex = 0;
+            //selectCameraType.SelectedIndex = 0;
         }
 
         private void btnPrepare_Click(object sender, EventArgs e)

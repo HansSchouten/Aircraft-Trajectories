@@ -45,6 +45,8 @@ namespace AircraftTrajectories.Presenters
                 TrajectoryFitness.ReferencePoint = new ReferencePoint(new GeoPoint3D(_view.StartLongitude, _view.StartLatitude), new Point3D(0, 0));
                 TrajectoryFitness.GeoEndPoint = new GeoPoint3D(_view.EndLongitude, _view.EndLatitude);
                 TrajectoryFitness.OptimiseFuel = !_view.MinimiseNoise;
+                TrajectoryFitness.TakeoffHeading = _view.TakeoffHeading;
+                TrajectoryFitness.TakeoffSpeed = _view.TakeoffSpeed;
 
                 var selection = new EliteSelection();
                 var crossover = new OrderedCrossover();
@@ -55,7 +57,7 @@ namespace AircraftTrajectories.Presenters
                 ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
                 var executor = new SmartThreadPoolTaskExecutor();
                 executor.MinThreads = 1;
-                executor.MaxThreads = 3;
+                executor.MaxThreads = 1;
                 ga.TaskExecutor = executor;
                 ga.Termination = new GenerationNumberTermination(_view.NumberOfGenerations);
 

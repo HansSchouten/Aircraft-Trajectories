@@ -145,6 +145,22 @@ namespace AircraftTrajectories.Views.Optimisation
             }
         }
 
+        public double TakeoffHeading
+        {
+            get
+            {
+                return double.Parse(SettingsForm.txtTakeoffHeading.Text);
+            }
+        }
+
+        public double TakeoffSpeed
+        {
+            get
+            {
+                return double.Parse(SettingsForm.txtTakeoffSpeed.Text);
+            }
+        }
+
         public double StartLatitude
         {
             get

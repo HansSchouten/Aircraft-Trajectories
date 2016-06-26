@@ -18,7 +18,7 @@ namespace AircraftTrajectories.Models.Optimisation
     {
         protected void Log(string message)
         {
-            //Console.WriteLine(message);
+            Console.WriteLine(message);
         }
 
         protected const int MAX_SEGMENT_LENGTH = 15000;
@@ -35,8 +35,8 @@ namespace AircraftTrajectories.Models.Optimisation
         public double _x;
         public double _y;
         protected double _height;
-        protected double _speed;
-        protected double _heading;
+        public double _speed;
+        public double _heading;
         protected double _angle;
         protected double _bankAngle;
         // Segment variables
@@ -89,10 +89,10 @@ namespace AircraftTrajectories.Models.Optimisation
                 counter++;
                 if (counter % 10 == 0)
                 {
-                    _trajectoryGenerator.AddDatapoint(_x, _y, _height * 0.3048, _speed * 0.514444444, CurrentThrust()/4.0);
+                    _trajectoryGenerator.AddDatapoint(_x, _y, _height * 0.3048, _speed * 0.514444444, CurrentThrust()/4.0, counter);
                 }
 
-                updateNoise();
+                //updateNoise();
                 updatePosition();
                 updateVerticalState();
                 updateHorizontalState();
