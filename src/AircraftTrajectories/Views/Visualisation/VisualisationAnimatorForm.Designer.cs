@@ -31,13 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VisualisationAnimatorForm));
             this.btnPrepare = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtNumberOfContours = new System.Windows.Forms.TextBox();
-            this.txtContourStartValue = new System.Windows.Forms.TextBox();
+            this.txtHighestContourValue = new System.Windows.Forms.TextBox();
+            this.txtLowestContourValue = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.selectCameraType = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.selectValueConversion = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -59,6 +56,12 @@
             this.txtUpperRightLatitude = new System.Windows.Forms.TextBox();
             this.txtUpperRightLongitude = new System.Windows.Forms.TextBox();
             this.cbHeatmap = new System.Windows.Forms.CheckBox();
+            this.txtContoursOfInterest = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.txtContourStep = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.cbContourGradient = new System.Windows.Forms.CheckBox();
+            this.cbHighlightedContours = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnPrepare
@@ -89,42 +92,31 @@
             this.label10.TabIndex = 146;
             this.label10.Text = "Contours";
             // 
-            // label2
+            // txtHighestContourValue
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI Light", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.label2.Location = new System.Drawing.Point(13, 245);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(117, 41);
-            this.label2.TabIndex = 149;
-            this.label2.Text = "Camera";
+            this.txtHighestContourValue.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtHighestContourValue.Location = new System.Drawing.Point(248, 203);
+            this.txtHighestContourValue.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtHighestContourValue.Name = "txtHighestContourValue";
+            this.txtHighestContourValue.Size = new System.Drawing.Size(159, 30);
+            this.txtHighestContourValue.TabIndex = 152;
+            this.txtHighestContourValue.Text = "80";
             // 
-            // txtNumberOfContours
+            // txtLowestContourValue
             // 
-            this.txtNumberOfContours.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtNumberOfContours.Location = new System.Drawing.Point(248, 68);
-            this.txtNumberOfContours.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtNumberOfContours.Name = "txtNumberOfContours";
-            this.txtNumberOfContours.Size = new System.Drawing.Size(159, 30);
-            this.txtNumberOfContours.TabIndex = 152;
-            this.txtNumberOfContours.Text = "20";
-            // 
-            // txtContourStartValue
-            // 
-            this.txtContourStartValue.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtContourStartValue.Location = new System.Drawing.Point(248, 112);
-            this.txtContourStartValue.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtContourStartValue.Name = "txtContourStartValue";
-            this.txtContourStartValue.Size = new System.Drawing.Size(159, 30);
-            this.txtContourStartValue.TabIndex = 153;
-            this.txtContourStartValue.Text = "55";
+            this.txtLowestContourValue.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtLowestContourValue.Location = new System.Drawing.Point(248, 159);
+            this.txtLowestContourValue.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtLowestContourValue.Name = "txtLowestContourValue";
+            this.txtLowestContourValue.Size = new System.Drawing.Size(159, 30);
+            this.txtLowestContourValue.TabIndex = 153;
+            this.txtLowestContourValue.Text = "55";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.label1.Location = new System.Drawing.Point(16, 112);
+            this.label1.Location = new System.Drawing.Point(16, 159);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(172, 23);
             this.label1.TabIndex = 151;
@@ -134,36 +126,11 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.label3.Location = new System.Drawing.Point(16, 68);
+            this.label3.Location = new System.Drawing.Point(16, 203);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(165, 23);
+            this.label3.Size = new System.Drawing.Size(178, 23);
             this.label3.TabIndex = 150;
-            this.label3.Text = "Number of contours";
-            // 
-            // selectCameraType
-            // 
-            this.selectCameraType.AutoCompleteCustomSource.AddRange(new string[] {
-            "Follow aircraft"});
-            this.selectCameraType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.selectCameraType.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.selectCameraType.Items.AddRange(new object[] {
-            "Topview",
-            "Follow aircraft"});
-            this.selectCameraType.Location = new System.Drawing.Point(248, 296);
-            this.selectCameraType.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.selectCameraType.Name = "selectCameraType";
-            this.selectCameraType.Size = new System.Drawing.Size(159, 31);
-            this.selectCameraType.TabIndex = 155;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.label4.Location = new System.Drawing.Point(16, 299);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(107, 23);
-            this.label4.TabIndex = 154;
-            this.label4.Text = "Camera type";
+            this.label3.Text = "Highest value contour";
             // 
             // selectValueConversion
             // 
@@ -174,7 +141,7 @@
             this.selectValueConversion.Items.AddRange(new object[] {
             "None",
             "Max"});
-            this.selectValueConversion.Location = new System.Drawing.Point(248, 157);
+            this.selectValueConversion.Location = new System.Drawing.Point(248, 72);
             this.selectValueConversion.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.selectValueConversion.Name = "selectValueConversion";
             this.selectValueConversion.Size = new System.Drawing.Size(159, 31);
@@ -185,7 +152,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.label5.Location = new System.Drawing.Point(16, 160);
+            this.label5.Location = new System.Drawing.Point(16, 75);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(139, 23);
             this.label5.TabIndex = 156;
@@ -380,13 +347,77 @@
             // cbHeatmap
             // 
             this.cbHeatmap.AutoSize = true;
-            this.cbHeatmap.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.cbHeatmap.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.cbHeatmap.Location = new System.Drawing.Point(629, 436);
             this.cbHeatmap.Name = "cbHeatmap";
-            this.cbHeatmap.Size = new System.Drawing.Size(226, 25);
+            this.cbHeatmap.Size = new System.Drawing.Size(244, 27);
             this.cbHeatmap.TabIndex = 189;
             this.cbHeatmap.Text = "Visualise population density";
             this.cbHeatmap.UseVisualStyleBackColor = true;
+            // 
+            // txtContoursOfInterest
+            // 
+            this.txtContoursOfInterest.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtContoursOfInterest.Location = new System.Drawing.Point(248, 358);
+            this.txtContoursOfInterest.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtContoursOfInterest.Name = "txtContoursOfInterest";
+            this.txtContoursOfInterest.Size = new System.Drawing.Size(159, 30);
+            this.txtContoursOfInterest.TabIndex = 191;
+            this.txtContoursOfInterest.Text = "50, 55, 58";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.label19.Location = new System.Drawing.Point(16, 358);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(162, 23);
+            this.label19.TabIndex = 190;
+            this.label19.Text = "Contours of interest";
+            // 
+            // txtContourStep
+            // 
+            this.txtContourStep.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtContourStep.Location = new System.Drawing.Point(248, 247);
+            this.txtContourStep.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtContourStep.Name = "txtContourStep";
+            this.txtContourStep.Size = new System.Drawing.Size(159, 30);
+            this.txtContourStep.TabIndex = 193;
+            this.txtContourStep.Text = "1";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.label20.Location = new System.Drawing.Point(16, 247);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(71, 23);
+            this.label20.TabIndex = 192;
+            this.label20.Text = "Stepsize";
+            // 
+            // cbContourGradient
+            // 
+            this.cbContourGradient.AutoSize = true;
+            this.cbContourGradient.Checked = true;
+            this.cbContourGradient.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbContourGradient.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.cbContourGradient.Location = new System.Drawing.Point(20, 124);
+            this.cbContourGradient.Name = "cbContourGradient";
+            this.cbContourGradient.Size = new System.Drawing.Size(164, 27);
+            this.cbContourGradient.TabIndex = 196;
+            this.cbContourGradient.Text = "Contour gradient";
+            this.cbContourGradient.UseVisualStyleBackColor = true;
+            // 
+            // cbHighlightedContours
+            // 
+            this.cbHighlightedContours.AutoSize = true;
+            this.cbHighlightedContours.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.cbHighlightedContours.Location = new System.Drawing.Point(20, 323);
+            this.cbHighlightedContours.Name = "cbHighlightedContours";
+            this.cbHighlightedContours.Size = new System.Drawing.Size(193, 27);
+            this.cbHighlightedContours.TabIndex = 197;
+            this.cbHighlightedContours.Text = "Highlighted contours";
+            this.cbHighlightedContours.UseVisualStyleBackColor = true;
             // 
             // VisualisationAnimatorForm
             // 
@@ -394,6 +425,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1152, 498);
+            this.Controls.Add(this.cbHighlightedContours);
+            this.Controls.Add(this.cbContourGradient);
+            this.Controls.Add(this.txtContourStep);
+            this.Controls.Add(this.label20);
+            this.Controls.Add(this.txtContoursOfInterest);
+            this.Controls.Add(this.label19);
             this.Controls.Add(this.cbHeatmap);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label11);
@@ -415,13 +452,10 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.selectValueConversion);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.selectCameraType);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtNumberOfContours);
-            this.Controls.Add(this.txtContourStartValue);
+            this.Controls.Add(this.txtHighestContourValue);
+            this.Controls.Add(this.txtLowestContourValue);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.btnPrepare);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -438,13 +472,10 @@
 
         private System.Windows.Forms.Button btnPrepare;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label2;
-        public System.Windows.Forms.TextBox txtContourStartValue;
-        public System.Windows.Forms.TextBox txtNumberOfContours;
+        public System.Windows.Forms.TextBox txtLowestContourValue;
+        public System.Windows.Forms.TextBox txtHighestContourValue;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
-        public System.Windows.Forms.ComboBox selectCameraType;
-        private System.Windows.Forms.Label label4;
         public System.Windows.Forms.ComboBox selectValueConversion;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
@@ -466,5 +497,11 @@
         public System.Windows.Forms.TextBox txtUpperRightLatitude;
         public System.Windows.Forms.TextBox txtUpperRightLongitude;
         public System.Windows.Forms.CheckBox cbHeatmap;
+        public System.Windows.Forms.TextBox txtContoursOfInterest;
+        private System.Windows.Forms.Label label19;
+        public System.Windows.Forms.TextBox txtContourStep;
+        private System.Windows.Forms.Label label20;
+        public System.Windows.Forms.CheckBox cbContourGradient;
+        public System.Windows.Forms.CheckBox cbHighlightedContours;
     }
 }

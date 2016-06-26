@@ -7,6 +7,7 @@ namespace AircraftTrajectories.Models.Optimisation
     using Trajectory;
     using MathNet.Numerics.Interpolation;
     using TemporalGrid;
+
     public enum VERTICAL_STATE { TAKEOFF, CLIMB, FREECLIMB, END }
     public enum HORIZONTAL_STATE { STRAIGHT, TURN }
 
@@ -28,7 +29,7 @@ namespace AircraftTrajectories.Models.Optimisation
         protected HORIZONTAL_STATE _horizontal_state;
         protected Point3D _endPoint;
         protected int _numberOfSegments;
-        public ReferencePoint referencePoint;
+        protected TrajectoryGenerator _trajectoryGenerator;
 
         // State variables
         public double _x;
@@ -44,12 +45,6 @@ namespace AircraftTrajectories.Models.Optimisation
         protected double _segmentStartHeading;
 
         protected List<double> _settings;
-        protected List<double> _xData;
-        protected List<double> _yData;
-        protected List<double> _latData;
-        protected List<double> _longData;
-        protected List<double> _zData;
-        protected List<double> _tData;
 
         public int duration;
         public double fuel;
@@ -62,8 +57,9 @@ namespace AircraftTrajectories.Models.Optimisation
         /// <param name="endPoint">The position the aircraft will fly towards</param>
         /// <param name="numberOfSegments">The number of segments used in the simulation. The simulation starts and ends with a straight segment, so the number of segments should be odd.</param>
         /// <param name="settings">The control parameters, which are a list of doubles between 0 and 1. The number of controls needed for any number of segments can be calculated by calling TrajectoryChromosome.ChromosomeLength().</param>
-        public FlightSimulator(ISimulatorModel aircraft, Point3D endPoint, int numberOfSegments, List<double> settings)
+        public FlightSimulator(ISimulatorModel aircraft, Point3D endPoint, int numberOfSegments, List<double> settings, TrajectoryGenerator trajectoryGenerator)
         {
+            _trajectoryGenerator = trajectoryGenerator;
             _settings = settings;
 
             _vertical_state = VERTICAL_STATE.TAKEOFF;
@@ -77,13 +73,6 @@ namespace AircraftTrajectories.Models.Optimisation
             _numberOfSegments = numberOfSegments;
             _segmentIndex = 1;
 
-            _xData = new List<double>();
-            _yData = new List<double>();
-            _zData = new List<double>();
-            _latData = new List<double>();
-            _longData = new List<double>();
-            _tData = new List<double>();
-
         }
 
         /// <summary>
@@ -91,7 +80,6 @@ namespace AircraftTrajectories.Models.Optimisation
         /// </summary>
         public void Simulate()
         {
-            var converter = new MetricToGeographic(referencePoint);
             duration = 0;
             //Console.WriteLine("A: " + A + " B:" + B + " C:" + C);
             NoisePowerDistance.Instance.NoiseMaxGrid = null;
@@ -101,13 +89,7 @@ namespace AircraftTrajectories.Models.Optimisation
                 counter++;
                 if (counter % 10 == 0)
                 {
-                    var geoCoordinate = converter.ConvertToLongLat(_x, _y);
-                    _xData.Add(_x);
-                    _yData.Add(_y);
-                    _zData.Add(_height * 0.3048);
-                    _longData.Add(geoCoordinate.Longitude);
-                    _latData.Add(geoCoordinate.Latitude);
-                    _tData.Add(duration);
+                    _trajectoryGenerator.AddDatapoint(_x, _y, _height * 0.3048, _speed * 0.514444444, CurrentThrust()/4.0);
                 }
 
                 updateNoise();
@@ -163,18 +145,9 @@ namespace AircraftTrajectories.Models.Optimisation
         /// Convert the simulation into a trajectory object
         /// </summary>
         /// <returns>A trajectory object representing the simulation</returns>
-        public Trajectory createTrajectory()
+        public Trajectory CreateTrajectory()
         {
-            var xSpline = CubicSpline.InterpolateNatural(_tData, _xData);
-            var ySpline = CubicSpline.InterpolateNatural(_tData, _yData);
-            var zSpline = CubicSpline.InterpolateNatural(_tData, _zData);
-            var longSpline = CubicSpline.InterpolateNatural(_tData, _longData);
-            var latSpline = CubicSpline.InterpolateNatural(_tData, _latData);
-
-            var trajectory = new Trajectory(xSpline, ySpline, zSpline, longSpline, latSpline);
-            trajectory.Duration = (int) _tData[_tData.Count - 1];
-            
-            return trajectory;
+            return _trajectoryGenerator.GenerateTrajectory();
         }
 
         /// <summary>

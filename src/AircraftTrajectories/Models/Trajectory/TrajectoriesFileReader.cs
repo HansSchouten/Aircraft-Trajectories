@@ -25,6 +25,7 @@ namespace AircraftTrajectories.Models.Trajectory
 
 
             // Define variables
+            DateTime t0 = DateTime.Parse(_trackData[0][14]);
             string flight_id = "";
             var trajectories = new List<Trajectory>();
             TrajectoryGenerator trajectoryGenerator = new TrajectoryGenerator(new Aircraft("GP7270", "wing"), referencePoint);
@@ -39,6 +40,7 @@ namespace AircraftTrajectories.Models.Trajectory
                     trajectories.Add(trajectoryGenerator.GenerateTrajectory());
 
                     // Prepare next trajectory
+                    t0 = DateTime.Parse(_trackData[i][14]);
                     var aircraft = new Aircraft("GP7270", "wing");
                     trajectoryGenerator = new TrajectoryGenerator(aircraft, referencePoint);
                 }
@@ -48,17 +50,20 @@ namespace AircraftTrajectories.Models.Trajectory
                 flight_id = _trackData[i][0];
 
                 // Parse the next position of the current trajectory
-                //DateTime t = DateTime.Parse(_trackData[i][14]);
                 double x = 0;
                 double.TryParse(_trackData[i][4], out x);
+                x = x * 14.46875;
                 double y = 0;
                 double.TryParse(_trackData[i][5], out y);
+                y = y * 14.46875;
                 double z = 0;
                 double.TryParse(_trackData[i][6], out z);
                 z = z * 0.3040 * 100;
-                trajectoryGenerator.AddDatapoint(x, y, z);
+                DateTime t = DateTime.Parse(_trackData[i][14]);
+                double time = t.Subtract(t0).TotalSeconds;
+                trajectoryGenerator.AddDatapoint(x, y, z, 200, 60000, time);
             }
-
+            
             return trajectories;
         }
 

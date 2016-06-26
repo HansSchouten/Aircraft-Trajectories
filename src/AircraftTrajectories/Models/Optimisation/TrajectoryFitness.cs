@@ -7,20 +7,14 @@ using System.Collections.Generic;
 
 namespace AircraftTrajectories.Models.Optimisation
 {
-    using GeneticSharp.Domain.Randomizations;
-    using IntegratedNoiseModel;
     using System.Device.Location;
-    using System.Drawing;
-    using System.Drawing.Imaging;
-    using System.IO;
-    using System.Windows.Forms;
     using TemporalGrid;
 
     public class TrajectoryFitness : IFitness
     {
         public FlightSimulator FlightSimulator { get; set; }
-        public static ReferencePoint referencePoint { get; set; }
-        public static GeoPoint3D endPoint { get; set; }
+        public static ReferencePoint ReferencePoint { get; set; }
+        public static GeoPoint3D GeoEndPoint { get; set; }
         public static bool OptimiseFuel = false;
 
         public double Evaluate(IChromosome chromosome)
@@ -36,18 +30,19 @@ namespace AircraftTrajectories.Models.Optimisation
                     settings.Add((double)chromosome.GetGene(i).Value);
                 }
 
-                var startPoint = referencePoint.GeoPoint;
+                var startPoint = ReferencePoint.GeoPoint;
                 var start = new GeoCoordinate(startPoint.Latitude, startPoint.Longitude);
-                var endDLong = new GeoCoordinate(startPoint.Latitude, endPoint.Longitude);
+                var endDLong = new GeoCoordinate(startPoint.Latitude, GeoEndPoint.Longitude);
                 double xDistance = start.GetDistanceTo(endDLong);
-                if (start.Longitude > endPoint.Longitude) xDistance = -xDistance;
-                var endDLat = new GeoCoordinate(endPoint.Latitude, startPoint.Longitude);
+                if (start.Longitude > GeoEndPoint.Longitude) xDistance = -xDistance;
+                var endDLat = new GeoCoordinate(GeoEndPoint.Latitude, startPoint.Longitude);
                 double yDistance = start.GetDistanceTo(endDLat);
-                if (start.Latitude > endPoint.Latitude) yDistance = -yDistance;
+                if (start.Latitude > GeoEndPoint.Latitude) yDistance = -yDistance;
+                var endPoint = new Point3D(xDistance, yDistance);
 
-                FlightSimulator = new FlightSimulator(aircraft, new Point3D(xDistance, yDistance), trajectoryChromosome.NumberOfSegments, settings);
+                var trajectoryGenerator = new TrajectoryGenerator(new Aircraft("PW4056", "wing"), ReferencePoint);
+                FlightSimulator = new FlightSimulator(aircraft, endPoint, trajectoryChromosome.NumberOfSegments, settings, trajectoryGenerator);
                 var time = DateTime.Now;
-                FlightSimulator.referencePoint = referencePoint;
                 FlightSimulator.Simulate();
 
                 /*

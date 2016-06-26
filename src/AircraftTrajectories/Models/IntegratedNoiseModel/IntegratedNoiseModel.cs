@@ -20,9 +20,17 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         public TemporalGrid TemporalGrid { get; protected set; }
         public ReferencePoint ReferencePoint { get; set; }
         public string FileSuffix = "";
-        public string GridName = "schiphol_grid2D";
         public int TrajectoryBound { get; set; }
         public int NoiseMetric { get; set; }
+        protected string _gridName;
+        public string GridName {
+            get { return _gridName;  }
+            set {
+                _gridName = value;
+                _customGrid = true;
+            }
+        }
+        protected bool _customGrid = false;
 
         protected BackgroundWorker _backgroundWorker;
 
@@ -34,6 +42,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         /// <param name="aircraft"></param>
         public IntegratedNoiseModel(Trajectory trajectory, Aircraft aircraft, bool timeSteps = true)
         {
+            _gridName = "Grid2D";
             NoiseMetric = 0;
             ReferencePoint = new ReferencePointRD();
             TrajectoryBound = 2000;
@@ -42,60 +51,9 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             _timeSteps = timeSteps;
         }
 
-        /// <summary>
-        /// Starts the noise calculation while keeping track of the progress
-        /// </summary>
-        /// <param name="calculationCompletedCallback"></param>
-        /// <param name="progressChangedCallback"></param>
-        public void StartCalculation(Action calculationCompletedCallback)
-        {
-            _backgroundWorker = new BackgroundWorker();
-            _backgroundWorker.WorkerSupportsCancellation = false;
-            _backgroundWorker.WorkerReportsProgress = true;
-            if (_timeSteps == false)
-            {
-                RunINMFullTrajectory();
-                calculationCompletedCallback();
-            } else
-            {
-                _backgroundWorker.DoWork += BackgroundWorker_DoWork;
-                _backgroundWorker.RunWorkerCompleted += delegate (object sender, RunWorkerCompletedEventArgs e)
-                {
-                    calculationCompletedCallback();
-                };
-                
-                _backgroundWorker.RunWorkerAsync();
-            }
-        }
-
-        /// <summary>
-        /// Calculate the noise produced by the aircraft for every second along the defined trajectory
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            TemporalGrid = new TemporalGrid();
-            TemporalGrid.Interval = 1;
-
-            double progress = 0;
-            for (int t = 0; t <= _trajectory.Duration; t++)
-            {
-                CreatePositionFile(t);
-                ExecuteINMTM();
-                double[][] noiseData = ReadNoiseData();
-                Grid grid = NoiseDataToGrid(noiseData);
-                TemporalGrid.AddGrid(grid);
-
-                progress = (t / (double)_trajectory.Duration) * 100;
-                _backgroundWorker.ReportProgress((int) progress);
-            }
-            progress = 100;
-            _backgroundWorker.ReportProgress(100);
-        }
-
         public void StartCalculation(Action<double> progressChangedCallback)
         {
+            CreateGridFile();
             TemporalGrid = new TemporalGrid();
             TemporalGrid.Interval = 1;
 
@@ -104,6 +62,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             {
                 CreatePositionFile(t);
                 ExecuteINMTM();
+
                 double[][] noiseData = ReadNoiseData();
                 Grid grid = NoiseDataToGrid(noiseData);
                 TemporalGrid.AddGrid(grid);
@@ -121,9 +80,10 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             TemporalGrid = new TemporalGrid();
             TemporalGrid.Interval = 1;
 
-            CreateInputFiles();
-            GridName = "current_grid";
+            CreateTrajectoryFile();
+            CreateGridFile();
             ExecuteINMTM();
+
             double[][] noiseData = ReadNoiseData();
             Grid grid = NoiseDataToGrid(noiseData);
             grid.ReferencePoint = ReferencePoint;
@@ -144,8 +104,8 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 file.WriteLine("met");
                 file.WriteLine("         x         y         h         V         T         m");
                 file.WriteLine("====================================================================================");
-                file.WriteLine(_trajectory.X(t)        + "      " + _trajectory.Y(t)        + "     " + _trajectory.Z(t)        + "     400      50000        2");
-                file.WriteLine(_trajectory.X(t + 0.01) + "      " + _trajectory.Y(t + 0.01) + "     " + _trajectory.Z(t + 0.01) + "     400      50000        2");
+                file.WriteLine(_trajectory.X(t)        + "      " + _trajectory.Y(t)        + "     " + _trajectory.Z(t)        + "     " + _trajectory.Speed(t) + "      " + _trajectory.Thrust(t) + "        2");
+                file.WriteLine(_trajectory.X(t + 0.01) + "      " + _trajectory.Y(t + 0.01) + "     " + _trajectory.Z(t + 0.01) + "     " + _trajectory.Speed(t + 0.01) + "      " + _trajectory.Thrust(t + 0.01) + "        2");
                 file.WriteLine();
                 file.WriteLine("nois_id / engine mount");
                 file.WriteLine("====================================================================================");
@@ -157,7 +117,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         /// <summary>
         /// Creates the position file for the whole trajectory
         /// </summary>
-        protected void CreateInputFiles()
+        protected void CreateTrajectoryFile()
         {
             using (StreamWriter file =
                     new StreamWriter(Globals.currentDirectory + "current_position" + FileSuffix + ".dat", false))
@@ -169,21 +129,26 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 file.WriteLine("====================================================================================");
                 for (int t = 0; t < _trajectory.Duration; t = t+20)
                 {
-                    file.WriteLine(_trajectory.X(t) + "      " + _trajectory.Y(t)  + "     " + _trajectory.Z(t) + "     " + _trajectory.Airspeed(t) + "       " + _trajectory.Thrust(t) + "        2");
+                    file.WriteLine(_trajectory.X(t) + "      " + _trajectory.Y(t)  + "     " + _trajectory.Z(t) + "     " + _trajectory.Speed(t) + "       " + _trajectory.Thrust(t) + "        2");
                 }
                 file.WriteLine();
                 file.WriteLine("nois_id / engine mount");
                 file.WriteLine("====================================================================================");
                 file.WriteLine(_aircraft.EngineId);
-                file.WriteLine(_aircraft.EngineMount);
+                file.Write(_aircraft.EngineMount);
             }
+        }
+
+        protected void CreateGridFile()
+        {
+            if (_customGrid) { return; }
 
             using (StreamWriter file =
-                    new StreamWriter(Globals.currentDirectory + "current_grid.dat", false))
+                    new StreamWriter(Globals.currentDirectory + GridName + ".dat", false))
             {
-                file.WriteLine("     x_min     x_max      x_sz     y_min     y_max      y_sz");
-                file.WriteLine("====================================================================================");
-                file.WriteLine((_trajectory.LowerLeftPoint.X - TrajectoryBound) + "      " + (_trajectory.UpperRightPoint.X + TrajectoryBound) + "     125     " + (_trajectory.LowerLeftPoint.Y - TrajectoryBound) + "      " + (_trajectory.UpperRightPoint.X + TrajectoryBound) + "       125");
+                file.Write("     x_min     x_max      x_sz     y_min     y_max      y_sz\n");
+                file.Write("====================================================================================\n");
+                file.Write((_trajectory.LowerLeftPoint.X - TrajectoryBound) + "      " + (_trajectory.UpperRightPoint.X + TrajectoryBound) + "     125     " + (_trajectory.LowerLeftPoint.Y - TrajectoryBound) + "      " + (_trajectory.UpperRightPoint.Y + TrajectoryBound) + "       125");
             }
         }
 

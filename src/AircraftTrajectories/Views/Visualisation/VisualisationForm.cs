@@ -2,7 +2,9 @@
 using AircraftTrajectories.Models.Trajectory;
 using AircraftTrajectories.Presenters;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace AircraftTrajectories.Views.Visualisation
@@ -274,7 +276,7 @@ namespace AircraftTrajectories.Views.Visualisation
         {
             get
             {
-                return int.Parse(AnimatorForm.txtNumberOfContours.Text);
+                return int.Parse(AnimatorForm.txtHighestContourValue.Text);
             }
         }
 
@@ -282,7 +284,15 @@ namespace AircraftTrajectories.Views.Visualisation
         {
             get
             {
-                return int.Parse(AnimatorForm.txtContourStartValue.Text);
+                return int.Parse(AnimatorForm.txtLowestContourValue.Text);
+            }
+        }
+
+        public List<double> ContoursOfInterest
+        {
+            get
+            {
+                return AnimatorForm.txtContoursOfInterest.Text.Split(',').Select(x => double.Parse(x)).ToList();
             }
         }
 
@@ -307,7 +317,7 @@ namespace AircraftTrajectories.Views.Visualisation
         {
             set
             {
-                string message = (value <= 1) ? "completed in 1min" : value + "min remaining";
+                string message = (value <= 1) ? "completed in 1 minute" : value + " minutes remaining";
                 RunForm.lblTimeLeft.Text = message;
             }
         }

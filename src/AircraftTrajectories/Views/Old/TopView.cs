@@ -67,7 +67,7 @@ namespace AircraftTrajectories.Views
                 double z = 0;
                 double.TryParse(_trackData[i][6], out z);
                 z = z * 0.3040 * 100;
-                trajectoryGenerator.AddDatapoint(x, y, z);
+                trajectoryGenerator.AddDatapoint(x, y, z, 200, 200000);
             }
 
 

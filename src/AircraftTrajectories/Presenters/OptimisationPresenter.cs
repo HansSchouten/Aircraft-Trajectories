@@ -42,8 +42,8 @@ namespace AircraftTrajectories.Presenters
         {
             try
             {
-                TrajectoryFitness.referencePoint = new ReferencePoint(new GeoPoint3D(_view.StartLongitude, _view.StartLatitude), new Point3D(0, 0));
-                TrajectoryFitness.endPoint = new GeoPoint3D(_view.EndLongitude, _view.EndLatitude);
+                TrajectoryFitness.ReferencePoint = new ReferencePoint(new GeoPoint3D(_view.StartLongitude, _view.StartLatitude), new Point3D(0, 0));
+                TrajectoryFitness.GeoEndPoint = new GeoPoint3D(_view.EndLongitude, _view.EndLatitude);
                 TrajectoryFitness.OptimiseFuel = !_view.MinimiseNoise;
 
                 var selection = new EliteSelection();
@@ -73,13 +73,14 @@ namespace AircraftTrajectories.Presenters
             {
                 MessageBox.Show(ex.Message);
             }
-            /*
-            Console.WriteLine("Time:" + DateTime.Now.Subtract(startTime).TotalSeconds);
-            Console.WriteLine("Best solution found has {0} fitness.", int.MaxValue - ga.BestChromosome.Fitness);
-            Console.WriteLine(ga.BestChromosome.GetGene(0).Value + " " + ga.BestChromosome.GetGene(1).Value + " " + ga.BestChromosome.GetGene(2).Value);
-            */
         }
-
+        protected void CancelOptimisation()
+        {
+            if (thread != null)
+            {
+                thread.Abort();
+            }
+        }
         protected void OptimisationCompleted(object sender, EventArgs e)
         {
             var best = ga.BestChromosome;
@@ -91,12 +92,14 @@ namespace AircraftTrajectories.Presenters
             });
         }
 
+
+
         protected void VisualiseTrajectory()
         {
             var best = ga.BestChromosome;
             TrajectoryFitness fitness = new TrajectoryFitness();
             fitness.Evaluate(best);
-            _startForm.Visualise(fitness.FlightSimulator.createTrajectory());
+            _startForm.Visualise(fitness.FlightSimulator.CreateTrajectory());
         }
 
         protected void SaveTrajectory()
@@ -114,14 +117,6 @@ namespace AircraftTrajectories.Presenters
                 _view.Percentage = (int) (factor * 100);
                 _view.TimeLeft = (int) Math.Ceiling(((secElapsed / factor) - secElapsed) / 60.0);
             });
-        }
-
-        protected void CancelOptimisation()
-        {
-            if (thread != null)
-            {
-                thread.Abort();
-            }
         }
     }
 }

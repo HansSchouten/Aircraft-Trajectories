@@ -13,17 +13,19 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
     {
         protected TemporalGrid _temporalGrid;
         protected Trajectory _trajectory;
-        protected List<int> _labeledContours;
+        protected List<double> _highlightedContours;
         public bool AltitudeOffset = false;
         public int NumberOfContours { get; set; }
         public int FirstContourValue { get; set; }
         public int ContourValueStep { get; set; }
+        public bool ShowOnlyHighlightedContours = false;
 
-        public ContourKMLAnimator(TemporalGrid temporalGrid, Trajectory trajectory = null, List<int> labeledContours = null)
+
+        public ContourKMLAnimator(TemporalGrid temporalGrid, Trajectory trajectory = null, List<double> highlightedContours = null)
         {
             _temporalGrid = temporalGrid;
             _trajectory = trajectory;
-            _labeledContours = labeledContours;
+            _highlightedContours = highlightedContours;
             
             NumberOfContours = 40;
             FirstContourValue = 35;
@@ -50,7 +52,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             {
                 var c = colors[i - 1];
                 var color = "00000000";
-                if (_labeledContours != null && _labeledContours.Contains(FirstContourValue + (i * ContourValueStep)))
+                if (_highlightedContours != null && _highlightedContours.Contains(FirstContourValue + (i * ContourValueStep)))
                 {
                     color = string.Format("{0:X2}{1:X2}{2:X2}{3:X2}", Math.Min(255, c.A + 150), c.R, c.G, c.B);
                 }
@@ -108,7 +110,8 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             List<int> visibleContours = new List<int>();
             foreach (Contour contour in grid.Contours)
             {
-                if (!contour.IsClosed) { continue; }
+                //if (!contour.IsClosed) { continue; }
+                if (ShowOnlyHighlightedContours && !_highlightedContours.Contains(contour.Value)) { continue; }
 
                 int contourId = -1;
                 for (int i = 0; i < NumberOfContours; i++)
@@ -124,16 +127,18 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
 
                 // Plot Contour
                 var coordinateString = "";
-                GeoPoint3D contourPoint = grid.GridCoordinate(contour.Points[0].Location.X, contour.Points[0].Location.Y);
+                GeoPoint3D firstContourPoint = grid.GridCoordinate(contour.Points[0].Location.X, contour.Points[0].Location.Y);
+                GeoPoint3D contourPoint = firstContourPoint;
                 foreach (ContourPoint p in contour.Points)
                 {
                     contourPoint = grid.GridCoordinate(p.Location.X, p.Location.Y);
                     coordinateString += contourPoint.Longitude + "," + contourPoint.Latitude + ",";
-                    if (AltitudeOffset) {
-                        coordinateString += "50\n";
-                    } else {
-                        coordinateString += "0\n";
-                    }
+                    coordinateString += (AltitudeOffset) ? "50\n" : "0\n";
+                }
+                if (!contour.IsClosed)
+                {
+                    coordinateString += firstContourPoint.Longitude + "," + firstContourPoint.Latitude + ",";
+                    coordinateString += (AltitudeOffset) ? "50\n" : "0\n";
                 }
                 updateStep += plotUpdate("LinearRing", coordinateString, "contour" + contourId);
 
@@ -155,7 +160,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
                         pointLatitude = contourPoint.Latitude;
                     }
                 }
-                if (_labeledContours.Contains(FirstContourValue + (contourId * ContourValueStep)))
+                if (_highlightedContours.Contains(FirstContourValue + (contourId * ContourValueStep)))
                 {
                     var planeCoord = new GeoCoordinate(_trajectory.Latitude(t), _trajectory.Longitude(t));
                     var contourCoord = new GeoCoordinate(pointLatitude, pointLongitude);
@@ -169,10 +174,10 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             {
                 if (!visibleContours.Contains(i))
                 {
-                    updateStep += plotUpdate("LinearRing", _trajectory.Longitude(t) + "," + _trajectory.Latitude(t) + ",0", "contour" + i);
+                    string longLat = (_trajectory == null) ? "0,0," : _trajectory.Longitude(t) + "," + _trajectory.Latitude(t);
+                    updateStep += plotUpdate("LinearRing", longLat + ",0", "contour" + i);
                 }
             }
-
             return updateStep;
         }
 

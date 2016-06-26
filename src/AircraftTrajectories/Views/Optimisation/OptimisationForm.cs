@@ -124,7 +124,7 @@ namespace AircraftTrajectories.Views.Optimisation
         {
             set
             {
-                string message = (value < 1) ? "completed in 1min" : value + "min remaining";
+                string message = (value <= 1) ? "completed in 1 minute" : value + " minutes remaining";
                 RunForm.lblTimeLeft.Text = message;
             }
         }

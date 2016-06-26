@@ -29,21 +29,14 @@ namespace AircraftTrajectories.Views.Old
 
         private void TestHeatmap_Load(object sender, EventArgs e)
         {
+            /*
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
             trajectory = reader.createTrajectoryFromFile(Globals.currentDirectory + "track_schiphol.dat");
 
             aircraft = new Aircraft("GP7270", "wing");
             noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
-            noiseModel.StartCalculation(calculationCompleted);
-        }
+            //noiseModel.StartCalculation(progressChanged);
 
-        private void progressChanged(int percentage)
-        {
-
-        }
-
-        private void calculationCompleted()
-        {
             var legend = new LegendCreator();
             legend.OutputLegendImage();
             legend.OutputLegendTitle();
@@ -72,6 +65,7 @@ namespace AircraftTrajectories.Views.Old
             this.Hide();
             googleEarthForm.Closed += (s, args) => this.Close();
             googleEarthForm.Show();
+            */
         }
     }
 }

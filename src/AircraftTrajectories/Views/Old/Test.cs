@@ -30,6 +30,7 @@ namespace AircraftTrajectories.Views
 
         private void Test_Load(object sender, EventArgs e)
         {
+            /*
             var reader = new TrajectoryFileReader(CoordinateUnit.metric);
             trajectory = reader.createTrajectoryFromFile(Globals.currentDirectory + "track_schiphol.dat");
 
@@ -64,6 +65,7 @@ namespace AircraftTrajectories.Views
             this.Hide();
             googleEarthForm.Closed += (s, args) => this.Close();
             googleEarthForm.Show();
+            */
         }
 
         protected void progressChanged(double newProgress)

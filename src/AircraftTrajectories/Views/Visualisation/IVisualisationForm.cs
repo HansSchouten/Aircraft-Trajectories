@@ -1,6 +1,7 @@
 ﻿using AircraftTrajectories.Models.Space3D;
 using AircraftTrajectories.Models.Trajectory;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace AircraftTrajectories.Views.Visualisation
@@ -26,6 +27,7 @@ namespace AircraftTrajectories.Views.Visualisation
         GeoPoint3D MapUpperRight { get; }
         int NumberOfContours { get; }
         int ContourStartValue { get; }
+        List<double> ContoursOfInterest { get; }
         Trajectory Trajectory { get; set; }
         string ValueConversion { get; }
         int NoiseMetric { get; }

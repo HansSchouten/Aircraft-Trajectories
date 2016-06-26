@@ -66,8 +66,8 @@ namespace AircraftTrajectories.Views.Visualisation
             this.txtReferenceLatitude = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.panelCoordinateReference = new System.Windows.Forms.Panel();
-            this.panelExternalNoiseFile = new System.Windows.Forms.Panel();
             this.label14 = new System.Windows.Forms.Label();
+            this.panelExternalNoiseFile = new System.Windows.Forms.Panel();
             this.selectNoiseMetric = new System.Windows.Forms.ComboBox();
             this.label16 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
@@ -440,7 +440,7 @@ namespace AircraftTrajectories.Views.Visualisation
             this.txtReferenceLongitude.Name = "txtReferenceLongitude";
             this.txtReferenceLongitude.Size = new System.Drawing.Size(102, 30);
             this.txtReferenceLongitude.TabIndex = 160;
-            this.txtReferenceLongitude.Text = "4.7825903";
+            this.txtReferenceLongitude.Text = "4.7602168";
             // 
             // txtReferenceLatitude
             // 
@@ -450,7 +450,7 @@ namespace AircraftTrajectories.Views.Visualisation
             this.txtReferenceLatitude.Name = "txtReferenceLatitude";
             this.txtReferenceLatitude.Size = new System.Drawing.Size(102, 30);
             this.txtReferenceLatitude.TabIndex = 159;
-            this.txtReferenceLatitude.Text = "52.3171513";
+            this.txtReferenceLatitude.Text = "52.3075183";
             // 
             // label15
             // 
@@ -483,6 +483,16 @@ namespace AircraftTrajectories.Views.Visualisation
             this.panelCoordinateReference.TabIndex = 169;
             this.panelCoordinateReference.Visible = false;
             // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.label14.Location = new System.Drawing.Point(316, 79);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(87, 23);
+            this.label14.TabIndex = 158;
+            this.label14.Text = "Longitude";
+            // 
             // panelExternalNoiseFile
             // 
             this.panelExternalNoiseFile.Controls.Add(this.label5);
@@ -493,16 +503,6 @@ namespace AircraftTrajectories.Views.Visualisation
             this.panelExternalNoiseFile.Size = new System.Drawing.Size(493, 91);
             this.panelExternalNoiseFile.TabIndex = 170;
             this.panelExternalNoiseFile.Visible = false;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.label14.Location = new System.Drawing.Point(316, 79);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(87, 23);
-            this.label14.TabIndex = 158;
-            this.label14.Text = "Longitude";
             // 
             // selectNoiseMetric
             // 
