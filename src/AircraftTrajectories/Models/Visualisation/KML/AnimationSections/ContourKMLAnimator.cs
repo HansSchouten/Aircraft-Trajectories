@@ -182,13 +182,13 @@ contourSetup+= @"
                     coordinateString += firstContourPoint.Longitude + "," + firstContourPoint.Latitude + ",";
                     coordinateString += (AltitudeOffset) ? "50\n" : "0\n";
                 }
-                MessageBox.Show("id " + contourId + "value " + contour.Value);
+                //MessageBox.Show("id " + contourId + "value " + contour.Value);
 
                 updateStep += plotUpdate("LinearRing", coordinateString, "contour" + contourId);
 
 
                 // Plot Labels
-                if (_trajectory == null) { continue; }
+                if (_trajectory == null || _highlightedContours == null) { continue; }
                 double pointLongitude = contourPoint.Longitude;
                 double pointLatitude = contourPoint.Latitude;
                 double smallestHeadingDeviation = 180;
@@ -204,13 +204,13 @@ contourSetup+= @"
                         pointLatitude = contourPoint.Latitude;
                     }
                 }
-                if ( _highlightedContours.Contains(contour.Value))
+                if (_highlightedContours.Contains(contour.Value))
                 {
                     var planeCoord = new GeoCoordinate(_trajectory.Latitude(t), _trajectory.Longitude(t));
                     var contourCoord = new GeoCoordinate(pointLatitude, pointLongitude);
                     var distance = planeCoord.GetDistanceTo(contourCoord);
                     var labelPoint = _trajectory.GeoPoint(t).MoveInDirection(distance, desiredHeading);
-                    updateStep += plotUpdate("Point", labelPoint.Longitude + "," + labelPoint.Latitude + ",0", "contourPoint" + (contourId - 1));
+                    updateStep += plotUpdate("Point", labelPoint.Longitude + "," + labelPoint.Latitude + ",0", "contourPoint" + contourId);
                 }
             }
 
