@@ -43,6 +43,7 @@ namespace AircraftTrajectories.Models.Optimisation
         protected int _segmentIndex;
         protected Point3D _segmentStartPoint;
         protected double _segmentStartHeading;
+        protected double _deltaHeading;
 
         protected List<double> _settings;
 
@@ -338,7 +339,7 @@ namespace AircraftTrajectories.Models.Optimisation
         public void CheckEndOfTurn()
         {
             bool switchHorizontalState = false;
-            double deltaHeading = Interpolate(-Math.PI / 2, Math.PI / 2, Setting(3));
+            _deltaHeading = Interpolate(-Math.PI / 2, Math.PI / 2, Setting(3));
             double targetHeading = _heading;
 
             // Check whether we are in the last turn of the trajectory
@@ -355,18 +356,18 @@ namespace AircraftTrajectories.Models.Optimisation
                 */
 
                 switchHorizontalState =
-                    (deltaHeading < 0 && AngleDifference(_heading, _segmentStartHeading) >= AngleDifference(targetHeading, _segmentStartHeading)) ||
-                    (deltaHeading > 0 && AngleDifference(_segmentStartHeading, _heading) >= AngleDifference(_segmentStartHeading, targetHeading));
+                    (_deltaHeading < 0 && AngleDifference(_heading, _segmentStartHeading) >= AngleDifference(targetHeading, _segmentStartHeading)) ||
+                    (_deltaHeading > 0 && AngleDifference(_segmentStartHeading, _heading) >= AngleDifference(_segmentStartHeading, targetHeading));
             }
             else
             {
-                targetHeading = (_segmentStartHeading + deltaHeading) % (2 * Math.PI);
+                targetHeading = (_segmentStartHeading + _deltaHeading) % (2 * Math.PI);
                 switchHorizontalState =
-                    (deltaHeading < 0 && AngleDifference(_heading, _segmentStartHeading) >= AngleDifference(targetHeading, _segmentStartHeading)) ||
-                    (deltaHeading > 0 && AngleDifference(_segmentStartHeading, _heading) >= AngleDifference(_segmentStartHeading, targetHeading));
+                    (_deltaHeading < 0 && AngleDifference(_heading, _segmentStartHeading) >= AngleDifference(targetHeading, _segmentStartHeading)) ||
+                    (_deltaHeading > 0 && AngleDifference(_segmentStartHeading, _heading) >= AngleDifference(_segmentStartHeading, targetHeading));
             }
 
-            if (switchHorizontalState || deltaHeading == 0)
+            if (switchHorizontalState || _deltaHeading == 0)
             {
                 Log("Reached end of segment" + _segmentIndex + " (turn) X:" + _x + " Y:" + _y + " Heading:" + _heading * 180 / Math.PI);
 

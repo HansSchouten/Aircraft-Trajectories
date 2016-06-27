@@ -9,35 +9,48 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
     using Trajectory;
     using Space3D;
     using System.Device.Location;
+    using System.Linq;
     using System.Windows.Forms;
     public class ContourKMLAnimator : KMLAnimatorSectionInterface
     {
         protected TemporalGrid _temporalGrid;
         protected Trajectory _trajectory;
-        protected List<double> _highlightedContours;
+        protected List<int> _gradientContours;
+        protected List<int> _highlightedContours;
         public bool AltitudeOffset = false;
-        public double LowestContourValue { get; set; }
-        public double HighestContourValue { get; set; }
-        public double ContourValueStep { get; set; }
-        protected int _numberOfContours;
-        public bool ShowGradient = false;
+        public int LowestContourValue { get; set; }
+        public int HighestContourValue { get; set; }
+        public int ContourValueStep { get; set; }
+        protected int _numberOfContours { get; set; }
 
 
-        public ContourKMLAnimator(TemporalGrid temporalGrid, Trajectory trajectory = null, List<double> highlightedContours = null)
+        public ContourKMLAnimator(TemporalGrid temporalGrid, Trajectory trajectory = null, List<int> highlightedContours = null)
         {
+            LowestContourValue = int.MaxValue;
+            HighestContourValue = int.MinValue;
             _temporalGrid = temporalGrid;
             _trajectory = trajectory;
-            _highlightedContours = new List<double>();
-            _highlightedContours = highlightedContours;
+
+            _gradientContours = new List<int>();
+            _highlightedContours = (highlightedContours == null) ? new List<int>() : highlightedContours;
+            if (_highlightedContours.Count > 0)
+            {
+                LowestContourValue = _highlightedContours.Min();
+                HighestContourValue = _highlightedContours.Max();
+            }
         }
 
-        public void SetGradientSettings(double lowestValue, double highestValue, double step)
+        public void SetGradientSettings(int lowestGradientValue, int highestGradientValue, int step)
         {
-            LowestContourValue = lowestValue;
-            HighestContourValue = highestValue;
             ContourValueStep = step;
-            _numberOfContours = (int)((HighestContourValue - LowestContourValue + 1) / ContourValueStep);
-            ShowGradient = true;
+
+            for (int value = lowestGradientValue; value <= highestGradientValue; value += step)
+            {
+                _gradientContours.Add(value);
+            }
+
+            HighestContourValue = Math.Max(HighestContourValue, highestGradientValue);
+            LowestContourValue = Math.Min(LowestContourValue, lowestGradientValue);
         }
 
        
@@ -48,53 +61,52 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
         /// <returns></returns>
         public string KMLSetup()
         {
+            if (_gradientContours.Count == 0 && _highlightedContours.Count == 0) { return ""; }
+            _numberOfContours = HighestContourValue - LowestContourValue + 1;
+
+            // Define contour colors
             Color c1 = Color.FromArgb(0, 20, 240, 0);
             Color c2 = Color.FromArgb(150, 20, 0, 255);
-            if (!ShowGradient)
-            {
-                _numberOfContours = _highlightedContours.Count;
-            }
-
             Color[] colors = interpolateColors(c1, c2, _numberOfContours);
-
+            
             string contourSetup = @"
 <Folder> 
  <open>0</open>
  <name>Contours</name>
             ";
-            for (int i = 1; i <= _numberOfContours; i++)
+            for (int i = 0; i < _numberOfContours; i++)
             {
-                var c = colors[i - 1];
-                var color = "00000000";
-                //if (_highlightedContours.Count == 0 && _highlightedContours.Contains(LowestContourValue + (i * ContourValueStep)))
-                
-                    color = string.Format("{0:X2}{1:X2}{2:X2}{3:X2}", Math.Min(255, c.A + 150), c.R, c.G, c.B);
+                int value = LowestContourValue + i;
+                if (!_highlightedContours.Contains(value) && !_gradientContours.Contains(value)) { continue; }
+
+                var c = colors[i];
                     
                 string altitudeMode = (AltitudeOffset) ? "<altitudeMode>absolute</altitudeMode>" : "";
                 contourSetup += @"
 <Style id='contour_style" + i + @"'>
     <LineStyle>";
-                if (ShowGradient)
+                if (!_highlightedContours.Contains(value))
                 {
-                    contourSetup += "<color> 00000000 </color>";
+                    contourSetup += "<color>00000000</color>";
                 }
                 else
                 {
-                    contourSetup += "<color>" + color + @"</color>";
+                    contourSetup += "<color>" + string.Format("{0:X2}{1:X2}{2:X2}{3:X2}", Math.Min(255, c.A + 150), c.R, c.G, c.B) + "</color>";
                 }
                 contourSetup += @"
         <width>2</width>
-    </LineStyle>";
-                if (ShowGradient)
+    </LineStyle>
+    <PolyStyle>";
+                if (_gradientContours.Contains(value))
                 {
-                    contourSetup += @"<PolyStyle><color>" + string.Format("{0:X2}{1:X2}{2:X2}{3:X2}", c.A, c.R, c.G, c.B) + @"</color></PolyStyle>";
+                    contourSetup += "<color>" + string.Format("{0:X2}{1:X2}{2:X2}{3:X2}", c.A, c.R, c.G, c.B) + "</color>";
                 }
                 else 
                 {
-                    contourSetup += @"<PolyStyle><color>00000000</color></PolyStyle>";
+                    contourSetup += "<color>00000000</color>";
                 }
-contourSetup += @"
-    
+                contourSetup += @"
+    </PolyStyle>
     <IconStyle>
         <scale>0</scale>
     </IconStyle>
@@ -104,14 +116,7 @@ contourSetup += @"
     </LabelStyle>
 </Style>
 <Placemark id='contour_placemark" + i + @"'>";
-                if (ShowGradient) {
-                    contourSetup += @"<name> " + (LowestContourValue + (i * ContourValueStep)) + @"dB </name>";
-                        } else
-                {
-                    contourSetup += @"<name>" + _highlightedContours[i - 1] + @"dB </name>";
-                }
-
-contourSetup+= @"
+                contourSetup += "<name>" + value + "dB</name>" + @"
     <styleUrl>#contour_style" + i + @"</styleUrl>
     <MultiGeometry>
         <Polygon>
@@ -141,29 +146,26 @@ contourSetup+= @"
         /// <returns></returns>
         public string KMLAnimationStep(int t)
         {
+            if (_gradientContours.Count == 0 && _highlightedContours.Count == 0) { return ""; }
+
             string updateStep = "";
             Grid grid = _temporalGrid.GetGrid(t);
             List<int> visibleContours = new List<int>();
 
             foreach (Contour contour in grid.Contours)
             {
+                int value = contour.Value;
                 //if (!contour.IsClosed) { continue; }
-                if (!ShowGradient && !_highlightedContours.Contains(contour.Value)) { continue; }
+                if (!_highlightedContours.Contains(value) && !_gradientContours.Contains(value)) { continue; }
 
                 int contourId = -1;
-
                 for (int i = 0; i < _numberOfContours; i++)
                 {
-
-                    if (ShowGradient && (contour.Value == LowestContourValue + (i * ContourValueStep)))
+                    if (value == LowestContourValue + i)
                     {
-                        contourId = i + 1;
-                    } else if (!ShowGradient && _highlightedContours[i] == contour.Value)
-                    {
-                        contourId = i + 1;
+                        contourId = i;
                     }
                 }
-                if (contourId == -1) { continue; }
                 visibleContours.Add(contourId);
 
                 // Plot Contour
@@ -182,13 +184,12 @@ contourSetup+= @"
                     coordinateString += firstContourPoint.Longitude + "," + firstContourPoint.Latitude + ",";
                     coordinateString += (AltitudeOffset) ? "50\n" : "0\n";
                 }
-                //MessageBox.Show("id " + contourId + "value " + contour.Value);
 
                 updateStep += plotUpdate("LinearRing", coordinateString, "contour" + contourId);
 
 
                 // Plot Labels
-                if (_trajectory == null || _highlightedContours == null) { continue; }
+                if (_trajectory == null || !_highlightedContours.Contains(value)) { continue; }
                 double pointLongitude = contourPoint.Longitude;
                 double pointLatitude = contourPoint.Latitude;
                 double smallestHeadingDeviation = 180;
@@ -214,8 +215,10 @@ contourSetup+= @"
                 }
             }
 
-            for (int i = 1; i <= _numberOfContours; i++)
+            for (int i = 0; i < _numberOfContours; i++)
             {
+                int value = LowestContourValue + i;
+                if (!_highlightedContours.Contains(value) && !_gradientContours.Contains(value)) { continue; }
                 if (!visibleContours.Contains(i))
                 {
                     string longLat = (_trajectory == null) ? "0,0," : _trajectory.Longitude(t) + "," + _trajectory.Latitude(t);

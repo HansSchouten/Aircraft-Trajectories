@@ -272,11 +272,11 @@ namespace AircraftTrajectories.Views.Visualisation
             }
         }
 
-        public List<double> ContoursOfInterest
+        public List<int> ContoursOfInterest
         {
             get
             {
-                return AnimatorForm.txtContoursOfInterest.Text.Split(',').Select(x => double.Parse(x)).ToList();
+                return AnimatorForm.txtContoursOfInterest.Text.Split(',').Select(x => int.Parse(x)).ToList();
             }
         }
 

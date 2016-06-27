@@ -29,7 +29,7 @@ namespace AircraftTrajectories.Views.Visualisation
         string ValueConversion { get; }
         int NoiseMetric { get; }
 
-        List<double> ContoursOfInterest { get; }
+        List<int> ContoursOfInterest { get; }
         double LowestContourValue { get; }
         double HighestContourValue { get; }
         double ContourValueStep { get; }
