@@ -206,17 +206,20 @@ namespace AircraftTrajectories.Presenters
 
             // Legend
             var legend = new LegendCreator();
-            legend.OutputLegendImage();
-            legend.OutputLegendTitle();
 
             // Contour animator
             List<double> contoursOfInterest = (_view.VisualiseContoursOfInterest) ? _view.ContoursOfInterest : null;
             var contourAnimator = new ContourKMLAnimator(localTemporalGrid, null, contoursOfInterest);
             if (_view.VisualiseGradient)
             {
+                legend.SetSettings(_view.LowestContourValue, _view.HighestContourValue);
                 contourAnimator.SetGradientSettings(_view.LowestContourValue, _view.HighestContourValue, _view.ContourValueStep);
             }
             contourAnimator.AltitudeOffset = (_view.MapFile != "");
+
+            // plot legend
+            legend.OutputLegendImage();
+            legend.OutputLegendTitle();
 
             // Create sections
             var sections = new List<KMLAnimatorSectionInterface>() {
