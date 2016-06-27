@@ -141,6 +141,7 @@
     <Compile Include="Models\Visualisation\KML\AnimationSections\HeatmapKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\LegendKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\MultipleGroundplotKMLAnimator.cs" />
+    <Compile Include="Models\Visualisation\KML\AnimationSections\MultipleLineKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\KMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\KMLAnimatorSectionInterface.cs" />
     <Compile Include="Models\Visualisation\LegendCreator.cs" />
