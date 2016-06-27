@@ -161,8 +161,6 @@ contourSetup+= @"
                     } else if (!ShowGradient && _highlightedContours[i] == contour.Value)
                     {
                         contourId = i + 1;
-                        //MessageBox.Show("id " + contourId + "value " + contour.Value);
-
                     }
                 }
                 if (contourId == -1) { continue; }
@@ -184,6 +182,8 @@ contourSetup+= @"
                     coordinateString += firstContourPoint.Longitude + "," + firstContourPoint.Latitude + ",";
                     coordinateString += (AltitudeOffset) ? "50\n" : "0\n";
                 }
+                MessageBox.Show("id " + contourId + "value " + contour.Value);
+
                 updateStep += plotUpdate("LinearRing", coordinateString, "contour" + contourId);
 
 
@@ -204,7 +204,7 @@ contourSetup+= @"
                         pointLatitude = contourPoint.Latitude;
                     }
                 }
-                if (_highlightedContours.Contains(contour.Value))
+                if ( _highlightedContours.Contains(contour.Value))
                 {
                     var planeCoord = new GeoCoordinate(_trajectory.Latitude(t), _trajectory.Longitude(t));
                     var contourCoord = new GeoCoordinate(pointLatitude, pointLongitude);

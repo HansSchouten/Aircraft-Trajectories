@@ -39,5 +39,20 @@ namespace AircraftTrajectories.Views.Visualisation
         {
             pnlHighlightedContours.Enabled = cbHighlightedContours.Checked;
         }
+
+        private void txtContourStep_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtLowestContourValue_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pnlContourGradient_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

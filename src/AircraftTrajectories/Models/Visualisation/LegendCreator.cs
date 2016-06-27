@@ -12,6 +12,8 @@ namespace AircraftTrajectories.Models.Visualisation
     {
         public int max;
         public int min;
+        public double LowestContourValue { get; set; }
+        public double HighestContourValue { get; set; }
 
         /// <summary>
         /// Creates a legend based on max and min contour value that needs to be visualized
@@ -21,6 +23,13 @@ namespace AircraftTrajectories.Models.Visualisation
             max = 80;
             min = 65;
         }
+
+        public void SetSettings(double lowestValue, double highestValue)
+        {
+            min = (int) lowestValue;
+            max = (int) highestValue;
+        }
+
 
         /// <summary>
         /// Creates the actual legend image and saves it as a bitmap file
