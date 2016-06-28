@@ -82,7 +82,29 @@ namespace AircraftTrajectories.Presenters
 
             trajectory.Aircraft = aircraft;
             noiseModel = new IntegratedNoiseModel(trajectory, aircraft);
-            noiseModel.NoiseMetric = _view.NoiseMetric;
+            bool integrateToCurrentPosition = true;
+            int metric = 0;
+            switch (_view.NoiseMetric)
+            {
+                case 0:
+                    metric = 1;
+                    integrateToCurrentPosition = false;
+                    break;
+                case 1:
+                    metric = 1;
+                    break;
+                case 2:
+                    metric = 0;
+                    break;
+                case 3:
+                    metric = 2;
+                    break;
+                case 4:
+                    metric = 3;
+                    break;
+            }
+            noiseModel.IntegrateToCurrentPosition = integrateToCurrentPosition;
+            noiseModel.NoiseMetric = metric;
 
             noiseModel.StartCalculation(ProgressChanged);
             temporalGrid = noiseModel.TemporalGrid;
@@ -239,7 +261,10 @@ namespace AircraftTrajectories.Presenters
             }
 
             // Create animator
-            var camera = new TopViewKMLAnimatorCamera(new GeoPoint3D(referencePoint.GeoPoint.Longitude, referencePoint.GeoPoint.Latitude, 15000));
+            var camera = new TopViewKMLAnimatorCamera(
+                new GeoPoint3D(referencePoint.GeoPoint.Longitude, referencePoint.GeoPoint.Latitude, 
+                25000)
+            );
             var animator = new KMLAnimator(sections, camera);
             animator.Duration = 0;
             animator.AnimationToFile(localTemporalGrid.GetNumberOfGrids(), Globals.webrootDirectory + "visualisation.kml");

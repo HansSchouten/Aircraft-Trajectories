@@ -15,7 +15,8 @@ namespace AircraftTrajectories.Views.Visualisation
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             ControlBox = false;
-            selectNoiseMetric.SelectedIndex = 1;
+
+            radioSingle.Checked = true;
         }
 
         private void btnBrowseTrajectory_Click(object sender, EventArgs e)
@@ -60,6 +61,29 @@ namespace AircraftTrajectories.Views.Visualisation
         private void selectNoiseMetric_SelectedIndexChanged(object sender, EventArgs e)
         {
             NoiseMetric = selectNoiseMetric.SelectedIndex;
+        }
+
+        private void radioSingle_CheckedChanged(object sender, EventArgs e)
+        {
+            selectNoiseMetric.Items.Clear();
+
+            selectNoiseMetric.Items.Add("LA");
+            selectNoiseMetric.Items.Add("LAmax");
+            selectNoiseMetric.Items.Add("SEL");
+            selectNoiseMetric.Items.Add("EPNL");
+            selectNoiseMetric.Items.Add("PNLTM");
+
+            selectNoiseMetric.SelectedIndex = 0;
+        }
+
+        private void radioMultiple_CheckedChanged(object sender, EventArgs e)
+        {
+            selectNoiseMetric.Items.Clear();
+
+            selectNoiseMetric.Items.Add("Lden");
+            selectNoiseMetric.Items.Add("SEL");
+
+            selectNoiseMetric.SelectedIndex = 0;
         }
     }
 }

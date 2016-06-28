@@ -143,16 +143,15 @@ namespace AircraftTrajectories.Views.Visualisation
             // radioSingle
             // 
             this.radioSingle.AutoSize = true;
-            this.radioSingle.Checked = true;
             this.radioSingle.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.radioSingle.Location = new System.Drawing.Point(13, 6);
             this.radioSingle.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.radioSingle.Name = "radioSingle";
             this.radioSingle.Size = new System.Drawing.Size(144, 25);
             this.radioSingle.TabIndex = 143;
-            this.radioSingle.TabStop = true;
             this.radioSingle.Text = "Single trajectory";
             this.radioSingle.UseVisualStyleBackColor = true;
+            this.radioSingle.CheckedChanged += new System.EventHandler(this.radioSingle_CheckedChanged);
             // 
             // radioMultiple
             // 
@@ -165,6 +164,7 @@ namespace AircraftTrajectories.Views.Visualisation
             this.radioMultiple.TabIndex = 144;
             this.radioMultiple.Text = "Multiple trajectories";
             this.radioMultiple.UseVisualStyleBackColor = true;
+            this.radioMultiple.CheckedChanged += new System.EventHandler(this.radioMultiple_CheckedChanged);
             // 
             // label1
             // 
@@ -510,11 +510,6 @@ namespace AircraftTrajectories.Views.Visualisation
             "Follow aircraft"});
             this.selectNoiseMetric.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.selectNoiseMetric.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.selectNoiseMetric.Items.AddRange(new object[] {
-            "SEL",
-            "LA",
-            "EPNL",
-            "PNLTM"});
             this.selectNoiseMetric.Location = new System.Drawing.Point(933, 104);
             this.selectNoiseMetric.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.selectNoiseMetric.Name = "selectNoiseMetric";

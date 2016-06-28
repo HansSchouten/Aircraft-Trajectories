@@ -21,6 +21,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         public string FileSuffix = "";
         public int TrajectoryBound { get; set; }
         public int NoiseMetric { get; set; }
+        public bool IntegrateToCurrentPosition { get; set; }
         protected string _gridName;
         public List<double[]> PopulatedAreaNoise { get; protected set; }
         public string GridName {
@@ -42,6 +43,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         /// <param name="aircraft"></param>
         public IntegratedNoiseModel(Trajectory trajectory, Aircraft aircraft)
         {
+            IntegrateToCurrentPosition = false;
             _gridName = "Grid2D";
             NoiseMetric = 1;
             ReferencePoint = new ReferencePointRD();
@@ -59,7 +61,13 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             double progress = 0;
             for (int t = 0; t <= _trajectory.Duration; t++)
             {
-                CreatePositionFile(t);
+                if (IntegrateToCurrentPosition)
+                {
+                    CreateTrajectoryToCurrentPosition(t);
+                } else
+                {
+                    CreatePositionFile(t);
+                }
                 ExecuteINMTM();
 
                 double[][] noiseData = ReadNoiseData();
@@ -117,6 +125,29 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 file.WriteLine("====================================================================================");
                 file.WriteLine(_aircraft.EngineId);
                 file.WriteLine(_aircraft.EngineMount);
+            }
+        }
+
+        protected void CreateTrajectoryToCurrentPosition(int t_end)
+        {
+            using (StreamWriter file =
+                    new StreamWriter(Globals.currentDirectory + "current_position" + FileSuffix + ".dat", false))
+            {
+                file.WriteLine("Sys");
+                file.WriteLine("====================================================================================");
+                file.WriteLine("met");
+                file.WriteLine("         x         y         h         V         T         m");
+                file.WriteLine("====================================================================================");
+                for (int t = 0; t < t_end; t = t+20)
+                {
+                    file.WriteLine(_trajectory.X(t) + "      " + _trajectory.Y(t)  + "     " + _trajectory.Z(t) + "     " + _trajectory.Speed(t) + "       " + _trajectory.Thrust(t) + "        2");
+                }
+                file.WriteLine(_trajectory.X(t_end) + "      " + _trajectory.Y(t_end) + "     " + _trajectory.Z(t_end) + "     " + _trajectory.Speed(t_end) + "       " + _trajectory.Thrust(t_end) + "        2");
+                file.WriteLine();
+                file.WriteLine("nois_id / engine mount");
+                file.WriteLine("====================================================================================");
+                file.WriteLine(_aircraft.EngineId);
+                file.Write(_aircraft.EngineMount);
             }
         }
 
