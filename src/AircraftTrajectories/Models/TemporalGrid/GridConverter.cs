@@ -2,7 +2,7 @@
 
 namespace AircraftTrajectories.Models.TemporalGrid
 {
-    public enum GridTransformation { MAX, SEL };
+    public enum GridTransformation { MAX, LDEN, SEL };
 
     public class GridConverter
     {
@@ -16,6 +16,7 @@ namespace AircraftTrajectories.Models.TemporalGrid
             _transformation = transformation;
         }
 
+        Grid calculationGrid;
         /// <summary>
         /// Transforms all grids from one metric to the metrics stored in the converter
         /// </summary>
@@ -24,7 +25,12 @@ namespace AircraftTrajectories.Models.TemporalGrid
         {
             _output = new TemporalGrid();
             _output.Interval = _input.Interval;
-            memoryGrid = _input.GetGrid(0);
+
+            calculationGrid = Grid.CreateEmptyGrid(
+                _input.GetGrid(0).Data[0].Length, 
+                _input.GetGrid(0).Data.Length, 
+                _input.GetGrid(0).LowerLeftCorner
+            );
 
             for (int t=0; t<_input.GetNumberOfGrids(); t++)
             {
@@ -35,8 +41,7 @@ namespace AircraftTrajectories.Models.TemporalGrid
 
             return _output;
         }
-
-        protected Grid memoryGrid;
+        
         /// <summary>
         /// Converts a single grid to the required unit
         /// </summary>
@@ -50,11 +55,13 @@ namespace AircraftTrajectories.Models.TemporalGrid
                 newData[r] = new double[input.Data[0].Length];
                 for (int c=0; c<input.Data[0].Length; c++)
                 {
-                    newData[r][c] = calculate(memoryGrid.Data[r][c], input.Data[r][c]);
+                    double calcVal;
+                    newData[r][c] = calculate(calculationGrid.Data[r][c], input.Data[r][c], out calcVal);
+                    calculationGrid.Data[r][c] = calcVal;
                 }
             }
             Grid newGrid = new Grid(newData, input.LowerLeftCorner);
-            memoryGrid = newGrid;
+            newGrid.ReferencePoint = input.ReferencePoint;
             return newGrid;
         }
 
@@ -64,17 +71,21 @@ namespace AircraftTrajectories.Models.TemporalGrid
         /// <param name="previousVal"></param>
         /// <param name="newVal"></param>
         /// <returns></returns>
-        protected double calculate(double previousVal, double newVal)
+        protected double calculate(double calculationValue, double newVal, out double newCalculationValue)
         {
             switch (_transformation)
             {
                 case GridTransformation.MAX:
-                    return Math.Max(previousVal, newVal);
+                    newCalculationValue = Math.Max(calculationValue, newVal);
+                    return newCalculationValue;
                 case GridTransformation.SEL:
-                    double previousSum = Math.Pow(10.0, previousVal/10.0);
-                    double currentSum = previousSum + Math.Pow(10.0, newVal / 10.0);
-                    return 10.0*Math.Log10(currentSum);
+                    newCalculationValue = calculationValue + Math.Pow(10.0, newVal / 10.0);
+                    return 10.0 * Math.Log10(newCalculationValue);
+                case GridTransformation.LDEN:
+                    newCalculationValue = calculationValue + Math.Pow(10.0, newVal / 10.0);
+                    return 10.0*Math.Log10(newCalculationValue);
                 default:
+                    newCalculationValue = calculationValue;
                     return 0;
             }
         }

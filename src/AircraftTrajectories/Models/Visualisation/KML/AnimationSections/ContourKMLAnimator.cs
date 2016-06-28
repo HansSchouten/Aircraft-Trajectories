@@ -53,7 +53,33 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             LowestContourValue = Math.Min(LowestContourValue, lowestGradientValue);
         }
 
-       
+        Dictionary<int, int> maxNumberOfOccurrences;
+        protected void DetermineNumberOfContoursPerValue()
+        {
+            maxNumberOfOccurrences = new Dictionary<int, int>();
+
+            for (int t = 0; t < _temporalGrid.GetNumberOfGrids(); t++)
+            {
+                // Count current number of occurrences per contour
+                Dictionary<int, int> numberOfContours = new Dictionary<int, int>();
+                Grid grid = _temporalGrid.GetGrid(t);
+                foreach (Contour contour in grid.Contours)
+                {
+                    int occurences;
+                    numberOfContours.TryGetValue(contour.Value, out occurences);
+                    numberOfContours[contour.Value] = occurences + 1;
+                }
+                // Updates max number of occurrences per contour
+                foreach (int value in numberOfContours.Keys)
+                {
+                    int previousMax;
+                    maxNumberOfOccurrences.TryGetValue(value, out previousMax);
+                    maxNumberOfOccurrences[value] = Math.Max(numberOfContours[value], previousMax);
+                }
+            }
+        }
+
+
         /// <summary>
         ///  Return a string in KML format containing all pre animation definitions 
         ///  that are required for the contour animation
@@ -63,6 +89,8 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
         {
             if (_gradientContours.Count == 0 && _highlightedContours.Count == 0) { return ""; }
             _numberOfContours = HighestContourValue - LowestContourValue + 1;
+            
+            DetermineNumberOfContoursPerValue();
 
             // Define contour colors
             Color c1 = Color.FromArgb(0, 20, 240, 0);
@@ -78,6 +106,10 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
             {
                 int value = LowestContourValue + i;
                 if (!_highlightedContours.Contains(value) && !_gradientContours.Contains(value)) { continue; }
+
+                int occurrences;
+                maxNumberOfOccurrences.TryGetValue(value, out occurrences);
+                if (occurrences == 0) { continue;  }
 
                 var c = colors[i];
                     
@@ -115,25 +147,30 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
         <scale>0.40</scale>
     </LabelStyle>
 </Style>
-<Placemark id='contour_placemark" + i + @"'>";
-                contourSetup += "<name>" + value + "dB</name>" + @"
+                ";
+                for (int o = 0; o < occurrences; o++)
+                {
+                    contourSetup += @"
+<Placemark id='contour_placemark" + i+"_"+o + @"'>";
+                    contourSetup += "<name>" + value + "dB</name>" + @"
     <styleUrl>#contour_style" + i + @"</styleUrl>
     <MultiGeometry>
         <Polygon>
             " + altitudeMode + @"
             <tessellate>1</tessellate>
             <outerBoundaryIs>
-                <LinearRing id='contour" + i + @"'>
+                <LinearRing id='contour" + i+"_"+o + @"'>
                     <coordinates></coordinates>
                 </LinearRing>
             </outerBoundaryIs>
         </Polygon>
-        <Point id='contourPoint" + i + @"'>
+        <Point id='contourPoint" + i+"_"+o + @"'>
             <Coordinates></Coordinates>
         </Point>
     </MultiGeometry>
 </Placemark>
-                ";
+                    ";
+                }
             }
             contourSetup += "</Folder>";
             return contourSetup;
@@ -150,7 +187,8 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
 
             string updateStep = "";
             Grid grid = _temporalGrid.GetGrid(t);
-            List<int> visibleContours = new List<int>();
+            List<string> visibleContours = new List<string>();
+            Dictionary<int, int> occurrenceIndexes = new Dictionary<int, int>();
 
             foreach (Contour contour in grid.Contours)
             {
@@ -158,14 +196,26 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
                 //if (!contour.IsClosed) { continue; }
                 if (!_highlightedContours.Contains(value) && !_gradientContours.Contains(value)) { continue; }
 
-                int contourId = -1;
+                string contourId = "";
                 for (int i = 0; i < _numberOfContours; i++)
                 {
                     if (value == LowestContourValue + i)
                     {
-                        contourId = i;
+                        contourId = i+"_";
                     }
                 }
+                int o;
+                if(!occurrenceIndexes.TryGetValue(value, out o))
+                {
+                    o = 0;
+                } else
+                {
+                    o++;
+                }
+                occurrenceIndexes[value] = o;
+                contourId = contourId + o;
+                
+
                 visibleContours.Add(contourId);
 
                 // Plot Contour
@@ -214,17 +264,19 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
                     updateStep += plotUpdate("Point", labelPoint.Longitude + "," + labelPoint.Latitude + ",0", "contourPoint" + contourId);
                 }
             }
-
+            /*
             for (int i = 0; i < _numberOfContours; i++)
             {
                 int value = LowestContourValue + i;
                 if (!_highlightedContours.Contains(value) && !_gradientContours.Contains(value)) { continue; }
+                //foreach ()
                 if (!visibleContours.Contains(i))
                 {
                     string longLat = (_trajectory == null) ? "0,0," : _trajectory.Longitude(t) + "," + _trajectory.Latitude(t);
                     updateStep += plotUpdate("LinearRing", longLat + ",0", "contour" + i);
                 }
             }
+            */
             return updateStep;
         }
 

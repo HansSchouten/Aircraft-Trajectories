@@ -32,6 +32,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             }
         }
         protected bool _customGrid = false;
+        public int CellSize = 125;
 
         protected BackgroundWorker _backgroundWorker;
 
@@ -185,7 +186,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             {
                 file.Write("     x_min     x_max      x_sz     y_min     y_max      y_sz\n");
                 file.Write("====================================================================================\n");
-                file.Write((_trajectory.LowerLeftPoint.X - TrajectoryBound) + "      " + (_trajectory.UpperRightPoint.X + TrajectoryBound) + "     125     " + (_trajectory.LowerLeftPoint.Y - TrajectoryBound) + "      " + (_trajectory.UpperRightPoint.Y + TrajectoryBound) + "       125");
+                file.Write((_trajectory.LowerLeftPoint.X - TrajectoryBound) + "      " + (_trajectory.UpperRightPoint.X + TrajectoryBound) + "     "+ CellSize + "     " + (_trajectory.LowerLeftPoint.Y - TrajectoryBound) + "      " + (_trajectory.UpperRightPoint.Y + TrajectoryBound) + "       "+ CellSize);
             }
         }
 
@@ -296,6 +297,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             noiseDataGrid[columnIndex] = column.ToArray();
             
             Grid grid = new Grid(noiseDataGrid, new Point3D(noiseData[0][0], noiseData[0][1]));
+            grid.CellSize = CellSize;
             grid.ReferencePoint = ReferencePoint;
             return grid;
         }

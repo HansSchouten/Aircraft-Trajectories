@@ -124,20 +124,39 @@ namespace AircraftTrajectories.Presenters
                 double percentage = (double) counter / trajectories.Count * 100.0;
                 ProgressChanged(percentage);
                 Console.WriteLine("INM "+counter+" started");
-                if (counter > 4) { break; }
+                if (counter > 1) { break; }
 
                 var INM = new IntegratedNoiseModel(trajectory, trajectory.Aircraft);
+                INM.CellSize = 500;
+                INM.IntegrateToCurrentPosition = true;
+                INM.NoiseMetric = 0;
+                if (_view.NoiseMetric == 1)
+                {
+                    INM.NoiseMetric = 1;
+                }
                 INM.GridName = "schiphol_grid2D";
-                INM.NoiseMetric = _view.NoiseMetric;
                 INM.RunINMFullTrajectory();
 
                 Grid grid = INM.TemporalGrid.GetGrid(0);
+                grid.CellSize = 500;
                 grid.ReferencePoint = referencePoint;
                 temporalGrid.AddGrid(grid);
                 Console.WriteLine("INM " + counter + " completed");
                 counter++;
             }
 
+            GridConverter converter;
+            switch (_view.NoiseMetric)
+            {
+                case 0:
+                    converter = new GridConverter(temporalGrid, GridTransformation.LDEN);
+                    temporalGrid = converter.transform();
+                    break;
+                case 1:
+                    converter = new GridConverter(temporalGrid, GridTransformation.SEL);
+                    temporalGrid = converter.transform();
+                    break;
+            }
             _view.Invoke(delegate { _view.NoiseCalculationCompleted(); });
         }
 
@@ -171,14 +190,6 @@ namespace AircraftTrajectories.Presenters
 
         protected void OneTrajectoryVisualisation()
         {
-            // Value conversion
-            var localTemporalGrid = temporalGrid;
-            if (_view.ValueConversion == "Max")
-            {
-                var g = new GridConverter(temporalGrid, GridTransformation.MAX);
-                localTemporalGrid = g.transform();
-            }
-
             // Create legend
             var legend = new LegendCreator();
             legend.OutputLegendImage();
@@ -186,7 +197,7 @@ namespace AircraftTrajectories.Presenters
 
             // Contour animator
             List<int> contoursOfInterest = (_view.VisualiseContoursOfInterest) ? _view.ContoursOfInterest : null;
-            var contourAnimator = new ContourKMLAnimator(localTemporalGrid, trajectory, contoursOfInterest);
+            var contourAnimator = new ContourKMLAnimator(temporalGrid, trajectory, contoursOfInterest);
             if (_view.VisualiseGradient) {
                 contourAnimator.SetGradientSettings((int)_view.LowestContourValue, (int)_view.HighestContourValue, (int)_view.ContourValueStep);
             }
@@ -218,20 +229,12 @@ namespace AircraftTrajectories.Presenters
 
         protected void MultipleTrajectoryVisualisation()
         {
-            // Value conversion
-            var localTemporalGrid = temporalGrid;
-            if (_view.ValueConversion == "Max")
-            {
-                var g = new GridConverter(temporalGrid, GridTransformation.MAX);
-                localTemporalGrid = g.transform();
-            }
-
             // Legend
             var legend = new LegendCreator();
 
             // Contour animator
             List<int> contoursOfInterest = (_view.VisualiseContoursOfInterest) ? _view.ContoursOfInterest : null;
-            var contourAnimator = new ContourKMLAnimator(localTemporalGrid, null, contoursOfInterest);
+            var contourAnimator = new ContourKMLAnimator(temporalGrid, null, contoursOfInterest);
             if (_view.VisualiseGradient)
             {
                 legend.SetSettings(_view.LowestContourValue, _view.HighestContourValue);
@@ -267,7 +270,7 @@ namespace AircraftTrajectories.Presenters
             );
             var animator = new KMLAnimator(sections, camera);
             animator.Duration = 0;
-            animator.AnimationToFile(localTemporalGrid.GetNumberOfGrids(), Globals.webrootDirectory + "visualisation.kml");
+            animator.AnimationToFile(temporalGrid.GetNumberOfGrids(), Globals.webrootDirectory + "visualisation.kml");
 
             _view.Invoke(delegate { _view.PreparationCalculationCompleted(); });
         }
