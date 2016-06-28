@@ -1,5 +1,4 @@
-﻿
-using AircraftTrajectories.Models.Space3D;
+﻿using AircraftTrajectories.Models.Space3D;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +8,23 @@ namespace AircraftTrajectories.Models.Trajectory
 {
     public class TrajectoriesFileReader
     {
+        protected int _minX = int.MaxValue;
+        protected int _minY = int.MaxValue;
+        protected int _maxX = int.MinValue;
+        protected int _maxY = int.MinValue;
+        public Point3D LowerLeftPoint {
+            get
+            {
+                return new Point3D(_minX, _minY);
+            }
+        }
+        public Point3D UpperRightPoint
+        {
+            get
+            {
+                return new Point3D(_maxX, _maxY);
+            }
+        }
 
         public List<Trajectory> CreateFromFile(string filePath, ReferencePoint referencePoint)
         {
@@ -37,7 +53,12 @@ namespace AircraftTrajectories.Models.Trajectory
                 // Switch to the next trajectory
                 if (i == _trackData.Length - 1 || (_trackData[i][0] != flight_id && i > 0))
                 {
-                    trajectories.Add(trajectoryGenerator.GenerateTrajectory());
+                    Trajectory trajectory = trajectoryGenerator.GenerateTrajectory();
+                    _minX = (int) Math.Min(trajectory.LowerLeftPoint.X, _minX);
+                    _minY = (int) Math.Min(trajectory.LowerLeftPoint.Y, _minY);
+                    _maxX = (int) Math.Max(trajectory.UpperRightPoint.X, _maxX);
+                    _maxY = (int) Math.Max(trajectory.UpperRightPoint.X, _maxY);
+                    trajectories.Add(trajectory);
 
                     // Prepare next trajectory
                     t0 = DateTime.Parse(_trackData[i][14]);

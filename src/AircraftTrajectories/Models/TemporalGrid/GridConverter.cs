@@ -21,7 +21,7 @@ namespace AircraftTrajectories.Models.TemporalGrid
         /// Transforms all grids from one metric to the metrics stored in the converter
         /// </summary>
         /// <returns></returns>
-        public TemporalGrid transform()
+        public TemporalGrid Transform()
         {
             _output = new TemporalGrid();
             _output.Interval = _input.Interval;
@@ -29,7 +29,9 @@ namespace AircraftTrajectories.Models.TemporalGrid
             calculationGrid = Grid.CreateEmptyGrid(
                 _input.GetGrid(0).Data[0].Length, 
                 _input.GetGrid(0).Data.Length, 
-                _input.GetGrid(0).LowerLeftCorner
+                _input.GetGrid(0).LowerLeftCorner,
+                _input.GetGrid(0).ReferencePoint,
+                _input.GetGrid(0).CellSize
             );
 
             for (int t=0; t<_input.GetNumberOfGrids(); t++)
@@ -56,11 +58,15 @@ namespace AircraftTrajectories.Models.TemporalGrid
                 for (int c=0; c<input.Data[0].Length; c++)
                 {
                     double calcVal;
+                    double l1 = input.Data[0].Length;
+                    double l2 = calculationGrid.Data[0].Length;
+                    double val = calculationGrid.Data[r][c];
+                    double val2 = input.Data[r][c];
                     newData[r][c] = calculate(calculationGrid.Data[r][c], input.Data[r][c], out calcVal);
                     calculationGrid.Data[r][c] = calcVal;
                 }
             }
-            Grid newGrid = new Grid(newData, input.LowerLeftCorner);
+            Grid newGrid = new Grid(newData, input.LowerLeftCorner, input.CellSize);
             newGrid.ReferencePoint = input.ReferencePoint;
             return newGrid;
         }

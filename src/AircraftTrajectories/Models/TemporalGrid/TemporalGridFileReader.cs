@@ -9,9 +9,11 @@ namespace AircraftTrajectories.Models.TemporalGrid
 {
     public class TemporalGridFileReader
     {
+        protected int _cellSize;
 
-        public TemporalGrid createTemporalGridFromFile(string filePath)
+        public TemporalGrid createTemporalGridFromFile(string filePath, int cellSize)
         {
+            _cellSize = cellSize;
             double[][] genericData = readGenericData(filePath);
             TemporalGrid temporalGrid = new TemporalGrid();
 
@@ -81,7 +83,7 @@ namespace AircraftTrajectories.Models.TemporalGrid
             genericDataGrid[columnIndex] = column.ToArray();
 
             Point3D lowerLeftCorner = new Point3D(genericData[0][0], genericData[0][1]);
-            return new Grid(genericDataGrid, lowerLeftCorner);
+            return new Grid(genericDataGrid, lowerLeftCorner, _cellSize);
         }
 
     }

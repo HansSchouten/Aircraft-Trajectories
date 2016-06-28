@@ -124,21 +124,22 @@ namespace AircraftTrajectories.Presenters
                 double percentage = (double) counter / trajectories.Count * 100.0;
                 ProgressChanged(percentage);
                 Console.WriteLine("INM "+counter+" started");
-                if (counter > 1) { break; }
+                if (counter > 3) { break; }
 
                 var INM = new IntegratedNoiseModel(trajectory, trajectory.Aircraft);
                 INM.CellSize = 500;
+                INM.MapToLargerGrid(reader.LowerLeftPoint, reader.UpperRightPoint);
+                INM.MaxDistanceFromAirport(referencePoint.Point, 100000);
                 INM.IntegrateToCurrentPosition = true;
                 INM.NoiseMetric = 0;
                 if (_view.NoiseMetric == 1)
                 {
                     INM.NoiseMetric = 1;
                 }
-                INM.GridName = "schiphol_grid2D";
                 INM.RunINMFullTrajectory();
 
                 Grid grid = INM.TemporalGrid.GetGrid(0);
-                grid.CellSize = 500;
+                Console.WriteLine(grid.Data.Length + "x"+ grid.Data[0].Length);
                 grid.ReferencePoint = referencePoint;
                 temporalGrid.AddGrid(grid);
                 Console.WriteLine("INM " + counter + " completed");
@@ -150,11 +151,11 @@ namespace AircraftTrajectories.Presenters
             {
                 case 0:
                     converter = new GridConverter(temporalGrid, GridTransformation.LDEN);
-                    temporalGrid = converter.transform();
+                    temporalGrid = converter.Transform();
                     break;
                 case 1:
                     converter = new GridConverter(temporalGrid, GridTransformation.SEL);
-                    temporalGrid = converter.transform();
+                    temporalGrid = converter.Transform();
                     break;
             }
             _view.Invoke(delegate { _view.NoiseCalculationCompleted(); });
@@ -266,7 +267,7 @@ namespace AircraftTrajectories.Presenters
             // Create animator
             var camera = new TopViewKMLAnimatorCamera(
                 new GeoPoint3D(referencePoint.GeoPoint.Longitude, referencePoint.GeoPoint.Latitude, 
-                25000)
+                50000)
             );
             var animator = new KMLAnimator(sections, camera);
             animator.Duration = 0;

@@ -98,6 +98,7 @@ namespace AircraftTrajectories.Models.Optimisation
         public void CalculateNoise(Point3D aircraftPosition, double thrust)
         {
             int cellSize = 250;
+            Console.WriteLine("ToDo: CellSize NPD currently hardcoded to 250");
             List<double[]> _engineData;
             _INMData.TryGetValue("GP7270"+'M'+'D', out _engineData);
             var distances = new List<double>() { 200, 400, 630, 1000, 2000, 4000, 6300, 10000, 16000, 25000 };
@@ -168,7 +169,7 @@ namespace AircraftTrajectories.Models.Optimisation
                 }
                 data[x / cellSize] = col;
             }
-            Grid grid = new Grid(data, new Point3D(0, 0, 0, CoordinateUnit.metric), false);
+            Grid grid = new Grid(data, new Point3D(0, 0, 0, CoordinateUnit.metric), cellSize, false);
             NoiseMaxGrid = grid;
         }
     }

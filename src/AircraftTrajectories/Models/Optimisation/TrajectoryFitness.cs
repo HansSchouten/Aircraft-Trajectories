@@ -94,8 +94,7 @@ namespace AircraftTrajectories.Models.Optimisation
                 int width = (int) (trajectory.UpperRightPoint.X - trajectory.LowerLeftPoint.X + boundary + boundary) / 125;
                 int height = (int) (trajectory.UpperRightPoint.Y - trajectory.LowerLeftPoint.Y + boundary + boundary) / 125;
                 Point3D shiftedLeftPoint = new Point3D(trajectory.LowerLeftPoint.X - boundary, trajectory.LowerLeftPoint.Y - boundary);
-                Grid populationGrid = Grid.CreateEmptyGrid(height, width, shiftedLeftPoint, 125);
-                populationGrid.ReferencePoint = ReferencePoint;
+                Grid populationGrid = Grid.CreateEmptyGrid(height, width, shiftedLeftPoint, ReferencePoint, 125);
 
                 PopulationData.FillGrid(populationGrid);
 

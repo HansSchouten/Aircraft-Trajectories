@@ -36,10 +36,10 @@ namespace AircraftTrajectories.Models.TemporalGrid
         /// Construct a Grid
         /// </summary>
         /// <param name="data"></param>
-        public Grid(double[][] data, Point3D _lowerLeftCorner, bool calculateContours = true)
+        public Grid(double[][] data, Point3D lowerLeftCorner, int cellSize, bool calculateContours = true)
         {
-            LowerLeftCorner = _lowerLeftCorner;
-            CellSize = 125;
+            LowerLeftCorner = lowerLeftCorner;
+            CellSize = cellSize;
             Data = data;
             Converter = new MetricToGeographic(ReferencePoint);
             ReferencePoint = new ReferencePointRD();
@@ -65,7 +65,7 @@ namespace AircraftTrajectories.Models.TemporalGrid
         /// <param name="height">the number of vertical cells</param>
         /// <param name="width">the number of horizontal cells</param>
         /// <returns></returns>
-        public static Grid CreateEmptyGrid(int height, int width, Point3D lowerLeftCorner, int cellSize = 125)
+        public static Grid CreateEmptyGrid(int height, int width, Point3D lowerLeftCorner, ReferencePoint referencePoint, int cellSize)
         {
             double[][] data = new double[width][];
             for (int x=0; x<width; x++)
@@ -78,8 +78,8 @@ namespace AircraftTrajectories.Models.TemporalGrid
                 data[x] = column;
             }
 
-            Grid newGrid = new Grid(data, lowerLeftCorner, false);
-            newGrid.CellSize = cellSize;
+            Grid newGrid = new Grid(data, lowerLeftCorner, cellSize, false);
+            newGrid.ReferencePoint = referencePoint;
             return newGrid;
         }
 
@@ -116,6 +116,28 @@ namespace AircraftTrajectories.Models.TemporalGrid
             int gridX = (int)Math.Floor((decimal)(x - LowerLeftCorner.X) / CellSize);
             int gridY = (int)Math.Floor((decimal)(y - LowerLeftCorner.Y) / CellSize);
             return new Point(gridX, gridY);
+        }
+
+        public static Grid MapOnLargerGrid(Grid input, Point3D lowerLeftPoint, Point3D upperRightPoint)
+        {
+            int width = (int) Math.Ceiling((upperRightPoint.X - lowerLeftPoint.X) / input.CellSize);
+            int height = (int) Math.Ceiling((upperRightPoint.Y - lowerLeftPoint.Y) / input.CellSize);
+
+            Grid upscaled = CreateEmptyGrid(height, width, lowerLeftPoint, input.ReferencePoint, input.CellSize);
+
+            for (int x = 0; x < input.Data.Length; x++)
+            {
+                for (int y = 0; y < input.Data[0].Length; y++)
+                {
+                    double value = input.Data[x][y];
+                    Point3D gridPoint = input.GridCoordinate(x, y);
+                    Point upscaledIndexes = upscaled.CoordinateToGridIndex(gridPoint.X, gridPoint.Y);
+                    upscaled.Data[upscaledIndexes.X][upscaledIndexes.Y] = value;
+                }
+            }
+
+            upscaled.CalculateContours();
+            return upscaled;
         }
     }
 }

@@ -32,8 +32,8 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
                 double[] row = _population[i];
                 var point = converter.convertToLatLong(row[0], row[1]);
                 var test = new GeoPoint3D(point.X, point.Y, 0);
-                var upperRight = test.MoveInDirection(300, 45);
-                var lowerLeft = test.MoveInDirection(300, 225);
+                var upperRight = test.MoveInDirection(600, 45);
+                var lowerLeft = test.MoveInDirection(600, 225);
 
                 heatmapSetup += @"
     <GroundOverlay>

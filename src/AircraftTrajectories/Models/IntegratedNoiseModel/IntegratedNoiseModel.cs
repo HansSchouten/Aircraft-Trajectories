@@ -32,7 +32,17 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             }
         }
         protected bool _customGrid = false;
-        public int CellSize = 125;
+        public int CellSize { get; set; }
+
+        // Noise calculations need to be added to a larger grid
+        protected bool _mapToLargerGrid = false;
+        protected Point3D _lowerLeftPoint;
+        protected Point3D _upperRightPoint;
+
+        // Max aircraft distance
+        protected bool _useMaxDistanceFromAirport = false;
+        protected Point3D _airportPoint;
+        protected int _maxDistanceFromAirport;
 
         protected BackgroundWorker _backgroundWorker;
 
@@ -44,13 +54,42 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         /// <param name="aircraft"></param>
         public IntegratedNoiseModel(Trajectory trajectory, Aircraft aircraft)
         {
+            CellSize = 125;
             IntegrateToCurrentPosition = false;
             _gridName = "Grid2D";
             NoiseMetric = 1;
             ReferencePoint = new ReferencePointRD();
-            TrajectoryBound = 2000;
+            TrajectoryBound = 3000;
             _trajectory = trajectory;
             _aircraft = aircraft;
+        }
+
+        public void MapToLargerGrid(Point3D lowerLeftPoint, Point3D upperRightPoint)
+        {
+            lowerLeftPoint.X -= TrajectoryBound;
+            lowerLeftPoint.Y -= TrajectoryBound;
+            _lowerLeftPoint = lowerLeftPoint;
+
+            upperRightPoint.X += TrajectoryBound;
+            upperRightPoint.Y += TrajectoryBound;
+            _upperRightPoint = upperRightPoint;
+
+            _mapToLargerGrid = true;
+        }
+
+        public void MaxDistanceFromAirport(Point3D airport, int maxDistance)
+        {
+            _airportPoint = airport;
+            _maxDistanceFromAirport = maxDistance;
+            _useMaxDistanceFromAirport = true;
+
+            if (_mapToLargerGrid)
+            {
+                _lowerLeftPoint.X = _airportPoint.X - maxDistance - (2 * CellSize);
+                _lowerLeftPoint.Y = _airportPoint.Y - maxDistance - (2 * CellSize);
+                _upperRightPoint.X = _airportPoint.X + maxDistance + (2 * CellSize);
+                _upperRightPoint.Y = _airportPoint.Y + maxDistance + (2 * CellSize);
+            }
         }
 
         public void StartCalculation(Action<double> progressChangedCallback)
@@ -72,7 +111,11 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 ExecuteINMTM();
 
                 double[][] noiseData = ReadNoiseData();
-                Grid grid = NoiseDataToGrid(noiseData);
+                Grid grid = NoiseDataToGrid(noiseData, !_mapToLargerGrid);
+                if (_mapToLargerGrid)
+                {
+                    grid = Grid.MapOnLargerGrid(grid, _lowerLeftPoint, _upperRightPoint);
+                }
                 TemporalGrid.AddGrid(grid);
 
                 progress = (t / (double)_trajectory.Duration) * 100;
@@ -99,7 +142,13 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             else
             {
                 double[][] noiseData = ReadNoiseData();
-                Grid grid = NoiseDataToGrid(noiseData);
+                Grid grid = NoiseDataToGrid(noiseData, !_mapToLargerGrid);
+                if (_mapToLargerGrid)
+                {
+                    Console.WriteLine(_lowerLeftPoint.X + "," + _lowerLeftPoint.Y);
+                    Console.WriteLine(_upperRightPoint.X + "," + _upperRightPoint.Y);
+                    grid = Grid.MapOnLargerGrid(grid, _lowerLeftPoint, _upperRightPoint);
+                }
                 grid.ReferencePoint = ReferencePoint;
                 TemporalGrid.AddGrid(grid);
             }
@@ -181,12 +230,25 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         {
             if (_customGrid) { return; }
 
+            double minX = (_trajectory.LowerLeftPoint.X - TrajectoryBound);
+            double minY = (_trajectory.LowerLeftPoint.Y - TrajectoryBound);
+            double maxX = (_trajectory.UpperRightPoint.X + TrajectoryBound);
+            double maxY = (_trajectory.UpperRightPoint.Y + TrajectoryBound);
+
+            if (_useMaxDistanceFromAirport)
+            {
+                minX = Math.Max(minX, _airportPoint.X - _maxDistanceFromAirport);
+                minY = Math.Max(minY, _airportPoint.Y - _maxDistanceFromAirport);
+                maxX = Math.Min(maxX, _airportPoint.X + _maxDistanceFromAirport);
+                maxY = Math.Min(maxY, _airportPoint.Y + _maxDistanceFromAirport);
+            }
+
             using (StreamWriter file =
                     new StreamWriter(Globals.currentDirectory + GridName + ".dat", false))
             {
                 file.Write("     x_min     x_max      x_sz     y_min     y_max      y_sz\n");
                 file.Write("====================================================================================\n");
-                file.Write((_trajectory.LowerLeftPoint.X - TrajectoryBound) + "      " + (_trajectory.UpperRightPoint.X + TrajectoryBound) + "     "+ CellSize + "     " + (_trajectory.LowerLeftPoint.Y - TrajectoryBound) + "      " + (_trajectory.UpperRightPoint.Y + TrajectoryBound) + "       "+ CellSize);
+                file.Write(minX + "      " + maxX + "     "+ CellSize + "     " + minY + "      " + maxY + "       "+ CellSize);
             }
         }
 
@@ -215,6 +277,9 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
                 }
             }
         }
+
+
+
 
         /// <summary>
         /// Starts the execution process of the noise model
@@ -268,7 +333,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
         /// </summary>
         /// <param name="noiseData"></param>
         /// <returns></returns>
-        protected Grid NoiseDataToGrid(double[][] noiseData)
+        protected Grid NoiseDataToGrid(double[][] noiseData, bool calculateContours = true)
         {
             // Store noise levels in a 2D grid
             double[][] noiseDataGrid = { };
@@ -296,8 +361,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             }
             noiseDataGrid[columnIndex] = column.ToArray();
             
-            Grid grid = new Grid(noiseDataGrid, new Point3D(noiseData[0][0], noiseData[0][1]));
-            grid.CellSize = CellSize;
+            Grid grid = new Grid(noiseDataGrid, new Point3D(noiseData[0][0], noiseData[0][1]), CellSize, calculateContours);
             grid.ReferencePoint = ReferencePoint;
             return grid;
         }
