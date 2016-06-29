@@ -14,11 +14,36 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections.Camera
 
         public string KMLSetup()
         {
-            return "";
+            return @"
+    <LookAt>
+        <latitude>" + _cameraLocation.Latitude + @"</latitude>
+        <longitude>" + _cameraLocation.Longitude + @"</longitude>
+        <altitude>" + _cameraLocation.Z + @"</altitude>
+        <altitudeMode>absolute</altitudeMode>
+        <heading>0</heading>
+        <tilt>0</tilt>
+    </LookAt>
+            ";
         }
 
         public string KMLAnimationStep(int t)
         {
+            if (t == 0)
+            {
+                return @"
+<gx:FlyTo>
+    <LookAt>
+        <latitude>" + _cameraLocation.Latitude + @"</latitude>
+        <longitude>" + _cameraLocation.Longitude + @"</longitude>
+        <altitude>" + _cameraLocation.Z + @"</altitude>
+        <altitudeMode>absolute</altitudeMode>
+        <heading>0</heading>
+        <tilt>0</tilt>
+    </LookAt>
+</gx:FlyTo>
+                ";
+            }
+
             return @"
 <gx:FlyTo>
     <gx:duration>1.0</gx:duration>

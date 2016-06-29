@@ -32,6 +32,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML
             StringBuilder builder = new StringBuilder();
             builder.AppendLine("<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\">");
             builder.AppendLine("<Document>");
+            builder.Append(_camera.KMLSetup());
 
             // Add each kml section definition of this animation
             foreach (KMLAnimatorSectionInterface kmlAnimator in _animators)

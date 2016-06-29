@@ -37,8 +37,8 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
 
 <Placemark>
 	<name>Aircraft model</name>
-	<visibility>1</visibility>
 	<Model id='model'>
+	    <visibility>0</visibility>
 		<altitudeMode>absolute</altitudeMode>
 		<Location id='model_location'>
 			<latitude>" + startingPoint.Latitude + @"</latitude>
@@ -46,9 +46,9 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
 			<altitude>" + startingPoint.Z + @"</altitude>
 		</Location>
 		<Orientation id='model_orientation'>
-			<heading>0.0</heading>
-			<tilt>0.0</tilt>
-			<roll>0.0</roll>
+                <heading>" + _trajectory.Heading(0) + @"</heading>
+                <tilt>" + _trajectory.Tilt(0) + @"</tilt>
+                <roll>" + _trajectory.BankAngle(0) + @"</roll>
 		</Orientation>
 		<Scale id='model_scale'>
 			<x>3.5</x>
@@ -62,18 +62,18 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
 </Placemark>
 
 <Placemark id='pin'>
-		<name>" + _aircraft.Model.ToString().Remove(_aircraft.Model.ToString().Length - 4) + @"</name>
-        <styleUrl>#pushpin</styleUrl>
-        <altitudeMode>absolute</altitudeMode>
-		<MultiGeometry>
-			<Point id='aircraftpin'>
-                <altitudeMode>absolute</altitudeMode>
-				<coordinates>4.73729753494263,52.2891273498535,10.668</coordinates>
-			</Point>		
-			<Polygon>
-			</Polygon>
-		</MultiGeometry>
-	</Placemark>
+	<name>" + _aircraft.Model.ToString().Remove(_aircraft.Model.ToString().Length - 4) + @"</name>
+    <styleUrl>#pushpin</styleUrl>
+    <altitudeMode>absolute</altitudeMode>
+	<MultiGeometry>
+		<Point id='aircraftpin'>
+            <altitudeMode>absolute</altitudeMode>
+			<coordinates>4.73729753494263,52.2891273498535,10.668</coordinates>
+		</Point>		
+		<Polygon>
+		</Polygon>
+	</MultiGeometry>
+</Placemark>
                     ";
         }
 

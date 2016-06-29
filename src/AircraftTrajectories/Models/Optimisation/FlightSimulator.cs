@@ -22,7 +22,7 @@ namespace AircraftTrajectories.Models.Optimisation
         }
 
         protected const int MAX_SEGMENT_LENGTH = 15000;
-        protected const int MAX_TURN_RADIUS = 8000;
+        protected const int MAX_TURN_RADIUS = 10000;
 
         protected ISimulatorModel _aircraft;
         protected VERTICAL_STATE _vertical_state;
@@ -280,7 +280,7 @@ namespace AircraftTrajectories.Models.Optimisation
         /// </summary>
         protected void updateHorizontalState()
         {
-            if (_vertical_state == VERTICAL_STATE.FREECLIMB) {
+            //if (_vertical_state == VERTICAL_STATE.FREECLIMB) {
                 if (_segmentStartPoint == null) {
                     _segmentStartPoint = new Point3D(_x, _y, 0, CoordinateUnit.metric);
                 }
@@ -293,7 +293,7 @@ namespace AircraftTrajectories.Models.Optimisation
                         CheckEndOfTurn();
                         break;
                 }
-            }
+            //}
         }
 
         /// <summary>
@@ -339,13 +339,26 @@ namespace AircraftTrajectories.Models.Optimisation
         public void CheckEndOfTurn()
         {
             bool switchHorizontalState = false;
-            _deltaHeading = Interpolate(-Math.PI / 2, Math.PI / 2, Setting(3));
-            double targetHeading = _heading;
+
+
+            var currentPoint = new Point3D(_x, _y, 0, CoordinateUnit.metric);
+            var targetHeading = currentPoint.HeadingTo(_endPoint) * Math.PI / 180;
+            if (AngleDifference(targetHeading, _segmentStartHeading) > AngleDifference(_segmentStartHeading, targetHeading))
+            {
+                // right turn
+                _deltaHeading = Interpolate(0, AngleDifference(_segmentStartHeading, targetHeading) + (Math.PI / 4), Setting(3));
+            } else
+            {
+                // left turn
+                _deltaHeading = Interpolate(-(AngleDifference(targetHeading, _segmentStartHeading) + (Math.PI / 4)), 0, Setting(3));
+            }
+
+
 
             // Check whether we are in the last turn of the trajectory
             if (_segmentIndex == _numberOfSegments - 1)
             {
-                var currentPoint = new Point3D(_x, _y, 0, CoordinateUnit.metric);
+                currentPoint = new Point3D(_x, _y, 0, CoordinateUnit.metric);
                 targetHeading = currentPoint.HeadingTo(_endPoint) * Math.PI / 180;
                 /*
                 Console.WriteLine((_heading * 180 / Math.PI) + " to " + targetHeading * 180 / Math.PI + " seg:"+ _segmentStartHeading * 180 / Math.PI);
