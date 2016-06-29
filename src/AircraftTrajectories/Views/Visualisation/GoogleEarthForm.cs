@@ -59,9 +59,6 @@ namespace AircraftTrajectories.Views.Visualisation
             kmlTreeView.Nodes[0].Expand();
             geWebBrowser.ParseKmlObject(kml);
             statusLabel.Text = "KML loaded";
-
-            splitTreeBrowser.Panel1Collapsed = false;
-            splitTreeBrowser.Panel1.Show();
         }
 
         private void GoogleEarthForm_Load(object sender, EventArgs e)
@@ -74,6 +71,9 @@ namespace AircraftTrajectories.Views.Visualisation
             splitTreeBrowser.Panel1.Hide();
             splitBrowserTextbox.Panel2Collapsed = true;
             splitBrowserTextbox.Panel2.Hide();
+
+            splitTreeBrowser.Panel1Collapsed = false;
+            splitTreeBrowser.Panel1.Show();
         }
 
         public bool wait = false;
@@ -88,11 +88,6 @@ namespace AircraftTrajectories.Views.Visualisation
             {
                 wait = true;
             }
-        }
-
-        private void geWebBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-
         }
     }
 }

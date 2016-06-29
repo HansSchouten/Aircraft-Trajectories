@@ -232,14 +232,6 @@ namespace AircraftTrajectories.Views.Visualisation
             }
         }
 
-        public string ValueConversion
-        {
-            get
-            {
-                return AnimatorForm.ValueConversion;
-            }
-        }
-
         public GeoPoint3D GeoReference
         {
             get
@@ -343,6 +335,38 @@ namespace AircraftTrajectories.Views.Visualisation
             get
             {
                 return AnimatorForm.cbHighlightedContours.Checked;
+            }
+        }
+
+        public double PopulationFactor
+        {
+            get
+            {
+                return double.Parse(AnimatorForm.txtPopulationFactor.Text);
+            }
+        }
+
+        public int PopulationDotSize
+        {
+            get
+            {
+                return int.Parse(AnimatorForm.txtPopulationDotSize.Text);
+            }
+        }
+
+        public int CameraAltitude
+        {
+            get
+            {
+                return int.Parse(AnimatorForm.txtCameraAltitude.Text);
+            }
+        }
+
+        public string PopulationDotFile
+        {
+            get
+            {
+                return AnimatorForm.txtDotFile.Text;
             }
         }
 

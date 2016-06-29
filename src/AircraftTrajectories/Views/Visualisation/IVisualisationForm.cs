@@ -26,8 +26,10 @@ namespace AircraftTrajectories.Views.Visualisation
         GeoPoint3D MapBottomLeft { get; }
         GeoPoint3D MapUpperRight { get; }
         Trajectory Trajectory { get; set; }
-        string ValueConversion { get; }
         int NoiseMetric { get; }
+        double PopulationFactor { get; }
+        int PopulationDotSize { get; }
+        string PopulationDotFile { get; }
 
         List<int> ContoursOfInterest { get; }
         double LowestContourValue { get; }
@@ -35,6 +37,7 @@ namespace AircraftTrajectories.Views.Visualisation
         double ContourValueStep { get; }
         bool VisualiseGradient { get; }
         bool VisualiseContoursOfInterest { get; }
+        int CameraAltitude { get; }
 
         int Percentage { set; }
         int TimeLeft { set; }

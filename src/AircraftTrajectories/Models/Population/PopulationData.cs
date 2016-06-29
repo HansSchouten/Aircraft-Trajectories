@@ -10,6 +10,8 @@ namespace AircraftTrajectories.Models.Population
     {
         protected string _file;
         public double Chance { get; set; }
+        protected static List<double[]> _data;
+        protected static double _chance;
 
         /// <summary>
         /// Creates a populationdata object based on input file
@@ -18,7 +20,7 @@ namespace AircraftTrajectories.Models.Population
         public PopulationData(string file)
         {
             _file = file;
-            Chance = 0.03;
+            Chance = 0.003;
         }
 
         /// <summary>
@@ -28,6 +30,13 @@ namespace AircraftTrajectories.Models.Population
         /// <returns></returns>
         public List<double[]> getPopulationData()
         {
+            if (_data != null && _chance == Chance)
+            {
+                return _data;
+            }
+            _data = null;
+            _chance = Chance;
+
             string rawData = File.ReadAllText(_file);
             int[][] populationData;
             populationData = rawData
@@ -41,11 +50,12 @@ namespace AircraftTrajectories.Models.Population
                 )
                 .ToArray();
 
+            /*
             var inGridPoints = new List<int[]>();
-            int minX = 106062;
-            int maxX = 114958;
-            int minY = 476470;
-            int maxY = 488864;
+            int minX = 0;
+            int maxX = int.MaxValue;
+            int minY = 0;
+            int maxY = int.MaxValue;
             foreach (int[] row in populationData)
             {
                 if (row.Length < 3) { continue; }
@@ -56,10 +66,11 @@ namespace AircraftTrajectories.Models.Population
                     inGridPoints.Add(new int[] { x, y, row[2] });
                 }
             }
+            */
 
             var chosenPoints = new List<double[]>();
             int i = 0;
-            foreach (int[] row in inGridPoints)
+            foreach (int[] row in populationData)
             {
                 i++;
                 if (randomBool(Chance, i))
@@ -67,6 +78,9 @@ namespace AircraftTrajectories.Models.Population
                     chosenPoints.Add(new double[] { row[0], row[1], row[2] });
                 }
             }
+            Console.WriteLine(chosenPoints.Count);
+
+            _data = chosenPoints;
             return chosenPoints;
         }
 

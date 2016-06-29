@@ -115,6 +115,11 @@ namespace AircraftTrajectories.Presenters
         {
             var reader = new TrajectoriesFileReader();
             trajectories = reader.CreateFromFile(_view.TrajectoryFile, referencePoint);
+            
+            /*
+            _view.Invoke(delegate { _view.NoiseCalculationCompleted(); });
+            return;
+            */
 
             // Calculate the noise for each trajectory
             temporalGrid = new TemporalGrid();
@@ -124,10 +129,10 @@ namespace AircraftTrajectories.Presenters
                 double percentage = (double) counter / trajectories.Count * 100.0;
                 ProgressChanged(percentage);
                 Console.WriteLine("INM "+counter+" started");
-                if (counter > 3) { break; }
+                //if (counter > 3) { break; }
 
                 var INM = new IntegratedNoiseModel(trajectory, trajectory.Aircraft);
-                INM.CellSize = 500;
+                INM.CellSize = 1500;
                 INM.MapToLargerGrid(reader.LowerLeftPoint, reader.UpperRightPoint);
                 INM.MaxDistanceFromAirport(referencePoint.Point, 100000);
                 INM.IntegrateToCurrentPosition = true;
@@ -215,7 +220,10 @@ namespace AircraftTrajectories.Presenters
             if (_view.Heatmap)
             {
                 var population = new PopulationData(Globals.currentDirectory + "population.dat");
+                population.Chance = _view.PopulationFactor;
                 var section = new HeatmapKMLAnimator(population);
+                section.DotSize = _view.PopulationDotSize;
+                section.DotFile = _view.PopulationDotFile;
                 sections.Add(section);
             }
 
@@ -248,11 +256,11 @@ namespace AircraftTrajectories.Presenters
             legend.OutputLegendTitle();
 
             // Create sections
-            var sections = new List<KMLAnimatorSectionInterface>() {
-                new LegendKMLAnimator(),
-                contourAnimator,
-                new MultipleGroundplotKMLAnimator(trajectories)
-            };
+            var sections = new List<KMLAnimatorSectionInterface>();
+            //sections.Add(new MaintainMultipleGroundPlotKMLAnimator(trajectories));
+            sections.Add(new MultipleGroundplotKMLAnimator(trajectories));
+            sections.Add(new LegendKMLAnimator());
+            sections.Add(contourAnimator);
             if (_view.MapFile != "")
             {
                 sections.Add(new CustomMapKMLAnimator(_view.MapFile, _view.MapBottomLeft, _view.MapUpperRight));
@@ -260,18 +268,21 @@ namespace AircraftTrajectories.Presenters
             if (_view.Heatmap)
             {
                 var population = new PopulationData(Globals.currentDirectory + "population.dat");
+                population.Chance = _view.PopulationFactor;
                 var section = new HeatmapKMLAnimator(population);
+                section.DotSize = _view.PopulationDotSize;
+                section.DotFile = _view.PopulationDotFile;
                 sections.Add(section);
             }
 
             // Create animator
             var camera = new TopViewKMLAnimatorCamera(
                 new GeoPoint3D(referencePoint.GeoPoint.Longitude, referencePoint.GeoPoint.Latitude, 
-                50000)
+                _view.CameraAltitude)
             );
             var animator = new KMLAnimator(sections, camera);
             animator.Duration = 0;
-            animator.AnimationToFile(temporalGrid.GetNumberOfGrids(), Globals.webrootDirectory + "visualisation.kml");
+            animator.AnimationToFile(trajectories.Count, Globals.webrootDirectory + "visualisation.kml");
 
             _view.Invoke(delegate { _view.PreparationCalculationCompleted(); });
         }

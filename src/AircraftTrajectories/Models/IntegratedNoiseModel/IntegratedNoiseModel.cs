@@ -59,7 +59,7 @@ namespace AircraftTrajectories.Models.IntegratedNoiseModel
             _gridName = "Grid2D";
             NoiseMetric = 1;
             ReferencePoint = new ReferencePointRD();
-            TrajectoryBound = 3000;
+            TrajectoryBound = 5000;
             _trajectory = trajectory;
             _aircraft = aircraft;
         }

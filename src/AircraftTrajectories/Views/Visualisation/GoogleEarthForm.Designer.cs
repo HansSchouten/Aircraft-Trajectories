@@ -114,7 +114,6 @@
             this.geWebBrowser.Size = new System.Drawing.Size(919, 449);
             this.geWebBrowser.TabIndex = 0;
             this.geWebBrowser.WebBrowserShortcutsEnabled = false;
-            this.geWebBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.geWebBrowser_DocumentCompleted);
             // 
             // richTextBox
             // 

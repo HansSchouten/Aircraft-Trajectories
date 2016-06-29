@@ -15,19 +15,11 @@ namespace AircraftTrajectories.Views.Visualisation
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             ControlBox = false;
-            selectValueConversion.SelectedIndex = 0;
-            //selectCameraType.SelectedIndex = 0;
         }
 
         private void btnPrepare_Click(object sender, EventArgs e)
         {
             ((VisualisationForm)this.MdiParent).PrepareVisualisationClick();
-        }
-
-        public string ValueConversion = "";
-        private void selectValueConversion_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ValueConversion = selectValueConversion.Text;
         }
 
         private void cbContourGradient_CheckedChanged(object sender, EventArgs e)
