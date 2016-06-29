@@ -13,6 +13,8 @@ namespace AircraftTrajectories.Models.Optimisation
     using TemporalGrid;
     using IntegratedNoiseModel;
     using Population;
+    using Trajectory;
+
     public class TrajectoryFitness : IFitness
     {
         public FlightSimulator FlightSimulator { get; set; }
@@ -22,6 +24,8 @@ namespace AircraftTrajectories.Models.Optimisation
         public static double TakeoffHeading;
         public static double TakeoffSpeed;
         public static PopulationData2 PopulationData;
+        public static List<Trajectory> trajectories;
+        public static int Best;
 
         public double Evaluate(IChromosome chromosome)
         {
@@ -166,9 +170,10 @@ namespace AircraftTrajectories.Models.Optimisation
 
 
 
+                double fitness;
                 if (OptimiseFuel)
                 {
-                    return int.MaxValue - FlightSimulator.fuel;
+                    fitness = FlightSimulator.fuel;
                 } else
                 {
                     /*
@@ -183,8 +188,19 @@ namespace AircraftTrajectories.Models.Optimisation
                     }
                     return int.MaxValue - sum;
                     */
-                    return int.MaxValue - awoken;
+                    fitness = awoken;
                 }
+
+
+                trajectory.Fitness = fitness;
+                if (trajectories == null)
+                {
+                    trajectories = new List<Trajectory>();
+                }
+                trajectories.Add(trajectory);
+
+                Best = (int) Math.Max(Best, fitness);
+                return int.MaxValue - fitness;
             } catch (Exception ex)
             {
                 Console.WriteLine("Evaluation exception");

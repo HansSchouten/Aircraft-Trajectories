@@ -44,6 +44,7 @@ namespace AircraftTrajectories.Models.Visualisation.KML
             builder.AppendLine("<gx:Tour><name>Flight animation</name><gx:Playlist>");
             for (int t = 0; t < duration; t++)
             {
+                builder.Append(_camera.KMLAnimationStep(t));
                 builder.Append(@"
 <gx:AnimatedUpdate>
     <gx:duration>" + Duration + @"</gx:duration>
@@ -57,7 +58,6 @@ namespace AircraftTrajectories.Models.Visualisation.KML
         </Change>
     </Update>
 </gx:AnimatedUpdate>");
-                builder.Append(_camera.KMLAnimationStep(t));
             }
             builder.AppendLine("</gx:Playlist></gx:Tour>");
 

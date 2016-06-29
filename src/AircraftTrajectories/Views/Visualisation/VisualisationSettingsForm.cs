@@ -16,8 +16,11 @@ namespace AircraftTrajectories.Views.Visualisation
             WindowState = FormWindowState.Maximized;
             ControlBox = false;
 
+            radioSingle.Checked = true;
+            /*
             radioSingle.Checked = false;
             Console.WriteLine("VisualiseSettings change radioSingle -> true");
+            */
         }
 
         private void btnBrowseTrajectory_Click(object sender, EventArgs e)

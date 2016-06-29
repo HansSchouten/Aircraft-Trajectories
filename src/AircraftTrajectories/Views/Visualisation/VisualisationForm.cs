@@ -64,8 +64,10 @@ namespace AircraftTrajectories.Views.Visualisation
         public Trajectory Trajectory { get; set; }
         public void VisualiseTrajectory(Trajectory trajectory)
         {
+            AnimatorForm.BringToFront();
+
             SettingsForm.txtTrajectoryFile.Text = "Optimisation result";
-            Trajectory = trajectory;
+            //Trajectory = trajectory;
             VisualiseTrajectoryEvent(this, EventArgs.Empty);
         }
 

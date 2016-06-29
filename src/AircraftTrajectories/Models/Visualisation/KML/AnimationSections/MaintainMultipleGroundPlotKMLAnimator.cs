@@ -2,6 +2,7 @@
 namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
 {
     using System.Collections.Generic;
+    using System.Drawing;
     using Trajectory;
 
     public class MaintainMultipleGroundPlotKMLAnimator : KMLAnimatorSectionInterface
@@ -22,20 +23,20 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
         {
             string contourSetup = @"
 <Folder> 
- <open>0</open>
- <name>Groundpaths</name>
+    <open>0</open>
+    <name>Groundpaths</name>
+    <Style id='multipleplotground_style'>
+	    <LineStyle>
+		    <color>30F0BE14</color>
+		    <gx:physicalWidth>150</gx:physicalWidth>
+		    <gx:outerColor>EEFF4444</gx:outerColor>
+		    <gx:outerWidth>0.95</gx:outerWidth>
+	    </LineStyle>
+    </Style>
             ";
             for (int i = 0; i < _trajectories.Count; i++)
             {
                 contourSetup += @"
-<Style id='multipleplotground_style'>
-	<LineStyle>
-		<color>30F0BE14</color>
-		<gx:physicalWidth>150</gx:physicalWidth>
-		<gx:outerColor>EEFF4444</gx:outerColor>
-		<gx:outerWidth>0.95</gx:outerWidth>
-	</LineStyle>
-</Style>
 <Placemark id='multipleplotground_placemark'>
     <name>Plotground</name>
     <styleUrl>#multipleplotground_style</styleUrl>

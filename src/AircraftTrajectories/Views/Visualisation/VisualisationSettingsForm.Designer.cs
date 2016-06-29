@@ -86,7 +86,7 @@ namespace AircraftTrajectories.Views.Visualisation
             this.btnCalculateNoise.ForeColor = System.Drawing.Color.White;
             this.btnCalculateNoise.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnCalculateNoise.Location = new System.Drawing.Point(11, 388);
-            this.btnCalculateNoise.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCalculateNoise.Margin = new System.Windows.Forms.Padding(2);
             this.btnCalculateNoise.Name = "btnCalculateNoise";
             this.btnCalculateNoise.Size = new System.Drawing.Size(186, 48);
             this.btnCalculateNoise.TabIndex = 139;
@@ -125,8 +125,6 @@ namespace AircraftTrajectories.Views.Visualisation
             this.txtTrajectoryFile.Name = "txtTrajectoryFile";
             this.txtTrajectoryFile.Size = new System.Drawing.Size(240, 25);
             this.txtTrajectoryFile.TabIndex = 140;
-            this.txtTrajectoryFile.Text = "C:\\Users\\hanss\\Desktop\\AeroVision\\Aircraft-Trajectories\\src\\AircraftTrajectories\\" +
-    "bin\\Debug\\inbound_short.txt";
             // 
             // btnBrowseTrajectory
             // 
@@ -136,7 +134,7 @@ namespace AircraftTrajectories.Views.Visualisation
             this.btnBrowseTrajectory.ForeColor = System.Drawing.Color.White;
             this.btnBrowseTrajectory.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnBrowseTrajectory.Location = new System.Drawing.Point(260, 164);
-            this.btnBrowseTrajectory.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnBrowseTrajectory.Margin = new System.Windows.Forms.Padding(2);
             this.btnBrowseTrajectory.Name = "btnBrowseTrajectory";
             this.btnBrowseTrajectory.Size = new System.Drawing.Size(100, 34);
             this.btnBrowseTrajectory.TabIndex = 141;
@@ -149,7 +147,7 @@ namespace AircraftTrajectories.Views.Visualisation
             this.radioSingle.AutoSize = true;
             this.radioSingle.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.radioSingle.Location = new System.Drawing.Point(10, 5);
-            this.radioSingle.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.radioSingle.Margin = new System.Windows.Forms.Padding(2);
             this.radioSingle.Name = "radioSingle";
             this.radioSingle.Size = new System.Drawing.Size(120, 21);
             this.radioSingle.TabIndex = 143;
@@ -160,14 +158,12 @@ namespace AircraftTrajectories.Views.Visualisation
             // radioMultiple
             // 
             this.radioMultiple.AutoSize = true;
-            this.radioMultiple.Checked = true;
             this.radioMultiple.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.radioMultiple.Location = new System.Drawing.Point(10, 30);
-            this.radioMultiple.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.radioMultiple.Margin = new System.Windows.Forms.Padding(2);
             this.radioMultiple.Name = "radioMultiple";
             this.radioMultiple.Size = new System.Drawing.Size(142, 21);
             this.radioMultiple.TabIndex = 144;
-            this.radioMultiple.TabStop = true;
             this.radioMultiple.Text = "Multiple trajectories";
             this.radioMultiple.UseVisualStyleBackColor = true;
             this.radioMultiple.CheckedChanged += new System.EventHandler(this.radioMultiple_CheckedChanged);
@@ -212,7 +208,7 @@ namespace AircraftTrajectories.Views.Visualisation
             this.radioINM.Checked = true;
             this.radioINM.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.radioINM.Location = new System.Drawing.Point(10, 4);
-            this.radioINM.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.radioINM.Margin = new System.Windows.Forms.Padding(2);
             this.radioINM.Name = "radioINM";
             this.radioINM.Size = new System.Drawing.Size(178, 21);
             this.radioINM.TabIndex = 148;
@@ -226,7 +222,7 @@ namespace AircraftTrajectories.Views.Visualisation
             this.radioExternal.AutoSize = true;
             this.radioExternal.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.radioExternal.Location = new System.Drawing.Point(10, 29);
-            this.radioExternal.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.radioExternal.Margin = new System.Windows.Forms.Padding(2);
             this.radioExternal.Name = "radioExternal";
             this.radioExternal.Size = new System.Drawing.Size(238, 21);
             this.radioExternal.TabIndex = 149;
@@ -242,7 +238,7 @@ namespace AircraftTrajectories.Views.Visualisation
             this.btnBrowseNoise.ForeColor = System.Drawing.Color.White;
             this.btnBrowseNoise.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnBrowseNoise.Location = new System.Drawing.Point(264, 28);
-            this.btnBrowseNoise.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnBrowseNoise.Margin = new System.Windows.Forms.Padding(2);
             this.btnBrowseNoise.Name = "btnBrowseNoise";
             this.btnBrowseNoise.Size = new System.Drawing.Size(100, 34);
             this.btnBrowseNoise.TabIndex = 152;
@@ -275,7 +271,7 @@ namespace AircraftTrajectories.Views.Visualisation
             this.panel1.Controls.Add(this.radioSingle);
             this.panel1.Controls.Add(this.radioMultiple);
             this.panel1.Location = new System.Drawing.Point(4, 80);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(178, 63);
             this.panel1.TabIndex = 153;
@@ -285,7 +281,7 @@ namespace AircraftTrajectories.Views.Visualisation
             this.panel2.Controls.Add(this.radioINM);
             this.panel2.Controls.Add(this.radioExternal);
             this.panel2.Location = new System.Drawing.Point(398, 80);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(250, 63);
             this.panel2.TabIndex = 154;
@@ -308,7 +304,7 @@ namespace AircraftTrajectories.Views.Visualisation
             this.panel3.Controls.Add(this.radioCoordinateRD);
             this.panel3.Controls.Add(this.radioCoordinateCustom);
             this.panel3.Location = new System.Drawing.Point(4, 257);
-            this.panel3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel3.Margin = new System.Windows.Forms.Padding(2);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(178, 93);
             this.panel3.TabIndex = 154;
@@ -318,7 +314,7 @@ namespace AircraftTrajectories.Views.Visualisation
             this.radioCoordinateWGS.AutoSize = true;
             this.radioCoordinateWGS.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.radioCoordinateWGS.Location = new System.Drawing.Point(10, 58);
-            this.radioCoordinateWGS.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.radioCoordinateWGS.Margin = new System.Windows.Forms.Padding(2);
             this.radioCoordinateWGS.Name = "radioCoordinateWGS";
             this.radioCoordinateWGS.Size = new System.Drawing.Size(68, 21);
             this.radioCoordinateWGS.TabIndex = 145;
@@ -328,26 +324,26 @@ namespace AircraftTrajectories.Views.Visualisation
             // radioCoordinateRD
             // 
             this.radioCoordinateRD.AutoSize = true;
+            this.radioCoordinateRD.Checked = true;
             this.radioCoordinateRD.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.radioCoordinateRD.Location = new System.Drawing.Point(10, 6);
-            this.radioCoordinateRD.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.radioCoordinateRD.Margin = new System.Windows.Forms.Padding(2);
             this.radioCoordinateRD.Name = "radioCoordinateRD";
             this.radioCoordinateRD.Size = new System.Drawing.Size(176, 21);
             this.radioCoordinateRD.TabIndex = 143;
+            this.radioCoordinateRD.TabStop = true;
             this.radioCoordinateRD.Text = "Rijksdriehoek coordinates";
             this.radioCoordinateRD.UseVisualStyleBackColor = true;
             // 
             // radioCoordinateCustom
             // 
             this.radioCoordinateCustom.AutoSize = true;
-            this.radioCoordinateCustom.Checked = true;
             this.radioCoordinateCustom.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.radioCoordinateCustom.Location = new System.Drawing.Point(10, 32);
-            this.radioCoordinateCustom.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.radioCoordinateCustom.Margin = new System.Windows.Forms.Padding(2);
             this.radioCoordinateCustom.Name = "radioCoordinateCustom";
             this.radioCoordinateCustom.Size = new System.Drawing.Size(129, 21);
             this.radioCoordinateCustom.TabIndex = 144;
-            this.radioCoordinateCustom.TabStop = true;
             this.radioCoordinateCustom.Text = "Custom reference";
             this.radioCoordinateCustom.UseVisualStyleBackColor = true;
             this.radioCoordinateCustom.CheckedChanged += new System.EventHandler(this.radioCoordinateCustom_CheckedChanged);
@@ -497,7 +493,7 @@ namespace AircraftTrajectories.Views.Visualisation
             this.panelCoordinateReference.Controls.Add(this.txtReferenceX);
             this.panelCoordinateReference.Controls.Add(this.label11);
             this.panelCoordinateReference.Location = new System.Drawing.Point(388, 202);
-            this.panelCoordinateReference.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panelCoordinateReference.Margin = new System.Windows.Forms.Padding(2);
             this.panelCoordinateReference.Name = "panelCoordinateReference";
             this.panelCoordinateReference.Size = new System.Drawing.Size(442, 160);
             this.panelCoordinateReference.TabIndex = 169;
@@ -520,7 +516,7 @@ namespace AircraftTrajectories.Views.Visualisation
             this.panelExternalNoiseFile.Controls.Add(this.txtNoiseFile);
             this.panelExternalNoiseFile.Controls.Add(this.btnBrowseNoise);
             this.panelExternalNoiseFile.Location = new System.Drawing.Point(388, 136);
-            this.panelExternalNoiseFile.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panelExternalNoiseFile.Margin = new System.Windows.Forms.Padding(2);
             this.panelExternalNoiseFile.Name = "panelExternalNoiseFile";
             this.panelExternalNoiseFile.Size = new System.Drawing.Size(370, 74);
             this.panelExternalNoiseFile.TabIndex = 170;

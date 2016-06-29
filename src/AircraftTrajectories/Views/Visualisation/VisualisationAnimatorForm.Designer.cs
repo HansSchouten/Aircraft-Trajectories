@@ -176,7 +176,6 @@
             this.txtCustomMapFile.Name = "txtCustomMapFile";
             this.txtCustomMapFile.Size = new System.Drawing.Size(240, 25);
             this.txtCustomMapFile.TabIndex = 160;
-            this.txtCustomMapFile.Text = "paysbas23.jpg";
             // 
             // label7
             // 
@@ -342,8 +341,6 @@
             // cbHeatmap
             // 
             this.cbHeatmap.AutoSize = true;
-            this.cbHeatmap.Checked = true;
-            this.cbHeatmap.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbHeatmap.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.cbHeatmap.Location = new System.Drawing.Point(16, 308);
             this.cbHeatmap.Margin = new System.Windows.Forms.Padding(2);
@@ -398,8 +395,6 @@
             // cbContourGradient
             // 
             this.cbContourGradient.AutoSize = true;
-            this.cbContourGradient.Checked = true;
-            this.cbContourGradient.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbContourGradient.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.cbContourGradient.Location = new System.Drawing.Point(16, 61);
             this.cbContourGradient.Margin = new System.Windows.Forms.Padding(2);
@@ -413,8 +408,6 @@
             // cbHighlightedContours
             // 
             this.cbHighlightedContours.AutoSize = true;
-            this.cbHighlightedContours.Checked = true;
-            this.cbHighlightedContours.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbHighlightedContours.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.cbHighlightedContours.Location = new System.Drawing.Point(16, 215);
             this.cbHighlightedContours.Margin = new System.Windows.Forms.Padding(2);
@@ -429,6 +422,7 @@
             // 
             this.pnlHighlightedContours.Controls.Add(this.label19);
             this.pnlHighlightedContours.Controls.Add(this.txtContoursOfInterest);
+            this.pnlHighlightedContours.Enabled = false;
             this.pnlHighlightedContours.Location = new System.Drawing.Point(9, 243);
             this.pnlHighlightedContours.Name = "pnlHighlightedContours";
             this.pnlHighlightedContours.Size = new System.Drawing.Size(347, 45);
@@ -442,6 +436,7 @@
             this.pnlContourGradient.Controls.Add(this.txtHighestContourValue);
             this.pnlContourGradient.Controls.Add(this.txtContourStep);
             this.pnlContourGradient.Controls.Add(this.label20);
+            this.pnlContourGradient.Enabled = false;
             this.pnlContourGradient.Location = new System.Drawing.Point(9, 88);
             this.pnlContourGradient.Name = "pnlContourGradient";
             this.pnlContourGradient.Size = new System.Drawing.Size(347, 117);
@@ -455,7 +450,8 @@
             this.txtPopulationFactor.Name = "txtPopulationFactor";
             this.txtPopulationFactor.Size = new System.Drawing.Size(120, 25);
             this.txtPopulationFactor.TabIndex = 192;
-            this.txtPopulationFactor.Text = "0.0003";
+            this.txtPopulationFactor.Text = "0.001";
+            this.txtPopulationFactor.Visible = false;
             // 
             // txtPopulationDotSize
             // 
@@ -465,7 +461,8 @@
             this.txtPopulationDotSize.Name = "txtPopulationDotSize";
             this.txtPopulationDotSize.Size = new System.Drawing.Size(120, 25);
             this.txtPopulationDotSize.TabIndex = 200;
-            this.txtPopulationDotSize.Text = "5000";
+            this.txtPopulationDotSize.Text = "3000";
+            this.txtPopulationDotSize.Visible = false;
             // 
             // txtCameraAltitude
             // 
@@ -475,7 +472,8 @@
             this.txtCameraAltitude.Name = "txtCameraAltitude";
             this.txtCameraAltitude.Size = new System.Drawing.Size(120, 25);
             this.txtCameraAltitude.TabIndex = 201;
-            this.txtCameraAltitude.Text = "150000";
+            this.txtCameraAltitude.Text = "70000";
+            this.txtCameraAltitude.Visible = false;
             // 
             // txtDotFile
             // 
@@ -486,6 +484,7 @@
             this.txtDotFile.Size = new System.Drawing.Size(120, 25);
             this.txtDotFile.TabIndex = 202;
             this.txtDotFile.Text = "dot2_30.png";
+            this.txtDotFile.Visible = false;
             // 
             // VisualisationAnimatorForm
             // 

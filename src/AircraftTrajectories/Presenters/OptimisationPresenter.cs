@@ -49,6 +49,8 @@ namespace AircraftTrajectories.Presenters
                 TrajectoryFitness.OptimiseFuel = !_view.MinimiseNoise;
                 TrajectoryFitness.TakeoffHeading = _view.TakeoffHeading;
                 TrajectoryFitness.TakeoffSpeed = _view.TakeoffSpeed;
+                TrajectoryFitness.trajectories = null;
+                TrajectoryFitness.Best = int.MinValue;
                 TrajectoryFitness.PopulationData = new PopulationData2("population.dat", referencePoint);
 
                 var selection = new EliteSelection();
@@ -83,11 +85,13 @@ namespace AircraftTrajectories.Presenters
         {
             if (thread != null)
             {
+                TrajectoryFitness.PopulationData = null;
                 thread.Abort();
             }
         }
         protected void OptimisationCompleted(object sender, EventArgs e)
         {
+            TrajectoryFitness.PopulationData = null;
             var best = ga.BestChromosome;
             TrajectoryFitness fitness = new TrajectoryFitness();
             fitness.Evaluate(best);

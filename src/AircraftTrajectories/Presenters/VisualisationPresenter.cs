@@ -1,4 +1,5 @@
 ﻿using AircraftTrajectories.Models.IntegratedNoiseModel;
+using AircraftTrajectories.Models.Optimisation;
 using AircraftTrajectories.Models.Population;
 using AircraftTrajectories.Models.Space3D;
 using AircraftTrajectories.Models.TemporalGrid;
@@ -111,10 +112,21 @@ namespace AircraftTrajectories.Presenters
             _view.Invoke(delegate { _view.NoiseCalculationCompleted(); });
         }
 
+        bool VisualiseOptimisation = false;
         protected void MultipleTrajectoriesINM()
         {
             var reader = new TrajectoriesFileReader();
-            trajectories = reader.CreateFromFile(_view.TrajectoryFile, referencePoint);
+            /*
+            if (TrajectoryFitness.trajectories != null)
+            {
+                trajectories = TrajectoryFitness.trajectories;
+                VisualiseOptimisation = true;
+                return;
+            } else
+            {
+                */
+                trajectories = reader.CreateFromFile(_view.TrajectoryFile, referencePoint);
+            //}
             
             /*
             _view.Invoke(delegate { _view.NoiseCalculationCompleted(); });
@@ -132,7 +144,7 @@ namespace AircraftTrajectories.Presenters
                 //if (counter > 3) { break; }
 
                 var INM = new IntegratedNoiseModel(trajectory, trajectory.Aircraft);
-                INM.CellSize = 1500;
+                INM.CellSize = 125;
                 INM.MapToLargerGrid(reader.LowerLeftPoint, reader.UpperRightPoint);
                 INM.MaxDistanceFromAirport(referencePoint.Point, 100000);
                 INM.IntegrateToCurrentPosition = true;
@@ -168,6 +180,13 @@ namespace AircraftTrajectories.Presenters
 
         public void VisualiseTrajectory()
         {
+            referencePoint = new ReferencePointRD();
+            if (_view.CustomReference)
+            {
+                referencePoint = new ReferencePoint(_view.GeoReference, _view.MetricReference);
+            }
+
+            VisualiseOptimisation = true;
             trajectory = _view.Trajectory;
         }
 
@@ -200,23 +219,24 @@ namespace AircraftTrajectories.Presenters
             var legend = new LegendCreator();
             legend.OutputLegendImage();
             legend.OutputLegendTitle();
-
+            
+            var sections = new List<KMLAnimatorSectionInterface>();
+            
             // Contour animator
             List<int> contoursOfInterest = (_view.VisualiseContoursOfInterest) ? _view.ContoursOfInterest : null;
             var contourAnimator = new ContourKMLAnimator(temporalGrid, trajectory, contoursOfInterest);
-            if (_view.VisualiseGradient) {
+            if (_view.VisualiseGradient)
+            {
                 contourAnimator.SetGradientSettings((int)_view.LowestContourValue, (int)_view.HighestContourValue, (int)_view.ContourValueStep);
             }
 
             // Create sections
-            var sections = new List<KMLAnimatorSectionInterface>() {
-                new LegendKMLAnimator(),
-                new AircraftKMLAnimator(trajectory.Aircraft, trajectory),
-                new AirplotKMLAnimator(trajectory),
-                new GroundplotKMLAnimator(trajectory),
-                contourAnimator
-                //new AnnoyanceKMLAnimator(temporalGrid, population.getPopulationData())
-            };
+            sections.Add(new LegendKMLAnimator());
+            sections.Add(new AircraftKMLAnimator(trajectory.Aircraft, trajectory));
+            sections.Add(new AirplotKMLAnimator(trajectory));
+            sections.Add(new GroundplotKMLAnimator(trajectory));
+            sections.Add(contourAnimator);
+            //new AnnoyanceKMLAnimator(temporalGrid, population.getPopulationData())
             if (_view.Heatmap)
             {
                 var population = new PopulationData(Globals.currentDirectory + "population.dat");
@@ -241,16 +261,6 @@ namespace AircraftTrajectories.Presenters
             // Legend
             var legend = new LegendCreator();
 
-            // Contour animator
-            List<int> contoursOfInterest = (_view.VisualiseContoursOfInterest) ? _view.ContoursOfInterest : null;
-            var contourAnimator = new ContourKMLAnimator(temporalGrid, null, contoursOfInterest);
-            if (_view.VisualiseGradient)
-            {
-                legend.SetSettings(_view.LowestContourValue, _view.HighestContourValue);
-                contourAnimator.SetGradientSettings((int)_view.LowestContourValue, (int)_view.HighestContourValue, (int)_view.ContourValueStep);
-            }
-            contourAnimator.AltitudeOffset = (_view.MapFile != "");
-
             // plot legend
             legend.OutputLegendImage();
             legend.OutputLegendTitle();
@@ -258,9 +268,24 @@ namespace AircraftTrajectories.Presenters
             // Create sections
             var sections = new List<KMLAnimatorSectionInterface>();
             //sections.Add(new MaintainMultipleGroundPlotKMLAnimator(trajectories));
-            sections.Add(new MultipleGroundplotKMLAnimator(trajectories));
-            sections.Add(new LegendKMLAnimator());
-            sections.Add(contourAnimator);
+            if (!VisualiseOptimisation) {
+                // Contour animator
+                List<int> contoursOfInterest = (_view.VisualiseContoursOfInterest) ? _view.ContoursOfInterest : null;
+                var contourAnimator = new ContourKMLAnimator(temporalGrid, null, contoursOfInterest);
+                if (_view.VisualiseGradient)
+                {
+                    legend.SetSettings(_view.LowestContourValue, _view.HighestContourValue);
+                    contourAnimator.SetGradientSettings((int)_view.LowestContourValue, (int)_view.HighestContourValue, (int)_view.ContourValueStep);
+                }
+                contourAnimator.AltitudeOffset = (_view.MapFile != "");
+                sections.Add(new MultipleGroundplotKMLAnimator(trajectories));
+                sections.Add(new LegendKMLAnimator());
+                sections.Add(contourAnimator);
+            } else
+            {
+                trajectories = TrajectoryFitness.trajectories;
+                sections.Add(new FitnessGroundPlotKMLAnimator(trajectories));
+            }
             if (_view.MapFile != "")
             {
                 sections.Add(new CustomMapKMLAnimator(_view.MapFile, _view.MapBottomLeft, _view.MapUpperRight));
@@ -274,12 +299,18 @@ namespace AircraftTrajectories.Presenters
                 section.DotFile = _view.PopulationDotFile;
                 sections.Add(section);
             }
-
+            
+            var camera = new TopViewKMLAnimatorCamera(
+                new GeoPoint3D(4.9773743, 52.2384423,
+                _view.CameraAltitude)
+            );
             // Create animator
+            /*
             var camera = new TopViewKMLAnimatorCamera(
                 new GeoPoint3D(referencePoint.GeoPoint.Longitude, referencePoint.GeoPoint.Latitude, 
                 _view.CameraAltitude)
             );
+            */
             var animator = new KMLAnimator(sections, camera);
             animator.Duration = 0;
             animator.AnimationToFile(trajectories.Count, Globals.webrootDirectory + "visualisation.kml");

@@ -20,6 +20,7 @@ namespace AircraftTrajectories.Models.Trajectory
         public Point3D LowerLeftPoint { get; set; }
         public Point3D UpperRightPoint { get; set; }
         public ReferencePoint ReferencePoint { get; set; }
+        public double Fitness { get; set; }
 
         /// <summary>
         /// Constructs a trajectory based on the coordinates of a given spline 

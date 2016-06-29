@@ -137,6 +137,7 @@
     <Compile Include="Models\Visualisation\KML\AnimationSections\Cameras\TopViewKMLAnimatorCamera.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\ContourKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\CustomMapKMLAnimator.cs" />
+    <Compile Include="Models\Visualisation\KML\AnimationSections\FitnessGroundPlotKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\GroundplotKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\HeatmapKMLAnimator.cs" />
     <Compile Include="Models\Visualisation\KML\AnimationSections\LegendKMLAnimator.cs" />
