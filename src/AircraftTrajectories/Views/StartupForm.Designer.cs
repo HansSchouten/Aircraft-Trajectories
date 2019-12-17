@@ -28,92 +28,92 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartupForm));
-            this.lblName = new System.Windows.Forms.Label();
-            this.pbClose = new System.Windows.Forms.PictureBox();
-            this.btnOptimise = new System.Windows.Forms.Button();
-            this.btnVisualise = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // lblName
-            // 
-            this.lblName.AutoSize = true;
-            this.lblName.Font = new System.Drawing.Font("Segoe UI Light", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblName.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.lblName.Location = new System.Drawing.Point(10, 9);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(122, 32);
-            this.lblName.TabIndex = 14;
-            this.lblName.Text = "AeroVision";
-            // 
-            // pbClose
-            // 
-            this.pbClose.BackColor = System.Drawing.Color.Transparent;
-            this.pbClose.Image = global::AircraftTrajectories.Properties.Resources.close;
-            this.pbClose.Location = new System.Drawing.Point(408, 9);
-            this.pbClose.Name = "pbClose";
-            this.pbClose.Size = new System.Drawing.Size(18, 18);
-            this.pbClose.TabIndex = 13;
-            this.pbClose.TabStop = false;
-            this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
-            this.pbClose.MouseEnter += new System.EventHandler(this.pbClose_MouseEnter);
-            this.pbClose.MouseLeave += new System.EventHandler(this.pbClose_MouseLeave);
-            // 
-            // btnOptimise
-            // 
-            this.btnOptimise.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnOptimise.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.btnOptimise.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOptimise.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOptimise.ForeColor = System.Drawing.Color.White;
-            this.btnOptimise.Image = ((System.Drawing.Image)(resources.GetObject("btnOptimise.Image")));
-            this.btnOptimise.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnOptimise.Location = new System.Drawing.Point(34, 89);
-            this.btnOptimise.Name = "btnOptimise";
-            this.btnOptimise.Size = new System.Drawing.Size(367, 80);
-            this.btnOptimise.TabIndex = 11;
-            this.btnOptimise.Text = "Optimise trajectory";
-            this.btnOptimise.UseVisualStyleBackColor = false;
-            this.btnOptimise.Click += new System.EventHandler(this.btnOptimise_Click);
-            // 
-            // btnVisualise
-            // 
-            this.btnVisualise.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnVisualise.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.btnVisualise.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnVisualise.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnVisualise.ForeColor = System.Drawing.Color.White;
-            this.btnVisualise.Image = ((System.Drawing.Image)(resources.GetObject("btnVisualise.Image")));
-            this.btnVisualise.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVisualise.Location = new System.Drawing.Point(34, 207);
-            this.btnVisualise.Name = "btnVisualise";
-            this.btnVisualise.Size = new System.Drawing.Size(367, 80);
-            this.btnVisualise.TabIndex = 10;
-            this.btnVisualise.Text = "Visualise trajectory";
-            this.btnVisualise.UseVisualStyleBackColor = false;
-            this.btnVisualise.Click += new System.EventHandler(this.btnVisualise_Click);
-            // 
-            // StartupForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(435, 356);
-            this.Controls.Add(this.lblName);
-            this.Controls.Add(this.pbClose);
-            this.Controls.Add(this.btnOptimise);
-            this.Controls.Add(this.btnVisualise);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.Name = "StartupForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "StartupForm";
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form_Paint);
-            ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartupForm));
+			this.lblName = new System.Windows.Forms.Label();
+			this.pbClose = new System.Windows.Forms.PictureBox();
+			this.btnOptimise = new System.Windows.Forms.Button();
+			this.btnVisualise = new System.Windows.Forms.Button();
+			((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
+			this.SuspendLayout();
+			// 
+			// lblName
+			// 
+			this.lblName.AutoSize = true;
+			this.lblName.Font = new System.Drawing.Font("Segoe UI Light", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblName.ForeColor = System.Drawing.Color.DeepSkyBlue;
+			this.lblName.Location = new System.Drawing.Point(10, 9);
+			this.lblName.Name = "lblName";
+			this.lblName.Size = new System.Drawing.Size(122, 32);
+			this.lblName.TabIndex = 14;
+			this.lblName.Text = "AeroVision";
+			// 
+			// pbClose
+			// 
+			this.pbClose.BackColor = System.Drawing.Color.Transparent;
+			this.pbClose.Image = global::AircraftTrajectories.Properties.Resources.close;
+			this.pbClose.Location = new System.Drawing.Point(408, 9);
+			this.pbClose.Name = "pbClose";
+			this.pbClose.Size = new System.Drawing.Size(18, 18);
+			this.pbClose.TabIndex = 13;
+			this.pbClose.TabStop = false;
+			this.pbClose.Click += new System.EventHandler(this.pbClose_Click);
+			this.pbClose.MouseEnter += new System.EventHandler(this.pbClose_MouseEnter);
+			this.pbClose.MouseLeave += new System.EventHandler(this.pbClose_MouseLeave);
+			// 
+			// btnOptimise
+			// 
+			this.btnOptimise.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.btnOptimise.BackColor = System.Drawing.Color.DeepSkyBlue;
+			this.btnOptimise.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnOptimise.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.btnOptimise.ForeColor = System.Drawing.Color.White;
+			this.btnOptimise.Image = ((System.Drawing.Image)(resources.GetObject("btnOptimise.Image")));
+			this.btnOptimise.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.btnOptimise.Location = new System.Drawing.Point(34, 89);
+			this.btnOptimise.Name = "btnOptimise";
+			this.btnOptimise.Size = new System.Drawing.Size(367, 80);
+			this.btnOptimise.TabIndex = 11;
+			this.btnOptimise.Text = "Optimise trajectory";
+			this.btnOptimise.UseVisualStyleBackColor = false;
+			this.btnOptimise.Click += new System.EventHandler(this.btnOptimise_Click);
+			// 
+			// btnVisualise
+			// 
+			this.btnVisualise.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.btnVisualise.BackColor = System.Drawing.Color.DeepSkyBlue;
+			this.btnVisualise.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnVisualise.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.btnVisualise.ForeColor = System.Drawing.Color.White;
+			this.btnVisualise.Image = ((System.Drawing.Image)(resources.GetObject("btnVisualise.Image")));
+			this.btnVisualise.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.btnVisualise.Location = new System.Drawing.Point(34, 207);
+			this.btnVisualise.Name = "btnVisualise";
+			this.btnVisualise.Size = new System.Drawing.Size(367, 80);
+			this.btnVisualise.TabIndex = 10;
+			this.btnVisualise.Text = "Visualise trajectory";
+			this.btnVisualise.UseVisualStyleBackColor = false;
+			this.btnVisualise.Click += new System.EventHandler(this.btnVisualise_Click);
+			// 
+			// StartupForm
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.Color.White;
+			this.ClientSize = new System.Drawing.Size(435, 356);
+			this.Controls.Add(this.lblName);
+			this.Controls.Add(this.pbClose);
+			this.Controls.Add(this.btnOptimise);
+			this.Controls.Add(this.btnVisualise);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.Margin = new System.Windows.Forms.Padding(2);
+			this.Name = "StartupForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.Text = "StartupForm";
+			this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form_Paint);
+			((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
+			this.ResumeLayout(false);
+			this.PerformLayout();
 
         }
 

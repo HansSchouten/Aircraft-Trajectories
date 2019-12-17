@@ -65,5 +65,5 @@ namespace AircraftTrajectories.Views
         {
             Application.Exit();
         }
-    }
+	}
 }
