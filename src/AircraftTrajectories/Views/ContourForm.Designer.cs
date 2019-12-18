@@ -255,6 +255,7 @@
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "ContourForm";
 			this.Text = "Noise Contour Visualiser";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ContourForm_FormClosing);
 			this.Load += new System.EventHandler(this.ContourForm_Load);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();

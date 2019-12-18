@@ -6,6 +6,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
 
 namespace AircraftTrajectories.Views
 {
@@ -30,21 +32,36 @@ namespace AircraftTrajectories.Views
 			lbVisibleContours.SetSelected(20, true);
 			lbVisibleContours.SetSelected(25, true);
 			lbVisibleContours.SetSelected(30, true);
+
+			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-GB");
 		}
 
 		private void btnReadNoiseFile_Click(object sender, EventArgs e)
 		{
+			btnReadNoiseFile.Enabled = false;
+
+			if (tbInputFile.Text.Length == 0)
+			{
+				showFileDialog();
+			}
+
 			Point3D lowerLeftCorner = new Point3D((int)nudLowerLeftX.Value, (int)nudLowerLeftY.Value);
 			int cellSize = (int)nudCellSize.Value;
 			int gridHorizontalValueCount = (int)nudGridWidth.Value;
 			GridFileReader reader = new GridFileReader(lowerLeftCorner, cellSize, gridHorizontalValueCount);
 
 			_grid = reader.createGridFromFile(tbInputFile.Text);
+
+			btnReadNoiseFile.Enabled = true;
 		}
 
 		private void btnGenerateKMLFile_Click(object sender, EventArgs e)
 		{
+			btnGenerateKMLFile.Enabled = false;
+
 			CreateContoursKML(_grid);
+
+			btnGenerateKMLFile.Enabled = true;
 		}
 
 		private void CreateContoursKML(Grid grid)
@@ -182,11 +199,20 @@ namespace AircraftTrajectories.Views
 
 		private void tbInputFile_Click(object sender, EventArgs e)
 		{
+			showFileDialog();
+		}
+
+		private void showFileDialog()
+		{
 			if (ofdNoiseFile.ShowDialog() == DialogResult.OK)
 			{
 				tbInputFile.Text = ofdNoiseFile.FileName;
 			}
 		}
 
+		private void ContourForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			Application.Exit();
+		}
 	}
 }
