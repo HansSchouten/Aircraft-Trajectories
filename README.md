@@ -26,4 +26,4 @@ The resulting program will present a creative and efficient way to compute and v
 
 ----
 ![lden-schiphol](https://user-images.githubusercontent.com/5946444/71098363-e26ddc00-21b1-11ea-8279-77a35b3abe9a.png)
-_Schiphol LDEN Forecast 2020_
+_Schiphol Lden Forecast 2020_
