@@ -46,12 +46,15 @@
 			this.nudCellSize = new System.Windows.Forms.NumericUpDown();
 			this.ofdNoiseFile = new System.Windows.Forms.OpenFileDialog();
 			this.btnReadNoiseFile = new System.Windows.Forms.Button();
+			this.label7 = new System.Windows.Forms.Label();
+			this.nudSkipLinesCount = new System.Windows.Forms.NumericUpDown();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudLowerLeftY)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudLowerLeftX)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudGridWidth)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudCellSize)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudSkipLinesCount)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -95,6 +98,8 @@
 			// 
 			// groupBox2
 			// 
+			this.groupBox2.Controls.Add(this.label7);
+			this.groupBox2.Controls.Add(this.nudSkipLinesCount);
 			this.groupBox2.Controls.Add(this.label5);
 			this.groupBox2.Controls.Add(this.nudLowerLeftY);
 			this.groupBox2.Controls.Add(this.label6);
@@ -115,7 +120,7 @@
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(12, 233);
+			this.label5.Location = new System.Drawing.Point(12, 243);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(121, 13);
 			this.label5.TabIndex = 14;
@@ -123,7 +128,7 @@
 			// 
 			// nudLowerLeftY
 			// 
-			this.nudLowerLeftY.Location = new System.Drawing.Point(15, 249);
+			this.nudLowerLeftY.Location = new System.Drawing.Point(15, 259);
 			this.nudLowerLeftY.Maximum = new decimal(new int[] {
             100000000,
             0,
@@ -141,7 +146,7 @@
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(12, 180);
+			this.label6.Location = new System.Drawing.Point(12, 199);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(121, 13);
 			this.label6.TabIndex = 12;
@@ -149,7 +154,7 @@
 			// 
 			// nudLowerLeftX
 			// 
-			this.nudLowerLeftX.Location = new System.Drawing.Point(15, 196);
+			this.nudLowerLeftX.Location = new System.Drawing.Point(15, 215);
 			this.nudLowerLeftX.Maximum = new decimal(new int[] {
             5000000,
             0,
@@ -184,7 +189,7 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(12, 127);
+			this.label3.Location = new System.Drawing.Point(12, 155);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(134, 13);
 			this.label3.TabIndex = 8;
@@ -192,7 +197,7 @@
 			// 
 			// nudGridWidth
 			// 
-			this.nudGridWidth.Location = new System.Drawing.Point(15, 143);
+			this.nudGridWidth.Location = new System.Drawing.Point(15, 171);
 			this.nudGridWidth.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -210,7 +215,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(12, 74);
+			this.label2.Location = new System.Drawing.Point(12, 111);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(83, 13);
 			this.label2.TabIndex = 6;
@@ -218,7 +223,7 @@
 			// 
 			// nudCellSize
 			// 
-			this.nudCellSize.Location = new System.Drawing.Point(15, 90);
+			this.nudCellSize.Location = new System.Drawing.Point(15, 127);
 			this.nudCellSize.Maximum = new decimal(new int[] {
             5000,
             0,
@@ -243,6 +248,32 @@
 			this.btnReadNoiseFile.UseVisualStyleBackColor = true;
 			this.btnReadNoiseFile.Click += new System.EventHandler(this.btnReadNoiseFile_Click);
 			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(12, 67);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(66, 13);
+			this.label7.TabIndex = 16;
+			this.label7.Text = "Lines to skip";
+			// 
+			// nudSkipLinesCount
+			// 
+			this.nudSkipLinesCount.Location = new System.Drawing.Point(15, 83);
+			this.nudSkipLinesCount.Maximum = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            0});
+			this.nudSkipLinesCount.Name = "nudSkipLinesCount";
+			this.nudSkipLinesCount.Size = new System.Drawing.Size(147, 20);
+			this.nudSkipLinesCount.TabIndex = 15;
+			this.nudSkipLinesCount.Value = new decimal(new int[] {
+            23,
+            0,
+            0,
+            0});
+			// 
 			// ContourForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -265,6 +296,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.nudLowerLeftX)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudGridWidth)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudCellSize)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudSkipLinesCount)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -287,5 +319,7 @@
 		private System.Windows.Forms.NumericUpDown nudLowerLeftY;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.NumericUpDown nudLowerLeftX;
+		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.NumericUpDown nudSkipLinesCount;
 	}
 }

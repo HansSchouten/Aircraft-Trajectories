@@ -21,9 +21,9 @@ namespace AircraftTrajectories.Models.TemporalGrid
 			_width = width;
 		}
 
-		public Grid createGridFromFile(string filePath)
+		public Grid createGridFromFile(string filePath, int skipLinesCount = 0)
 		{
-			double[][] data = readData(filePath);
+			double[][] data = readData(filePath, skipLinesCount);
 			return new Grid(data, _lowerLeftCorner, _width);
 		}
 
@@ -31,14 +31,38 @@ namespace AircraftTrajectories.Models.TemporalGrid
 		/// Parses the noise values along the grid
 		/// </summary>
 		/// <returns></returns>
-		protected double[][] readData(string filePath)
+		protected double[][] readData(string filePath, int skipLinesCount)
 		{
 			string rawGeneric = File.ReadAllText(filePath);
 
-			string[] allData = rawGeneric
-				.Split(' ')
-				.Select(Convert.ToString)
+			double[][] doubleArray = rawGeneric
+				.Split('\n')
+				.Skip(skipLinesCount)
+				.Select(q =>
+					q.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)
+				     .Select(Convert.ToDouble)
+					 .ToArray()
+				)
 				.ToArray();
+
+			int total = 0;
+			for (int c = 0; c < doubleArray.Length; c++)
+			{
+				for (int r = 0; r < doubleArray[c].Length; r++)
+				{
+					total++;
+				}
+			}
+
+			double[] allData = new double[total];
+			int i = 0;
+			for (int c = 0; c < doubleArray.Length; c++)
+			{
+				for (int r = 0; r < doubleArray[c].Length; r++)
+				{
+					allData[i++] = doubleArray[c][r];
+				}
+			}
 
 			// create empty grid
 			int height = allData.Length / _width;
@@ -54,12 +78,11 @@ namespace AircraftTrajectories.Models.TemporalGrid
 			}
 
 			// fill grid with noise values
-			for (int i = 0; i < allData.Length; i++)
+			for (i = 0; i < allData.Length; i++)
 			{
 				int x = i % _width;
 				int y = height - 1 - (int) Math.Floor((double) i / _width);
-				double value = Double.Parse(allData[i], NumberStyles.Float, CultureInfo.InvariantCulture);
-				data[x][y] = value;
+				data[x][y] = allData[i];
 			}
 
 			return data;

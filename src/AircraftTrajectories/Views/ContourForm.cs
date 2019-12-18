@@ -50,7 +50,7 @@ namespace AircraftTrajectories.Views
 			int gridHorizontalValueCount = (int)nudGridWidth.Value;
 			GridFileReader reader = new GridFileReader(lowerLeftCorner, cellSize, gridHorizontalValueCount);
 
-			_grid = reader.createGridFromFile(tbInputFile.Text);
+			_grid = reader.createGridFromFile(tbInputFile.Text, (int) nudSkipLinesCount.Value);
 
 			btnReadNoiseFile.Enabled = true;
 		}
