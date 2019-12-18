@@ -1,6 +1,7 @@
 ﻿using AircraftTrajectories.Models.Space3D;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -34,9 +35,9 @@ namespace AircraftTrajectories.Models.TemporalGrid
 		{
 			string rawGeneric = File.ReadAllText(filePath);
 
-			double[] allData = rawGeneric
+			string[] allData = rawGeneric
 				.Split(' ')
-				.Select(Convert.ToDouble)
+				.Select(Convert.ToString)
 				.ToArray();
 
 			// create empty grid
@@ -57,7 +58,8 @@ namespace AircraftTrajectories.Models.TemporalGrid
 			{
 				int x = i % _width;
 				int y = height - 1 - (int) Math.Floor((double) i / _width);
-				data[x][y] = allData[i];
+				double value = Double.Parse(allData[i], NumberStyles.Float, CultureInfo.InvariantCulture);
+				data[x][y] = value;
 			}
 
 			return data;

@@ -18,6 +18,7 @@ namespace AircraftTrajectories.Views
 
 		private int _dbMin = 30;
 		private int _dbMax = 60;
+		private Grid _grid;
 
 		private void ContourForm_Load(object sender, EventArgs e)
 		{
@@ -31,17 +32,19 @@ namespace AircraftTrajectories.Views
 			lbVisibleContours.SetSelected(30, true);
 		}
 
-		private void btnGenerateKMLFile_Click(object sender, EventArgs e)
+		private void btnReadNoiseFile_Click(object sender, EventArgs e)
 		{
-			Point3D lowerLeftCorner = new Point3D(84000, 450000);
-			int cellSize = 250;
-			int gridHorizontalValueCount = 285;
+			Point3D lowerLeftCorner = new Point3D((int)nudLowerLeftX.Value, (int)nudLowerLeftY.Value);
+			int cellSize = (int)nudCellSize.Value;
+			int gridHorizontalValueCount = (int)nudGridWidth.Value;
 			GridFileReader reader = new GridFileReader(lowerLeftCorner, cellSize, gridHorizontalValueCount);
 
-			String path = "lden_doc29_mm.dat";
-			Grid grid = reader.createGridFromFile(path);
+			_grid = reader.createGridFromFile(tbInputFile.Text);
+		}
 
-			CreateContoursKML(grid);
+		private void btnGenerateKMLFile_Click(object sender, EventArgs e)
+		{
+			CreateContoursKML(_grid);
 		}
 
 		private void CreateContoursKML(Grid grid)
@@ -143,38 +146,47 @@ namespace AircraftTrajectories.Views
 			return coordinateString;
 		}
 
-        /// <summary>
-        /// Interpolates the colors between chosen noise values
-        /// </summary>
-        /// <param name="lowerBound"></param>
-        /// <param name="upperBound"></param>
-        /// <param name="numberOfIntervals"></param>
-        /// <returns></returns>
-        private Color[] InterpolateColors(Color lowerBound, Color upperBound, int numberOfIntervals)
-        {
-            Color[] colorPalette = new Color[numberOfIntervals];
+		/// <summary>
+		/// Interpolates the colors between chosen noise values
+		/// </summary>
+		/// <param name="lowerBound"></param>
+		/// <param name="upperBound"></param>
+		/// <param name="numberOfIntervals"></param>
+		/// <returns></returns>
+		private Color[] InterpolateColors(Color lowerBound, Color upperBound, int numberOfIntervals)
+		{
+			Color[] colorPalette = new Color[numberOfIntervals];
 
-            int interval_A = (upperBound.A - lowerBound.A) / numberOfIntervals;
-            int interval_R = (upperBound.R - lowerBound.R) / numberOfIntervals;
-            int interval_G = (upperBound.G - lowerBound.G) / numberOfIntervals;
-            int interval_B = (upperBound.B - lowerBound.B) / numberOfIntervals;
+			int interval_A = (upperBound.A - lowerBound.A) / numberOfIntervals;
+			int interval_R = (upperBound.R - lowerBound.R) / numberOfIntervals;
+			int interval_G = (upperBound.G - lowerBound.G) / numberOfIntervals;
+			int interval_B = (upperBound.B - lowerBound.B) / numberOfIntervals;
 
-            int current_A = lowerBound.A;
-            int current_R = lowerBound.R;
-            int current_G = lowerBound.G;
-            int current_B = lowerBound.B;
+			int current_A = lowerBound.A;
+			int current_R = lowerBound.R;
+			int current_G = lowerBound.G;
+			int current_B = lowerBound.B;
 
-            for (var i = 0; i < numberOfIntervals; i++)
-            {
-                colorPalette[i] = Color.FromArgb(current_A, current_R, current_G, current_B);
+			for (var i = 0; i < numberOfIntervals; i++)
+			{
+				colorPalette[i] = Color.FromArgb(current_A, current_R, current_G, current_B);
 
-                current_A += interval_A;
-                current_R += interval_R;
-                current_G += interval_G;
-                current_B += interval_B;
-            }
+				current_A += interval_A;
+				current_R += interval_R;
+				current_G += interval_G;
+				current_B += interval_B;
+			}
 
-            return colorPalette;
-        }
+			return colorPalette;
+		}
+
+		private void tbInputFile_Click(object sender, EventArgs e)
+		{
+			if (ofdNoiseFile.ShowDialog() == DialogResult.OK)
+			{
+				tbInputFile.Text = ofdNoiseFile.FileName;
+			}
+		}
+
 	}
 }
