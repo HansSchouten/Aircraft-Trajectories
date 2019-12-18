@@ -1049,4 +1049,7 @@
         b3BqeUFldi95ano3bForN3A3aDJLQXpZcVVrNWlLdDhUTw==
 </value>
   </data>
+  <data name="appbar_location_circle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\appbar.location.circle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

@@ -188,7 +188,7 @@
         ZMOhzIZDmQ2HMhsOZTYcymw4lNlwKLPhUGbDocyGQ8nWjr8Bg4CDMoM6kNIAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="btnVisualise.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnVisualiseTrajectory.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAEwAAABMCAYAAADHl1ErAAAABGdBTUEAALGOfPtRkwAAACBjSFJNAACH
         DwAAjA8AAP1SAACBQAAAfXkAAOmLAAA85QAAGcxzPIV3AAAKOWlDQ1BQaG90b3Nob3AgSUNDIHByb2Zp

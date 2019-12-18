@@ -11,12 +11,14 @@ namespace AircraftTrajectories.Views
     {
         OptimisationForm OptimisationForm;
         VisualisationForm VisualisationForm;
+        NoiseContourForm ContourForm;
 
         public StartupForm()
         {
             InitializeComponent();
             OptimisationForm = new OptimisationForm(this);
             VisualisationForm = new VisualisationForm(this);
+            ContourForm = new NoiseContourForm();
         }
 
         private void Form_Paint(object sender, PaintEventArgs e)
@@ -45,6 +47,12 @@ namespace AircraftTrajectories.Views
         private void btnVisualise_Click(object sender, EventArgs e)
         {
             VisualisationForm.Show();
+            this.Hide();
+        }
+
+        private void btnVisualiseNoise_Click(object sender, EventArgs e)
+        {
+            ContourForm.Show();
             this.Hide();
         }
 

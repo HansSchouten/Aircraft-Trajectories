@@ -12,6 +12,8 @@ namespace AircraftTrajectories.Models.Visualisation
     {
         public int max;
         public int min;
+        public Color c1;
+        public Color c2;
         public double LowestContourValue { get; set; }
         public double HighestContourValue { get; set; }
 
@@ -22,6 +24,8 @@ namespace AircraftTrajectories.Models.Visualisation
         {
             max = 80;
             min = 65;
+            c1 = Color.FromArgb(200, 255, 53, 20);
+            c2 = Color.FromArgb(200, 75, 237, 100);
         }
 
         public void SetSettings(double lowestValue, double highestValue)
@@ -72,13 +76,10 @@ namespace AircraftTrajectories.Models.Visualisation
             using (Graphics graphics = Graphics.FromImage(bmp))
             
             using (LinearGradientBrush brush = new LinearGradientBrush(
-                new Rectangle(0, 0, 55, 320),
-                Color.FromArgb(200, 255, 53, 20),
-                Color.FromArgb(200, 75, 237, 100),
-            LinearGradientMode.Vertical))
+                new Rectangle(0, 0, 55, 320), c1, c2, LinearGradientMode.Vertical)
+            )
             {
                 graphics.FillRectangle(brush, new Rectangle(0, 0, 55, 320));
-
             }
         }
 
@@ -143,7 +144,7 @@ namespace AircraftTrajectories.Models.Visualisation
             else
             {
                 RectangleF rectitle = new RectangleF(0, 0, 200, 100);
-                g.DrawString("Geluidsniveau (dB)", new Font("Tahoma", 12), Brushes.White, rectitle);
+                g.DrawString("Noise Level (dB)", new Font("Tahoma", 12), Brushes.White, rectitle);
                 
             }
             g.Flush();

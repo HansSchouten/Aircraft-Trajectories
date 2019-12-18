@@ -16,23 +16,23 @@ namespace AircraftTrajectories.Models.Visualisation.KML.AnimationSections
         {
             return @"
             <ScreenOverlay>
-            <name>Legenda</name>
-            <Icon> <href>gradientImage.png</href></Icon>
+            <name>Legend</name>
+            <Icon><href>gradientImage.png</href></Icon>
             <overlayXY x= ""0.03"" y= ""0.85"" xunits= ""fraction"" yunits= ""fraction"" />
             <screenXY x = ""0.03"" y =""0.85"" xunits =""fraction"" yunits =""fraction""/>
             <rotationXY x = ""0.5"" y = ""0.5"" xunits =""fraction"" yunits =""fraction""/>
             <size x = ""0"" y = ""0"" xunits = ""pixels"" yunits = ""pixels"" />
-            </ScreenOverlay >
+            </ScreenOverlay>
 
-            <ScreenOverlay >
-            <name> Legenda Title </name >
-            <Icon> <href> titleImage.png </href>
+            <ScreenOverlay>
+            <name>Legend Title</name>
+            <Icon><href>titleImage.png</href>
             </Icon>
             <overlayXY x = ""0.02"" y = ""0.94"" xunits = ""fraction"" yunits = ""fraction"" />
             <screenXY x = ""0.02"" y = ""0.94"" xunits = ""fraction"" yunits = ""fraction"" />
             <rotationXY x = ""0.5"" y = ""0.5"" xunits = ""fraction"" yunits = ""fraction"" />
             <size x = ""0"" y = ""0"" xunits = ""pixels"" yunits = ""pixels"" />
-            </ScreenOverlay >
+            </ScreenOverlay>
             ";
         }
 
