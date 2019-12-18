@@ -24,7 +24,7 @@ namespace AircraftTrajectories.Models.TemporalGrid
 		public Grid createGridFromFile(string filePath, int skipLinesCount = 0)
 		{
 			double[][] data = readData(filePath, skipLinesCount);
-			return new Grid(data, _lowerLeftCorner, _width);
+			return new Grid(data, _lowerLeftCorner, _cellSize);
 		}
 
 		/// <summary>

@@ -34,6 +34,8 @@
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.btnGenerateKMLFile = new System.Windows.Forms.Button();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.label7 = new System.Windows.Forms.Label();
+			this.nudSkipLinesCount = new System.Windows.Forms.NumericUpDown();
 			this.label5 = new System.Windows.Forms.Label();
 			this.nudLowerLeftY = new System.Windows.Forms.NumericUpDown();
 			this.label6 = new System.Windows.Forms.Label();
@@ -46,15 +48,13 @@
 			this.nudCellSize = new System.Windows.Forms.NumericUpDown();
 			this.ofdNoiseFile = new System.Windows.Forms.OpenFileDialog();
 			this.btnReadNoiseFile = new System.Windows.Forms.Button();
-			this.label7 = new System.Windows.Forms.Label();
-			this.nudSkipLinesCount = new System.Windows.Forms.NumericUpDown();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nudSkipLinesCount)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudLowerLeftY)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudLowerLeftX)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudGridWidth)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudCellSize)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.nudSkipLinesCount)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -116,6 +116,32 @@
 			this.groupBox2.TabIndex = 6;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Noise data";
+			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(12, 67);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(66, 13);
+			this.label7.TabIndex = 16;
+			this.label7.Text = "Lines to skip";
+			// 
+			// nudSkipLinesCount
+			// 
+			this.nudSkipLinesCount.Location = new System.Drawing.Point(15, 83);
+			this.nudSkipLinesCount.Maximum = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            0});
+			this.nudSkipLinesCount.Name = "nudSkipLinesCount";
+			this.nudSkipLinesCount.Size = new System.Drawing.Size(147, 20);
+			this.nudSkipLinesCount.TabIndex = 15;
+			this.nudSkipLinesCount.Value = new decimal(new int[] {
+            23,
+            0,
+            0,
+            0});
 			// 
 			// label5
 			// 
@@ -248,32 +274,6 @@
 			this.btnReadNoiseFile.UseVisualStyleBackColor = true;
 			this.btnReadNoiseFile.Click += new System.EventHandler(this.btnReadNoiseFile_Click);
 			// 
-			// label7
-			// 
-			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(12, 67);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(66, 13);
-			this.label7.TabIndex = 16;
-			this.label7.Text = "Lines to skip";
-			// 
-			// nudSkipLinesCount
-			// 
-			this.nudSkipLinesCount.Location = new System.Drawing.Point(15, 83);
-			this.nudSkipLinesCount.Maximum = new decimal(new int[] {
-            5000,
-            0,
-            0,
-            0});
-			this.nudSkipLinesCount.Name = "nudSkipLinesCount";
-			this.nudSkipLinesCount.Size = new System.Drawing.Size(147, 20);
-			this.nudSkipLinesCount.TabIndex = 15;
-			this.nudSkipLinesCount.Value = new decimal(new int[] {
-            23,
-            0,
-            0,
-            0});
-			// 
 			// ContourForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -292,11 +292,11 @@
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nudSkipLinesCount)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudLowerLeftY)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudLowerLeftX)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudGridWidth)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudCellSize)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.nudSkipLinesCount)).EndInit();
 			this.ResumeLayout(false);
 
 		}

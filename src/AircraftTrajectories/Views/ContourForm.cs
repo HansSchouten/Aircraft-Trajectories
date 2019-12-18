@@ -52,6 +52,8 @@ namespace AircraftTrajectories.Views
 
 			_grid = reader.createGridFromFile(tbInputFile.Text, (int) nudSkipLinesCount.Value);
 
+			MessageBox.Show("Noise data read from file", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
 			btnReadNoiseFile.Enabled = true;
 		}
 
@@ -60,6 +62,7 @@ namespace AircraftTrajectories.Views
 			btnGenerateKMLFile.Enabled = false;
 
 			CreateContoursKML(_grid);
+			MessageBox.Show("Contours KML has been generated", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 			btnGenerateKMLFile.Enabled = true;
 		}
