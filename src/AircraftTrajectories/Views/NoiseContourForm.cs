@@ -22,9 +22,12 @@ namespace AircraftTrajectories.Views
 		private int _dbMin = 40;
 		private int _dbMax = 60;
 		private Grid _grid;
+		private bool _useGradient = false;
+		private Color[] _gradientColors;
 
 		private void ContourForm_Load(object sender, EventArgs e)
 		{
+			// default selected contours
 			for (int i = _dbMin; i <= _dbMax; i++)
 			{
 				lbVisibleContours.Items.Add(i + " dB");
@@ -34,6 +37,12 @@ namespace AircraftTrajectories.Views
 			lbVisibleContours.SetSelected(15, true);
 			lbVisibleContours.SetSelected(20, true);
 
+			// define noise value color gradient
+			Color c1 = Color.FromArgb(20, 252, 236, 3);
+			Color c2 = Color.FromArgb(150, 255, 0, 20);
+			_gradientColors = InterpolateColors(c1, c2, _dbMax - _dbMin + 1);
+
+			// ensure correct Double decimal character parsing
 			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-GB");
 		}
 
@@ -71,9 +80,12 @@ namespace AircraftTrajectories.Views
 		private void CreateContoursKML(Grid grid)
 		{
 			StringBuilder kml = new StringBuilder();
-			kml.AppendLine("<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\">");
+			kml.AppendLine("<?xml version='1.0' encoding='UTF-8'?>");
+			kml.AppendLine("<kml xmlns='http://www.opengis.net/kml/2.2' xmlns:gx='http://www.google.com/kml/ext/2.2' xmlns:kml='http://www.opengis.net/kml/2.2' xmlns:atom='http://www.w3.org/2005/Atom'>");
 			kml.AppendLine("<Document>");
-			kml.Append(@"
+
+			if (_useGradient) {
+				kml.Append(@"
 <ScreenOverlay>
 <name>Legend</name>
 <Icon><href>webroot/gradientImage.png</href></Icon>
@@ -93,20 +105,19 @@ namespace AircraftTrajectories.Views
 <size x = ""0"" y = ""0"" xunits = ""pixels"" yunits = ""pixels"" />
 </ScreenOverlay>
 			");
-
-			// define noise value color gradient
-			Color c1 = Color.FromArgb(20, 252, 236, 3);
-			Color c2 = Color.FromArgb(150, 255, 0, 20);
-			Color[] colors = InterpolateColors(c1, c2, _dbMax - _dbMin + 1);
+			}
 
 			// create legend
-			LegendCreator legendCreator = new LegendCreator();
-			legendCreator.min = _dbMin;
-			legendCreator.max = _dbMax;
-			legendCreator.c1 = Color.FromArgb(200, 255, 0, 20);
-			legendCreator.c2 = Color.FromArgb(200, 252, 236, 3);
-			legendCreator.OutputLegendImage();
-			legendCreator.OutputLegendTitle();
+			if (_useGradient)
+			{
+				LegendCreator legendCreator = new LegendCreator();
+				legendCreator.min = _dbMin;
+				legendCreator.max = _dbMax;
+				legendCreator.c1 = Color.FromArgb(200, 255, 0, 20);
+				legendCreator.c2 = Color.FromArgb(200, 252, 236, 3);
+				legendCreator.OutputLegendImage();
+				legendCreator.OutputLegendTitle();
+			}
 
 			// define which noise value contours to visualise
 			List<int> visualisedContours = new List<int>();
@@ -123,44 +134,29 @@ namespace AircraftTrajectories.Views
 			{
 				if (!visualisedContours.Contains(contour.Value)) { continue; }
 				i++;
-				var c = colors[contour.Value - _dbMin];
 
-				String coordinates = GetContourCoordinates(grid, contour);
-
-				String contourKml = @"
-<Style id='contour_style" + i + @"'>
-    <LineStyle>";
-				contourKml += "<color>" + string.Format("{0:X2}{1:X2}{2:X2}{3:X2}", 210, c.B, c.G, c.R) + "</color>";
-				contourKml += @"
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle>";
-				contourKml += "<color>" + string.Format("{0:X2}{1:X2}{2:X2}{3:X2}", c.A, c.B, c.G, c.R) + "</color>";
-				contourKml += @"
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
-</Style>
+				String contourKml = getContourStyle(contour, i) + @"
 <Placemark id='contour_placemark" + i + @"'>
-	<name>" + contour.Value + "dB</name>" + @"
+	<name>" + contour.Value + @" dB(A)</name>
+	<description><![CDATA[description: <br>label: " + contour.Value + @"]]></description>
     <styleUrl>#contour_style" + i + @"</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour" + i + @"'>
-                    <coordinates>
-					" + coordinates + @"
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+	<ExtendedData>
+		<Data name=""description"">
+		</Data>
+		<Data name=""label"">
+			<value>" + contour.Value + @"</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour" + i + @"'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				" + GetContourCoordinates(grid, contour) + @"
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>";
 				kml.Append(contourKml);
 			}
@@ -173,6 +169,70 @@ namespace AircraftTrajectories.Views
 			System.IO.StreamWriter file = new System.IO.StreamWriter(filepath);
 			file.Write(kml.ToString());
 			file.Close();
+		}
+
+		private String getContourStyle(Contour contour, int id)
+		{
+			if (_useGradient)
+			{
+				Color c = _gradientColors[contour.Value - _dbMin];
+				return @"
+<Style id='contour_style" + id + @"'>
+    <LineStyle>
+		<color>" + string.Format("{0:X2}{1:X2}{2:X2}{3:X2}", 210, c.B, c.G, c.R) + @"</color>
+        <width>1</width>
+    </LineStyle>
+    <PolyStyle>
+		<color>" + string.Format("{0:X2}{1:X2}{2:X2}{3:X2}", c.A, c.B, c.G, c.R) + @"</color>
+    </PolyStyle>
+    <IconStyle>
+        <scale>0</scale>
+    </IconStyle>
+    <LabelStyle>
+        <color>FFFFFFFF</color>
+        <scale>0.40</scale>
+    </LabelStyle>
+</Style>";
+			}
+
+			String lineColor = "ff2dc0fb";
+			String polyColor = "4d2dc0fb";
+
+			if (contour.Value >= 58)
+			{
+				lineColor = "ff5252ff";
+				polyColor = "4d5252ff";
+			}
+
+			return @"
+<Style id='contour_style" + id + @"_normal'>
+	<LineStyle>
+		<color>" + lineColor + @"</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>" + polyColor + @"</color>
+	</PolyStyle>
+</Style>
+<Style id='contour_style" + id + @"_highlight'>
+	<LineStyle>
+		<color>" + lineColor + @"</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>" + polyColor + @"</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style" + id + @"'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style" + id + @"_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style" + id + @"_highlight</styleUrl>
+	</Pair>
+</StyleMap>";
 		}
 
 		private String GetContourCoordinates(Grid grid, Contour contour)

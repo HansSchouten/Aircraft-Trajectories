@@ -1,49 +1,52 @@
-<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2">
+<?xml version='1.0' encoding='UTF-8'?>
+<kml xmlns='http://www.opengis.net/kml/2.2' xmlns:gx='http://www.google.com/kml/ext/2.2' xmlns:kml='http://www.opengis.net/kml/2.2' xmlns:atom='http://www.w3.org/2005/Atom'>
 <Document>
 
-<ScreenOverlay>
-<name>Legend</name>
-<Icon><href>webroot/gradientImage.png</href></Icon>
-<overlayXY x= "0.03" y= "0.85" xunits= "fraction" yunits= "fraction" />
-<screenXY x = "0.03" y ="0.85" xunits ="fraction" yunits ="fraction"/>
-<rotationXY x = "0.5" y = "0.5" xunits ="fraction" yunits ="fraction"/>
-<size x = "0" y = "0" xunits = "pixels" yunits = "pixels" />
-</ScreenOverlay>
-
-<ScreenOverlay>
-<name>Legend Title</name>
-<Icon><href>webroot/titleImage.png</href>
-</Icon>
-<overlayXY x = "0.02" y = "0.94" xunits = "fraction" yunits = "fraction" />
-<screenXY x = "0.02" y = "0.94" xunits = "fraction" yunits = "fraction" />
-<rotationXY x = "0.5" y = "0.5" xunits = "fraction" yunits = "fraction" />
-<size x = "0" y = "0" xunits = "pixels" yunits = "pixels" />
-</ScreenOverlay>
-			
-<Style id='contour_style1'>
-    <LineStyle><color>D203B5FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>3203B5FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style1_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style1_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style1'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style1_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style1_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark1'>
-	<name>45dB</name>
+	<name>45 dB(A)</name>
+	<description><![CDATA[description: <br>label: 45]]></description>
     <styleUrl>#contour_style1</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour1'>
-                    <coordinates>
-					4.34746694564819,52.2504806518555,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>45</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour1'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.34746694564819,52.2504806518555,0
 4.34826278686523,52.2517166137695,0
 4.34972906112671,52.2539749145508,0
 4.35100030899048,52.2559623718262,0
@@ -1641,36 +1644,56 @@
 4.34801244735718,52.2271156311035,0
 4.34746694564819,52.2504806518555,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style2'>
-    <LineStyle><color>D203AAFC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>3803AAFC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style2_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style2_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style2'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style2_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style2_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark2'>
-	<name>46dB</name>
+	<name>46 dB(A)</name>
+	<description><![CDATA[description: <br>label: 46]]></description>
     <styleUrl>#contour_style2</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour2'>
-                    <coordinates>
-					4.35303163528442,52.2315330505371,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>46</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour2'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.35303163528442,52.2315330505371,0
 4.35152626037598,52.2333679199219,0
 4.35120534896851,52.2337646484375,0
 4.35069274902344,52.2360076904297,0
@@ -3121,36 +3144,56 @@
 4.3566460609436,52.229320526123,0
 4.35526037216187,52.230167388916,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style3'>
-    <LineStyle><color>D2039FFC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>3E039FFC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style3_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style3_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style3'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style3_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style3_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark3'>
-	<name>47dB</name>
+	<name>47 dB(A)</name>
+	<description><![CDATA[description: <br>label: 47]]></description>
     <styleUrl>#contour_style3</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour3'>
-                    <coordinates>
-					4.36189317703247,52.2361068725586,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>47</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour3'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.36189317703247,52.2361068725586,0
 4.36211156845093,52.238353729248,0
 4.36237144470215,52.2392120361328,0
 4.36279916763306,52.240608215332,0
@@ -4475,36 +4518,56 @@
 4.36251401901245,52.2338638305664,0
 4.36249256134033,52.2339401245117,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style4'>
-    <LineStyle><color>D20394FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>440394FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style4_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style4_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style4'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style4_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style4_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark4'>
-	<name>48dB</name>
+	<name>48 dB(A)</name>
+	<description><![CDATA[description: <br>label: 48]]></description>
     <styleUrl>#contour_style4</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour4'>
-                    <coordinates>
-					4.37582015991211,52.2317314147949,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>48</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour4'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.37582015991211,52.2317314147949,0
 4.37417650222778,52.2339630126953,0
 4.37378692626953,52.2362098693848,0
 4.37496280670166,52.2384643554688,0
@@ -5705,36 +5768,56 @@
 4.37874174118042,52.2295112609863,0
 4.37720584869385,52.2306976318359,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style5'>
-    <LineStyle><color>D20389FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>4A0389FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style5_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style5_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style5'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style5_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style5_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark5'>
-	<name>49dB</name>
+	<name>49 dB(A)</name>
+	<description><![CDATA[description: <br>label: 49]]></description>
     <styleUrl>#contour_style5</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour5'>
-                    <coordinates>
-					4.398606300354,52.2274322509766,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>49</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour5'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.398606300354,52.2274322509766,0
 4.39922285079956,52.2280082702637,0
 4.4028697013855,52.2285766601563,0
 4.40653371810913,52.2283706665039,0
@@ -6845,36 +6928,56 @@
 4.40066528320313,52.2252006530762,0
 4.39924812316895,52.2268600463867,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style6'>
-    <LineStyle><color>D2037EFC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>50037EFC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style6_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style6_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style6'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style6_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style6_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark6'>
-	<name>50dB</name>
+	<name>50 dB(A)</name>
+	<description><![CDATA[description: <br>label: 50]]></description>
     <styleUrl>#contour_style6</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour6'>
-                    <coordinates>
-					4.43100023269653,52.2164611816406,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>50</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour6'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.43100023269653,52.2164611816406,0
 4.43086338043213,52.2187080383301,0
 4.43234586715698,52.2192039489746,0
 4.43599510192871,52.2196350097656,0
@@ -7909,36 +8012,56 @@
 4.43351268768311,52.2142333984375,0
 4.43242931365967,52.2153015136719,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style7'>
-    <LineStyle><color>D20373FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>560373FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style7_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style7_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style7'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style7_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style7_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark7'>
-	<name>51dB</name>
+	<name>51 dB(A)</name>
+	<description><![CDATA[description: <br>label: 51]]></description>
     <styleUrl>#contour_style7</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour7'>
-                    <coordinates>
-					4.4570255279541,52.2099266052246,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>51</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour7'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.4570255279541,52.2099266052246,0
 4.45468902587891,52.212158203125,0
 4.45805835723877,52.2142944335938,0
 4.45871543884277,52.2144355773926,0
@@ -8871,36 +8994,56 @@
 4.46154880523682,52.2077178955078,0
 4.45816040039063,52.2094078063965,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style8'>
-    <LineStyle><color>D20368FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>5C0368FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style8_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style8_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style8'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style8_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style8_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark8'>
-	<name>52dB</name>
+	<name>52 dB(A)</name>
+	<description><![CDATA[description: <br>label: 52]]></description>
     <styleUrl>#contour_style8</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour8'>
-                    <coordinates>
-					4.48149490356445,52.2078704833984,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>52</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour8'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.48149490356445,52.2078704833984,0
 4.48088216781616,52.2101135253906,0
 4.48373365402222,52.2109527587891,0
 4.4873743057251,52.211799621582,0
@@ -9745,36 +9888,56 @@
 4.48554372787476,52.2056541442871,0
 4.48381996154785,52.2066841125488,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style9'>
-    <LineStyle><color>D2035DFC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>62035DFC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style9_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style9_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style9'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style9_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style9_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark9'>
-	<name>53dB</name>
+	<name>53 dB(A)</name>
+	<description><![CDATA[description: <br>label: 53]]></description>
     <styleUrl>#contour_style9</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour9'>
-                    <coordinates>
-					4.50099325180054,52.2080192565918,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>53</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour9'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.50099325180054,52.2080192565918,0
 4.50206184387207,52.2090072631836,0
 4.50340986251831,52.2102851867676,0
 4.50568056106567,52.2109832763672,0
@@ -10523,36 +10686,56 @@
 4.50218963623047,52.2057800292969,0
 4.50212335586548,52.2059135437012,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style10'>
-    <LineStyle><color>D20352FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>680352FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style10_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style10_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style10'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style10_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style10_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark10'>
-	<name>54dB</name>
+	<name>54 dB(A)</name>
+	<description><![CDATA[description: <br>label: 54]]></description>
     <styleUrl>#contour_style10</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour10'>
-                    <coordinates>
-					4.51635885238647,52.2081336975098,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>54</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour10'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.51635885238647,52.2081336975098,0
 4.51669692993164,52.2087860107422,0
 4.51736450195313,52.2103881835938,0
 4.52029514312744,52.211856842041,0
@@ -11321,36 +11504,56 @@
 4.52039766311646,52.2065925598145,0
 4.51671409606934,52.2079048156738,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style11'>
-    <LineStyle><color>D20347FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>6E0347FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style11_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style11_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style11'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style11_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style11_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark11'>
-	<name>55dB</name>
+	<name>55 dB(A)</name>
+	<description><![CDATA[description: <br>label: 55]]></description>
     <styleUrl>#contour_style11</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour11'>
-                    <coordinates>
-					4.53267860412598,52.2127456665039,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>55</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour11'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.53267860412598,52.2127456665039,0
 4.5348744392395,52.214599609375,0
 4.53520774841309,52.2150115966797,0
 4.53848886489868,52.2168960571289,0
@@ -12049,36 +12252,56 @@
 4.53860378265381,52.2108764648438,0
 4.53494024276733,52.2111587524414,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style12'>
-    <LineStyle><color>D2033CFC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>74033CFC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style12_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style12_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style12'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style12_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style12_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark12'>
-	<name>56dB</name>
+	<name>56 dB(A)</name>
+	<description><![CDATA[description: <br>label: 56]]></description>
     <styleUrl>#contour_style12</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour12'>
-                    <coordinates>
-					4.54848861694336,52.2173538208008,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>56</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour12'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.54848861694336,52.2173538208008,0
 4.54943180084229,52.2186088562012,0
 4.5499792098999,52.219612121582,0
 4.55296039581299,52.2218818664551,0
@@ -12753,36 +12976,56 @@
 4.55313539505005,52.2162094116211,0
 4.54946804046631,52.2166938781738,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style13'>
-    <LineStyle><color>D20331FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>7A0331FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style13_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style13_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style13'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style13_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style13_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark13'>
-	<name>57dB</name>
+	<name>57 dB(A)</name>
+	<description><![CDATA[description: <br>label: 57]]></description>
     <styleUrl>#contour_style13</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour13'>
-                    <coordinates>
-					4.56389713287354,52.2219581604004,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>57</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour13'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.56389713287354,52.2219581604004,0
 4.56385517120361,52.2242050170898,0
 4.56396102905273,52.2242774963379,0
 4.56660604476929,52.2264709472656,0
@@ -13379,36 +13622,56 @@
 4.56766605377197,52.2217903137207,0
 4.56400442123413,52.221923828125,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style14'>
-    <LineStyle><color>D20326FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>800326FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style14_normal'>
+	<LineStyle>
+		<color>ff5252ff</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d5252ff</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style14_highlight'>
+	<LineStyle>
+		<color>ff5252ff</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d5252ff</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style14'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style14_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style14_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark14'>
-	<name>58dB</name>
+	<name>58 dB(A)</name>
+	<description><![CDATA[description: <br>label: 58]]></description>
     <styleUrl>#contour_style14</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour14'>
-                    <coordinates>
-					4.57876443862915,52.2288017272949,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>58</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour14'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.57876443862915,52.2288017272949,0
 4.58061790466309,52.2310600280762,0
 4.58211946487427,52.2318382263184,0
 4.58452749252319,52.2333335876465,0
@@ -13999,36 +14262,56 @@
 4.58584213256836,52.2283172607422,0
 4.58218860626221,52.2279968261719,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style15'>
-    <LineStyle><color>D203AAFC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>3803AAFC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style15_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style15_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style15'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style15_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style15_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark15'>
-	<name>46dB</name>
+	<name>46 dB(A)</name>
+	<description><![CDATA[description: <br>label: 46]]></description>
     <styleUrl>#contour_style15</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour15'>
-                    <coordinates>
-					4.57608127593994,52.5501022338867,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>46</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour15'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.57608127593994,52.5501022338867,0
 4.57632398605347,52.5497589111328,0
 4.57743072509766,52.5478630065918,0
 4.57910394668579,52.5456275939941,0
@@ -14141,36 +14424,56 @@
 4.57615995407104,52.5545959472656,0
 4.57539892196655,52.5523414611816,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style16'>
-    <LineStyle><color>D2031BFC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>86031BFC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style16_normal'>
+	<LineStyle>
+		<color>ff5252ff</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d5252ff</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style16_highlight'>
+	<LineStyle>
+		<color>ff5252ff</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d5252ff</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style16'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style16_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style16_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark16'>
-	<name>59dB</name>
+	<name>59 dB(A)</name>
+	<description><![CDATA[description: <br>label: 59]]></description>
     <styleUrl>#contour_style16</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour16'>
-                    <coordinates>
-					4.59763431549072,52.235668182373,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>59</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour16'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.59763431549072,52.235668182373,0
 4.60015630722046,52.2379341125488,0
 4.60030841827393,52.2380027770996,0
 4.60387516021729,52.2402038574219,0
@@ -14553,36 +14856,56 @@
 4.60401630401611,52.2352752685547,0
 4.60036087036133,52.235034942627,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style17'>
-    <LineStyle><color>D20310FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>8C0310FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style17_normal'>
+	<LineStyle>
+		<color>ff5252ff</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d5252ff</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style17_highlight'>
+	<LineStyle>
+		<color>ff5252ff</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d5252ff</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style17'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style17_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style17_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark17'>
-	<name>60dB</name>
+	<name>60 dB(A)</name>
+	<description><![CDATA[description: <br>label: 60]]></description>
     <styleUrl>#contour_style17</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour17'>
-                    <coordinates>
-					4.61540985107422,52.2425270080566,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>60</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour17'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.61540985107422,52.2425270080566,0
 4.6180305480957,52.2447929382324,0
 4.61848783493042,52.245002746582,0
 4.62176942825317,52.2470626831055,0
@@ -14923,36 +15246,56 @@
 4.62220048904419,52.2419738769531,0
 4.61854887008667,52.2414855957031,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style18'>
-    <LineStyle><color>D203B5FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>3203B5FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style18_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style18_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style18'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style18_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style18_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark18'>
-	<name>45dB</name>
+	<name>45 dB(A)</name>
+	<description><![CDATA[description: <br>label: 45]]></description>
     <styleUrl>#contour_style18</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour18'>
-                    <coordinates>
-					4.61629629135132,52.539134979248,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>45</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour18'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.61629629135132,52.539134979248,0
 4.61709070205688,52.5370903015137,0
 4.61718273162842,52.5368919372559,0
 4.61846017837524,52.5346527099609,0
@@ -15013,36 +15356,56 @@
 4.61651086807251,52.543628692627,0
 4.61589956283569,52.5413780212402,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style19'>
-    <LineStyle><color>D20389FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>4A0389FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style19_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style19_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style19'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style19_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style19_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark19'>
-	<name>49dB</name>
+	<name>49 dB(A)</name>
+	<description><![CDATA[description: <br>label: 49]]></description>
     <styleUrl>#contour_style19</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour19'>
-                    <coordinates>
-					4.64972829818726,52.3056640625,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>49</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour19'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.64972829818726,52.3056640625,0
 4.65046644210815,52.3034324645996,0
 4.65047121047974,52.3034210205078,0
 4.65184354782104,52.3011817932129,0
@@ -15099,36 +15462,56 @@
 4.64941120147705,52.3101577758789,0
 4.64938545227051,52.3079071044922,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style20'>
-    <LineStyle><color>D20394FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>440394FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style20_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style20_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style20'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style20_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style20_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark20'>
-	<name>48dB</name>
+	<name>48 dB(A)</name>
+	<description><![CDATA[description: <br>label: 48]]></description>
     <styleUrl>#contour_style20</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour20'>
-                    <coordinates>
-					4.65672969818115,52.3034591674805,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>48</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour20'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.65672969818115,52.3034591674805,0
 4.65781831741333,52.3021621704102,0
 4.65896320343018,52.3012275695801,0
 4.66152143478394,52.2998504638672,0
@@ -15167,36 +15550,56 @@
 4.65529012680054,52.3079452514648,0
 4.65566921234131,52.3057022094727,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style21'>
-    <LineStyle><color>D2039FFC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>3E039FFC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style21_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style21_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style21'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style21_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style21_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark21'>
-	<name>47dB</name>
+	<name>47 dB(A)</name>
+	<description><![CDATA[description: <br>label: 47]]></description>
     <styleUrl>#contour_style21</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour21'>
-                    <coordinates>
-					4.66462278366089,52.3080024719238,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>47</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour21'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.66462278366089,52.3080024719238,0
 4.66506624221802,52.3072662353516,0
 4.66747856140137,52.3057746887207,0
 4.66876125335693,52.3054580688477,0
@@ -15211,36 +15614,56 @@
 4.6658878326416,52.3102569580078,0
 4.66503524780273,52.3091773986816,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style22'>
-    <LineStyle><color>D2031BFC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>86031BFC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style22_normal'>
+	<LineStyle>
+		<color>ff5252ff</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d5252ff</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style22_highlight'>
+	<LineStyle>
+		<color>ff5252ff</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d5252ff</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style22'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style22_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style22_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark22'>
-	<name>59dB</name>
+	<name>59 dB(A)</name>
+	<description><![CDATA[description: <br>label: 59]]></description>
     <styleUrl>#contour_style22</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour22'>
-                    <coordinates>
-					4.69764757156372,52.3306694030762,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>59</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour22'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.69764757156372,52.3306694030762,0
 4.69769191741943,52.3308486938477,0
 4.69803285598755,52.3329200744629,0
 4.698974609375,52.3351707458496,0
@@ -15411,36 +15834,56 @@
 4.69806051254272,52.328426361084,0
 4.69769763946533,52.3304901123047,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style23'>
-    <LineStyle><color>D20310FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>8C0310FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style23_normal'>
+	<LineStyle>
+		<color>ff5252ff</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d5252ff</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style23_highlight'>
+	<LineStyle>
+		<color>ff5252ff</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d5252ff</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style23'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style23_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style23_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark23'>
-	<name>60dB</name>
+	<name>60 dB(A)</name>
+	<description><![CDATA[description: <br>label: 60]]></description>
     <styleUrl>#contour_style23</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour23'>
-                    <coordinates>
-					4.69726324081421,52.3576316833496,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>60</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour23'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.69726324081421,52.3576316833496,0
 4.69701623916626,52.3598785400391,0
 4.69686412811279,52.3621215820313,0
 4.6967887878418,52.3643684387207,0
@@ -15595,36 +16038,56 @@
 4.69758319854736,52.3553848266602,0
 4.6972770690918,52.3575553894043,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style24'>
-    <LineStyle><color>D20347FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>6E0347FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style24_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style24_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style24'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style24_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style24_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark24'>
-	<name>55dB</name>
+	<name>55 dB(A)</name>
+	<description><![CDATA[description: <br>label: 55]]></description>
     <styleUrl>#contour_style24</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour24'>
-                    <coordinates>
-					4.70629358291626,52.2408409118652,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>55</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour24'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.70629358291626,52.2408409118652,0
 4.70640897750854,52.2406997680664,0
 4.70838165283203,52.2386054992676,0
 4.71012592315674,52.2369766235352,0
@@ -15665,36 +16128,56 @@
 4.70370292663574,52.2453193664551,0
 4.70476865768433,52.2430763244629,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style25'>
-    <LineStyle><color>D20352FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>680352FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style25_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style25_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style25'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style25_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style25_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark25'>
-	<name>54dB</name>
+	<name>54 dB(A)</name>
+	<description><![CDATA[description: <br>label: 54]]></description>
     <styleUrl>#contour_style25</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour25'>
-                    <coordinates>
-					4.70851135253906,52.2430992126465,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>54</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour25'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.70851135253906,52.2430992126465,0
 4.71006345748901,52.2410888671875,0
 4.7102837562561,52.2408638000488,0
 4.71293783187866,52.2386322021484,0
@@ -15727,36 +16210,56 @@
 4.70670461654663,52.2475852966309,0
 4.70729351043701,52.2453384399414,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style26'>
-    <LineStyle><color>D2035DFC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>62035DFC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style26_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style26_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style26'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style26_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style26_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark26'>
-	<name>53dB</name>
+	<name>53 dB(A)</name>
+	<description><![CDATA[description: <br>label: 53]]></description>
     <styleUrl>#contour_style26</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour26'>
-                    <coordinates>
-					4.71339511871338,52.2431259155273,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>53</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour26'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.71339511871338,52.2431259155273,0
 4.71369791030884,52.242805480957,0
 4.71661186218262,52.2408981323242,0
 4.71739339828491,52.2404632568359,0
@@ -15777,36 +16280,56 @@
 4.71136903762817,52.2476119995117,0
 4.71197748184204,52.2453651428223,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style27'>
-    <LineStyle><color>D2033CFC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>74033CFC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style27_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style27_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style27'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style27_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style27_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark27'>
-	<name>56dB</name>
+	<name>56 dB(A)</name>
+	<description><![CDATA[description: <br>label: 56]]></description>
     <styleUrl>#contour_style27</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour27'>
-                    <coordinates>
-					4.72435474395752,52.2184715270996,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>56</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour27'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.72435474395752,52.2184715270996,0
 4.72265529632568,52.2207107543945,0
 4.7217378616333,52.2229499816895,0
 4.72246980667114,52.2252044677734,0
@@ -15825,36 +16348,56 @@
 4.72823047637939,52.2162475585938,0
 4.72505140304565,52.2177696228027,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style28'>
-    <LineStyle><color>D20331FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>7A0331FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style28_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style28_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style28'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style28_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style28_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark28'>
-	<name>57dB</name>
+	<name>57 dB(A)</name>
+	<description><![CDATA[description: <br>label: 57]]></description>
     <styleUrl>#contour_style28</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour28'>
-                    <coordinates>
-					4.72325611114502,52.3375587463379,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>57</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour28'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.72325611114502,52.3375587463379,0
 4.72326612472534,52.3375244140625,0
 4.72693395614624,52.3375587463379,0
 4.72694158554077,52.3375778198242,0
@@ -15867,36 +16410,56 @@
 4.72322511672974,52.340259552002,0
 4.72310972213745,52.3398017883301,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style29'>
-    <LineStyle><color>D2035DFC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>62035DFC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style29_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style29_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style29'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style29_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style29_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark29'>
-	<name>53dB</name>
+	<name>53 dB(A)</name>
+	<description><![CDATA[description: <br>label: 53]]></description>
     <styleUrl>#contour_style29</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour29'>
-                    <coordinates>
-					4.74304580688477,52.2275657653809,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>53</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour29'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.74304580688477,52.2275657653809,0
 4.74320507049561,52.2273483276367,0
 4.74559783935547,52.2253303527832,0
 4.74690818786621,52.224292755127,0
@@ -15949,36 +16512,56 @@
 4.74061679840088,52.2320442199707,0
 4.74161148071289,52.2298049926758,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style30'>
-    <LineStyle><color>D20368FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>5C0368FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style30_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style30_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style30'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style30_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style30_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark30'>
-	<name>52dB</name>
+	<name>52 dB(A)</name>
+	<description><![CDATA[description: <br>label: 52]]></description>
     <styleUrl>#contour_style30</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour30'>
-                    <coordinates>
-					4.74271631240845,52.234302520752,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>52</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour30'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.74271631240845,52.234302520752,0
 4.7431206703186,52.2331886291504,0
 4.74378824234009,52.232063293457,0
 4.74565649032593,52.2298240661621,0
@@ -16021,36 +16604,56 @@
 4.742112159729,52.2387924194336,0
 4.74226570129395,52.2365493774414,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style31'>
-    <LineStyle><color>D20373FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>560373FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style31_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style31_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style31'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style31_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style31_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark31'>
-	<name>51dB</name>
+	<name>51 dB(A)</name>
+	<description><![CDATA[description: <br>label: 51]]></description>
     <styleUrl>#contour_style31</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour31'>
-                    <coordinates>
-					4.74665498733521,52.2343254089355,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>51</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour31'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.74665498733521,52.2343254089355,0
 4.74676609039307,52.2341575622559,0
 4.74935007095337,52.2320938110352,0
 4.75046539306641,52.231388092041,0
@@ -16083,36 +16686,56 @@
 4.74509716033936,52.2388114929199,0
 4.74564552307129,52.2365646362305,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style32'>
-    <LineStyle><color>D20310FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>8C0310FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style32_normal'>
+	<LineStyle>
+		<color>ff5252ff</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d5252ff</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style32_highlight'>
+	<LineStyle>
+		<color>ff5252ff</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d5252ff</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style32'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style32_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style32_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark32'>
-	<name>60dB</name>
+	<name>60 dB(A)</name>
+	<description><![CDATA[description: <br>label: 60]]></description>
     <styleUrl>#contour_style32</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour32'>
-                    <coordinates>
-					4.74563121795654,52.3039741516113,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>60</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour32'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.74563121795654,52.3039741516113,0
 4.74576902389526,52.3033752441406,0
 4.74945449829102,52.3019676208496,0
 4.75311183929443,52.3025360107422,0
@@ -16137,36 +16760,56 @@
 4.74443769454956,52.308464050293,0
 4.7449951171875,52.3062210083008,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style33'>
-    <LineStyle><color>D2031BFC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>86031BFC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style33_normal'>
+	<LineStyle>
+		<color>ff5252ff</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d5252ff</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style33_highlight'>
+	<LineStyle>
+		<color>ff5252ff</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d5252ff</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style33'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style33_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style33_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark33'>
-	<name>59dB</name>
+	<name>59 dB(A)</name>
+	<description><![CDATA[description: <br>label: 59]]></description>
     <styleUrl>#contour_style33</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour33'>
-                    <coordinates>
-					4.74568367004395,52.306224822998,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>59</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour33'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.74568367004395,52.306224822998,0
 4.74573040008545,52.3060569763184,0
 4.74746179580688,52.3039855957031,0
 4.74943971633911,52.3030204772949,0
@@ -16191,36 +16834,56 @@
 4.74500894546509,52.3107147216797,0
 4.74513530731201,52.3084678649902,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style34'>
-    <LineStyle><color>D2037EFC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>50037EFC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style34_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style34_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style34'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style34_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style34_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark34'>
-	<name>50dB</name>
+	<name>50 dB(A)</name>
+	<description><![CDATA[description: <br>label: 50]]></description>
     <styleUrl>#contour_style34</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour34'>
-                    <coordinates>
-					4.75012111663818,52.2410850524902,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>50</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour34'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.75012111663818,52.2410850524902,0
 4.75033569335938,52.2404594421387,0
 4.75184154510498,52.2410926818848,0
 4.75396203994751,52.242847442627,0
@@ -16231,36 +16894,56 @@
 4.74996089935303,52.2455787658691,0
 4.7498254776001,52.2433280944824,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style35'>
-    <LineStyle><color>D20331FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>7A0331FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style35_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style35_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style35'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style35_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style35_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark35'>
-	<name>57dB</name>
+	<name>57 dB(A)</name>
+	<description><![CDATA[description: <br>label: 57]]></description>
     <styleUrl>#contour_style35</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour35'>
-                    <coordinates>
-					4.74922704696655,52.3062438964844,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>57</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour35'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.74922704696655,52.3062438964844,0
 4.74939584732056,52.3060646057129,0
 4.75306463241577,52.3058471679688,0
 4.75467395782471,52.3062705993652,0
@@ -16275,36 +16958,56 @@
 4.74809408187866,52.3107299804688,0
 4.74791049957275,52.3084831237793,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style36'>
-    <LineStyle><color>D20326FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>800326FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style36_normal'>
+	<LineStyle>
+		<color>ff5252ff</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d5252ff</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style36_highlight'>
+	<LineStyle>
+		<color>ff5252ff</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d5252ff</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style36'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style36_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style36_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark36'>
-	<name>58dB</name>
+	<name>58 dB(A)</name>
+	<description><![CDATA[description: <br>label: 58]]></description>
     <styleUrl>#contour_style36</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour36'>
-                    <coordinates>
-					4.7474193572998,52.3062324523926,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>58</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour36'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.7474193572998,52.3062324523926,0
 4.74942350387573,52.3041305541992,0
 4.75308704376221,52.3042907714844,0
 4.75673532485962,52.3054885864258,0
@@ -16323,72 +17026,112 @@
 4.7458667755127,52.310718536377,0
 4.74605989456177,52.3084716796875,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style37'>
-    <LineStyle><color>D2033CFC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>74033CFC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style37_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style37_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style37'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style37_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style37_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark37'>
-	<name>56dB</name>
+	<name>56 dB(A)</name>
+	<description><![CDATA[description: <br>label: 56]]></description>
     <styleUrl>#contour_style37</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour37'>
-                    <coordinates>
-					4.75208473205566,52.3085060119629,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>56</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour37'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.75208473205566,52.3085060119629,0
 4.75302934646606,52.3083000183105,0
 4.75356578826904,52.3085136413574,0
 4.7558741569519,52.3107719421387,0
 4.75299310684204,52.3108558654785,0
 4.75238037109375,52.3107528686523,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style38'>
-    <LineStyle><color>D2035DFC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>62035DFC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style38_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style38_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style38'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style38_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style38_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark38'>
-	<name>53dB</name>
+	<name>53 dB(A)</name>
+	<description><![CDATA[description: <br>label: 53]]></description>
     <styleUrl>#contour_style38</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour38'>
-                    <coordinates>
-					4.78345918655396,52.2187881469727,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>53</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour38'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.78345918655396,52.2187881469727,0
 4.78357887268066,52.2182693481445,0
 4.78497362136841,52.2165489196777,0
 4.78704595565796,52.2143135070801,0
@@ -16409,36 +17152,56 @@
 4.78327608108521,52.2232818603516,0
 4.78323078155518,52.2210350036621,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style39'>
-    <LineStyle><color>D20394FC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>440394FC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style39_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style39_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style39'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style39_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style39_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark39'>
-	<name>48dB</name>
+	<name>48 dB(A)</name>
+	<description><![CDATA[description: <br>label: 48]]></description>
     <styleUrl>#contour_style39</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour39'>
-                    <coordinates>
-					4.7849383354187,52.3401336669922,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>48</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour39'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.7849383354187,52.3401336669922,0
 4.78560495376587,52.3391151428223,0
 4.78722190856934,52.3378982543945,0
 4.78929710388184,52.337329864502,0
@@ -16491,36 +17254,56 @@
 4.78507947921753,52.3446273803711,0
 4.78467702865601,52.3423805236816,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style40'>
-    <LineStyle><color>D2039FFC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>3E039FFC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style40_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style40_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style40'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style40_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style40_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark40'>
-	<name>47dB</name>
+	<name>47 dB(A)</name>
+	<description><![CDATA[description: <br>label: 47]]></description>
     <styleUrl>#contour_style40</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour40'>
-                    <coordinates>
-					4.79505395889282,52.3446807861328,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>47</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour40'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.79505395889282,52.3446807861328,0
 4.79655790328979,52.3430328369141,0
 4.79771947860718,52.3424453735352,0
 4.80024099349976,52.3419151306152,0
@@ -16551,36 +17334,56 @@
 4.79606294631958,52.349178314209,0
 4.79500436782837,52.3469276428223,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark>
-<Style id='contour_style41'>
-    <LineStyle><color>D2037EFC</color>
-        <width>1</width>
-    </LineStyle>
-    <PolyStyle><color>50037EFC</color>
-    </PolyStyle>
-    <IconStyle>
-        <scale>0</scale>
-    </IconStyle>
-    <LabelStyle>
-        <color>FFFFFFFF</color>
-        <scale>0.40</scale>
-    </LabelStyle>
+<Style id='contour_style41_normal'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.2</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
 </Style>
+<Style id='contour_style41_highlight'>
+	<LineStyle>
+		<color>ff2dc0fb</color>
+		<width>1.8</width>
+	</LineStyle>
+	<PolyStyle>
+		<color>4d2dc0fb</color>
+	</PolyStyle>
+</Style>
+<StyleMap id='contour_style41'>
+	<Pair>
+		<key>normal</key>
+		<styleUrl>#contour_style41_normal</styleUrl>
+	</Pair>
+	<Pair>
+		<key>highlight</key>
+		<styleUrl>#contour_style41_highlight</styleUrl>
+	</Pair>
+</StyleMap>
 <Placemark id='contour_placemark41'>
-	<name>50dB</name>
+	<name>50 dB(A)</name>
+	<description><![CDATA[description: <br>label: 50]]></description>
     <styleUrl>#contour_style41</styleUrl>
-    <MultiGeometry>
-        <Polygon>
-            <tessellate>1</tessellate>
-            <outerBoundaryIs>
-                <LinearRing id='contour41'>
-                    <coordinates>
-					4.81926393508911,52.2818832397461,0
+	<ExtendedData>
+		<Data name="description">
+		</Data>
+		<Data name="label">
+			<value>50</value>
+		</Data>
+	</ExtendedData>
+    <Polygon>
+        <outerBoundaryIs>
+            <LinearRing id='contour41'>
+				<tessellate>1</tessellate>
+                <coordinates>
+				4.81926393508911,52.2818832397461,0
 4.81935548782349,52.2816047668457,0
 4.82106637954712,52.2796440124512,0
 4.82305908203125,52.2784614562988,0
@@ -16593,10 +17396,9 @@
 4.82271194458008,52.2841453552246,0
 4.81934356689453,52.2825469970703,0
 
-					</coordinates>
-                </LinearRing>
-            </outerBoundaryIs>
-        </Polygon>
-    </MultiGeometry>
+				</coordinates>
+            </LinearRing>
+        </outerBoundaryIs>
+    </Polygon>
 </Placemark></Document>
 </kml>
